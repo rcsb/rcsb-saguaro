@@ -4,10 +4,16 @@ import {TRACK_TYPES} from './RcsbFvDefaultConfigValues';
 
 export class RcsbFvDisplay {
 
-    private displayClosure : RcsbDisplay = new RcsbDisplay();
+    private rcsbDisplay : RcsbDisplay = new RcsbDisplay();
     private displayIds: Array<string> = [];
+    private displayConfig: Map<string, any> = null;
 
-    public initDisplay(config: Map<string, any>) : object{
+    constructor(config: Map<string, any>){
+        this.displayConfig = config;
+    }
+
+    public initDisplay() : object{
+        const config = this.displayConfig;
         if (typeof config.get(RcsbFvConstants.TYPE) === "string") {
             return this.singleDisplay(config.get(RcsbFvConstants.TYPE), config);
         }else if(config.get(RcsbFvConstants.TYPE) instanceof Array){
@@ -22,7 +28,7 @@ export class RcsbFvDisplay {
     }
 
     private composedDisplay(config: Map<string, any>) : object{
-        const display = this.displayClosure.composite();
+        const display = this.rcsbDisplay.composite();
         const displayTypeArray: Array<string> = config.get(RcsbFvConstants.TYPE);
         let i = 0;
         for(let displayType of displayTypeArray){
@@ -62,23 +68,23 @@ export class RcsbFvDisplay {
     }
 
     private axisDisplay(){
-        return this.displayClosure.axis();
+        return this.rcsbDisplay.axis();
     }
 
     private sequenceDisplay(color:string) : object{
-        const display = this.displayClosure.sequence();
+        const display = this.rcsbDisplay.sequence();
         display.color(color);
         return display;
     }
 
     private blockDisplay(color:string) : object{
-        const display = this.displayClosure.block();
+        const display = this.rcsbDisplay.block();
         display.color(color);
         return display;
     }
 
     private pinDisplay(color: string, domain:Array<number>) : object{
-        const display = this.displayClosure.pin();
+        const display = this.rcsbDisplay.pin();
         display.color(color);
         display.domain(domain);
         return display;
