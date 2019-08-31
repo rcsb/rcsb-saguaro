@@ -16,8 +16,8 @@ export class RcsbBoard{
         this.to(y);
         this.max(y);
     }
-    attach(elementId){
-        this.rcsbBoard(elementId);
+    attach(elementId, master_board_id){
+        this.rcsbBoard(elementId, master_board_id);
     }
     start(){
         this.rcsbBoard.start();
@@ -27,5 +27,11 @@ export class RcsbBoard{
     }
     getBoard(){
         return this.rcsbBoard;
+    }
+    setScale(obj){
+        this.rcsbBoard.set_scale(obj);
+    }
+    setSelection(obj){
+        this.rcsbBoard.set_selection(obj);
     }
 }

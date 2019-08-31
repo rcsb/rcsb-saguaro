@@ -8,7 +8,7 @@ module.exports = {
         rules: [
             {
                 test: /\.s[ac]ss$/,
-                exclude: /node_modules/,
+                exclude: /node_modules|RcsbFv/,
                 loader: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -24,7 +24,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.scss']
+        extensions: ['.scss']
     },
     plugins: [
         new MiniCssExtractPlugin({

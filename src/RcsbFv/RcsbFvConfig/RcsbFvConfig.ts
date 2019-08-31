@@ -1,11 +1,11 @@
-import {RcsbFvConstants} from './RcsbFvConstants';
-import {RcsbFvDefaultConfigValues, TRACK_TYPES} from './RcsbFvDefaultConfigValues';
+import {RcsbFvConstants} from '../RcsbFvConstants/RcsbFvConstants';
+import {RcsbFvDefaultConfigValues, DISPLAY_TYPES} from './RcsbFvDefaultConfigValues';
 
 export class RcsbFvConfig {
 
     private trackConfig: Map<string,any> = new Map([
         [RcsbFvConstants.LENGTH, null],
-        [RcsbFvConstants.TYPE, null]
+        [RcsbFvConstants.DISPLAY_TYPE, null]
     ]);
 
     get(key:string) : any{
@@ -39,11 +39,14 @@ export class RcsbFvConfig {
         if(args.has(RcsbFvConstants.LENGTH) && typeof +args.get(RcsbFvConstants.LENGTH) === "number"){
             this.trackConfig.set(RcsbFvConstants.LENGTH, +args.get(RcsbFvConstants.LENGTH));
         }
-        if(args.has(RcsbFvConstants.TYPE)){
-            this.trackConfig.set(RcsbFvConstants.TYPE, args.get(RcsbFvConstants.TYPE));
+        if(args.has(RcsbFvConstants.DISPLAY_TYPE)){
+            this.trackConfig.set(RcsbFvConstants.DISPLAY_TYPE, args.get(RcsbFvConstants.DISPLAY_TYPE));
         }
         if(args.has(RcsbFvConstants.ELEMENT_ID)) {
             this.trackConfig.set(RcsbFvConstants.ELEMENT_ID, args.get(RcsbFvConstants.ELEMENT_ID));
+        }
+        if(args.has(RcsbFvConstants.MASTER_BOARD_ID)) {
+            this.trackConfig.set(RcsbFvConstants.MASTER_BOARD_ID, args.get(RcsbFvConstants.MASTER_BOARD_ID));
         }
         if(args.has(RcsbFvConstants.TRACK_DATA)) {
             this.trackConfig.set(RcsbFvConstants.TRACK_DATA, args.get(RcsbFvConstants.TRACK_DATA));
@@ -53,10 +56,10 @@ export class RcsbFvConfig {
         }
 
         //default config available
-        if(args.has(RcsbFvConstants.HEIGHT) && typeof +args.get(RcsbFvConstants.HEIGHT) === "number"){
-            this.trackConfig.set(RcsbFvConstants.HEIGHT, +args.get(RcsbFvConstants.HEIGHT));
+        if(args.has(RcsbFvConstants.TRACK_HEIGHT) && typeof +args.get(RcsbFvConstants.TRACK_HEIGHT) === "number"){
+            this.trackConfig.set(RcsbFvConstants.TRACK_HEIGHT, +args.get(RcsbFvConstants.TRACK_HEIGHT));
         }else{
-            this.trackConfig.set(RcsbFvConstants.HEIGHT, +RcsbFvDefaultConfigValues.HEIGHT);
+            this.trackConfig.set(RcsbFvConstants.TRACK_HEIGHT, +RcsbFvDefaultConfigValues.TRACK_HEIGHT);
         }
         if(args.has(RcsbFvConstants.TRACK_COLOR)){
             this.trackConfig.set(RcsbFvConstants.TRACK_COLOR, args.get(RcsbFvConstants.TRACK_COLOR));

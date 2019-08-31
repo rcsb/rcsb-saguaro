@@ -14,11 +14,16 @@
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "sass-loader": "^7.3.1",
+    "style-loader": "^1.0.0",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
     "webpack": "^4.39.2",
@@ -26,6 +31,7 @@
   },
   "dependencies": {
     "d3": "^3.5.17",
+    "rxjs": "^6.5.2",
     "tnt.api": "^0.1.1",
     "tnt.utils": "^0.1.3"
   }

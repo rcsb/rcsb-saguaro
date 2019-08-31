@@ -1,6 +1,6 @@
-import {RcsbDisplay} from '../RcsbBoard/RcsbDisplay';
-import {RcsbFvConstants} from './RcsbFvConstants';
-import {TRACK_TYPES} from './RcsbFvDefaultConfigValues';
+import {RcsbDisplay} from '../../RcsbBoard/RcsbDisplay';
+import {RcsbFvConstants} from '../RcsbFvConstants/RcsbFvConstants';
+import {DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 
 export class RcsbFvDisplay {
 
@@ -14,12 +14,12 @@ export class RcsbFvDisplay {
 
     public initDisplay() : object{
         const config = this.displayConfig;
-        if (typeof config.get(RcsbFvConstants.TYPE) === "string") {
-            return this.singleDisplay(config.get(RcsbFvConstants.TYPE), config);
-        }else if(config.get(RcsbFvConstants.TYPE) instanceof Array){
+        if (typeof config.get(RcsbFvConstants.DISPLAY_TYPE) === "string") {
+            return this.singleDisplay(config.get(RcsbFvConstants.DISPLAY_TYPE), config);
+        }else if(config.get(RcsbFvConstants.DISPLAY_TYPE) instanceof Array){
             return this.composedDisplay(config);
         }else{
-            throw "Display type "+config.get(RcsbFvConstants.TYPE)+" not supported";
+            throw "Display type "+config.get(RcsbFvConstants.DISPLAY_TYPE)+" not supported";
         }
     }
 
@@ -29,7 +29,7 @@ export class RcsbFvDisplay {
 
     private composedDisplay(config: Map<string, any>) : object{
         const display = this.rcsbDisplay.composite();
-        const displayTypeArray: Array<string> = config.get(RcsbFvConstants.TYPE);
+        const displayTypeArray: Array<string> = config.get(RcsbFvConstants.DISPLAY_TYPE);
         let i = 0;
         for(let displayType of displayTypeArray){
             const displayId: string = "displayId_"+Math.trunc(Math.random()*1000);
@@ -54,16 +54,16 @@ export class RcsbFvDisplay {
 
     private singleDisplay(type: string, config: Map<string, any>) {
         switch (type) {
-            case TRACK_TYPES.AXIS:
+            case DISPLAY_TYPES.AXIS:
                 return this.axisDisplay();
-            case TRACK_TYPES.SEQUENCE:
+            case DISPLAY_TYPES.SEQUENCE:
                 return this.sequenceDisplay(config.get(RcsbFvConstants.DISPLAY_COLOR));
-            case TRACK_TYPES.BLOCK:
+            case DISPLAY_TYPES.BLOCK:
                 return this.blockDisplay(config.get(RcsbFvConstants.DISPLAY_COLOR));
-            case TRACK_TYPES.PIN:
+            case DISPLAY_TYPES.PIN:
                 return this.pinDisplay(config.get(RcsbFvConstants.DISPLAY_COLOR), config.get(RcsbFvConstants.DISPLAY_DOMAIN));
             default:
-                throw "Track type " + config.get(RcsbFvConstants.TYPE) + " is not supported";
+                throw "Track type " + config.get(RcsbFvConstants.DISPLAY_TYPE) + " is not supported";
         }
     }
 

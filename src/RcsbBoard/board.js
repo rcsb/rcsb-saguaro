@@ -1,6 +1,7 @@
 var apijs = require ("tnt.api");
 var deferCancel = require ("tnt.utils").defer_cancel;
 var d3 = require("d3");
+var RcsbFvSubject = require("../RcsbFv/RcsbFvSubject/RcsbFvSubject");
 
 var board = function() {
     "use strict";
@@ -12,6 +13,7 @@ var board = function() {
 
     //// Private vars
     var div_id;
+    var master_board_id;
     var tracks = [];
     var min_width = 50;
     var height    = 0;    // This is the global height including all the tracks
@@ -57,17 +59,19 @@ var board = function() {
     };
 
     // The returned closure / object
-    var track_vis = function(div) {
+    var track_vis = function(div,master_div_id) {
     	div_id = d3.select(div).attr("id");
+    	master_board_id = master_div_id;
 
     	// The original div is classed with the tnt class
     	d3.select(div)
     	    .classed("tnt", true);
 
     	browserDiv = d3.select(div)
-    	    .style("position", "relative")
+    	    //.style("position", "relative")
     	    .classed("tnt_framed", exports.show_frame)
-    	    .style("width", (width + cap_width*2 + exports.extend_canvas.right + exports.extend_canvas.left) + "px");
+    	    //.style("width", (width + cap_width*2 + exports.extend_canvas.right + exports.extend_canvas.left) + "px");
+            .style("width", width+"px" );
 
     	// The SVG
     	svg = browserDiv
@@ -519,13 +523,13 @@ var board = function() {
     });
 
     var dispatch_scale_event = function(transform){
-        var event = new CustomEvent('board_moved',{detail:transform} );
-        document.getElementById(div_id).parentElement.dispatchEvent(event);
+        transform['event_type'] = 'scale_changed';
+        RcsbFvSubject.RcsbFvSubject.trigger.set(transform);
     };
 
     var dispatch_selection_event = function(selection){
-        var event = new CustomEvent('element_selected',{detail:selection} );
-        document.getElementById(div_id).parentElement.dispatchEvent(event);
+        selection['event_type'] = 'element_selected';
+        RcsbFvSubject.RcsbFvSubject.trigger.set(selection);
     };
 
     // api.method({

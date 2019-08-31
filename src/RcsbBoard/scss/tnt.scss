@@ -15,22 +15,15 @@ svg {
     }
 }
 
-.tnt_track path,
-.tnt_track line {
+.tnt_track path, .tnt_track line {
 	fill: none;
 	stroke: grey;
 	stroke-width: 1;
 }
+
 .tick text {
 	font-size: 0.7em;
 }
-
-.tnt_groupDiv {
-    position : relative;
-    margin : 0px 3px 5px 3px;
-}
-
-
 
 .tick text {
     @include tiny-font;
