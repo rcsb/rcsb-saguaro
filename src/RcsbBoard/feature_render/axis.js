@@ -17,11 +17,14 @@ var feature_axis = function () {
     feature.mover = function () {
     	var track = this;
     	var svg_g = track.g;
+    	svg_g.classed("tnt_axis", true);
     	svg_g.call(xAxis);
     };
 
     feature.init = function () {
         var track = this;
+        var svg_g = track.g;
+    	svg_g.classed("tnt_axis", true);
         xAxis = undefined;
     };
 

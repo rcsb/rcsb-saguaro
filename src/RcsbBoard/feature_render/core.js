@@ -109,6 +109,7 @@ var feature_core = function () {
 
         var vis_sel;
         var vis_elems;
+        svg_g.selectAll("path").remove();
         if (field !== undefined) {
             vis_sel = svg_g.selectAll(".tnt_elem_" + field);
         } else {

@@ -68,7 +68,7 @@ var feature_sequence = function () {
         data_elems = data_elems.split("").map(function(s,i) {
             return {pos:(i + 1), label:s};
         }).filter(function (s,i) {
-            return (i+1 >= feature.scale().domain()[0] && i <= feature.scale().domain()[1]);
+            return (i+1 >= xScale.domain()[0] && i <= xScale.domain()[1]);
         });
 
         var elem_class = ".tnt_elem";
@@ -79,13 +79,13 @@ var feature_sequence = function () {
         svg_g.selectAll(elem_class).remove();
         svg_g.select(".tnt_elem_seq_bg").remove();
 
-        if(get_ratio(feature.scale())>=ratio_interval[0]){
+        if(get_ratio(xScale)>=ratio_interval[0]){
             svg_g.selectAll(elem_class).data(data_elems)
                 .enter()
                 .append("g")
                 .attr("class", "tnt_elem")
                 .classed("tnt_elem_" + field, field)
-                .call(feature.plot, track, feature.scale());
+                .call(feature.plot, track, xScale);
         }
 
         if(typeof(track.display().select_region)==="function") {

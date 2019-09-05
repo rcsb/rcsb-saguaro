@@ -31,8 +31,7 @@ var feature_area = function () {
     	    .y1(line.y())
     	    .y0(track.height());
 
-    	data_points = points.data();
-    	points.remove();
+    	data_points = feature.get_data_points();
 
     	track.g
     	    .append("path")
@@ -40,7 +39,8 @@ var feature_area = function () {
     	    .classed("tnt_elem", true)
     	    .datum(data_points)
     	    .attr("d", area)
-    	    .attr("fill", d3.rgb(feature.color()).brighter());
+			.attr("fill-opacity","0.5")
+    	    .attr("fill", feature.color());
     });
 
     var line_move = feature.move();

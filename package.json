@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
+    "sass": "webpack --config ./webpack.config.sass.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -30,6 +31,7 @@
     "webpack-cli": "^3.3.7"
   },
   "dependencies": {
+    "@d3fc/d3fc-sample": "^4.0.10",
     "d3": "^3.5.17",
     "rxjs": "^6.5.2",
     "tnt.api": "^0.1.1",

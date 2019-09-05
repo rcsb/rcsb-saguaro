@@ -1,17 +1,22 @@
 import * as React from "react";
-import {RcsbFvConstants} from "../RcsbFvConstants/RcsbFvConstants";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import RcsbFvRowTitle from "./RcsbFvRowTitle";
 import RcsbFvRowTrack from "./RcsbFvRowTrack";
+import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
 interface RcsbFvRowInterface {
     id: string;
-    data: Map<string, any>;
+    data: RcsbFvRowConfigInterface;
+}
+
+interface RcsbFvRowStyleInterface{
+    width: number;
+    height: number;
 }
 
 export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, {}> {
 
-    configData : Map<string, any> = null;
+    configData : RcsbFvRowConfigInterface = null;
 
     constructor(props: RcsbFvRowInterface) {
         super(props);
@@ -27,20 +32,20 @@ export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, {}> 
         );
     }
 
-    configStyle() : any {
-        let titleWidth : number = RcsbFvDefaultConfigValues.ROW_TITLE_WIDTH;
-        if(this.configData.has(RcsbFvConstants.ROW_TITLE_WIDTH)){
-            titleWidth = this.configData.get(RcsbFvConstants.ROW_TITLE_WIDTH);
+    configStyle() : RcsbFvRowStyleInterface {
+        let titleWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
+        if(typeof this.configData.rowTitleWidth === "number"){
+            titleWidth = this.configData.rowTitleWidth;
         }
 
-        let trackWidth : number = RcsbFvDefaultConfigValues.TRACK_WIDTH;
-        if(this.configData.has(RcsbFvConstants.TRACK_WIDTH)){
-            trackWidth = this.configData.get(RcsbFvConstants.TRACK_WIDTH);
+        let trackWidth : number = RcsbFvDefaultConfigValues.trackWidth;
+        if(typeof this.configData.trackWidth === "number"){
+            trackWidth = this.configData.trackWidth;
         }
 
-        let height : number = RcsbFvDefaultConfigValues.TRACK_HEIGHT;
-        if(this.configData.has(RcsbFvConstants.TRACK_HEIGHT)){
-            height = this.configData.get(RcsbFvConstants.TRACK_HEIGHT);
+        let height : number = RcsbFvDefaultConfigValues.trackHeight;
+        if(typeof this.configData.trackHeight === "number"){
+            height = this.configData.trackHeight;
         }
 
         return {

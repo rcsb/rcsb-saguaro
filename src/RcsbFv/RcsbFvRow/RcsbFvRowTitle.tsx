@@ -1,15 +1,20 @@
 import * as React from "react";
-import {RcsbFvConstants} from "../RcsbFvConstants/RcsbFvConstants";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.css";
+import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
 interface RcsbFvRowTitleInterface {
-    data: any;
+    data: RcsbFvRowConfigInterface;
+}
+
+interface RcsbFvRowTitleStyleInterface {
+    width:number;
+    height: number;
 }
 
 export default class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}> {
 
-    configData : Map<string, any> = null;
+    configData : RcsbFvRowConfigInterface = null;
 
     constructor(props: RcsbFvRowTitleInterface) {
         super(props);
@@ -28,20 +33,20 @@ export default class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInter
     }
 
     setTitle(): string {
-        if(this.configData.has(RcsbFvConstants.ROW_TITLE)){
-            return String(this.configData.get(RcsbFvConstants.ROW_TITLE)).toUpperCase();
+        if(typeof this.configData.rowTitle === "string"){
+            return String(this.configData.rowTitle).toUpperCase();
         }
         return null;
     }
 
-    configStyle() : any {
-        let width : number = RcsbFvDefaultConfigValues.ROW_TITLE_WIDTH;
-        let height : number = RcsbFvDefaultConfigValues.TRACK_HEIGHT;
-        if(this.configData.has(RcsbFvConstants.ROW_TITLE_WIDTH)){
-            width = this.configData.get(RcsbFvConstants.ROW_TITLE_WIDTH);
+    configStyle() : RcsbFvRowTitleStyleInterface {
+        let width : number = RcsbFvDefaultConfigValues.rowTitleWidth;
+        let height : number = RcsbFvDefaultConfigValues.trackHeight;
+        if(typeof this.configData.rowTitleWidth === "number"){
+            width = this.configData.rowTitleWidth;
         }
-        if(this.configData.has(RcsbFvConstants.TRACK_HEIGHT)){
-            height = this.configData.get(RcsbFvConstants.TRACK_HEIGHT);
+        if(typeof this.configData.trackHeight === "number"){
+            height = this.configData.trackHeight;
         }
         return {
             width: width,

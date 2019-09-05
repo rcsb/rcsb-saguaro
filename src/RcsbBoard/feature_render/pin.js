@@ -7,17 +7,14 @@ var feature_pin = function () {
     "use strict";
     var feature = feature_core();
 
-    var yScale = d3.scale.linear()
-    	.domain([0,0])
-    	.range([0,0]);
+    var yScale = d3.scale.linear();
 
     var opts = {
-        pos : d3.functor("pos"),
-        val : d3.functor("val"),
         domain : [0,1]
     };
 
     var pin_ball_r = 5; // the radius of the circle in the pin
+    var labelling_gap = 10;
 
     apijs(feature)
         .getset(opts);
@@ -27,52 +24,64 @@ var feature_pin = function () {
         var xScale = feature.scale();
     	yScale
     	    .domain(feature.domain())
-    	    .range([pin_ball_r, track.height()-pin_ball_r-10]); // 10 for labelling
+    	    .range([pin_ball_r, track.height()-pin_ball_r]); // 10 for labelling
 
     	// pins are composed of lines, circles and labels
     	new_pins
     	    .append("line")
     	    .attr("x1", function (d, i) {
-    	    	return xScale(d[opts.pos(d, i)]);
+    	    	return xScale(d.pos);
     	    })
     	    .attr("y1", function (d) {
                 return track.height();
     	    })
     	    .attr("x2", function (d,i) {
-    	    	return xScale(d[opts.pos(d, i)]);
+    	    	return xScale(d.pos);
     	    })
     	    .attr("y2", function (d, i) {
-    	    	return track.height() - yScale(d[opts.val(d, i)]);
+    	        var y = 0.5;
+    	        if(typeof d.val === "number") {
+                    y = d.val;
+                }
+                return track.height() - yScale(y);
     	    })
     	    .attr("stroke", function (d) {
-                return d3.functor(feature.color())(d);
+                return feature.color();
             });
 
     	new_pins
     	    .append("circle")
     	    .attr("cx", function (d, i) {
-                return xScale(d[opts.pos(d, i)]);
+                return xScale(d.pos);
     	    })
     	    .attr("cy", function (d, i) {
-                return track.height() - yScale(d[opts.val(d, i)]);
+                var y = 0.5;
+    	        if(typeof d.val === "number") {
+                    y = d.val;
+                }
+                return track.height() - yScale(y);
     	    })
     	    .attr("r", pin_ball_r)
     	    .attr("fill", function (d) {
-                return d3.functor(feature.color())(d);
+                return feature.color();
             });
 
         new_pins
             .append("text")
-            .attr("font-size", "13")
+            .attr("font-size", "12")
             .attr("x", function (d, i) {
-                return xScale(d[opts.pos(d, i)]);
+                return xScale(d.pos)+2.5*labelling_gap;
             })
             .attr("y", function (d, i) {
-                return 10;
+                var y = 0.5;
+    	        if(typeof d.val === "number") {
+                    y = d.val;
+                }
+                return track.height() - yScale(y) + 0.5*labelling_gap;
             })
             .style("text-anchor", "middle")
             .style("fill", function (d) {
-                return d3.functor(feature.color())(d);
+                return feature.color();
             })
             .text(function (d) {
                 return d.label || "";
@@ -93,34 +102,41 @@ var feature_pin = function () {
         var xScale = feature.scale();
 
     	pins
-    	    //.each(position_pin_line)
     	    .select("line")
     	    .attr("x1", function (d, i) {
-                return xScale(d[opts.pos(d, i)]);
+                return xScale(d.pos);
     	    })
     	    .attr("y1", function (d) {
         		return track.height();
     	    })
     	    .attr("x2", function (d,i) {
-        		return xScale(d[opts.pos(d, i)]);
+        		return xScale(d.pos);
     	    })
     	    .attr("y2", function (d, i) {
-        		return track.height() - yScale(d[opts.val(d, i)]);
+    	        var y = 0.5;
+    	        if(typeof d.val === "number") {
+                    y = d.val;
+                }
+        		return track.height() - yScale(y);
     	    });
 
     	pins
     	    .select("circle")
     	    .attr("cx", function (d, i) {
-                return xScale(d[opts.pos(d, i)]);
+                return xScale(d.pos);
     	    })
     	    .attr("cy", function (d, i) {
-                return track.height() - yScale(d[opts.val(d, i)]);
+    	        var y = 0.5;
+                if(typeof d.val === "number") {
+                    y = d.val;
+                }
+                return track.height() - yScale(y);
     	    });
 
         pins
             .select("text")
             .attr("x", function (d, i) {
-                return xScale(d[opts.pos(d, i)]);
+                return xScale(d.pos)+2.5*labelling_gap;
             })
             .text(function (d) {
                 return d.label || "";

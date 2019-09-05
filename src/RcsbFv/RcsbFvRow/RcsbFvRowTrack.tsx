@@ -2,29 +2,29 @@ import * as React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvConstants} from "../RcsbFvConstants/RcsbFvConstants";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvSubject} from "../RcsbFvSubject/RcsbFvSubject";
+import {RcsbFvContextManager, RcsbFvContextManagerInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.css";
+import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
 interface RcsbFvRowTrackInterface {
     id: string;
-    data: any;
+    data: RcsbFvRowConfigInterface;
+}
+
+interface RcsbFvRowTrackStyleInterface {
+    width: number;
+    height: number;
 }
 
 export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, {}> {
 
-    configData : Map<string, any> = null;
+    configData : RcsbFvRowConfigInterface = null;
     rcsbFvTrack : RcsbFvTrack = null;
 
     constructor(props: RcsbFvRowTrackInterface) {
         super(props);
         this.configData = this.props.data;
-        RcsbFvSubject.react.getSubject().subscribe((obj:any)=>{
-            if(obj[RcsbFvConstants.EVENT_TYPE]===RcsbFvConstants.SCALE_CHANGED) {
-                this.setScale(obj);
-            }else if(obj[RcsbFvConstants.EVENT_TYPE]===RcsbFvConstants.ELEMENT_SELECTED){
-                this.setSelection(obj);
-            }
-        });
+        this.subscribe();
     }
 
     render(){
@@ -39,14 +39,14 @@ export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInter
         this.rcsbFvTrack = new RcsbFvTrack(this.configData);
     }
 
-    configStyle() : any {
-        let width : number = RcsbFvDefaultConfigValues.TRACK_WIDTH;
-        let height : number = RcsbFvDefaultConfigValues.TRACK_HEIGHT;
-        if(this.configData.has(RcsbFvConstants.TRACK_WIDTH)){
-            width = this.configData.get(RcsbFvConstants.TRACK_WIDTH);
+    configStyle() : RcsbFvRowTrackStyleInterface {
+        let width : number = RcsbFvDefaultConfigValues.trackWidth;
+        let height : number = RcsbFvDefaultConfigValues.trackHeight;
+        if(typeof this.configData.trackWidth === "number"){
+            width = this.configData.trackWidth;
         }
-        if(this.configData.has(RcsbFvConstants.TRACK_HEIGHT)){
-            height = this.configData.get(RcsbFvConstants.TRACK_HEIGHT);
+        if(typeof this.configData.trackHeight === "number"){
+            height = this.configData.trackHeight;
         }
         return {
             width: width,
@@ -54,11 +54,21 @@ export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInter
         };
     }
 
-    setScale(obj:any) : void{
+    subscribe(): void{
+        RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+            if(obj.eventType===RcsbFvConstants.SCALE_CHANGED) {
+                this.setScale(obj);
+            }else if(obj.eventType===RcsbFvConstants.ELEMENT_SELECTED){
+                this.setSelection(obj);
+            }
+        });
+    }
+
+    setScale(obj:RcsbFvContextManagerInterface) : void{
         this.rcsbFvTrack.setScale(obj);
     }
 
-    setSelection(obj:any) : void{
+    setSelection(obj:RcsbFvContextManagerInterface) : void{
         this.rcsbFvTrack.setSelection(obj);
     }
 }

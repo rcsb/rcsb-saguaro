@@ -12,15 +12,16 @@ var feature_vline = function () {
     	new_elems
     	    .append ("line")
     	    .attr("x1", function (d) {
-                return xScale(feature.index()(d));
+                return xScale(d.pos);
     	    })
     	    .attr("x2", function (d) {
-                return xScale(feature.index()(d));
+                return xScale(d.pos);
     	    })
     	    .attr("y1", 0)
     	    .attr("y2", track.height())
-    	    .attr("stroke", feature.color())
-    	    .attr("stroke-width", 1);
+    	    .style("stroke", feature.color())
+    	    .style("stroke-width", 4);
+
     });
 
     feature.move (function (vlines) {
@@ -28,10 +29,10 @@ var feature_vline = function () {
     	vlines
     	    .select("line")
     	    .attr("x1", function (d) {
-                return xScale(feature.index()(d));
+				return xScale(d.pos);
     	    })
     	    .attr("x2", function (d) {
-                return xScale(feature.index()(d));
+				return xScale(d.pos);
     	    });
     });
 

@@ -15,8 +15,11 @@ svg {
     }
 }
 
-.tnt_track path, .tnt_track line {
+.tnt_axis path, .tnt_axis line {
 	fill: none;
+}
+
+.tnt_track path, .tnt_track line {
 	stroke: grey;
 	stroke-width: 1;
 }

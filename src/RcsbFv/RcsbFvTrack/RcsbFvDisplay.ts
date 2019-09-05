@@ -1,25 +1,25 @@
 import {RcsbDisplay} from '../../RcsbBoard/RcsbDisplay';
-import {RcsbFvConstants} from '../RcsbFvConstants/RcsbFvConstants';
 import {DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
+import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
 export class RcsbFvDisplay {
 
     private rcsbDisplay : RcsbDisplay = new RcsbDisplay();
     private displayIds: Array<string> = [];
-    private displayConfig: Map<string, any> = null;
+    private displayConfig: RcsbFvRowConfigInterface;
 
-    constructor(config: Map<string, any>){
+    constructor(config: RcsbFvRowConfigInterface){
         this.displayConfig = config;
     }
 
     public initDisplay() : object{
         const config = this.displayConfig;
-        if (typeof config.get(RcsbFvConstants.DISPLAY_TYPE) === "string") {
-            return this.singleDisplay(config.get(RcsbFvConstants.DISPLAY_TYPE), config);
-        }else if(config.get(RcsbFvConstants.DISPLAY_TYPE) instanceof Array){
+        if (typeof config.displayType === "string") {
+            return this.singleDisplay(config.displayType, config);
+        }else if(config.displayType instanceof Array){
             return this.composedDisplay(config);
         }else{
-            throw "Display type "+config.get(RcsbFvConstants.DISPLAY_TYPE)+" not supported";
+            throw "Display type "+config.displayType+" not supported";
         }
     }
 
@@ -27,15 +27,15 @@ export class RcsbFvDisplay {
         return this.displayIds;
     }
 
-    private composedDisplay(config: Map<string, any>) : object{
+    private composedDisplay(config: RcsbFvRowConfigInterface) : object{
         const display = this.rcsbDisplay.composite();
-        const displayTypeArray: Array<string> = config.get(RcsbFvConstants.DISPLAY_TYPE);
+        const displayTypeArray: string | Array<string> = config.displayType;
         let i = 0;
         for(let displayType of displayTypeArray){
             const displayId: string = "displayId_"+Math.trunc(Math.random()*1000);
-            let displayConfig: Map<string, any> = config;
-            if(config.has(RcsbFvConstants.DISPLAY_CONFIG)) {
-                displayConfig = this.setDisplayConfig(config, config.get(RcsbFvConstants.DISPLAY_CONFIG)[i]);
+            let displayConfig: RcsbFvRowConfigInterface = config;
+            if(config.displayConfig) {
+                displayConfig = this.setDisplayConfig(config, config.displayConfig[i]);
                 i++;
             }
             display.add( displayId, this.singleDisplay(displayType, displayConfig) );
@@ -44,26 +44,32 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private setDisplayConfig(config: Map<string, any>, displayConfig: Map<string, any>) : Map<string, any>{
-        const out: Map<string, any> = new Map(config);
-        displayConfig.forEach((v,k)=>{
-            out.set(k,v);
-        });
+    private setDisplayConfig(config: RcsbFvRowConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowConfigInterface{
+        const out: RcsbFvRowConfigInterface = Object.assign({},config);
+        if(typeof displayConfig.displayColor === "string"){
+            out.displayColor = displayConfig.displayColor;
+        }
         return out;
     }
 
-    private singleDisplay(type: string, config: Map<string, any>) {
+    private singleDisplay(type: string, config: RcsbFvRowConfigInterface) {
         switch (type) {
             case DISPLAY_TYPES.AXIS:
                 return this.axisDisplay();
             case DISPLAY_TYPES.SEQUENCE:
-                return this.sequenceDisplay(config.get(RcsbFvConstants.DISPLAY_COLOR));
+                return this.sequenceDisplay(config.displayColor);
             case DISPLAY_TYPES.BLOCK:
-                return this.blockDisplay(config.get(RcsbFvConstants.DISPLAY_COLOR));
+                return this.blockDisplay(config.displayColor);
             case DISPLAY_TYPES.PIN:
-                return this.pinDisplay(config.get(RcsbFvConstants.DISPLAY_COLOR), config.get(RcsbFvConstants.DISPLAY_DOMAIN));
+                return this.pinDisplay(config.displayColor, config.displayDomain);
+            case DISPLAY_TYPES.LINE:
+                return this.lineDisplay(config.displayColor, config.displayDomain);
+            case DISPLAY_TYPES.AREA:
+                return this.areaDisplay(config.displayColor, config.displayDomain);
+            case DISPLAY_TYPES.VLINE:
+                return this.vlineDisplay(config.displayColor);
             default:
-                throw "Track type " + config.get(RcsbFvConstants.DISPLAY_TYPE) + " is not supported";
+                throw "Track type " + config.displayType + " is not supported";
         }
     }
 
@@ -83,8 +89,28 @@ export class RcsbFvDisplay {
         return display;
     }
 
+    private vlineDisplay(color:string) : object{
+        const display = this.rcsbDisplay.vline();
+        display.color(color);
+        return display;
+    }
+
     private pinDisplay(color: string, domain:Array<number>) : object{
         const display = this.rcsbDisplay.pin();
+        display.color(color);
+        display.domain(domain);
+        return display;
+    }
+
+    private lineDisplay(color: string, domain:Array<number>) : object{
+        const display = this.rcsbDisplay.line();
+        display.color(color);
+        display.domain(domain);
+        return display;
+    }
+
+    private areaDisplay(color: string, domain:Array<number>) : object{
+        const display = this.rcsbDisplay.area();
         display.color(color);
         display.domain(domain);
         return display;

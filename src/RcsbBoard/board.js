@@ -1,7 +1,7 @@
 var apijs = require ("tnt.api");
 var deferCancel = require ("tnt.utils").defer_cancel;
 var d3 = require("d3");
-var RcsbFvSubject = require("../RcsbFv/RcsbFvSubject/RcsbFvSubject");
+var RcsbFvSubject = require("../RcsbFv/RcsbFvContextManager/RcsbFvContextManager");
 
 var board = function() {
     "use strict";
@@ -13,7 +13,6 @@ var board = function() {
 
     //// Private vars
     var div_id;
-    var master_board_id;
     var tracks = [];
     var min_width = 50;
     var height    = 0;    // This is the global height including all the tracks
@@ -59,9 +58,8 @@ var board = function() {
     };
 
     // The returned closure / object
-    var track_vis = function(div,master_div_id) {
+    var track_vis = function(div) {
     	div_id = d3.select(div).attr("id");
-    	master_board_id = master_div_id;
 
     	// The original div is classed with the tnt class
     	d3.select(div)
@@ -523,13 +521,13 @@ var board = function() {
     });
 
     var dispatch_scale_event = function(transform){
-        transform['event_type'] = 'scale_changed';
-        RcsbFvSubject.RcsbFvSubject.trigger.set(transform);
+        transform['eventType'] = 'scale_changed';
+        RcsbFvSubject.RcsbFvContextManager.next(transform);
     };
 
     var dispatch_selection_event = function(selection){
-        selection['event_type'] = 'element_selected';
-        RcsbFvSubject.RcsbFvSubject.trigger.set(selection);
+        selection['eventType'] = 'element_selected';
+        RcsbFvSubject.RcsbFvContextManager.next(selection);
     };
 
     // api.method({

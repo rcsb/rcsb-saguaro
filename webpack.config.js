@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: "development",
-    entry: './src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx',
+    entry: './src/RcsbFv/RcsbFv.tsx',
     module: {
       rules: [
         {
