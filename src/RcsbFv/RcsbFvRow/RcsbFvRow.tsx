@@ -3,6 +3,7 @@ import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValu
 import RcsbFvRowTitle from "./RcsbFvRowTitle";
 import RcsbFvRowTrack from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 interface RcsbFvRowInterface {
     id: string;
@@ -14,9 +15,18 @@ interface RcsbFvRowStyleInterface{
     height: number;
 }
 
-export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, {}> {
+interface RcsbFvRowState {
+    rowHeight: number;
+    mounted: boolean;
+}
+
+export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowState> {
 
     configData : RcsbFvRowConfigInterface = null;
+    readonly state : RcsbFvRowState = {
+            rowHeight:RcsbFvDefaultConfigValues.trackHeight,
+            mounted: false
+    };
 
     constructor(props: RcsbFvRowInterface) {
         super(props);
@@ -24,12 +34,20 @@ export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, {}> 
     }
 
     render(){
+        let classNames:string = classes.rcsbFvRow;
+        if(this.configData.isAxis === true){
+            classNames += " "+classes.rcsbFvRowAxis;
+        }
         return (
-            <div className={"RcsbFvRow"} style={this.configStyle()}>
-                <RcsbFvRowTitle data={this.configData}/>
-                <RcsbFvRowTrack id={this.props.id} data={this.configData}/>
+            <div className={classNames} style={this.configStyle()}>
+                <RcsbFvRowTitle data={this.configData} rowTitleHeight={this.state.rowHeight}/>
+                <RcsbFvRowTrack id={this.props.id} data={this.configData} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
             </div>
         );
+    }
+
+    callbackRcsbFvRowTrack(rcsbRowTrackHeight: number): void {
+        this.setState({rowHeight: rcsbRowTrackHeight, mounted:true} as RcsbFvRowState);
     }
 
     configStyle() : RcsbFvRowStyleInterface {
@@ -37,20 +55,13 @@ export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, {}> 
         if(typeof this.configData.rowTitleWidth === "number"){
             titleWidth = this.configData.rowTitleWidth;
         }
-
         let trackWidth : number = RcsbFvDefaultConfigValues.trackWidth;
         if(typeof this.configData.trackWidth === "number"){
             trackWidth = this.configData.trackWidth;
         }
-
-        let height : number = RcsbFvDefaultConfigValues.trackHeight;
-        if(typeof this.configData.trackHeight === "number"){
-            height = this.configData.trackHeight;
-        }
-
         return {
             width: (titleWidth+trackWidth),
-            height: height
+            height: this.state.rowHeight
         };
     }
 

@@ -1,17 +1,18 @@
-import {RcsbFvConstants} from '../RcsbFvConstants/RcsbFvConstants';
-import {RcsbFvDefaultConfigValues, DISPLAY_TYPES} from './RcsbFvDefaultConfigValues';
+import {INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvData, RcsbFvDataArray, RcsbFvDataManager} from "../RcsbFvTrack/RcsbFvDataManager";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     displayType: string | Array<string>;
     length: number;
     elementId?: string;
-    trackData?: any;
+    trackData?: string | RcsbFvData | RcsbFvDataArray;
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackHeight?: number;
     trackColor?: string;
     displayColor?: string;
     displayDomain?: Array<number>;
+    interpolationType? : string;
 
     constructor(args:RcsbFvRowConfigInterface) {
 
@@ -22,14 +23,13 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         if(typeof args.displayType === "string" || typeof args.displayType === "object"){
             this.displayType = args.displayType;
         }else{
-            console.error(args);
             throw "Fatal error: Display type not found";
         }
         if(typeof args.elementId === "string") {
             this.elementId = args.elementId;
         }
-        if(typeof args.trackData  !== null) {
-            this.trackData = args.trackData;
+        if(typeof args.trackData  !== "undefined") {
+            this.trackData = RcsbFvDataManager.processData(args.trackData);
         }
         if(args.displayConfig instanceof Array) {
             this.displayConfig = args.displayConfig;
@@ -56,6 +56,11 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }else{
             this.displayDomain = RcsbFvDefaultConfigValues.displayDomain;
         }
+        if(typeof args.interpolationType === "string"){
+            this.interpolationType = this.getInterpolationType(args.interpolationType);
+        }else{
+            this.interpolationType = RcsbFvDefaultConfigValues.interpolationType;
+        }
     }
 
     configCheck() : boolean{
@@ -64,5 +69,29 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         return false;
     }
+
+    getInterpolationType(type: string): string{
+        switch (type) {
+            case INTERPOLATION_TYPES.STEP: {
+                return INTERPOLATION_TYPES.STEP;
+            }
+            case INTERPOLATION_TYPES.BASIS: {
+                return INTERPOLATION_TYPES.BASIS;
+            }
+            case INTERPOLATION_TYPES.CARDINAL: {
+                return INTERPOLATION_TYPES.CARDINAL;
+            }
+            case INTERPOLATION_TYPES.LINEAR: {
+                return INTERPOLATION_TYPES.LINEAR;
+            }
+            default: {
+                return INTERPOLATION_TYPES.STEP;
+            }
+        }
+    }
+
+
+
+
 
 }

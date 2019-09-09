@@ -1,5 +1,5 @@
 import * as React from "react";
-import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {DISPLAY_TYPES, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import RcsbFvRow from "../RcsbFvRow/RcsbFvRow";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
 
@@ -26,13 +26,26 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
     }
 
     render(){
+        let rcsbFvRowAxis = null;
+        if(this.boardConfigData.includeAxis === true){
+            const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000)
+            this.rcsbFvRowArrayIds.push(rowId);
+            const rowData:RcsbFvRowConfigInterface = {displayType:DISPLAY_TYPES.AXIS};
+            const data = this.configRow(rowId,rowData);
+            data.isAxis = true;
+            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} data={data} />;
+        }
         return (
             <div id={this.boardId}>
+                {rcsbFvRowAxis}
                 {
+
                     this.rowConfigData.map(rowData=>{
                         const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000)
                         this.rcsbFvRowArrayIds.push(rowId);
-                        return (<RcsbFvRow key={rowId} id={rowId} data={this.configRow(rowId,rowData)} />);
+                        const data = this.configRow(rowId,rowData);
+                        data.isAxis = false;
+                        return (<RcsbFvRow key={rowId} id={rowId} data={data} />);
                     })
                 }
             </div>
@@ -64,7 +77,7 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
         if(typeof this.boardConfigData.rowTitleWidth === "number"){
             out.rowTitleWidth = this.boardConfigData.rowTitleWidth;
         }
-        if(typeof this.boardConfigData.length === "number"){
+        if(typeof this.boardConfigData.trackWidth === "number"){
             out.trackWidth = this.boardConfigData.trackWidth;
         }
         return out;

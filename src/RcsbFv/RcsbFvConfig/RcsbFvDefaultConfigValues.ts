@@ -6,6 +6,7 @@ interface RcsbFvDefaultConfigValuesInterface  {
     readonly trackWidth: number;
     readonly rowTitleWidth: number;
     readonly displayDomain: Array<number>;
+    readonly interpolationType: string;
 }
 
 export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
@@ -15,8 +16,16 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     trackHeight: 30,
     trackWidth: 920,
     rowTitleWidth: 150,
-    displayDomain: [0,1]
+    displayDomain: [0,1],
+    interpolationType: INTERPOLATION_TYPES.STEP
 };
+
+export const enum INTERPOLATION_TYPES {
+    STEP = "step",
+    BASIS = "basis",
+    CARDINAL = "cardinal",
+    LINEAR = "linear"
+}
 
 export const enum DISPLAY_TYPES {
     BLOCK = "block",

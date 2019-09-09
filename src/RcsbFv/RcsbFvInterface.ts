@@ -1,7 +1,10 @@
+import {RcsbFvData, RcsbFvDataArray} from "./RcsbFvTrack/RcsbFvDataManager";
+
 export interface RcsbFvBoardConfigInterface {
     length: number;
     rowTitleWidth?: number;
     trackWidth?: number;
+    includeAxis?: boolean;
 }
 
 export interface RcsbFvDisplayConfigInterface{
@@ -16,9 +19,11 @@ export interface RcsbFvRowConfigInterface {
     trackColor?: string;
     displayColor?: string;
     rowTitle?: string;
-    trackData?: any;
+    trackData?: string | RcsbFvData | RcsbFvDataArray;
     displayDomain?: Array<number>;
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackWidth?: number;
     rowTitleWidth?: number;
+    interpolationType?: string;
+    isAxis?: boolean;
 }

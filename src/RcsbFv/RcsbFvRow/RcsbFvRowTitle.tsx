@@ -1,10 +1,11 @@
 import * as React from "react";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import * as classes from "../RcsbFvStyles/RcsbFvRow.module.css";
+import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
 interface RcsbFvRowTitleInterface {
     data: RcsbFvRowConfigInterface;
+    rowTitleHeight: number;
 }
 
 interface RcsbFvRowTitleStyleInterface {
@@ -26,7 +27,7 @@ export default class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInter
 
     render(){
         return (
-            <div className={classes.rowTitle} style={this.configStyle()}>
+            <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
                 <div style={this.configStyle()}>{this.setTitle()}</div>
             </div>
         );
@@ -41,16 +42,12 @@ export default class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInter
 
     configStyle() : RcsbFvRowTitleStyleInterface {
         let width : number = RcsbFvDefaultConfigValues.rowTitleWidth;
-        let height : number = RcsbFvDefaultConfigValues.trackHeight;
         if(typeof this.configData.rowTitleWidth === "number"){
             width = this.configData.rowTitleWidth;
         }
-        if(typeof this.configData.trackHeight === "number"){
-            height = this.configData.trackHeight;
-        }
         return {
             width: width,
-            height: height
+            height: this.props.rowTitleHeight
         };
     }
 }

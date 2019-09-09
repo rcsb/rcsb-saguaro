@@ -12,7 +12,11 @@ export class RcsbTrack{
         this.rcsbTrack.display(displayObj);
     }
     load(data){
-        this.rcsbTrack.load(data);
+        if(data instanceof Map){
+            this.rcsbTrack.load(Object.fromEntries(data));
+        }else {
+            this.rcsbTrack.load(data);
+        }
     }
     getTrack(){
         return this.rcsbTrack;

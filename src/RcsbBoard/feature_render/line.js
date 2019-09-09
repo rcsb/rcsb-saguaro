@@ -21,11 +21,16 @@ var feature_line = function () {
     var tension = 0.7;
     var maxPoints= 1000;
     var yScale = d3.scale.linear();
-    var line = d3.svg.line().interpolate("step");
+    var line = d3.svg.line().interpolate("basis");
 
     apijs(feature)
         .getset(opts);
     // line getter. TODO: Setter?
+
+	feature.interpolationType = function(type){
+		line = d3.svg.line().interpolate(type);
+	};
+
     feature.line = function () {
         return line;
     };

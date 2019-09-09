@@ -5,15 +5,21 @@ import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {RcsbFvContextManagerInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {
+    RcsbFvData,
+    RcsbFvDataArray,
+    RcsbFvDataManager,
+    RcsbFvDataMap
+} from "./RcsbFvDataManager";
 
 export class RcsbFvTrack {
 
     private rcsbBoard: RcsbBoard = new RcsbBoard();
-    private rcsbTrack: RcsbTrack = new RcsbTrack();
+    private rcsbTrackArray: Array<RcsbTrack> = new Array<RcsbTrack>();
     private rcsbFvDisplay: RcsbFvDisplay = null;
     private rcsbFvConfig: RcsbFvConfig;
     private elementId: string = null;
-    private trackData: string | Array<object> = null;
+    private trackData: string | RcsbFvData | RcsbFvDataArray = null;
 
     public constructor(args:RcsbFvRowConfigInterface) {
         this.buildTrack(args);
@@ -24,27 +30,18 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.elementId === "string"){
             this.init(this.rcsbFvConfig.elementId);
         }
-        if(typeof this.rcsbFvConfig.trackData !== null){
+        if(typeof this.rcsbFvConfig.trackData !== "undefined"){
             this.load(this.rcsbFvConfig.trackData);
         }
         if(
             (typeof this.rcsbFvConfig.elementId === "string") &&
-            (typeof this.rcsbFvConfig.trackData !== null || this.rcsbFvConfig.displayType === DISPLAY_TYPES.AXIS)
+            (typeof this.rcsbFvConfig.trackData !== "undefined" || this.rcsbFvConfig.displayType === DISPLAY_TYPES.AXIS)
         ){
+            if(this.rcsbFvConfig.displayType === DISPLAY_TYPES.AXIS){
+               this.buildRcsbTrack();
+            }
             this.start();
         }
-    }
-
-    public setConfig(args: RcsbFvRowConfigInterface) : void{
-        this.rcsbFvConfig = new RcsbFvConfig(args);
-    }
-
-    private initRcsbBoard(){
-        this.rcsbBoard.setRange(-1*RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
-        this.rcsbTrack.height( this.rcsbFvConfig.trackHeight );
-        this.rcsbTrack.color( this.rcsbFvConfig.trackColor );
-        this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
-        this.rcsbTrack.display( this.rcsbFvDisplay.initDisplay() );
     }
 
     public init(elementId: string) : void{
@@ -59,23 +56,60 @@ export class RcsbFvTrack {
         }
     }
 
-    public load(trackData: string | Array<object>) : void{
+    public setConfig(args: RcsbFvRowConfigInterface) : void{
+        this.rcsbFvConfig = new RcsbFvConfig(args);
+    }
+
+    private initRcsbBoard(): void{
+        this.rcsbBoard.setRange(-1*RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
+        this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
+    }
+
+    private buildRcsbTrack(): RcsbTrack{
+        const rcsbTrack: RcsbTrack = new RcsbTrack();
+        rcsbTrack.height( this.rcsbFvConfig.trackHeight );
+        rcsbTrack.color( this.rcsbFvConfig.trackColor );
+        rcsbTrack.display( this.rcsbFvDisplay.initDisplay() );
+        this.rcsbTrackArray.push(rcsbTrack);
+        return rcsbTrack;
+    }
+
+
+
+    public load(trackData: string | RcsbFvData | RcsbFvDataArray) : void{
         this.trackData = trackData;
-        if(this.rcsbFvConfig.displayType instanceof Array){
+        if(trackData instanceof RcsbFvDataArray && this.rcsbFvConfig.displayType instanceof Array){
+            const rcsbTrack = this.buildRcsbTrack();
             const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
-            const trackDataHash: {[key: string]: string | object} = {};
+            const trackDataHash: RcsbFvDataMap = new RcsbFvDataMap();
             for(let f of trackData){
                 const id: string = displayIds.shift();
-                trackDataHash[id]=f;
+                if(f instanceof RcsbFvData || typeof f === "string") {
+                    trackDataHash.set(id,f);
+                }
             }
-            this.rcsbTrack.load(trackDataHash);
-        }else {
-            this.rcsbTrack.load(trackData);
+            rcsbTrack.load(trackDataHash);
+        }else if(trackData instanceof RcsbFvData){
+            let nonOverlapping: Array<RcsbFvData> = new Array<RcsbFvData>();
+            if(this.rcsbFvConfig.displayType === DISPLAY_TYPES.BLOCK || this.rcsbFvConfig.displayType === DISPLAY_TYPES.PIN) {
+                nonOverlapping = RcsbFvDataManager.getNonOverlappingData(trackData);
+            }else{
+                nonOverlapping = [trackData];
+            }
+            nonOverlapping.forEach(trackData=>{
+                this.buildRcsbTrack().load(trackData);
+            });
+        }else if(typeof trackData === "string") {
+            this.buildRcsbTrack().load(trackData);
+        }else{
+            throw "Data loader error. Data type not supported.";
         }
     }
 
     public start() : void{
-        this.rcsbBoard.addTrack([this.rcsbTrack.getTrack()]);
+        this.rcsbTrackArray.forEach(track=>{
+            this.rcsbBoard.addTrack([track.getTrack()]);
+        });
         this.rcsbBoard.start();
     }
 
@@ -85,5 +119,9 @@ export class RcsbFvTrack {
 
     public setSelection(obj: RcsbFvContextManagerInterface) : void {
         this.rcsbBoard.setSelection(obj);
+    }
+
+    public getTrackHeight(): number{
+        return this.rcsbTrackArray.length * this.rcsbFvConfig.trackHeight;
     }
 }

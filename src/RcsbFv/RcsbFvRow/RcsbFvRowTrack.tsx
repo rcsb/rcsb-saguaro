@@ -3,12 +3,13 @@ import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvConstants} from "../RcsbFvConstants/RcsbFvConstants";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvContextManager, RcsbFvContextManagerInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
-import * as classes from "../RcsbFvStyles/RcsbFvRow.module.css";
+import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
 interface RcsbFvRowTrackInterface {
     id: string;
     data: RcsbFvRowConfigInterface;
+    callbackRcsbFvRow(height: number): void;
 }
 
 interface RcsbFvRowTrackStyleInterface {
@@ -16,10 +17,19 @@ interface RcsbFvRowTrackStyleInterface {
     height: number;
 }
 
-export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, {}> {
+interface RcsbFvRowTrackState {
+    rowTrackHeight: number;
+    mounted: boolean;
+}
+
+export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, RcsbFvRowTrackState> {
 
     configData : RcsbFvRowConfigInterface = null;
     rcsbFvTrack : RcsbFvTrack = null;
+    readonly state : RcsbFvRowTrackState = {
+        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
+        mounted: false
+    };
 
     constructor(props: RcsbFvRowTrackInterface) {
         super(props);
@@ -29,28 +39,27 @@ export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInter
 
     render(){
         return (
-            <div className={classes.rowTrack} style={this.configStyle()}>
+            <div className={classes.rcsbFvRowTrack} style={this.configStyle()}>
                 <div id={this.props.id} />
             </div>
         );
     }
 
-    componentDidMount(){
+    componentDidMount(): void{
         this.rcsbFvTrack = new RcsbFvTrack(this.configData);
+        const height: number = this.rcsbFvTrack.getTrackHeight();
+        this.setState({rowTrackHeight:height,mounted:true} as RcsbFvRowTrackState);
+        this.props.callbackRcsbFvRow(height);
     }
 
     configStyle() : RcsbFvRowTrackStyleInterface {
         let width : number = RcsbFvDefaultConfigValues.trackWidth;
-        let height : number = RcsbFvDefaultConfigValues.trackHeight;
         if(typeof this.configData.trackWidth === "number"){
             width = this.configData.trackWidth;
         }
-        if(typeof this.configData.trackHeight === "number"){
-            height = this.configData.trackHeight;
-        }
         return {
             width: width,
-            height: height
+            height: this.state.rowTrackHeight
         };
     }
 

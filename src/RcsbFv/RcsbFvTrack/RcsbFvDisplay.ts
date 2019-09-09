@@ -63,9 +63,9 @@ export class RcsbFvDisplay {
             case DISPLAY_TYPES.PIN:
                 return this.pinDisplay(config.displayColor, config.displayDomain);
             case DISPLAY_TYPES.LINE:
-                return this.lineDisplay(config.displayColor, config.displayDomain);
+                return this.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
             case DISPLAY_TYPES.AREA:
-                return this.areaDisplay(config.displayColor, config.displayDomain);
+                return this.areaDisplay(config.displayColor, config.displayDomain, config.interpolationType);
             case DISPLAY_TYPES.VLINE:
                 return this.vlineDisplay(config.displayColor);
             default:
@@ -102,17 +102,19 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private lineDisplay(color: string, domain:Array<number>) : object{
+    private lineDisplay(color: string, domain:Array<number>, interpolationType: string) : object{
         const display = this.rcsbDisplay.line();
         display.color(color);
         display.domain(domain);
+        display.interpolationType(interpolationType);
         return display;
     }
 
-    private areaDisplay(color: string, domain:Array<number>) : object{
+    private areaDisplay(color: string, domain:Array<number>, interpolationType: string) : object{
         const display = this.rcsbDisplay.area();
         display.color(color);
         display.domain(domain);
+        display.interpolationType(interpolationType);
         return display;
     }
 }

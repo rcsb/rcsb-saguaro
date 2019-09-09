@@ -10,22 +10,20 @@ module.exports = {
           loader: 'ts-loader',
           exclude: /node_modules/
         },{
-          test: /\.css$/,
-          use: [
-              "style-loader",
-              {
-                  loader: "css-loader",
-                  options: {
-                      modules: true
-                  }
-              }
-          ],
-          exclude: /node_modules/
-        },{
           test: /\.jsx?$/,
           loader: 'babel-loader',
           exclude: [/node_modules/]
-        }
+        },{
+          test: /\.scss$/,
+          use: ['style-loader', {
+                    loader: 'css-loader',
+                    options: {
+                        modules: true
+                    }
+                    },
+                'sass-loader'],
+          exclude: /node_modules/
+        },
       ]
     },
     resolve: {

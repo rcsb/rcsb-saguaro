@@ -6,15 +6,19 @@ var feature_area = function () {
 
 	"use strict";
     var feature = feature_line();
-    var line = feature.line();
+	var data_points;
 
+    var line = feature.line();
     var area = d3.svg.area()
-    	.interpolate(line.interpolate())
+    	.interpolate("basis")
     	.tension(feature.tension());
 
-    var data_points;
-
     var line_create = feature.create(); // We 'save' line creation
+
+	feature.interpolationType = function(type){
+	    area.interpolate(type);
+		line.interpolate(type);
+	};
 
     feature.create (function (points) {
     	var track = this;
