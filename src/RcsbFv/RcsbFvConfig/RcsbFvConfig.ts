@@ -1,4 +1,4 @@
-import {INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
+import {DISPLAY_TYPES, INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {RcsbFvData, RcsbFvDataArray, RcsbFvDataManager} from "../RcsbFvTrack/RcsbFvDataManager";
 
@@ -39,7 +39,11 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         if(typeof args.trackHeight === "number"){
             this.trackHeight = args.trackHeight;
         }else{
-            this.trackHeight = RcsbFvDefaultConfigValues.trackHeight;
+            if(this.displayType === DISPLAY_TYPES.AXIS){
+                this.trackHeight = RcsbFvDefaultConfigValues.trackAxisHeight;
+            }else {
+                this.trackHeight = RcsbFvDefaultConfigValues.trackHeight;
+            }
         }
         if( typeof args.trackColor === "string"){
             this.trackColor = args.trackColor;

@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@d3fc/d3fc-sample": "^4.0.10",
+    "@types/d3": "^3.5.43",
     "d3": "^3.5.17",
     "rxjs": "^6.5.2",
     "tnt.api": "^0.1.1",

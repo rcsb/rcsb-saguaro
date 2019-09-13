@@ -316,7 +316,7 @@ var board = function() {
     	if (!arguments.length) {
     	    return width;
     	}
-    	// At least min-width
+    	// At least min-_width
     	if (w < min_width) {
     	    w = min_width;
     	}
@@ -515,7 +515,7 @@ var board = function() {
 
     // api.method({
     // 	allow_drag : api_allow_drag,
-    // 	width      : api_width,
+    // 	_width      : api_width,
     // 	add_track  : api_add_track,
     // 	reorder    : api_reorder,
     // 	zoom       : api_zoom,
