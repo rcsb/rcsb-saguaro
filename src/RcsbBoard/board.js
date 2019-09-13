@@ -2,6 +2,7 @@ var apijs = require ("tnt.api");
 var deferCancel = require ("tnt.utils").defer_cancel;
 var d3 = require("d3");
 var RcsbFvSubject = require("../RcsbFv/RcsbFvContextManager/RcsbFvContextManager");
+var brush_selection  = require("./feature_render/brush_selection");
 
 var board = function() {
     "use strict";
@@ -38,6 +39,7 @@ var board = function() {
     var bgColor   = d3.rgb('#FFFFFF'); //#F8FBEF
     var xScale;
     var zoomEventHandler = d3.behavior.zoom();
+
     var limits = {
         min : -1.5,
         max : 10000,
@@ -66,9 +68,7 @@ var board = function() {
     	    .classed("tnt", true);
 
     	browserDiv = d3.select(div)
-    	    //.style("position", "relative")
     	    .classed("tnt_framed", exports.show_frame)
-    	    //.style("width", (width + cap_width*2 + exports.extend_canvas.right + exports.extend_canvas.left) + "px");
             .style("width", width+"px" );
 
     	// The SVG
@@ -76,13 +76,32 @@ var board = function() {
     	    .append("svg")
     	    .attr("class", "tnt_svg")
     	    .attr("width", width)
-    	    .attr("pointer-events", "all");
+    	    .attr("pointer-events", "all")
+            .on("contextmenu",function(){
+                d3.event.preventDefault();
+            });
+
 
     	svg_g = svg
     	    .append("g")
             .attr("class", "tnt_master_g")
             .append("g")
-    	    .attr("class", "tnt_g");
+    	    .attr("class", "tnt_g")
+            .on("dblclick",function(){
+                track_vis.select_region(null,null,false);
+            })
+    	    .on("mousedown",function(){
+                if(d3.event.which === 3) {
+                    d3.event.stopImmediatePropagation();
+                }
+    	        brush_selection.mousedown.call(this,track_vis,svg_g,xScale);
+            })
+            .on("mouseup",function(){
+                if(d3.event.which === 3) {
+                    d3.event.stopImmediatePropagation();
+                }
+                brush_selection.mouseup.call(this,track_vis,svg_g,xScale);
+            });
 
     	// The Zooming/Panning Pane
     	pane = svg_g
@@ -90,7 +109,7 @@ var board = function() {
     	    .attr("class", "tnt_pane")
     	    .attr("id", "tnt_" + div_id + "_pane")
     	    .attr("width", width)
-    	    .style("fill", bgColor);
+    	    .style("fill", bgColor)
 
     };
 
@@ -115,12 +134,12 @@ var board = function() {
     });
 
     api.method ('select_region', function (begin,end,prop_flag) {
-        if(typeof(begin) === "number" && typeof(end)==="number"){
+        if((typeof(begin) === "number" && typeof(end)==="number") || (begin === null && end===null)){
             selection = {begin:begin, end:end, id:div_id};
             if(prop_flag!==true) {
                 dispatch_selection_event(selection);
             }
-        }else{
+        }else if(typeof(selection.begin) === "number" && typeof(selection.end)==="number"){
             begin = selection.begin;
             end = selection.end;
         }
@@ -128,10 +147,10 @@ var board = function() {
             if(track.g){
                 if(typeof(track.display().displays) === "function"){
                     var display = track.display().displays()[0];
-                    display.select_region.call(display, track.g, height, begin, end);
+                    display.select_region.call(track, begin, end);
                 }else {
                     if(typeof track.display().select_region === "function") {
-                        track.display().select_region.call(track.display(), track.g, height, begin, end);
+                        track.display().select_region.call(track, begin, end);
                     }
                 }
             }
@@ -185,9 +204,8 @@ var board = function() {
     var _update_track = function (track, where) {
     	if (track.data()) {
     	    var track_data = track.data();
-            var data_updater = track_data;
 
-    	    data_updater.call(track, {
+    	    track_data.call(track, {
                 'loc' : where,
                 'on_success' : function () {
                     track.display().update.call(track, where);
@@ -205,9 +223,10 @@ var board = function() {
     	    svg_g.call( zoomEventHandler
     		       .x(xScale)
     		       .scaleExtent([(loc.to-loc.from)/(limits.zoom_out-1), (loc.to-loc.from)/limits.zoom_in])
-    		       .on("zoom", _move)
-    		     );
+    		       .on("zoom", _move))
+                .on("dblclick.zoom", null);
     	}
+
     };
 
     var _reorder = function (new_tracks) {
@@ -326,27 +345,6 @@ var board = function() {
     	} else {
     	    width = w;
     	}
-        return track_vis;
-    });
-
-    api.method('allow_drag', function(b) {
-        if (!arguments.length) {
-            return drag_allowed;
-        }
-        drag_allowed = b;
-        if (drag_allowed) {
-            // When this method is called on the object before starting the simulation, we don't have defined xScale
-            if (xScale !== undefined) {
-                svg_g.call( zoomEventHandler.x(xScale)
-                    // .xExtent([0, limits.right])
-                    .scaleExtent([(loc.to-loc.from)/(limits.zoom_out-1), (loc.to-loc.from)/limits.zoom_in])
-                    .on("zoom", _move) );
-            }
-        } else {
-            // We create a new dummy scale in x to avoid dragging the previous one
-            // TODO: There may be a cheaper way of doing this?
-            zoomEventHandler.x(d3.scale.linear()).on("zoom", null);
-        }
         return track_vis;
     });
 
@@ -472,23 +470,8 @@ var board = function() {
     	    zoomEventHandler.x(new_xScale);
     	}
 
-    	// Show the red bars at the limits
+        // Avoid moving past the limits
     	var domain = xScale.domain();
-    	if (domain[0] <= (limits.min + 5)) {
-    	    var master_div = d3.select(d3.select("#"+div_id).node().parentNode);
-            /*master_div.style("border-left","3px solid red");
-            master_div.transition().style("border-left","").delay(2000).duration(2000);*/
-    	}
-
-    	if (domain[1] >= (limits.max)-5) {
-    	    /*d3.select("#tnt_" + div_id + "_3pcap")
-    		.attr("width", cap_width)
-    		.transition()
-    		.duration(200)
-    		.attr("width", 0);*/
-    	}
-
-    	// Avoid moving past the limits
     	if (domain[0] < limits.min) {
     	    zoomEventHandler.translate([zoomEventHandler.translate()[0] - xScale(limits.min) + xScale.range()[0], zoomEventHandler.translate()[1]]);
     	} else if (domain[1] > limits.max) {

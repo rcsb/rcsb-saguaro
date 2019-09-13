@@ -87,10 +87,6 @@ var feature_sequence = function () {
                 .classed("tnt_elem_" + field, field)
                 .call(feature.plot, track, xScale);
         }
-
-        if(typeof(track.display().select_region)==="function") {
-            track.display().select_region.call(track.display(), svg_g);
-        }
     };
 
     feature.distribute (function (aa) {

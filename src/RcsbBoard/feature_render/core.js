@@ -64,14 +64,18 @@ var feature_core = function () {
         config.create.call(track, new_elem, xScale);
     };
 
-    var select_region = function(track_g, height, begin, end) {
+    var select_region = function(begin, end) {
         var track = this;
-        if(typeof(track.scale)!=="function"){
+        var track_g = track.g;
+        var height = track.height();
+
+        if(typeof(track.display().scale)!=="function"){
             return;
         }
-        var xScale = track.scale();
+
+        track_g.select(".tnt_select_rect").remove();
+        var xScale = track.display().scale();
         if(typeof(height)==="number" && typeof(begin)==="number" && typeof(end)==="number") {
-            track_g.select(".tnt_select_rect").remove();
             track_g.append("rect")
                 .attr("x", xScale(begin))
                 .attr("y", 0)

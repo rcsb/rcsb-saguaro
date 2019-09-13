@@ -34,5 +34,6 @@ export const enum DISPLAY_TYPES {
     PIN = "pin",
     LINE="line",
     AREA="area",
-    VLINE="vline"
+    VLINE="vline",
+    VARIANT="variant"
 }

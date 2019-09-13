@@ -62,6 +62,8 @@ export class RcsbFvDisplay {
                 return this.blockDisplay(config.displayColor);
             case DISPLAY_TYPES.PIN:
                 return this.pinDisplay(config.displayColor, config.displayDomain);
+            case DISPLAY_TYPES.VARIANT:
+                return this.variantDisplay(config.displayColor);
             case DISPLAY_TYPES.LINE:
                 return this.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
             case DISPLAY_TYPES.AREA:
@@ -99,6 +101,12 @@ export class RcsbFvDisplay {
         const display = this.rcsbDisplay.pin();
         display.color(color);
         display.domain(domain);
+        return display;
+    }
+
+    private variantDisplay(color: string) : object{
+        const display = this.rcsbDisplay.variant();
+        display.color(color);
         return display;
     }
 
