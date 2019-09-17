@@ -1,4 +1,4 @@
-import {RcsbBoard} from '../../RcsbBoard/RcsbBoard';
+import {RcsbBoard, ScaleTransform, SelectionInterface} from '../../RcsbBoard/RcsbBoard';
 import {RcsbTrack} from '../../RcsbBoard/RcsbTrack';
 import {RcsbFvDefaultConfigValues, DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
@@ -14,7 +14,7 @@ import {
 
 export class RcsbFvTrack {
 
-    private rcsbBoard: RcsbBoard = new RcsbBoard();
+    private rcsbBoard: RcsbBoard = null;
     private rcsbTrackArray: Array<RcsbTrack> = new Array<RcsbTrack>();
     private rcsbFvDisplay: RcsbFvDisplay = null;
     private rcsbFvConfig: RcsbFvConfig;
@@ -22,6 +22,7 @@ export class RcsbFvTrack {
     private trackData: string | RcsbFvData | RcsbFvDataArray = null;
 
     public constructor(args:RcsbFvRowConfigInterface) {
+        this.rcsbBoard = new RcsbBoard(args.elementId);
         this.buildTrack(args);
     }
 
@@ -48,7 +49,6 @@ export class RcsbFvTrack {
         if(document.getElementById(elementId)!== null) {
             this.elementId = elementId;
             if (this.rcsbFvConfig.configCheck()) {
-                this.rcsbBoard.attach(document.getElementById(elementId));
                 this.initRcsbBoard();
             }
         }else{
@@ -110,15 +110,15 @@ export class RcsbFvTrack {
         this.rcsbTrackArray.forEach(track=>{
             this.rcsbBoard.addTrack([track.getTrack()]);
         });
-        this.rcsbBoard.start();
+        this.rcsbBoard.startBoard();
     }
 
     public setScale(obj: RcsbFvContextManagerInterface) : void {
-        this.rcsbBoard.setScale(obj);
+        this.rcsbBoard.setScale(obj.eventData as ScaleTransform);
     }
 
     public setSelection(obj: RcsbFvContextManagerInterface) : void {
-        this.rcsbBoard.setSelection(obj);
+        this.rcsbBoard.setSelection(obj.eventData as SelectionInterface);
     }
 
     public getTrackHeight(): number{

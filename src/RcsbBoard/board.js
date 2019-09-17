@@ -460,10 +460,6 @@ var board = function() {
     // The deferred_cbak is deferred at least this amount of time or re-scheduled if deferred is called before
     var _deferred = deferCancel(_move_cbak, 100);
 
-    // api.method('update', function () {
-    // 	_move();
-    // });
-
     var _move = function (new_xScale,prop_flag) {
 
     	if (new_xScale !== undefined && drag_allowed) {

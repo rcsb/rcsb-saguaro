@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs';
+import {SelectionInterface, ScaleTransform} from "../../RcsbBoard/RcsbBoard";
 
 const subject = new Subject();
 const RcsbFvContextManager = {
@@ -7,12 +8,8 @@ const RcsbFvContextManager = {
 };
 
 export interface RcsbFvContextManagerInterface{
-    id: string;
     eventType: string;
-    scale?: any;
-    tr?: any;
-    begin?: number;
-    end?: number;
+    eventData: SelectionInterface|ScaleTransform;
 }
 
 export {RcsbFvContextManager};
