@@ -1,7 +1,9 @@
 var d3 = require("d3");
+var fc = require("@d3fc/d3fc-rebind");
 var apijs = require ("tnt.api");
 var layout = require("./layout.js");
 var event_dispatcher = require("./event_dispatcher.js");
+var classes = require("../scss/RcsbBoard.module.scss");
 
 var feature_core = function () {
     "use strict";
@@ -26,9 +28,8 @@ var feature_core = function () {
 
     var reset = function () {
     	var track = this;
-    	track.g.selectAll(".tnt_elem").remove();
-        track.g.selectAll(".tnt_guider").remove();
-        track.g.selectAll(".tnt_fixed").remove();
+    	track.g.selectAll(classes.rcsbElement).remove();
+        track.g.selectAll("."+classes.rcsbFixed).remove();
     };
 
     var init = function (width) {
@@ -61,6 +62,7 @@ var feature_core = function () {
             dispatch.mouseout.call(this, d, i, track);
         });
         // new_elem is a g element the feature is inserted
+
         config.create.call(track, new_elem, xScale);
     };
 
@@ -73,7 +75,7 @@ var feature_core = function () {
             return;
         }
 
-        track_g.select(".tnt_select_rect").remove();
+        track_g.select("."+classes.rcsbSelectRect).remove();
         var xScale = track.display().scale();
         if(typeof(height)==="number" && typeof(begin)==="number" && typeof(end)==="number") {
             track_g.append("rect")
@@ -83,12 +85,12 @@ var feature_core = function () {
                 .attr("height", height)
                 .attr("fill", "#faf3c0")
                 .attr("fill-opacity",0.75)
-                .attr("class", "tnt_select_rect");
+                .attr("class", classes.rcsbSelectRect);
         }
 
-        var tnt_select_rect = track_g.select(".tnt_select_rect").node();
+        var tnt_select_rect = track_g.select("."+classes.rcsbSelectRect).node();
         if(tnt_select_rect) {
-            var tnt_board_rect = track_g.select(".tnt_board_rect").node();
+            var tnt_board_rect = track_g.select("."+classes.rcsbBoardRect).node();
             mtb(tnt_select_rect);
             mtb(tnt_board_rect);
             tnt_select_rect.parentNode.prepend(tnt_select_rect);
@@ -100,7 +102,7 @@ var feature_core = function () {
         var track = this;
         var svg_g = track.g;
 
-        var elements = track.data().elements();
+        var elements = track.data();
 
         if (field !== undefined) {
             elements = elements[field];
@@ -115,9 +117,9 @@ var feature_core = function () {
         var vis_elems;
         svg_g.selectAll("path").remove();
         if (field !== undefined) {
-            vis_sel = svg_g.selectAll(".tnt_elem_" + field);
+            vis_sel = svg_g.selectAll("."+classes.rcsbElement+"_" + field);
         } else {
-            vis_sel = svg_g.selectAll(".tnt_elem");
+            vis_sel = svg_g.selectAll("."+classes.rcsbElement);
         }
 
         if (config.index) { // Indexing by field
@@ -139,8 +141,8 @@ var feature_core = function () {
 
     	new_elem
     	    .append("g")
-    	    .attr("class", "tnt_elem")
-    	    .classed("tnt_elem_" + field, field)
+    	    .attr("class", classes.rcsbElement)
+    	    .classed(classes.rcsbElement+"_" + field, field)
     	    .call(feature.plot, track, config.scale);
 
     	vis_elems
@@ -157,9 +159,9 @@ var feature_core = function () {
     	// TODO: Is selecting the elements to move too slow?
     	// It would be nice to profile
     	if (field !== undefined) {
-    	    elems = svg_g.selectAll(".tnt_elem_" + field);
+    	    elems = svg_g.selectAll("."+classes.rcsbElement+"_" + field);
     	} else {
-    	    elems = svg_g.selectAll(".tnt_elem");
+    	    elems = svg_g.selectAll("."+classes.rcsbElement);
     	}
 
     	config.move.call(this, elems, field);
@@ -177,7 +179,7 @@ var feature_core = function () {
         if (field !== undefined) {
             var track = this;
             var svg_g = track.g;
-            svg_g.selectAll(".tnt_elem_" + field)
+            svg_g.selectAll("."+classes.rcsbElement+"_" + field)
                 .each( function () {
                     mtf(this);
                 });
@@ -197,7 +199,7 @@ var feature_core = function () {
     	    move_to_front : move_to_front
     	});
 
-    return d3.rebind(feature, dispatch, "on");
+    return fc.rebind(feature, dispatch, "on");
 };
 
 module.exports = feature_core;

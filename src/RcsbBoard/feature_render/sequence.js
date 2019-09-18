@@ -1,24 +1,16 @@
 
 var d3 = require("d3");
-var apijs = require ("tnt.api");
 var feature_core = require("./core.js");
+var classes = require("../scss/RcsbBoard.module.scss");
 
 var feature_sequence = function () {
     "use strict";
     var feature = feature_core();
     var ratio_interval = [5,16];
 
-    var yScale = d3.scale.linear()
+    var yScale = d3.scaleLinear()
     	.domain([0,0])
     	.range([0,0]);
-
-    var opts = {
-        pos : d3.functor("pos"),
-        val : d3.functor("val")
-    };
-
-    apijs(feature)
-        .getset(opts);
 
     feature.create(function (new_aa) {
     	var track = this;
@@ -71,20 +63,20 @@ var feature_sequence = function () {
             return (i+1 >= xScale.domain()[0] && i <= xScale.domain()[1]);
         });
 
-        var elem_class = ".tnt_elem";
+        var elem_class = "."+classes.rcsbElement;
         if (field !== undefined) {
             elem_class += "_"+field;
         }
 
         svg_g.selectAll(elem_class).remove();
-        svg_g.select(".tnt_elem_seq_bg").remove();
+        svg_g.select("."+classes.rcsbElemSeqBg).remove();
 
         if(get_ratio(xScale)>=ratio_interval[0]){
             svg_g.selectAll(elem_class).data(data_elems)
                 .enter()
                 .append("g")
-                .attr("class", "tnt_elem")
-                .classed("tnt_elem_" + field, field)
+                .attr("class", classes.rcsbElement)
+                .classed(classes.rcsbElement+"_" + field, field)
                 .call(feature.plot, track, xScale);
         }
     };

@@ -6,13 +6,13 @@ import {
     MainGConfInterface,
     PainConfInterface,
     RcsbD3Manager,
-    SVGConfInterface,
-    TrackConfInterface
+    SVGConfInterface
 } from "./RcsbD3/RcsbD3Manager";
 
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {RcsbFvContextManager} from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
+import {RcsbTrack} from "./RcsbTrack";
 
 export interface SelectionInterface {
     begin: number;
@@ -20,7 +20,7 @@ export interface SelectionInterface {
     domId: string;
 }
 
-interface LocationViewInterface {
+export interface LocationViewInterface {
     from: number;
     to: number;
 }
@@ -44,7 +44,7 @@ export class RcsbBoard {
     _width: number = 920;
     _bgColor: string = "#FFFFFF";
     _innerPadding: number = 10;
-    tracks: Array<any> = null;
+    tracks: Array<RcsbTrack> = new Array<RcsbTrack>();
     currentSelection: SelectionInterface;
     xScale: ScaleLinear<number,number> = scaleLinear();
     limits: RegionLimitsInterface = {
@@ -91,7 +91,7 @@ export class RcsbBoard {
     	        //brush_selection.mousedown.call(this,track_vis,svg_g,xScale);
             },
             dblClick:()=>{
-                //this.selectRegion(null,null,false);
+                this.highlightRegion(null,null,false);
             }
         };
         this.d3Manager.addMainG(innerConfig);
@@ -164,11 +164,7 @@ export class RcsbBoard {
         });
 
     	this.tracks.forEach(track=>{
-    	    //TODO Track class needs to be reformat
-    	    if(track.g) {
-                track.g.remove();
-            }
-    	    this.initTrack(track);
+            track.init(this._width, this.xScale);
         });
 
     	this.setBoardHeight();
@@ -182,58 +178,25 @@ export class RcsbBoard {
         }
 
         this.tracks.forEach((track)=> {
-            this.updateTrack(track);
+            track.updateTrack({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
         })
 
     }
 
     updateBoard(): void{
-         this.tracks.forEach((track)=> {
-            this.updateTrack(track);
+        this.tracks.forEach((track)=> {
+            track.updateTrack({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
         })
     }
 
-    private initTrack(track: any): void{
-
-        const config: TrackConfInterface = {
-            trackClass: classes.rcsbTrack,
-            rectClass: classes.rcsbTrackRect,
-            height: track.height(),
-            width: this._width,
-            bgColor: this._bgColor,
-            pointerEvents: "none"
-        };
-
-        this.d3Manager.addTrack(config);
-
-        //TODO Track class needs to be reformat
-    	if (typeof track.display === "function") {
-    	    track.display()
-                .scale(this.xScale)
-                .init.call(track, this._width);
-    	}
-    }
-
-    private updateTrack(track: any): void {
-        const where: LocationViewInterface = this.currentLocationView;
-        //TODO Track class needs to be reformat
-    	if (track.data()) {
-    	    const track_data = track.data();
-    	    track_data.call(track, {
-                'loc' : where,
-                'on_success' : function () {
-                    track.display().update.call(track, where);
-                }
-    	    });
-    	}
-    }
-
-    public addTrack(track: any): void{
+    public addTrack(track: RcsbTrack|Array<RcsbTrack>): void{
         if (track instanceof Array) {
             track.forEach((t) => {
+                t.setD3Manager(this.d3Manager);
                 this.tracks.push(t);
             });
-        }else {
+        }else{
+            track.setD3Manager(this.d3Manager);
             this.tracks.push(track);
         }
     }
@@ -275,7 +238,7 @@ export class RcsbBoard {
 
     	}
 
-    	const deferCancel = (callBack: any, waitTime: number) => {
+    	const deferCancel = (callBack: () => void, waitTime: number) => {
     	    let tick = null;
     	    return () =>{
                 const args = Array.prototype.slice.call(arguments);

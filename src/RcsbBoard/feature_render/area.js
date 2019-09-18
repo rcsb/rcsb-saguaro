@@ -9,15 +9,12 @@ var feature_area = function () {
 	var data_points;
 
     var line = feature.line();
-    var area = d3.svg.area()
-    	.interpolate("basis")
-    	.tension(feature.tension());
+    var area = d3.area().curve(d3.curveStep);
 
     var line_create = feature.create(); // We 'save' line creation
 
 	feature.interpolationType = function(type){
-	    area.interpolate(type);
-		line.interpolate(type);
+		//line = line.interpolationType(type);
 	};
 
     feature.create (function (points) {

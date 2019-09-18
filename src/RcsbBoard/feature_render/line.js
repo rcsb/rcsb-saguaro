@@ -20,15 +20,18 @@ var feature_line = function () {
     };
     var tension = 0.7;
     var maxPoints= 1000;
-    var yScale = d3.scale.linear();
-    var line = d3.svg.line().interpolate("basis");
+    var yScale = d3.scaleLinear();
+    var line = d3.line().curve(d3.curveStep);
 
     apijs(feature)
         .getset(opts);
     // line getter. TODO: Setter?
 
 	feature.interpolationType = function(type){
-		line = d3.svg.line().interpolate(type);
+		//TODO fix the interpolation selection
+	    if(type === "whatever")
+			line = d3.line().curve(d3.curveCardinal.tension(tension));
+	    return line;
 	};
 
     feature.line = function () {
@@ -51,14 +54,6 @@ var feature_line = function () {
     	return feature;
     };
 
-    feature.tension = function (t) {
-    	if (!arguments.length) {
-    	    return tension;
-    	}
-    	tension = t;
-    	return feature;
-    };
-
 	var data_points;
     feature.get_data_points = function(){
     	return data_points;
@@ -74,7 +69,6 @@ var feature_line = function () {
     	}
 
     	line
-    	    .tension(tension)
     	    .x(function (d) {
                 return xScale(x(d));
     	    })

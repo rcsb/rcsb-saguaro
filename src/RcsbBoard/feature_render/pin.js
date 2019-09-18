@@ -7,7 +7,7 @@ var feature_pin = function () {
     "use strict";
     var feature = feature_core();
 
-    var yScale = d3.scale.linear();
+    var yScale = d3.scaleLinear();
 
     var opts = {
         domain : [0,1]

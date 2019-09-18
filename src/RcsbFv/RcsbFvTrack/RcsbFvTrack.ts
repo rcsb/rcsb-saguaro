@@ -1,5 +1,5 @@
 import {RcsbBoard, ScaleTransform, SelectionInterface} from '../../RcsbBoard/RcsbBoard';
-import {RcsbTrack} from '../../RcsbBoard/RcsbTrack';
+import {RcsbTrack, RcsbTrackInterface} from '../../RcsbBoard/RcsbTrack';
 import {RcsbFvDefaultConfigValues, DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
@@ -108,7 +108,7 @@ export class RcsbFvTrack {
 
     public start() : void{
         this.rcsbTrackArray.forEach(track=>{
-            this.rcsbBoard.addTrack([track.getTrack()]);
+            this.rcsbBoard.addTrack(track);
         });
         this.rcsbBoard.startBoard();
     }

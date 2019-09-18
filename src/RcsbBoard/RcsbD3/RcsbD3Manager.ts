@@ -55,7 +55,7 @@ export class RcsbD3Manager {
     buildSvgNode(config:SVGConfInterface): void{
         this._dom = select(document.getElementById(config.elementId));
         this._dom.classed(config.domClass, true)
-            .style(RcsbD3Constants.WIDTH, config.width );
+            .style(RcsbD3Constants.WIDTH, config.width+"px" );
 
     	this._svg = this._dom.append(RcsbD3Constants.SVG)
     	    .attr(RcsbD3Constants.CLASS, config.svgClass)
@@ -86,11 +86,10 @@ export class RcsbD3Manager {
     	    .style(RcsbD3Constants.FILL, config.bgColor)
     }
 
-    addTrack(config: TrackConfInterface): void{
-        const trackG:Selection<BaseType,any,null,undefined> = this._pane
+    addTrack(config: TrackConfInterface): Selection<BaseType,any,null,undefined>{
+        const trackG:Selection<BaseType,any,null,undefined> = this._svgG
     	    .append(RcsbD3Constants.G)
-    	    .attr(RcsbD3Constants.CLASS, config.trackClass)
-    	    .attr(RcsbD3Constants.HEIGHT, config.height);
+    	    .attr(RcsbD3Constants.CLASS, config.trackClass);
 
     	// Rect for the background color
     	trackG.append(RcsbD3Constants.RECT)
@@ -102,6 +101,7 @@ export class RcsbD3Manager {
     	    .style(RcsbD3Constants.FILL, config.bgColor)
     	    .style(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents);
 
+    	return trackG;
     }
 
     setBoardHeight(height: number): void {
@@ -115,8 +115,7 @@ export class RcsbD3Manager {
         this._svgG.call(
             config.zoomEventHandler.scaleExtent(config.scaleExtent)
                 .on(RcsbD3Constants.ZOOM, config.zoomCallBack)
-                .on(RcsbD3Constants.DBLCLIK_ZOOM, null)
-        );
+        ).on(RcsbD3Constants.DBLCLIK_ZOOM, null);
     }
 }
 
