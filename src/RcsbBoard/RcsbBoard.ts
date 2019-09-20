@@ -1,6 +1,6 @@
 import {event} from "d3-selection";
 import {ScaleLinear, scaleLinear} from "d3-scale";
-import {zoom, ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
+import {zoom, ZoomBehavior, ZoomedElementBaseType, ZoomTransform, zoomIdentity} from "d3-zoom";
 
 import {
     MainGConfInterface,
@@ -37,8 +37,7 @@ interface RegionLimitsInterface {
 }
 
 export interface ScaleTransform {
-    scale:[number,number];
-    tr:[[number,number],[number,number]];
+    transform:ZoomTransform;
     domId: string;
 }
 
@@ -124,7 +123,7 @@ export class RcsbBoard {
         if((typeof(begin) === "number" && typeof(end)==="number") || (begin === null && end===null)){
             this.currentSelection = {begin:begin, end:end, domId: this.domId} as SelectionInterface;
             if(propFlag!==true) {
-                this.triggerSelectionEvent({
+                RcsbBoard.triggerSelectionEvent({
                     eventType:EVENT_TYPE.SELECTION,
                     eventData:this.currentSelection
                 } as RcsbFvContextManagerInterface);
@@ -148,15 +147,12 @@ export class RcsbBoard {
     	    .domain([this.currentLocationView.from, this.currentLocationView.to])
     	    .range([this._innerPadding, this._width-this._innerPadding]);
 
+        this.zoomEventHandler.scaleExtent([0.5,20])
+
     	this.d3Manager.addZoom({
             zoomEventHandler: this.zoomEventHandler,
-            zoomCallBack: this.moveBoard.bind(this),
-            xScale: this.xScale,
-            scaleExtent: [
-                (this.currentLocationView.to-this.currentLocationView.from)/(this.limits.maxZoom-1),
-                (this.currentLocationView.to-this.currentLocationView.from)/(this.limits.minZoom)
-            ]
-        }as ZoomConfigInterface);
+            zoomCallBack: this.moveBoard.bind(this)
+        } as ZoomConfigInterface);
 
     	this.tracks.forEach(track=>{
             track.init(this._width, this.xScale);
@@ -219,22 +215,26 @@ export class RcsbBoard {
         });
     }
 
-    moveBoard(newScale: ScaleLinear<number,number>, propFlag: boolean): void {
+    moveBoard(newTransform: ZoomTransform, propFlag: boolean): void {
 
-        //TODO update d3-zoom new mechanichs
-    	//this.zoomEventHandler.x(newScale);
+        let transform: ZoomTransform = null;
+        const isNotIdentity = (transform: ZoomTransform): boolean => {
+            return !(transform.x === 0 && transform.y === 0 && transform.k === 1);
+        };
 
-        // Avoid moving past the limits
-    	const domain = this.xScale.domain();
-    	if (domain[0] < this.limits.min) {
+        if(typeof newTransform === "object"){
+            transform = newTransform;
+        }else if(isNotIdentity(event.transform)) {
+            transform = event.transform;
+        }else{
+            return;
+        }
+        this.xScale.domain(transform.rescaleX(this.xScale).domain());
+        this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
 
-    	} else if (domain[1] > this.limits.max) {
-
-    	}
-
-    	const deferCancel = (callBack: () => void, waitTime: number) => {
-    	    let tick = null;
-    	    return () =>{
+        /*const deferCancel = (callBack: () => void, waitTime: number) => {
+            let tick = null;
+            return () =>{
                 const args = Array.prototype.slice.call(arguments);
                 const self = this;
                 clearTimeout();
@@ -244,7 +244,7 @@ export class RcsbBoard {
             };
         };
 
-    	deferCancel(this.updateAllTracks.bind(this), 100)();
+        deferCancel(this.updateAllTracks.bind(this), 100)();*/
 
     	this.tracks.forEach(track=> {
             track.move();
@@ -255,32 +255,27 @@ export class RcsbBoard {
 
         if(propFlag !== true){
             const data:ScaleTransform = {
-                scale:this.zoomEventHandler.scaleExtent(),
-                tr:this.zoomEventHandler.translateExtent(),
+                transform:transform,
                 domId:this.domId
             };
-            this.triggerScaleEvent({
+            RcsbBoard.triggerScaleEvent({
                     eventType:EVENT_TYPE.SCALE,
                     eventData:data
             } as RcsbFvContextManagerInterface);
         }
     };
 
-    public setScale(transform: ScaleTransform){
-        console.log(this.domId+" != "+transform.domId);
-        console.log(transform);
-        if(transform.domId !== this.domId){
-            this.zoomEventHandler.scaleExtent(transform.scale);
-    	    this.zoomEventHandler.translateExtent(transform.tr);
-    	    this.moveBoard(undefined,true);
+    public setScale(transformEvent: ScaleTransform){
+        if(transformEvent.domId !== this.domId){
+    	    this.moveBoard(transformEvent.transform,true);
         }
     }
 
-    private triggerScaleEvent(geoTrans: RcsbFvContextManagerInterface){
+    private static triggerScaleEvent(geoTrans: RcsbFvContextManagerInterface){
         RcsbFvContextManager.next(geoTrans);
     }
 
-    private triggerSelectionEvent(selection: RcsbFvContextManagerInterface){
+    private static triggerSelectionEvent(selection: RcsbFvContextManagerInterface){
         RcsbFvContextManager.next(selection);
     }
 }

@@ -39,10 +39,7 @@ export interface TrackConfInterface {
 
 export interface ZoomConfigInterface {
     zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any>;
-    xScale: ScaleLinear<number,number>;
-    scaleExtent: [number,number];
     zoomCallBack: () => void;
-
 }
 
 export interface HighlightRegionInterface {
@@ -58,10 +55,19 @@ export class RcsbD3Manager {
 
     _dom: Selection<HTMLElement,any,null,undefined> = null;
     _svg: Selection<SVGSVGElement,any,null,undefined> = null;
+    _zoomG: Selection<SVGGElement,any,null,undefined> = null;
     _svgG: Selection<SVGGElement,any,null,undefined> = null;
     _pane: Selection<SVGRectElement,any,null,undefined> = null;
 
     _width: number = null;
+
+    svgG():Selection<SVGGElement,any,null,undefined>{
+        return this._svgG;
+    }
+
+    zoomG():Selection<SVGGElement,any,null,undefined>{
+        return this._zoomG;
+    }
 
     buildSvgNode(config:SVGConfInterface): void{
         this._dom = select(document.getElementById(config.elementId));
@@ -78,9 +84,9 @@ export class RcsbD3Manager {
     }
 
     addMainG(config:MainGConfInterface): void{
-        this._svgG = this._svg.append<SVGGElement>(RcsbD3Constants.G)
-            .attr(RcsbD3Constants.CLASS, config.masterClass)
-            .append("g")
+        this._zoomG = this._svg.append<SVGGElement>(RcsbD3Constants.G);
+        this._svgG = this._zoomG.attr(RcsbD3Constants.CLASS, config.masterClass)
+            .append<SVGGElement>(RcsbD3Constants.G)
     	    .attr(RcsbD3Constants.CLASS, config.innerClass)
             .on(RcsbD3Constants.DBL_CLICK,config.dblClick)
     	    .on(RcsbD3Constants.MOUSE_DOWN,config.mouseDown)
@@ -101,7 +107,6 @@ export class RcsbD3Manager {
     	    .append<SVGGElement>(RcsbD3Constants.G)
     	    .attr(RcsbD3Constants.CLASS, config.trackClass);
 
-    	// Rect for the background color
     	trackG.append<SVGRectElement>(RcsbD3Constants.RECT)
     	    .attr(RcsbD3Constants.X, 0)
     	    .attr(RcsbD3Constants.Y, 0)
@@ -121,10 +126,8 @@ export class RcsbD3Manager {
     }
 
     addZoom(config: ZoomConfigInterface): void{
-        //TODO I DONT REALLY KNOW HOW xScale FITS IN d3 v5
-        this._svgG.call(
-            config.zoomEventHandler.scaleExtent(config.scaleExtent)
-                .on(RcsbD3Constants.ZOOM, config.zoomCallBack)
+        this._zoomG.call(
+            config.zoomEventHandler.on(RcsbD3Constants.ZOOM, config.zoomCallBack)
         ).on(RcsbD3Constants.DBLCLIK_ZOOM, null);
     }
 
