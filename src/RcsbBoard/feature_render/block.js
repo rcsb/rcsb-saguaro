@@ -22,8 +22,6 @@ var feature_block = function () {
     	var dy = track.height()*(2/3);
 		var y_o = track.height()*(1/6);
         var xScale = feature.scale();
-        console.log("block create > "+new_elems.size());
-		console.log(new_elems);
     	new_elems
     	    .append("rect")
     	    .attr("x", function (d, i) {

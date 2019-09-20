@@ -1,5 +1,4 @@
 import {RcsbBoard, ScaleTransform, SelectionInterface} from '../../RcsbBoard/RcsbBoard';
-import {RcsbTrack, RcsbTrackInterface} from '../../RcsbBoard/RcsbTrack';
 import {RcsbFvDefaultConfigValues, DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
@@ -11,11 +10,12 @@ import {
     RcsbFvDataManager,
     RcsbFvDataMap
 } from "./RcsbFvDataManager";
+import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 
 export class RcsbFvTrack {
 
     private rcsbBoard: RcsbBoard = null;
-    private rcsbTrackArray: Array<RcsbTrack> = new Array<RcsbTrack>();
+    private rcsbTrackArray: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
     private rcsbFvDisplay: RcsbFvDisplay = null;
     private rcsbFvConfig: RcsbFvConfig;
     private elementId: string = null;
@@ -65,11 +65,11 @@ export class RcsbFvTrack {
         this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
     }
 
-    private buildRcsbTrack(): RcsbTrack{
-        const rcsbTrack: RcsbTrack = new RcsbTrack();
+    private buildRcsbTrack(): RcsbDisplayInterface{
+        const rcsbTrack: RcsbDisplayInterface = this.rcsbFvDisplay.initDisplay();
         rcsbTrack.height( this.rcsbFvConfig.trackHeight );
-        rcsbTrack.color( this.rcsbFvConfig.trackColor );
-        rcsbTrack.display( this.rcsbFvDisplay.initDisplay() );
+        rcsbTrack.trackColor( this.rcsbFvConfig.trackColor );
+
         this.rcsbTrackArray.push(rcsbTrack);
         return rcsbTrack;
     }
@@ -113,12 +113,12 @@ export class RcsbFvTrack {
         this.rcsbBoard.startBoard();
     }
 
-    public setScale(obj: RcsbFvContextManagerInterface) : void {
-        this.rcsbBoard.setScale(obj.eventData as ScaleTransform);
+    public setScale(obj: ScaleTransform) : void {
+        this.rcsbBoard.setScale(obj);
     }
 
-    public setSelection(obj: RcsbFvContextManagerInterface) : void {
-        this.rcsbBoard.setSelection(obj.eventData as SelectionInterface);
+    public setSelection(obj: SelectionInterface) : void {
+        this.rcsbBoard.setSelection(obj);
     }
 
     public getTrackHeight(): number{

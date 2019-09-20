@@ -11,7 +11,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackHeight?: number;
     trackColor?: string;
     displayColor?: string;
-    displayDomain?: Array<number>;
+    displayDomain?: [number,number];
     interpolationType? : string;
 
     constructor(args:RcsbFvRowConfigInterface) {

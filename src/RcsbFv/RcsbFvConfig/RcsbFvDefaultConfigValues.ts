@@ -6,7 +6,7 @@ interface RcsbFvDefaultConfigValuesInterface  {
     readonly trackAxisHeight: number;
     readonly trackWidth: number;
     readonly rowTitleWidth: number;
-    readonly displayDomain: Array<number>;
+    readonly displayDomain: [number,number];
     readonly interpolationType: string;
 }
 

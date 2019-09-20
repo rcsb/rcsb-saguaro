@@ -20,7 +20,7 @@ export interface RcsbFvRowConfigInterface {
     displayColor?: string;
     rowTitle?: string;
     trackData?: string | RcsbFvData | RcsbFvDataArray;
-    displayDomain?: Array<number>;
+    displayDomain?: [number,number];
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackWidth?: number;
     rowTitleWidth?: number;

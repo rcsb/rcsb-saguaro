@@ -6,13 +6,17 @@ import {
     MainGConfInterface,
     PainConfInterface,
     RcsbD3Manager,
-    SVGConfInterface
+    SVGConfInterface, ZoomConfigInterface
 } from "./RcsbD3/RcsbD3Manager";
 
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {MOUSE} from "./RcsbD3/RcsbD3Constants";
-import {RcsbFvContextManager} from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
-import {RcsbTrack} from "./RcsbTrack";
+import {
+    EVENT_TYPE,
+    RcsbFvContextManager,
+    RcsbFvContextManagerInterface
+} from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
+import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 
 export interface SelectionInterface {
     begin: number;
@@ -44,7 +48,7 @@ export class RcsbBoard {
     _width: number = 920;
     _bgColor: string = "#FFFFFF";
     _innerPadding: number = 10;
-    tracks: Array<RcsbTrack> = new Array<RcsbTrack>();
+    tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
     currentSelection: SelectionInterface;
     xScale: ScaleLinear<number,number> = scaleLinear();
     limits: RegionLimitsInterface = {
@@ -120,28 +124,19 @@ export class RcsbBoard {
         if((typeof(begin) === "number" && typeof(end)==="number") || (begin === null && end===null)){
             this.currentSelection = {begin:begin, end:end, domId: this.domId} as SelectionInterface;
             if(propFlag!==true) {
-                this.triggerSelectionEvent(this.currentSelection);
+                this.triggerSelectionEvent({
+                    eventType:EVENT_TYPE.SELECTION,
+                    eventData:this.currentSelection
+                } as RcsbFvContextManagerInterface);
             }
         }else if(typeof(this.currentSelection.begin) === "number" && typeof(this.currentSelection.end)==="number"){
             begin = this.currentSelection.begin;
             end = this.currentSelection.end;
         }
 
-        //TODO Track class needs to be reformat
         this.tracks.forEach((track)=>{
-            if(track.g){
-                if(typeof(track.display().displays) === "function"){
-                    const display = track.display().displays()[0];
-                    display.select_region.call(track, begin, end);
-                }else {
-                    if(typeof track.display().select_region === "function") {
-                        track.display().select_region.call(track, begin, end);
-                    }
-                }
-            }
+            track.highlightRegion(begin, end);
         });
-
-
     }
 
     startBoard(): void{
@@ -161,7 +156,7 @@ export class RcsbBoard {
                 (this.currentLocationView.to-this.currentLocationView.from)/(this.limits.maxZoom-1),
                 (this.currentLocationView.to-this.currentLocationView.from)/(this.limits.minZoom)
             ]
-        });
+        }as ZoomConfigInterface);
 
     	this.tracks.forEach(track=>{
             track.init(this._width, this.xScale);
@@ -178,18 +173,18 @@ export class RcsbBoard {
         }
 
         this.tracks.forEach((track)=> {
-            track.updateTrack({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
+            track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
         })
 
     }
 
     updateBoard(): void{
         this.tracks.forEach((track)=> {
-            track.updateTrack({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
+            track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
         })
     }
 
-    public addTrack(track: RcsbTrack|Array<RcsbTrack>): void{
+    public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>): void{
         if (track instanceof Array) {
             track.forEach((t) => {
                 t.setD3Manager(this.d3Manager);
@@ -220,8 +215,7 @@ export class RcsbBoard {
         const location = this.xScale.domain();
     	this.setLocation(~~location[0],~~location[1]);
         this.tracks.forEach(track=> {
-            //TODO Track class needs to be reformat
-            track.display().update.call(track, this.currentLocationView);
+            track.update(this.currentLocationView);
         });
     }
 
@@ -249,27 +243,32 @@ export class RcsbBoard {
                 }, waitTime);
             };
         };
+
     	deferCancel(this.updateAllTracks.bind(this), 100)();
 
     	this.tracks.forEach(track=> {
-            //TODO Track class needs to be reformat
-            track.display().mover.call(track);
+            track.move();
         });
-
 
     	//TODO this shouldnt be here
         //track_vis.select_region.call(track_vis);
 
         if(propFlag !== true){
-            this.triggerScaleEvent({
+            const data:ScaleTransform = {
                 scale:this.zoomEventHandler.scaleExtent(),
                 tr:this.zoomEventHandler.translateExtent(),
                 domId:this.domId
-            } as ScaleTransform);
+            };
+            this.triggerScaleEvent({
+                    eventType:EVENT_TYPE.SCALE,
+                    eventData:data
+            } as RcsbFvContextManagerInterface);
         }
     };
 
     public setScale(transform: ScaleTransform){
+        console.log(this.domId+" != "+transform.domId);
+        console.log(transform);
         if(transform.domId !== this.domId){
             this.zoomEventHandler.scaleExtent(transform.scale);
     	    this.zoomEventHandler.translateExtent(transform.tr);
@@ -277,12 +276,11 @@ export class RcsbBoard {
         }
     }
 
-    private triggerScaleEvent(geoTrans: ScaleTransform){
-        //TODO the event type is missing
+    private triggerScaleEvent(geoTrans: RcsbFvContextManagerInterface){
         RcsbFvContextManager.next(geoTrans);
     }
 
-    private triggerSelectionEvent(selection: SelectionInterface){
+    private triggerSelectionEvent(selection: RcsbFvContextManagerInterface){
         RcsbFvContextManager.next(selection);
     }
 }

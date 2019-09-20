@@ -28,7 +28,7 @@ var feature_core = function () {
 
     var reset = function () {
     	var track = this;
-    	track.g.selectAll(classes.rcsbElement).remove();
+    	track.g.selectAll("."+classes.rcsbElement).remove();
         track.g.selectAll("."+classes.rcsbFixed).remove();
     };
 

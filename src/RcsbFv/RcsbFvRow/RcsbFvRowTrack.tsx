@@ -1,10 +1,14 @@
 import * as React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
-import {RcsbFvConstants} from "../RcsbFvConstants/RcsbFvConstants";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvContextManager, RcsbFvContextManagerInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {
+    EVENT_TYPE,
+    RcsbFvContextManager,
+    RcsbFvContextManagerInterface
+} from "../RcsbFvContextManager/RcsbFvContextManager";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {ScaleTransform, SelectionInterface} from "../../RcsbBoard/RcsbBoard";
 
 interface RcsbFvRowTrackInterface {
     id: string;
@@ -65,19 +69,19 @@ export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInter
 
     subscribe(): void{
         RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
-            if(obj.eventType===RcsbFvConstants.SCALE_CHANGED) {
-                this.setScale(obj);
-            }else if(obj.eventType===RcsbFvConstants.ELEMENT_SELECTED){
-                this.setSelection(obj);
+            if(obj.eventType===EVENT_TYPE.SCALE) {
+                this.setScale(obj.eventData as ScaleTransform);
+            }else if(obj.eventType===EVENT_TYPE.SELECTION){
+                this.setSelection(obj.eventData as SelectionInterface);
             }
         });
     }
 
-    setScale(obj:RcsbFvContextManagerInterface) : void{
+    setScale(obj:ScaleTransform) : void{
         this.rcsbFvTrack.setScale(obj);
     }
 
-    setSelection(obj:RcsbFvContextManagerInterface) : void{
+    setSelection(obj:SelectionInterface) : void{
         this.rcsbFvTrack.setSelection(obj);
     }
 }

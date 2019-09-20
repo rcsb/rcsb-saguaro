@@ -2,6 +2,8 @@ import {RcsbD3Constants} from "./RcsbD3Constants";
 import {Selection, select, BaseType} from "d3-selection";
 import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
 import {ScaleLinear} from "d3-scale";
+import {MoveBlockInterface, PlotBlockInterface, RcsbD3BlockManager} from "./RcsbD3DisplayManager/RcsbD3BlockManager";
+import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "./RcsbD3DisplayManager/RcsbD3PinManager";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -43,12 +45,21 @@ export interface ZoomConfigInterface {
 
 }
 
+export interface HighlightRegionInterface {
+    trackG: Selection<SVGGElement,any,null,undefined>;
+    height: number;
+    begin: number;
+    end: number;
+    xScale: ScaleLinear<number,number>;
+    rectClass: string;
+}
+
 export class RcsbD3Manager {
 
     _dom: Selection<HTMLElement,any,null,undefined> = null;
-    _svg: Selection<BaseType,any,null,undefined> = null;
-    _svgG: Selection<BaseType,any,null,undefined> = null;
-    _pane: Selection<BaseType,any,null,undefined> = null;
+    _svg: Selection<SVGSVGElement,any,null,undefined> = null;
+    _svgG: Selection<SVGGElement,any,null,undefined> = null;
+    _pane: Selection<SVGRectElement,any,null,undefined> = null;
 
     _width: number = null;
 
@@ -57,7 +68,7 @@ export class RcsbD3Manager {
         this._dom.classed(config.domClass, true)
             .style(RcsbD3Constants.WIDTH, config.width+"px" );
 
-    	this._svg = this._dom.append(RcsbD3Constants.SVG)
+    	this._svg = this._dom.append<SVGSVGElement>(RcsbD3Constants.SVG)
     	    .attr(RcsbD3Constants.CLASS, config.svgClass)
     	    .attr(RcsbD3Constants.WIDTH, config.width)
     	    .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents)
@@ -67,10 +78,9 @@ export class RcsbD3Manager {
     }
 
     addMainG(config:MainGConfInterface): void{
-        this._svgG = this._svg
-    	    .append(RcsbD3Constants.G)
+        this._svgG = this._svg.append<SVGGElement>(RcsbD3Constants.G)
             .attr(RcsbD3Constants.CLASS, config.masterClass)
-            .append(RcsbD3Constants.G)
+            .append("g")
     	    .attr(RcsbD3Constants.CLASS, config.innerClass)
             .on(RcsbD3Constants.DBL_CLICK,config.dblClick)
     	    .on(RcsbD3Constants.MOUSE_DOWN,config.mouseDown)
@@ -79,20 +89,20 @@ export class RcsbD3Manager {
 
     addPane(config:PainConfInterface): void{
         this._pane = this._svgG
-    	    .append(RcsbD3Constants.RECT)
+    	    .append<SVGRectElement>(RcsbD3Constants.RECT)
     	    .attr(RcsbD3Constants.CLASS, config.paneClass)
     	    .attr(RcsbD3Constants.ID, config.elementId)
     	    .attr(RcsbD3Constants.WIDTH, this._width)
     	    .style(RcsbD3Constants.FILL, config.bgColor)
     }
 
-    addTrack(config: TrackConfInterface): Selection<BaseType,any,null,undefined>{
-        const trackG:Selection<BaseType,any,null,undefined> = this._svgG
-    	    .append(RcsbD3Constants.G)
+    addTrack(config: TrackConfInterface): Selection<SVGGElement,any,null,undefined>{
+        const trackG:Selection<SVGGElement,any,null,undefined> = this._svgG
+    	    .append<SVGGElement>(RcsbD3Constants.G)
     	    .attr(RcsbD3Constants.CLASS, config.trackClass);
 
     	// Rect for the background color
-    	trackG.append(RcsbD3Constants.RECT)
+    	trackG.append<SVGRectElement>(RcsbD3Constants.RECT)
     	    .attr(RcsbD3Constants.X, 0)
     	    .attr(RcsbD3Constants.Y, 0)
     	    .attr(RcsbD3Constants.WIDTH, config.width)
@@ -110,12 +120,43 @@ export class RcsbD3Manager {
         this._pane.attr(RcsbD3Constants.HEIGHT, height);
     }
 
-    addZoom(config: ZoomConfigInterface){
+    addZoom(config: ZoomConfigInterface): void{
         //TODO I DONT REALLY KNOW HOW xScale FITS IN d3 v5
         this._svgG.call(
             config.zoomEventHandler.scaleExtent(config.scaleExtent)
                 .on(RcsbD3Constants.ZOOM, config.zoomCallBack)
         ).on(RcsbD3Constants.DBLCLIK_ZOOM, null);
+    }
+
+    highlightRegion(config: HighlightRegionInterface): void{
+        config.trackG.append<SVGRectElement>(RcsbD3Constants.RECT)
+            .attr(RcsbD3Constants.X, config.xScale(config.begin))
+            .attr(RcsbD3Constants.Y, 0)
+            .attr(RcsbD3Constants.WIDTH, config.xScale(config.end)-config.xScale(config.begin))
+            .attr(RcsbD3Constants.HEIGHT, config.height)
+            .attr(RcsbD3Constants.FILL, "#faf3c0")
+            .attr(RcsbD3Constants.FILL_OPACITY,0.75)
+            .attr(RcsbD3Constants.CLASS, config.rectClass);
+    }
+
+    plotBlockDisplay(config: PlotBlockInterface): void{
+        const block: RcsbD3BlockManager = new RcsbD3BlockManager();
+        return block.plotBlockDisplay(config);
+    }
+
+    moveBlockDisplay(config: MoveBlockInterface){
+        const block: RcsbD3BlockManager = new RcsbD3BlockManager();
+        return block.moveBlockDisplay(config);
+    }
+
+    plotPinDisplay(config: PlotPinInterface): void{
+        const block: RcsbD3PinManager = new RcsbD3PinManager();
+        return block.plotPinDisplay(config);
+    }
+
+    movePinDisplay(config: MovePinInterface): void{
+        const block: RcsbD3PinManager = new RcsbD3PinManager();
+        return block.movePinDisplay(config);
     }
 }
 
