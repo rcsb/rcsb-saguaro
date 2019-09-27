@@ -7,7 +7,7 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 
 	dx: number = 0.5;
 
-    plot(elements:Selection<SVGGElement,any,null,undefined>): void {
+    plot(elements:Selection<SVGGElement,any,BaseType,undefined>): void {
         super.plot(elements);
         const config: PlotBlockInterface = {
         	elements: elements,

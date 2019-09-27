@@ -17,6 +17,7 @@ import {
     RcsbFvContextManagerInterface
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
+import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 
 export interface SelectionInterface {
     begin: number;
@@ -48,13 +49,17 @@ export class RcsbBoard {
     _bgColor: string = "#FFFFFF";
     _innerPadding: number = 10;
     tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
-    currentSelection: SelectionInterface;
+    currentSelection: SelectionInterface = {
+        begin: null,
+        end: null,
+        domId: null
+    };
     xScale: ScaleLinear<number,number> = scaleLinear();
     limits: RegionLimitsInterface = {
         max: 10000,
         min: -1.5,
         maxZoom: 1000000,
-        minZoom: 20
+        minZoom: 30
     };
     currentLocationView: LocationViewInterface = {
         from:1,
@@ -85,13 +90,13 @@ export class RcsbBoard {
                 if(event.which === MOUSE.LEFT) {
                     event.stopImmediatePropagation();
                 }
-                //brush_selection.mouseup.call(this,track_vis,svg_g,xScale);
+                RcsbD3EventDispatcher.boardMouseup(this);
             },
             mouseDown:()=>{
                 if(event.which === MOUSE.LEFT) {
                     event.stopImmediatePropagation();
                 }
-    	        //brush_selection.mousedown.call(this,track_vis,svg_g,xScale);
+                RcsbD3EventDispatcher.boardMousedown(this);
             },
             dblClick:()=>{
                 this.highlightRegion(null,null,false);
@@ -111,15 +116,16 @@ export class RcsbBoard {
     public setRange(from: number, to: number): void{
         this.currentLocationView.from = from;
         this.currentLocationView.to = to;
+        this.limits.max = to;
     }
 
     public setSelection(selection: SelectionInterface): void{
-        if(selection.domId === this.domId){
+        if(selection.domId !== this.domId){
             this.highlightRegion(selection.begin,selection.end,true);
         }
     }
 
-    highlightRegion(begin: number, end: number, propFlag: boolean): void{
+    highlightRegion(begin: number, end: number, propFlag?: boolean): void{
         if((typeof(begin) === "number" && typeof(end)==="number") || (begin === null && end===null)){
             this.currentSelection = {begin:begin, end:end, domId: this.domId} as SelectionInterface;
             if(propFlag!==true) {
@@ -146,8 +152,6 @@ export class RcsbBoard {
     	this.xScale = scaleLinear()
     	    .domain([this.currentLocationView.from, this.currentLocationView.to])
     	    .range([this._innerPadding, this._width-this._innerPadding]);
-
-        this.zoomEventHandler.scaleExtent([0.5,20])
 
     	this.d3Manager.addZoom({
             zoomEventHandler: this.zoomEventHandler,
@@ -184,10 +188,12 @@ export class RcsbBoard {
         if (track instanceof Array) {
             track.forEach((t) => {
                 t.setD3Manager(this.d3Manager);
+                t.setBoardHighlight(this.highlightRegion.bind(this));
                 this.tracks.push(t);
             });
         }else{
             track.setD3Manager(this.d3Manager);
+            track.setBoardHighlight(this.highlightRegion.bind(this));
             this.tracks.push(track);
         }
     }
@@ -229,10 +235,28 @@ export class RcsbBoard {
         }else{
             return;
         }
-        this.xScale.domain(transform.rescaleX(this.xScale).domain());
+
+        let newDomain:number[] = transform.rescaleX(this.xScale).domain();
+        let length: number = newDomain[1] - newDomain[0];
+        if(length > this.limits.maxZoom){
+            length = this.limits.maxZoom;
+            const midPoint: number = 0.5*(newDomain[1] + newDomain[0]);
+            newDomain = [midPoint-0.5*length,midPoint+0.5*length];
+        }else if(length<this.limits.minZoom){
+            this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
+            return;
+        }
+
+        if(newDomain[0] < this.limits.min){
+            newDomain = [this.limits.min , this.limits.min + length];
+        }else if(newDomain[1] > this.limits.max){
+            newDomain = [this.limits.max - length , this.limits.max];
+        }
+
+        this.xScale.domain(newDomain);
         this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
 
-        /*const deferCancel = (callBack: () => void, waitTime: number) => {
+        const deferCancel = (callBack: () => void, waitTime: number) => {
             let tick = null;
             return () =>{
                 const args = Array.prototype.slice.call(arguments);
@@ -244,14 +268,13 @@ export class RcsbBoard {
             };
         };
 
-        deferCancel(this.updateAllTracks.bind(this), 100)();*/
+        deferCancel(this.updateAllTracks.bind(this), 250)();
 
     	this.tracks.forEach(track=> {
             track.move();
         });
 
-    	//TODO this shouldnt be here
-        //track_vis.select_region.call(track_vis);
+        this.highlightRegion(undefined, undefined);
 
         if(propFlag !== true){
             const data:ScaleTransform = {

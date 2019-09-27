@@ -1,9 +1,10 @@
 import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
+import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 
 export interface PlotPinInterface {
-    elements: Selection<SVGGElement,any,null,undefined>;
+    elements: Selection<SVGGElement,any,BaseType,undefined>;
     radius: number;
     labelShift: number;
     xScale: ScaleLinear<number,number>;
@@ -20,10 +21,10 @@ export interface MovePinInterface {
     height: number;
 }
 
-export class RcsbD3PinManager {
+export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
 
-    plotPinDisplay(config: PlotPinInterface): void{
-        const elements: Selection<SVGGElement,any,null,undefined> = config.elements;
+    plot(config: PlotPinInterface): void{
+        const elements: Selection<SVGGElement,any,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
         const height: number = config.height;
@@ -88,7 +89,7 @@ export class RcsbD3PinManager {
             });
     }
 
-    movePinDisplay(config: MovePinInterface): void{
+    move(config: MovePinInterface): void{
         const pins: Selection<SVGGElement,any,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;

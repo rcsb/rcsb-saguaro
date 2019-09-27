@@ -10,24 +10,27 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
     radius: number = 5;
     labelShift: number = 10;
     _yDomain: [number, number];
+    definedScale: boolean = false;
 
     yDomain(domain: [number,number]):void {
         this._yDomain = domain;
     }
 
     private setScale(): void{
-        if(typeof this._height === "number") {
+        if(typeof this._height === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
             this.yScale
                 .domain(this._yDomain)
                 .range([this.radius, this._height - this.radius]);
+            this.definedScale = true;
         }else{
             throw "FATAL ERROR: d3 scale unknown format";
         }
     }
 
-    plot(elements:Selection<SVGGElement,any,null,undefined>): void{
+    plot(elements:Selection<SVGGElement,any,BaseType,undefined>): void{
         super.plot(elements);
-        this.setScale();
+        if(!this.definedScale)
+            this.setScale();
 
         const config: PlotPinInterface = {
             elements: elements,

@@ -18,7 +18,9 @@ module.exports = {
           use: ['style-loader', {
                   loader: 'css-loader',
                   options: {
-                      modules: true
+                      modules: {
+                          localIdentName:'[local]'
+                      }
                   }
               }, 'sass-loader'],
           exclude: /node_modules/

@@ -1,8 +1,15 @@
 import {DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
-import {RcsbBlockDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbBlockDisplay";
+import {RcsbAxisDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAxisDisplay";
 import {RcsbPinDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbPinDisplay";
+import {RcsbSequenceDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbSequenceDisplay";
+import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
+import {RcsbBlockDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbBlockDisplay";
+import {RcsbLineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbLineDisplay";
+import {RcsbAreaDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAreaDisplay";
+import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay";
+import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
 
 export class RcsbFvDisplay {
 
@@ -13,21 +20,12 @@ export class RcsbFvDisplay {
         this.displayConfig = config;
     }
 
-    /*public initDisplay() : RcsbDisplayInterface{
-        const config = this.displayConfig;
-        if (typeof config.displayType === "string") {
-            return this.singleDisplay(config.displayType, config);
-        }else if(config.displayType instanceof Array){
-            return this.composedDisplay(config);
-        }else{
-            throw "Display type "+config.displayType+" not supported";
-        }
-    }*/
-
     public initDisplay() : RcsbDisplayInterface{
         const config = this.displayConfig;
         if (typeof config.displayType === "string") {
-            return this.singleDisplay(config.displayType, config);
+            return RcsbFvDisplay.singleDisplay(config.displayType, config);
+        }else if(config.displayType instanceof Array){
+            return this.composedDisplay(config);
         }else{
             throw "Display type "+config.displayType+" not supported";
         }
@@ -37,24 +35,24 @@ export class RcsbFvDisplay {
         return this.displayIds;
     }
 
-    /*private composedDisplay(config: RcsbFvRowConfigInterface) : object{
-        const display = this.rcsbDisplay.composite();
+    private composedDisplay(config: RcsbFvRowConfigInterface) : RcsbDisplayInterface{
+        const display:RcsbCompositeDisplay = new RcsbCompositeDisplay();
         const displayTypeArray: string | Array<string> = config.displayType;
         let i = 0;
         for(let displayType of displayTypeArray){
             const displayId: string = "displayId_"+Math.trunc(Math.random()*1000);
             let displayConfig: RcsbFvRowConfigInterface = config;
             if(config.displayConfig) {
-                displayConfig = this.setDisplayConfig(config, config.displayConfig[i]);
+                displayConfig = RcsbFvDisplay.setDisplayConfig(config, config.displayConfig[i]);
                 i++;
             }
-            display.add( displayId, this.singleDisplay(displayType, displayConfig) );
+            display.addDisplay( displayId, RcsbFvDisplay.singleDisplay(displayType, displayConfig) );
             this.displayIds.push(displayId);
         }
         return display;
-    }*/
+    }
 
-    private setDisplayConfig(config: RcsbFvRowConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowConfigInterface{
+    private static setDisplayConfig(config: RcsbFvRowConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowConfigInterface{
         const out: RcsbFvRowConfigInterface = Object.assign({},config);
         if(typeof displayConfig.displayColor === "string"){
             out.displayColor = displayConfig.displayColor;
@@ -62,88 +60,78 @@ export class RcsbFvDisplay {
         return out;
     }
 
-    /*private singleDisplay(type: string, config: RcsbFvRowConfigInterface) {
+    private static singleDisplay(type: string, config: RcsbFvRowConfigInterface) {
         switch (type) {
             case DISPLAY_TYPES.AXIS:
-                return this.axisDisplay();
+                return RcsbFvDisplay.axisDisplay();
+            case DISPLAY_TYPES.BLOCK:
+                return RcsbFvDisplay.blockDisplay(config.displayColor);
+            case DISPLAY_TYPES.PIN:
+                return RcsbFvDisplay.pinDisplay(config.displayColor, config.displayDomain);
             case DISPLAY_TYPES.SEQUENCE:
-                return this.sequenceDisplay(config.displayColor);
-            case DISPLAY_TYPES.BLOCK:
-                return this.blockDisplay(config.displayColor);
-            case DISPLAY_TYPES.PIN:
-                return this.pinDisplay(config.displayColor, config.displayDomain);
-            case DISPLAY_TYPES.VARIANT:
-                return this.variantDisplay(config.displayColor);
+                return RcsbFvDisplay.sequenceDisplay(config.displayColor);
             case DISPLAY_TYPES.LINE:
-                return this.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                return RcsbFvDisplay.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
             case DISPLAY_TYPES.AREA:
-                return this.areaDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                return RcsbFvDisplay.areaDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+            case DISPLAY_TYPES.VARIANT:
+                return RcsbFvDisplay.variantDisplay(config.displayColor);
             case DISPLAY_TYPES.VLINE:
-                return this.vlineDisplay(config.displayColor);
-            default:
-                throw "Track type " + config.displayType + " is not supported";
-        }
-    }*/
-
-    private singleDisplay(type: string, config: RcsbFvRowConfigInterface) {
-        switch (type) {
-            case DISPLAY_TYPES.BLOCK:
-                return this.blockDisplay(config.displayColor);
-            case DISPLAY_TYPES.PIN:
-                return this.pinDisplay(config.displayColor, config.displayDomain);
+                return RcsbFvDisplay.vlineDisplay(config.displayColor);
             default:
                 throw "Track type " + config.displayType + " is not supported";
         }
     }
 
-    /*private axisDisplay(){
-        return this.rcsbDisplay.axis();
+    private static axisDisplay(): RcsbDisplayInterface{
+        return new RcsbAxisDisplay();
     }
 
-    private sequenceDisplay(color:string) : object{
-        const display = this.rcsbDisplay.sequence();
-        display.color(color);
-        return display;
-    }*/
-
-    private blockDisplay(color:string): RcsbDisplayInterface{
-        const display = new RcsbBlockDisplay();
+    private static sequenceDisplay(color:string) : RcsbDisplayInterface{
+        const display: RcsbSequenceDisplay = new RcsbSequenceDisplay();
         display.setDisplayColor(color);
         return display;
     }
 
-    private pinDisplay(color: string, domain:[number,number]): RcsbDisplayInterface{
-        const display = new RcsbPinDisplay();
+    private static blockDisplay(color:string): RcsbDisplayInterface{
+        const display: RcsbBlockDisplay = new RcsbBlockDisplay();
+        display.setDisplayColor(color);
+        return display;
+    }
+
+    private static pinDisplay(color: string, domain:[number,number]): RcsbDisplayInterface{
+        const display: RcsbPinDisplay = new RcsbPinDisplay();
         display.setDisplayColor(color);
         display.yDomain(domain);
         return display;
     }
 
-    /*private vlineDisplay(color:string) : object{
-        const display = this.rcsbDisplay.vline();
-        display.color(color);
+    private static lineDisplay(color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
+        const display: RcsbLineDisplay = new RcsbLineDisplay();
+        display.setDisplayColor(color);
+        display.yDomain(domain);
+        display.setInterpolationType(interpolationType);
         return display;
     }
 
-    private variantDisplay(color: string) : object{
-        const display = this.rcsbDisplay.variant();
-        display.color(color);
+    private static areaDisplay(color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
+        const display: RcsbAreaDisplay = new RcsbAreaDisplay();
+        display.setDisplayColor(color);
+        display.yDomain(domain);
+        display.setInterpolationType(interpolationType);
         return display;
     }
 
-    private lineDisplay(color: string, domain:Array<number>, interpolationType: string) : object{
-        const display = this.rcsbDisplay.line();
-        display.color(color);
-        display.domain(domain);
-        display.interpolationType(interpolationType);
+    private static variantDisplay(color: string) :RcsbDisplayInterface{
+        const display: RcsbVariantDisplay = new RcsbVariantDisplay();
+        display.setDisplayColor(color);
         return display;
     }
 
-    private areaDisplay(color: string, domain:Array<number>, interpolationType: string) : object{
-        const display = this.rcsbDisplay.area();
-        display.color(color);
-        display.domain(domain);
-        display.interpolationType(interpolationType);
+    private static vlineDisplay(color:string) : RcsbDisplayInterface{
+        const display: RcsbVlineDisplay = new RcsbVlineDisplay();
+        display.setDisplayColor(color);
         return display;
-    }*/
+    }
+
 }

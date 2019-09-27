@@ -4,11 +4,12 @@ import {Selection, BaseType, event, EnterElement} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {ScaleLinear} from "d3-scale";
 import {HighlightRegionInterface} from "../RcsbD3/RcsbD3Manager";
+import {RcsbFvData} from "../../RcsbFv/RcsbFvTrack/RcsbFvDataManager";
+import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 
 export class RcsbCoreDisplay extends RcsbTrack{
 
-    displayColor: string;
-    _displayColor: string = "#FF909F";
+    _displayColor: string = "#FF6666";
 
     setDisplayColor(color: string): void{
         this._displayColor = color;
@@ -16,33 +17,30 @@ export class RcsbCoreDisplay extends RcsbTrack{
 
     reset(): void{
         this.g.selectAll("."+classes.rcsbElement).remove();
-        this.g.selectAll("."+classes.rcsbFixed).remove();
     }
 
-    plot(element:Selection<SVGGElement,any,null,undefined>): void{
-        element.on("click", function (d, i) {
+    plot(element:Selection<SVGGElement,any,BaseType,undefined>): void{
+
+        element.on("click", (d)=> {
             if (event.defaultPrevented) {
                 return;
             }
-            //dispatch.click.call(this, d, i, track);
+            RcsbD3EventDispatcher.elementClick(this._boardHighlight.bind(this),d);
         });
-        element.on("mouseover", function (d, i) {
+        element.on("mouseover", (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
-            //dispatch.mouseover.call(this, d, i, track);
         });
-        element.on("dblclick", function (d, i) {
+        element.on("dblclick", (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
-            //dispatch.dblclick.call(this, d, i, track);
         });
-        element.on("mouseout", function (d, i) {
+        element.on("mouseout", (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
-            //dispatch.mouseout.call(this, d, i, track);
         });
     }
 
@@ -67,19 +65,13 @@ export class RcsbCoreDisplay extends RcsbTrack{
 
         const selectRect:SVGRectElement = this.g.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect).node();
         if(selectRect) {
-            const boardRect:SVGRectElement = this.g.selectAll<SVGRectElement,any>("."+classes.rcsbBoardRect).node();
             this.moveToBack(selectRect);
-            this.moveToBack(boardRect);
         }
     }
 
     update(where: LocationViewInterface, compKey?: string) {
 
-        let elements = this._data;
-        if (compKey !== undefined) {
-            elements = elements[compKey];
-        }
-        const dataElems = elements;
+        const dataElems: RcsbFvData = this._data as RcsbFvData;
         if (dataElems === undefined) {
             return;
         }
@@ -96,7 +88,6 @@ export class RcsbCoreDisplay extends RcsbTrack{
         }
 
         visElems = visSel.data(dataElems);
-
 
     	const newElem: Selection<EnterElement,any,BaseType,undefined> = visElems.enter();
 

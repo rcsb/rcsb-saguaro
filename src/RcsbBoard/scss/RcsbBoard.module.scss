@@ -1,6 +1,19 @@
+@import "main";
+
 .rcsbDom{
   visibility: visible;
 }
+
+svg.rcsbSvg {
+  text {
+    -webkit-user-select: none;
+    /* Chrome/Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+  }
+}
+
 .rcsbSvg{
   visibility: visible;
 }
@@ -21,12 +34,22 @@
   visibility: visible;
 }
 
+.rcsbTrack path, .rcsbTrack line {
+  stroke: grey;
+  stroke-width: 1;
+}
+
 .rcsbTrackRect{
+  visibility: visible;
+}
+
+.rcsbArea{
   visibility: visible;
 }
 
 .rcsbElement{
   visibility: visible;
+  cursor: pointer;
 }
 
 .rcsbFixed{
@@ -41,12 +64,9 @@
   visibility: visible;
 }
 
-.rcsbFixed{
+.rcsbVariantGrid line, .rcsbVariantGrid path{
   visibility: visible;
-}
-
-.rcsbVariantGrid{
-  visibility: visible;
+  stroke: #DDDDDD;
 }
 
 .rcsbAxis{
@@ -55,4 +75,18 @@
 
 .rcsbElemSeqBg{
   visibility: visible;
+}
+
+.rcsbAxis path, .tnt_axis line {
+  fill: none;
+}
+
+.tick text {
+  font-size: 0.7em;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  fill: grey;
+}
+
+.tick text {
+  @include tiny-font;
 }

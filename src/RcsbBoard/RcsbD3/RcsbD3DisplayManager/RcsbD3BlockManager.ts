@@ -1,9 +1,10 @@
 import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
+import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 
 export interface PlotBlockInterface {
-    elements: Selection<SVGGElement,any,null,undefined>;
+    elements: Selection<SVGGElement,any,BaseType,undefined>;
     dx: number;
     dy: number;
     y_o: number;
@@ -17,10 +18,10 @@ export interface MoveBlockInterface {
     xScale: ScaleLinear<number,number>;
 }
 
-export class RcsbD3BlockManager {
+export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
 
-    plotBlockDisplay(config: PlotBlockInterface): void{
-        const elements: Selection<SVGGElement,any,null,undefined> = config.elements;
+    plot(config: PlotBlockInterface): void{
+        const elements: Selection<SVGGElement,any,BaseType,undefined> = config.elements;
         const dy: number = config.dy;
         const dx: number = config.dx;
         const y_o: number = config.y_o;
@@ -57,7 +58,7 @@ export class RcsbD3BlockManager {
             .attr(RcsbD3Constants.STROKE_WIDTH,2);
     }
 
-    moveBlockDisplay(config: MoveBlockInterface){
+    move(config: MoveBlockInterface){
         var xScale = config.xScale;
         const dx = config.dx;
         const blocks: Selection<SVGGElement,any,BaseType,undefined> = config.elements;

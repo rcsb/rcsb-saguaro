@@ -20,6 +20,7 @@ export class RcsbD3Constants{
     public static readonly STROKE_OPACITY: string = 'stroke-opacity';
     public static readonly STROKE_WIDTH: string = 'stroke-width';
     public static readonly FONT_SIZE: string = 'font-size';
+    public static readonly FONT_FAMILY: string = 'font-family';
     public static readonly TEXT_ANCHOR: string = 'text-anchor';
     public static readonly X: string = 'x';
     public static readonly X1: string = 'x1';
@@ -27,11 +28,19 @@ export class RcsbD3Constants{
     public static readonly CX: string = 'cx';
     public static readonly CY: string = 'cy';
     public static readonly Y: string = 'y';
+    public static readonly D: string = 'd';
     public static readonly Y1: string = 'y1';
     public static readonly Y2: string = 'y2';
     public static readonly R: string = 'r';
     public static readonly ZOOM: string = 'zoom';
     public static readonly DBLCLIK_ZOOM: string = 'dblclick.zoom';
+    public static readonly COLOR: string = 'color';
+    public static readonly TRANSFORM: string = 'transform';
+    public static readonly CLICK: string = "click";
+    public static readonly MOUSE_OVER: string = "mouseover";
+    public static readonly MOUSE_MOVE: string = "mousemove";
+    public static readonly MOUSE_OUT: string = "mouseout";
+    public static readonly PATH: string = "path";
 }
 
 export enum MOUSE {

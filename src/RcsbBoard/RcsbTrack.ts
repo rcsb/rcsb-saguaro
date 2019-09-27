@@ -1,16 +1,18 @@
 import {RcsbD3Manager, TrackConfInterface} from "./RcsbD3/RcsbD3Manager";
-import {Selection, BaseType} from "d3-selection";
+import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
+import {RcsbFvData} from "../RcsbFv/RcsbFvTrack/RcsbFvDataManager";
 
 export class RcsbTrack {
     d3Manager: RcsbD3Manager = null;
-    _bgColor: string = null;
+    _bgColor: string = "#FFFFFF";
     _height: number = null;
     _width: number = null;
-    _data: any = null;
+    _data: string | RcsbFvData = null;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined> = null;
+    _boardHighlight: (begin: number, end: number, propFlag?: boolean) => void;
 
     height(h?: number): number{
         if(typeof h === "number"){
@@ -26,36 +28,35 @@ export class RcsbTrack {
         return this._bgColor;
     }
 
-    init(width: number, scale:ScaleLinear<number,number>): void{
+    init(width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean): void{
         this._width = width;
         this.xScale = scale;
     	if(this.g !== null) {
             this.g.remove();
         }
 
+    	let height = this._height;
+    	if(compositeFlag ===true){
+    	    height = 0;
+        }
+
         const config: TrackConfInterface = {
             trackClass: classes.rcsbTrack,
-            rectClass: classes.rcsbTrackRect,
-            height: this._height,
-            width: this._width,
-            bgColor: this._bgColor,
-            pointerEvents: "none"
+            height: height,
+            bgColor: this._bgColor
         };
         this.g = this.d3Manager.addTrack(config);
     }
 
-    data(d?: any): any{
+    load(d?: string | RcsbFvData): string | RcsbFvData {
         if(d !== undefined) {
             this._data = d;
         }
         return this._data;
     }
 
-    load(d?: any): any{
-        if(d !== undefined) {
-            this._data = d;
-        }
-        return this._data;
+    setBoardHighlight(f: (begin: number, end: number, propFlag?: boolean) => void){
+        this._boardHighlight = f;
     }
 
     setD3Manager(d3Manager: RcsbD3Manager){
