@@ -4,9 +4,10 @@ import {axisLeft, Axis} from "d3-axis";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import * as classes from "../../scss/RcsbBoard.module.scss";
+import {RcsbFvDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export interface PlotVariantInterface {
-    elements: Selection<SVGGElement,any,BaseType,undefined>;
+    elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
     radius: number;
     xScale: ScaleLinear<number,number>;
     yScale: ScalePoint<string>;
@@ -16,7 +17,7 @@ export interface PlotVariantInterface {
 }
 
 export interface MoveVariantInterface {
-    elements: Selection<SVGGElement,any,BaseType,undefined>;
+    elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
     xScale: ScaleLinear<number,number>;
     yScale: ScalePoint<string>;
     height: number;
@@ -27,14 +28,14 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
 
     plot(config: PlotVariantInterface): void{
         config.elements.append(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d:any) => {
+            .attr(RcsbD3Constants.CX, (d:RcsbFvDataElementInterface) => {
                 return config.xScale(d.pos);
             })
-            .attr(RcsbD3Constants.CY, (d:any) => {
-                return config.yScale(d.val);
+            .attr(RcsbD3Constants.CY, (d:RcsbFvDataElementInterface) => {
+                return config.yScale(d.val as string);
             })
             .attr(RcsbD3Constants.R, config.radius)
-            .attr(RcsbD3Constants.FILL, (d:any) => {
+            .attr(RcsbD3Constants.FILL, (d:RcsbFvDataElementInterface) => {
                 if(typeof d.color === "string"){
                     return d.color;
                 }
@@ -45,11 +46,11 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
 
     move(config: MoveVariantInterface): void{
         config.elements.select(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d: any) => {
+            .attr(RcsbD3Constants.CX, (d:RcsbFvDataElementInterface) => {
                 return config.xScale(d.pos);
             })
-            .attr(RcsbD3Constants.CY, (d: any) => {
-                return config.yScale(d.val);
+            .attr(RcsbD3Constants.CY, (d:RcsbFvDataElementInterface) => {
+                return config.yScale(d.val as string);
             });
         this.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }
@@ -58,23 +59,15 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
         trackG.selectAll("."+classes.rcsbAxis).remove();
         trackG.selectAll("."+classes.rcsbVariantGrid).remove();
         trackG.append(RcsbD3Constants.G).classed(classes.rcsbVariantGrid, true);
-        yScale.domain().forEach(function(aa) {
+        yScale.domain().forEach((aa:string) => {
             trackG.selectAll("."+classes.rcsbVariantGrid).append(RcsbD3Constants.LINE)
                 .attr(RcsbD3Constants.LINE,"stroke:#EEEEEE;")
-                .attr(RcsbD3Constants.X1, function (d, i) {
-                    return xScale.range()[0];
-                })
-                .attr(RcsbD3Constants.Y1, function (d) {
-                    return yScale(aa);
-                })
-                .attr(RcsbD3Constants.X2, function (d, i) {
-                    return xScale.range()[1];
-                })
-                .attr(RcsbD3Constants.Y2, function (d, i) {
-                    return yScale(aa);
-                })
+                .attr(RcsbD3Constants.X1, xScale.range()[0])
+                .attr(RcsbD3Constants.Y1, yScale(aa))
+                .attr(RcsbD3Constants.X2, xScale.range()[1])
+                .attr(RcsbD3Constants.Y2, yScale(aa))
         });
-        trackG.selectAll<SVGGElement,any>("."+classes.rcsbElement).each(function(){
+        trackG.selectAll<SVGGElement,RcsbFvDataElementInterface>("."+classes.rcsbElement).each(function(){
             this.parentNode.append(this);
         });
 

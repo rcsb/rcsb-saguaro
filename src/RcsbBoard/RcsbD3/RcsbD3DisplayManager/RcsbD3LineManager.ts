@@ -2,18 +2,19 @@ import {Selection} from "d3-selection";
 import {Line} from "d3-shape";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
+import {RcsbFvDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export interface PlotLineInterface {
-    points: [number,number][];
+    points: RcsbFvDataElementInterface[];
     color: string;
     trackG: Selection<SVGGElement,any,null,undefined>;
-    line:Line<[number,number]>
+    line:Line<RcsbFvDataElementInterface>
 }
 
 export interface MoveLineInterface {
-    points: [number,number][];
+    points: RcsbFvDataElementInterface[];
     trackG: Selection<SVGGElement,any,null,undefined>;
-    line:Line<[number,number]>
+    line:Line<RcsbFvDataElementInterface>
 }
 
 export class RcsbD3LineManager implements RcsbD3DisplayManagerInterface{

@@ -1,6 +1,6 @@
 import {DISPLAY_TYPES, INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
-import {RcsbFvData, RcsbFvDataArray, RcsbFvDataManager} from "../RcsbFvTrack/RcsbFvDataManager";
+import {RcsbFvData, RcsbFvDataArray, RcsbFvDataManager} from "../RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     displayType: string | Array<string>;

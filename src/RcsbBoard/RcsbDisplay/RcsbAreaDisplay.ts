@@ -1,24 +1,24 @@
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {RcsbLineDisplay} from "./RcsbLineDisplay";
-import * as classes from "../scss/RcsbBoard.module.scss";
-import {area, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
+import {area, Area, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {INTERPOLATION_TYPES} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {BaseType, Selection} from "d3-selection";
 import {MoveAreaInterface, PlotAreaInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
+import {RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInterface{
-    area = area().curve(curveStep);
+    area: Area<RcsbFvDataElementInterface> = area<RcsbFvDataElementInterface>().curve(curveStep);
 
     setInterpolationType(type: string): void{
         super.setInterpolationType(type);
         if(type === INTERPOLATION_TYPES.CARDINAL)
-            this.area = area().curve(curveCardinal);
+            this.area = area<RcsbFvDataElementInterface>().curve(curveCardinal);
         else if(type === INTERPOLATION_TYPES.STEP)
-            this.area = area().curve(curveStep);
+            this.area = area<RcsbFvDataElementInterface>().curve(curveStep);
         else if(type === INTERPOLATION_TYPES.BASIS)
-            this.area = area().curve(curveBasis);
+            this.area = area<RcsbFvDataElementInterface>().curve(curveBasis);
         else if(type === INTERPOLATION_TYPES.LINEAR)
-            this.area = area().curve(curveLinear);
+            this.area = area<RcsbFvDataElementInterface>().curve(curveLinear);
     }
 
     private setArea(): void{
@@ -33,7 +33,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
         this.area.x(this.line.x());
     }
 
-    plot(elements:Selection<SVGGElement,any,BaseType,undefined>): void {
+    plot(elements:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>): void {
         if(!this.definedScale)
             this.setScale();
         this.linePoints = this.downSampling(elements.data());

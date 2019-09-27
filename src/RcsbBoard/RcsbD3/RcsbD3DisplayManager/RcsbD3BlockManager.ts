@@ -2,9 +2,10 @@ import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
+import {RcsbFvDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export interface PlotBlockInterface {
-    elements: Selection<SVGGElement,any,BaseType,undefined>;
+    elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
     dx: number;
     dy: number;
     y_o: number;
@@ -13,7 +14,7 @@ export interface PlotBlockInterface {
 }
 
 export interface MoveBlockInterface {
-    elements: Selection<SVGGElement,any,BaseType,undefined>;
+    elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
     dx: number;
     xScale: ScaleLinear<number,number>;
 }
@@ -21,7 +22,7 @@ export interface MoveBlockInterface {
 export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
 
     plot(config: PlotBlockInterface): void{
-        const elements: Selection<SVGGElement,any,BaseType,undefined> = config.elements;
+        const elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined> = config.elements;
         const dy: number = config.dy;
         const dx: number = config.dx;
         const y_o: number = config.y_o;
@@ -32,14 +33,14 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
                 return xScale(d.start-dx);
             })
             .attr(RcsbD3Constants.Y, y_o)
-            .attr(RcsbD3Constants.WIDTH, function (d, i) {
+            .attr(RcsbD3Constants.WIDTH, (d:RcsbFvDataElementInterface) => {
                 return (xScale(d.end+dx) - xScale(d.start-dx));
             })
             .attr(RcsbD3Constants.HEIGHT, dy)
             .attr(RcsbD3Constants.FILL, color)
             .transition()
             .duration(500)
-            .attr(RcsbD3Constants.FILL, function (d) {
+            .attr(RcsbD3Constants.FILL, (d:RcsbFvDataElementInterface)=> {
                 if (d.color === undefined) {
                     return color;
                 } else {
@@ -47,7 +48,7 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
                 }
             })
             .attr(RcsbD3Constants.FILL_OPACITY,0.5)
-            .attr(RcsbD3Constants.STROKE, function (d) {
+            .attr(RcsbD3Constants.STROKE, (d:RcsbFvDataElementInterface) => {
                 if (d.color === undefined) {
                     return color;
                 } else {
@@ -61,12 +62,12 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
     move(config: MoveBlockInterface){
         var xScale = config.xScale;
         const dx = config.dx;
-        const blocks: Selection<SVGGElement,any,BaseType,undefined> = config.elements;
+        const blocks: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined> = config.elements;
         blocks.select(RcsbD3Constants.RECT)
-            .attr(RcsbD3Constants.X, function (d) {
+            .attr(RcsbD3Constants.X, (d:RcsbFvDataElementInterface) => {
                 return xScale(d.start-dx);
             })
-            .attr(RcsbD3Constants.WIDTH, function (d) {
+            .attr(RcsbD3Constants.WIDTH, (d:RcsbFvDataElementInterface) => {
                 return (xScale(d.end+dx) - xScale(d.start-dx));
             });
     }

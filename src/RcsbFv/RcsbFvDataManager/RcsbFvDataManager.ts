@@ -1,9 +1,10 @@
 export interface RcsbFvDataElementInterface {
     pos?: number;
-    val?: number;
+    val?: number|string;
     start?: number;
     end?: number;
     label?: string;
+    color: string;
     description?: string;
 }
 
@@ -66,10 +67,10 @@ export class RcsbFvDataManager {
         return true;
     }
 
-    public static processData(dataTrack: any): string | RcsbFvData | RcsbFvDataArray {
+    public static processData(dataTrack: string|RcsbFvData|RcsbFvDataArray): string | RcsbFvData | RcsbFvDataArray {
         if(typeof dataTrack === "string"){
             return dataTrack;
-        }else if( dataTrack instanceof Array && dataTrack.length > 0 && dataTrack[0] instanceof Array){
+        }else if( dataTrack instanceof Array && dataTrack.length > 0 && (dataTrack[0] instanceof Array || typeof dataTrack[0] === "string")){
             const rcsbFvDataListClass: RcsbFvDataArray = new RcsbFvDataArray();
             for(const dataList of dataTrack){
                 if(dataList instanceof Array) {
@@ -86,7 +87,7 @@ export class RcsbFvDataManager {
         }else if(dataTrack instanceof Array) {
             const rcsbFvDataClass: RcsbFvData = new RcsbFvData();
             for (const dataElement of dataTrack) {
-                rcsbFvDataClass.push(dataElement);
+                rcsbFvDataClass.push(dataElement as RcsbFvDataElementInterface);
             }
             return rcsbFvDataClass;
         }else{

@@ -2,12 +2,13 @@ import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
 import {Selection, BaseType} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MoveBlockInterface, PlotBlockInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager";
+import {RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
 	dx: number = 0.5;
 
-    plot(elements:Selection<SVGGElement,any,BaseType,undefined>): void {
+    plot(elements:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>): void {
         super.plot(elements);
         const config: PlotBlockInterface = {
         	elements: elements,
@@ -21,7 +22,7 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
     }
 
     move(): void{
-        const blocks: Selection<SVGGElement,any,BaseType,undefined> = this.getElements();
+        const blocks: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined> = this.getElements();
 		const config: MoveBlockInterface = {
 			elements: blocks,
 			dx: this.dx,

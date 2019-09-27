@@ -2,7 +2,7 @@ import {RcsbD3Manager, TrackConfInterface} from "./RcsbD3/RcsbD3Manager";
 import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
-import {RcsbFvData} from "../RcsbFv/RcsbFvTrack/RcsbFvDataManager";
+import {RcsbFvData} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbTrack {
     d3Manager: RcsbD3Manager = null;

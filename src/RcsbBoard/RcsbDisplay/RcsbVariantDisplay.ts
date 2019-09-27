@@ -3,6 +3,7 @@ import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MoveVariantInterface, PlotVariantInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3VariantManager";
 import {scalePoint, ScalePoint} from "d3-scale";
+import {RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -22,7 +23,7 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
         }
     }
 
-    plot(elements:Selection<SVGGElement,any,BaseType,undefined>): void{
+    plot(elements:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>): void{
         super.plot(elements);
         if(!this.definedScale)
             this.setScale();
@@ -40,7 +41,7 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
     }
 
     move(): void{
-        const elements: Selection<SVGGElement,any,BaseType,undefined> = this.getElements();
+        const elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined> = this.getElements();
         const config: MoveVariantInterface = {
             elements: elements,
             xScale: this.xScale,

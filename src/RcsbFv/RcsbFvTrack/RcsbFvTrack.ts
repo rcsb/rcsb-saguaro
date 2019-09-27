@@ -9,7 +9,7 @@ import {
     RcsbFvDataArray,
     RcsbFvDataManager,
     RcsbFvDataMap
-} from "./RcsbFvDataManager";
+} from "../RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 
 export class RcsbFvTrack {

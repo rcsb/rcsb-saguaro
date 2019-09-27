@@ -4,7 +4,7 @@ import {Selection, BaseType, event, EnterElement} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {ScaleLinear} from "d3-scale";
 import {HighlightRegionInterface} from "../RcsbD3/RcsbD3Manager";
-import {RcsbFvData} from "../../RcsbFv/RcsbFvTrack/RcsbFvDataManager";
+import {RcsbFvData, RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 
 export class RcsbCoreDisplay extends RcsbTrack{
@@ -19,7 +19,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
         this.g.selectAll("."+classes.rcsbElement).remove();
     }
 
-    plot(element:Selection<SVGGElement,any,BaseType,undefined>): void{
+    plot(element:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>): void{
 
         element.on("click", (d)=> {
             if (event.defaultPrevented) {
@@ -76,8 +76,8 @@ export class RcsbCoreDisplay extends RcsbTrack{
             return;
         }
 
-        let visSel: Selection<SVGGElement,any,BaseType,undefined>;
-        let visElems: Selection<SVGGElement,any,BaseType,undefined>;
+        let visSel: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
+        let visElems: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
 
         this.g.selectAll("path").remove();
 
@@ -89,7 +89,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
 
         visElems = visSel.data(dataElems);
 
-    	const newElem: Selection<EnterElement,any,BaseType,undefined> = visElems.enter();
+    	const newElem: Selection<EnterElement,RcsbFvDataElementInterface,BaseType,undefined> = visElems.enter();
 
     	newElem
     	    .append("g")
@@ -101,8 +101,8 @@ export class RcsbCoreDisplay extends RcsbTrack{
 
     }
 
-    getElements(compKey?: string): Selection<SVGGElement,any,BaseType,undefined> {
-    	let elems: Selection<SVGGElement,any,BaseType,undefined>;
+    getElements(compKey?: string): Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined> {
+    	let elems: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
     	// TODO: Is selecting the elements to move too slow?
     	// It would be nice to profile
     	if (typeof compKey === "string") {

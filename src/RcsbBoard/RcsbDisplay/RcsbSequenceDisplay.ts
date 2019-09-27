@@ -5,11 +5,7 @@ import {scaleLinear, ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
-
-interface SequenceElement {
-    pos: number;
-    label: string;
-}
+import {RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -24,9 +20,9 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             return;
         }
 
-        const dataElems: Array<object> = sequence.split("").map((s:string,i:number)=>{
-            return {pos:(i + 1), label:s} as SequenceElement;
-        }).filter((s: SequenceElement, i: number)=> {
+        const dataElems: Array<RcsbFvDataElementInterface> = sequence.split("").map((s:string,i:number)=>{
+            return {pos:(i + 1), label:s} as RcsbFvDataElementInterface;
+        }).filter((s: RcsbFvDataElementInterface, i: number)=> {
             return (i+1 >= xScale.domain()[0] && i <= xScale.domain()[1]);
         });
 
@@ -47,7 +43,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         }
     }
 
-    plot(elements:Selection<SVGGElement,any,BaseType,undefined>){
+    plot(elements:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>){
         super.plot(elements);
         this.yScale
             .domain([0, this._height])

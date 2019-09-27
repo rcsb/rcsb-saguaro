@@ -1,4 +1,4 @@
-import {RcsbFvData, RcsbFvDataArray} from "./RcsbFvTrack/RcsbFvDataManager";
+import {RcsbFvData, RcsbFvDataArray} from "./RcsbFvDataManager/RcsbFvDataManager";
 
 export interface RcsbFvBoardConfigInterface {
     length: number;

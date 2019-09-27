@@ -2,7 +2,7 @@ import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
-import {RcsbFvDataMap} from "../../RcsbFv/RcsbFvTrack/RcsbFvDataManager";
+import {RcsbFvDataMap} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;
