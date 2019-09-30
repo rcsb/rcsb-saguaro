@@ -257,18 +257,18 @@ export class RcsbBoard {
         this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
 
         const deferCancel = (callBack: () => void, waitTime: number) => {
-            let tick = null;
+            let tick:number = null;
             return () =>{
                 const args = Array.prototype.slice.call(arguments);
                 const self = this;
-                clearTimeout();
+                clearTimeout(tick);
                 tick = setTimeout (function () {
                     callBack.apply(self, args);
                 }, waitTime);
             };
         };
 
-        deferCancel(this.updateAllTracks.bind(this), 250)();
+        deferCancel(this.updateAllTracks.bind(this), 500)();
 
     	this.tracks.forEach(track=> {
             track.move();

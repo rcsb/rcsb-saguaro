@@ -3,7 +3,7 @@ import {Selection, BaseType} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MoveLineInterface, PlotLineInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
-import {line, curveStep, Line, curveCardinal, curveBasis, curveLinear} from "d3-shape";
+import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {modeMedian} from "@d3fc/d3fc-sample";
 import {INTERPOLATION_TYPES} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
