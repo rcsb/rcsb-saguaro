@@ -8,19 +8,19 @@ export interface RcsbFvDataElementInterface {
     description?: string;
 }
 
-export class RcsbFvData extends Array<RcsbFvDataElementInterface>{
+export class RcsbFvTrackData extends Array<RcsbFvDataElementInterface>{
 }
 
-export  class RcsbFvDataArray extends Array<RcsbFvData|string>{
+export  class RcsbFvTrackDataArray extends Array<RcsbFvTrackData|string>{
 }
 
-export class RcsbFvDataMap extends Map<string,RcsbFvData|string>{
+export class RcsbFvTrackDataMap extends Map<string,RcsbFvTrackData|string>{
 }
 
 export class RcsbFvDataManager {
 
-    public static getNonOverlappingData(data: RcsbFvData): Array<RcsbFvData> {
-        const out : Array<RcsbFvData> = new Array<RcsbFvData>();
+    public static getNonOverlappingData(data: RcsbFvTrackData): Array<RcsbFvTrackData> {
+        const out : Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
         data.sort((a,b)=>{
             if(typeof a.start === "number" && typeof b.start === "number") {
                 return (a.start-b.start);
@@ -49,7 +49,7 @@ export class RcsbFvDataManager {
                 }
             }
             if(!pushed){
-                out.push(new RcsbFvData());
+                out.push(new RcsbFvTrackData());
                 out[out.length-1].push(a);
             }
         }
@@ -67,14 +67,14 @@ export class RcsbFvDataManager {
         return true;
     }
 
-    public static processData(dataTrack: string|RcsbFvData|RcsbFvDataArray): string | RcsbFvData | RcsbFvDataArray {
+    public static processData(dataTrack: string|RcsbFvTrackData|RcsbFvTrackDataArray): string | RcsbFvTrackData | RcsbFvTrackDataArray {
         if(typeof dataTrack === "string"){
             return dataTrack;
         }else if( dataTrack instanceof Array && dataTrack.length > 0 && (dataTrack[0] instanceof Array || typeof dataTrack[0] === "string")){
-            const rcsbFvDataListClass: RcsbFvDataArray = new RcsbFvDataArray();
+            const rcsbFvDataListClass: RcsbFvTrackDataArray = new RcsbFvTrackDataArray();
             for(const dataList of dataTrack){
                 if(dataList instanceof Array) {
-                    const rcsbFvDataClass: RcsbFvData = new RcsbFvData();
+                    const rcsbFvDataClass: RcsbFvTrackData = new RcsbFvTrackData();
                     for (const dataElement of dataList) {
                         rcsbFvDataClass.push(dataElement);
                     }
@@ -85,7 +85,7 @@ export class RcsbFvDataManager {
             }
             return rcsbFvDataListClass;
         }else if(dataTrack instanceof Array) {
-            const rcsbFvDataClass: RcsbFvData = new RcsbFvData();
+            const rcsbFvDataClass: RcsbFvTrackData = new RcsbFvTrackData();
             for (const dataElement of dataTrack) {
                 rcsbFvDataClass.push(dataElement as RcsbFvDataElementInterface);
             }

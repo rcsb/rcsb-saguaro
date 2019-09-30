@@ -4,10 +4,10 @@ import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {
-    RcsbFvData,
-    RcsbFvDataArray,
+    RcsbFvTrackData,
+    RcsbFvTrackDataArray,
     RcsbFvDataManager,
-    RcsbFvDataMap
+    RcsbFvTrackDataMap
 } from "../RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {
@@ -23,7 +23,7 @@ export class RcsbFvTrack {
     private rcsbFvDisplay: RcsbFvDisplay = null;
     private rcsbFvConfig: RcsbFvConfig;
     private elementId: string = null;
-    private trackData: string | RcsbFvData | RcsbFvDataArray = null;
+    private trackData: string | RcsbFvTrackData | RcsbFvTrackDataArray = null;
 
     public constructor(args:RcsbFvRowConfigInterface) {
         this.rcsbBoard = new RcsbBoard(args.elementId);
@@ -79,21 +79,21 @@ export class RcsbFvTrack {
         return rcsbTrack;
     }
 
-    public load(trackData: string | RcsbFvData | RcsbFvDataArray) : void{
+    public load(trackData: string | RcsbFvTrackData | RcsbFvTrackDataArray) : void{
         this.trackData = trackData;
-        if(trackData instanceof RcsbFvDataArray && this.rcsbFvConfig.displayType instanceof Array){
+        if(trackData instanceof RcsbFvTrackDataArray && this.rcsbFvConfig.displayType instanceof Array){
             const rcsbTrack = this.buildRcsbTrack();
             const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
-            const trackDataHash: RcsbFvDataMap = new RcsbFvDataMap();
+            const trackDataHash: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
             for(let f of trackData){
                 const id: string = displayIds.shift();
-                if(f instanceof RcsbFvData || typeof f === "string") {
+                if(f instanceof RcsbFvTrackData || typeof f === "string") {
                     trackDataHash.set(id,f);
                 }
             }
             rcsbTrack.load(trackDataHash);
-        }else if(trackData instanceof RcsbFvData){
-            let nonOverlapping: Array<RcsbFvData> = new Array<RcsbFvData>();
+        }else if(trackData instanceof RcsbFvTrackData){
+            let nonOverlapping: Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
             if(this.rcsbFvConfig.displayType === DISPLAY_TYPES.BLOCK || this.rcsbFvConfig.displayType === DISPLAY_TYPES.PIN) {
                 nonOverlapping = RcsbFvDataManager.getNonOverlappingData(trackData);
             }else{

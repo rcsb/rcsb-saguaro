@@ -1,12 +1,12 @@
 import {DISPLAY_TYPES, INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
-import {RcsbFvData, RcsbFvDataArray, RcsbFvDataManager} from "../RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataArray, RcsbFvDataManager} from "../RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     displayType: string | Array<string>;
     length: number;
     elementId?: string;
-    trackData?: string | RcsbFvData | RcsbFvDataArray;
+    trackData?: string | RcsbFvTrackData | RcsbFvTrackDataArray;
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackHeight?: number;
     trackColor?: string;

@@ -2,14 +2,14 @@ import {HighlightRegionInterface, RcsbD3Manager, TrackConfInterface} from "./Rcs
 import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
-import {RcsbFvData} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbTrack {
     d3Manager: RcsbD3Manager = null;
     _bgColor: string = "#FFFFFF";
     _height: number = null;
     _width: number = null;
-    _data: string | RcsbFvData = null;
+    _data: string | RcsbFvTrackData = null;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined> = null;
     _boardHighlight: (begin: number, end: number, propFlag?: boolean) => void;
@@ -48,7 +48,7 @@ export class RcsbTrack {
         this.g = this.d3Manager.addTrack(config);
     }
 
-    load(d?: string | RcsbFvData): string | RcsbFvData {
+    load(d?: string | RcsbFvTrackData): string | RcsbFvTrackData {
         if(d !== undefined) {
             this._data = d;
         }

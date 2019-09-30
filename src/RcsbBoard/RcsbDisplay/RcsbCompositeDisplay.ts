@@ -2,7 +2,7 @@ import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
-import {RcsbFvDataMap} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataMap} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;
@@ -11,7 +11,7 @@ interface DisplayElementInterface {
 export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     innerDisplays: Array<DisplayElementInterface> = new Array<DisplayElementInterface>();
     _height: number = null;
-    _data: RcsbFvDataMap = null;
+    _data: RcsbFvTrackDataMap = null;
     _bgColor: string = null;
 
     reset(): void{
@@ -74,7 +74,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         return this._bgColor;
     }
 
-    load(d?: RcsbFvDataMap): RcsbFvDataMap{
+    load(d?: RcsbFvTrackDataMap): RcsbFvTrackDataMap{
         if(d !== undefined) {
             this._data = d;
         }

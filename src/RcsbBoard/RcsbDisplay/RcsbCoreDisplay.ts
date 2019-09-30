@@ -2,7 +2,7 @@ import {RcsbTrack} from "../RcsbTrack";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {Selection, BaseType, event, EnterElement} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
-import {RcsbFvData, RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 
 export class RcsbCoreDisplay extends RcsbTrack{
@@ -43,7 +43,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
 
     update(where: LocationViewInterface, compKey?: string) {
 
-        const dataElems: RcsbFvData = this._data as RcsbFvData;
+        const dataElems: RcsbFvTrackData = this._data as RcsbFvTrackData;
         if (dataElems === undefined) {
             return;
         }
