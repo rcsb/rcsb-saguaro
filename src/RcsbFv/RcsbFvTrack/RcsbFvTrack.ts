@@ -3,7 +3,6 @@ import {RcsbFvDefaultConfigValues, DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDe
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
-import {RcsbFvContextManagerInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {
     RcsbFvData,
     RcsbFvDataArray,
@@ -11,6 +10,11 @@ import {
     RcsbFvDataMap
 } from "../RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
+import {
+    EVENT_TYPE,
+    RcsbFvContextManager,
+    RcsbFvContextManagerInterface
+} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 export class RcsbFvTrack {
 
@@ -24,6 +28,7 @@ export class RcsbFvTrack {
     public constructor(args:RcsbFvRowConfigInterface) {
         this.rcsbBoard = new RcsbBoard(args.elementId);
         this.buildTrack(args);
+        this.subscribe();
     }
 
     private buildTrack(args:RcsbFvRowConfigInterface) : void{
@@ -74,8 +79,6 @@ export class RcsbFvTrack {
         return rcsbTrack;
     }
 
-
-
     public load(trackData: string | RcsbFvData | RcsbFvDataArray) : void{
         this.trackData = trackData;
         if(trackData instanceof RcsbFvDataArray && this.rcsbFvConfig.displayType instanceof Array){
@@ -111,6 +114,16 @@ export class RcsbFvTrack {
             this.rcsbBoard.addTrack(track);
         });
         this.rcsbBoard.startBoard();
+    }
+
+    subscribe(): void{
+        RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+            if(obj.eventType===EVENT_TYPE.SCALE) {
+                this.setScale(obj.eventData as ScaleTransform);
+            }else if(obj.eventType===EVENT_TYPE.SELECTION){
+                this.setSelection(obj.eventData as SelectionInterface);
+            }
+        });
     }
 
     public setScale(obj: ScaleTransform) : void {

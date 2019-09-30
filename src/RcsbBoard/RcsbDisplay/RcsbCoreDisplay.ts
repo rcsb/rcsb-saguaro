@@ -2,8 +2,6 @@ import {RcsbTrack} from "../RcsbTrack";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {Selection, BaseType, event, EnterElement} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
-import {ScaleLinear} from "d3-scale";
-import {HighlightRegionInterface} from "../RcsbD3/RcsbD3Manager";
 import {RcsbFvData, RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 
@@ -20,7 +18,6 @@ export class RcsbCoreDisplay extends RcsbTrack{
     }
 
     plot(element:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>): void{
-
         element.on("click", (d)=> {
             if (event.defaultPrevented) {
                 return;
@@ -42,31 +39,6 @@ export class RcsbCoreDisplay extends RcsbTrack{
                 return;
             }
         });
-    }
-
-    highlightRegion(begin: number, end:number): void {
-
-        this.g.select("."+classes.rcsbSelectRect).remove();
-
-        const height: number = this._height;
-        const xScale: ScaleLinear<number,number> = this.xScale;
-
-        if(typeof(height)==="number" && typeof(begin)==="number" && typeof(end)==="number") {
-            const highlightRegConfig: HighlightRegionInterface = {
-                trackG: this.g,
-                height: height,
-                begin: begin,
-                end: end,
-                xScale: xScale,
-                rectClass: classes.rcsbSelectRect
-            };
-            this.d3Manager.highlightRegion(highlightRegConfig);
-        }
-
-        const selectRect:SVGRectElement = this.g.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect).node();
-        if(selectRect) {
-            this.moveToBack(selectRect);
-        }
     }
 
     update(where: LocationViewInterface, compKey?: string) {
@@ -112,13 +84,5 @@ export class RcsbCoreDisplay extends RcsbTrack{
     	}
         return elems;
     }
-
-    moveToFront(elem: HTMLElement|SVGElement): void {
-        elem.parentNode.appendChild(elem);
-    };
-
-    moveToBack(elem: HTMLElement|SVGElement): void {
-        elem.parentNode.prepend(elem);
-    };
 
 }

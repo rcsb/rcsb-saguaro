@@ -1,4 +1,4 @@
-import {RcsbD3Manager, TrackConfInterface} from "./RcsbD3/RcsbD3Manager";
+import {HighlightRegionInterface, RcsbD3Manager, TrackConfInterface} from "./RcsbD3/RcsbD3Manager";
 import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
@@ -62,5 +62,38 @@ export class RcsbTrack {
     setD3Manager(d3Manager: RcsbD3Manager){
         this.d3Manager= d3Manager;
     }
+
+    highlightRegion(begin: number, end:number): void {
+
+        this.g.select("."+classes.rcsbSelectRect).remove();
+
+        const height: number = this._height;
+        const xScale: ScaleLinear<number,number> = this.xScale;
+
+        if(typeof(height)==="number" && typeof(begin)==="number" && typeof(end)==="number") {
+            const highlightRegConfig: HighlightRegionInterface = {
+                trackG: this.g,
+                height: height,
+                begin: begin,
+                end: end,
+                xScale: xScale,
+                rectClass: classes.rcsbSelectRect
+            };
+            this.d3Manager.highlightRegion(highlightRegConfig);
+        }
+
+        const selectRect:SVGRectElement = this.g.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect).node();
+        if(selectRect) {
+            this.moveToBack(selectRect);
+        }
+    }
+
+    moveToFront(elem: HTMLElement|SVGElement): void {
+        elem.parentNode.appendChild(elem);
+    };
+
+    moveToBack(elem: HTMLElement|SVGElement): void {
+        elem.parentNode.prepend(elem);
+    };
 
 }
