@@ -4,10 +4,10 @@ import {axisLeft, Axis} from "d3-axis";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import * as classes from "../../scss/RcsbBoard.module.scss";
-import {RcsbFvDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export interface PlotVariantInterface {
-    elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
+    elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     radius: number;
     xScale: ScaleLinear<number,number>;
     yScale: ScalePoint<string>;
@@ -17,7 +17,7 @@ export interface PlotVariantInterface {
 }
 
 export interface MoveVariantInterface {
-    elements: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>;
+    elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     xScale: ScaleLinear<number,number>;
     yScale: ScalePoint<string>;
     height: number;
@@ -28,14 +28,14 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
 
     plot(config: PlotVariantInterface): void{
         config.elements.append(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvDataElementInterface) => {
+            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return config.xScale(d.pos);
             })
-            .attr(RcsbD3Constants.CY, (d:RcsbFvDataElementInterface) => {
+            .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return config.yScale(d.val as string);
             })
             .attr(RcsbD3Constants.R, config.radius)
-            .attr(RcsbD3Constants.FILL, (d:RcsbFvDataElementInterface) => {
+            .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if(typeof d.color === "string"){
                     return d.color;
                 }
@@ -46,10 +46,10 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
 
     move(config: MoveVariantInterface): void{
         config.elements.select(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvDataElementInterface) => {
+            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return config.xScale(d.pos);
             })
-            .attr(RcsbD3Constants.CY, (d:RcsbFvDataElementInterface) => {
+            .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return config.yScale(d.val as string);
             });
         this.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
@@ -67,7 +67,7 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
                 .attr(RcsbD3Constants.X2, xScale.range()[1])
                 .attr(RcsbD3Constants.Y2, yScale(aa))
         });
-        trackG.selectAll<SVGGElement,RcsbFvDataElementInterface>("."+classes.rcsbElement).each(function(){
+        trackG.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>("."+classes.rcsbElement).each(function(){
             this.parentNode.append(this);
         });
 

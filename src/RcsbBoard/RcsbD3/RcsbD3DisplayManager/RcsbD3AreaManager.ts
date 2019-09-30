@@ -2,19 +2,19 @@ import {Selection} from "d3-selection";
 import {Area} from "d3-shape";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
-import {RcsbFvDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export interface PlotAreaInterface {
-    points: RcsbFvDataElementInterface[];
+    points: RcsbFvTrackDataElementInterface[];
     color: string;
     trackG: Selection<SVGGElement,any,null,undefined>;
-    area:Area<RcsbFvDataElementInterface>
+    area:Area<RcsbFvTrackDataElementInterface>
 }
 
 export interface MoveAreaInterface {
-    points: RcsbFvDataElementInterface[];
+    points: RcsbFvTrackDataElementInterface[];
     trackG: Selection<SVGGElement,any,null,undefined>;
-    area:Area<RcsbFvDataElementInterface>
+    area:Area<RcsbFvTrackDataElementInterface>
 }
 
 export class RcsbD3AreaManager implements RcsbD3DisplayManagerInterface{

@@ -1,4 +1,4 @@
-export interface RcsbFvDataElementInterface {
+export interface RcsbFvTrackDataElementInterface {
     pos?: number;
     val?: number|string;
     start?: number;
@@ -8,7 +8,7 @@ export interface RcsbFvDataElementInterface {
     description?: string;
 }
 
-export class RcsbFvTrackData extends Array<RcsbFvDataElementInterface>{
+export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
 }
 
 export  class RcsbFvTrackDataArray extends Array<RcsbFvTrackData|string>{
@@ -56,7 +56,7 @@ export class RcsbFvDataManager {
         return out;
     }
 
-    private static doOverlap(a: RcsbFvDataElementInterface, b: RcsbFvDataElementInterface): boolean{
+    private static doOverlap(a: RcsbFvTrackDataElementInterface, b: RcsbFvTrackDataElementInterface): boolean{
         if(typeof a.start === "number" && typeof b.start === "number" && typeof a.end === "number" && typeof b.end === "number") {
                 if( a.end <= b.start || b.end <= a.start)
                     return false;
@@ -87,7 +87,7 @@ export class RcsbFvDataManager {
         }else if(dataTrack instanceof Array) {
             const rcsbFvDataClass: RcsbFvTrackData = new RcsbFvTrackData();
             for (const dataElement of dataTrack) {
-                rcsbFvDataClass.push(dataElement as RcsbFvDataElementInterface);
+                rcsbFvDataClass.push(dataElement as RcsbFvTrackDataElementInterface);
             }
             return rcsbFvDataClass;
         }else{

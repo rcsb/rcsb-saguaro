@@ -6,26 +6,26 @@ import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {modeMedian} from "@d3fc/d3fc-sample";
 import {INTERPOLATION_TYPES} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
     _yDomain: [number, number];
     yScale: ScaleLinear<number,number> = scaleLinear();
     definedScale: boolean = false;
-    line:Line<RcsbFvDataElementInterface> = line<RcsbFvDataElementInterface>().curve(curveStep);
+    line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     maxPoints: number = 1000;
-    linePoints: RcsbFvDataElementInterface[];
+    linePoints: RcsbFvTrackDataElementInterface[];
 
     setInterpolationType(type: string): void{
         if(type === INTERPOLATION_TYPES.CARDINAL)
-            this.line = line<RcsbFvDataElementInterface>().curve(curveCardinal);
+            this.line = line<RcsbFvTrackDataElementInterface>().curve(curveCardinal);
         else if(type === INTERPOLATION_TYPES.STEP)
-            this.line = line<RcsbFvDataElementInterface>().curve(curveStep);
+            this.line = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
         else if(type === INTERPOLATION_TYPES.BASIS)
-            this.line = line<RcsbFvDataElementInterface>().curve(curveBasis);
+            this.line = line<RcsbFvTrackDataElementInterface>().curve(curveBasis);
         else if(type === INTERPOLATION_TYPES.LINEAR)
-            this.line = line<RcsbFvDataElementInterface>().curve(curveLinear);
+            this.line = line<RcsbFvTrackDataElementInterface>().curve(curveLinear);
     }
 
     yDomain(domain: [number,number]):void {
@@ -47,22 +47,22 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private setFunction(): void{
         const self: RcsbLineDisplay = this;
         this.line
-            .x((d:RcsbFvDataElementInterface) => {
+            .x((d:RcsbFvTrackDataElementInterface) => {
                 return self.xScale(d.pos);
             })
-            .y(function (d:RcsbFvDataElementInterface) {
+            .y(function (d:RcsbFvTrackDataElementInterface) {
                 return self._height - self.yScale(d.val as number);
             });
     }
 
     updateFunction(): void{
         const self: RcsbLineDisplay = this;
-        this.line.x(function (d: RcsbFvDataElementInterface) {
+        this.line.x(function (d: RcsbFvTrackDataElementInterface) {
             return self.xScale(d.pos);
         });
     }
 
-    plot(elements:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>): void {
+    plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
         if(!this.definedScale)
             this.setScale();
         this.linePoints = this.downSampling(elements.data());
@@ -86,8 +86,8 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
        this.d3Manager.moveLineDisplay(config);
     }
 
-    downSampling(points: RcsbFvDataElementInterface[]):RcsbFvDataElementInterface[] {
-        const out:RcsbFvDataElementInterface[] = [];
+    downSampling(points: RcsbFvTrackDataElementInterface[]):RcsbFvTrackDataElementInterface[] {
+        const out:RcsbFvTrackDataElementInterface[] = [];
         const thr = this.maxPoints;
         const self: RcsbLineDisplay = this;
         points.forEach(function (p) {
@@ -98,9 +98,9 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         if(out.length>thr) {
             const bucketSize = Math.floor(points.length/thr)+1;
             const sampler = modeMedian();
-            sampler.value((d:RcsbFvDataElementInterface) => {return d.val});
+            sampler.value((d:RcsbFvTrackDataElementInterface) => {return d.val});
             sampler.bucketSize(bucketSize);
-            const all: RcsbFvDataElementInterface[] = sampler(points);
+            const all: RcsbFvTrackDataElementInterface[] = sampler(points);
             all.forEach(function (p) {
                 if(p.pos>=self.xScale.domain()[0] && p.pos<=self.xScale.domain()[1]){
                     out.push(p);

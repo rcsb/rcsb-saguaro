@@ -3,7 +3,7 @@ import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MovePinInterface, PlotPinInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3PinManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
-import {RcsbFvDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -28,7 +28,7 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
         }
     }
 
-    plot(elements:Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined>): void{
+    plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{
         super.plot(elements);
         if(!this.definedScale)
             this.setScale();
@@ -46,7 +46,7 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
     }
 
     move(): void{
-        const pins: Selection<SVGGElement,RcsbFvDataElementInterface,BaseType,undefined> = this.getElements();
+        const pins: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = this.getElements();
         const config: MovePinInterface = {
             elements: pins,
             xScale: this.xScale,
