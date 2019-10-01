@@ -21,12 +21,14 @@ export class RcsbFvTrack {
     private rcsbBoard: RcsbBoard = null;
     private rcsbTrackArray: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
     private rcsbFvDisplay: RcsbFvDisplay = null;
-    private rcsbFvConfig: RcsbFvConfig;
+    private rcsbFvConfig: RcsbFvConfig = null;
     private elementId: string = null;
     private trackData: string | RcsbFvTrackData | RcsbFvTrackDataArray = null;
 
     public constructor(args:RcsbFvRowConfigInterface) {
-        this.rcsbBoard = new RcsbBoard(args.elementId);
+        if(typeof args.elementId === "string" && document.getElementById(args.elementId)!== null) {
+            this.rcsbBoard = new RcsbBoard(args.elementId);
+        }
         this.buildTrack(args);
         this.subscribe();
     }
@@ -53,8 +55,13 @@ export class RcsbFvTrack {
     public init(elementId: string) : void{
         if(document.getElementById(elementId)!== null) {
             this.elementId = elementId;
+            if(this.rcsbBoard === null){
+                this.rcsbBoard = new RcsbBoard(this.elementId);
+            }
             if (this.rcsbFvConfig.configCheck()) {
                 this.initRcsbBoard();
+            }else{
+                throw "Board length is not defined";
             }
         }else{
             throw "HTML element "+elementId+" not found";
@@ -62,7 +69,11 @@ export class RcsbFvTrack {
     }
 
     public setConfig(args: RcsbFvRowConfigInterface) : void{
-        this.rcsbFvConfig = new RcsbFvConfig(args);
+        if(this.rcsbFvConfig === null) {
+            this.rcsbFvConfig = new RcsbFvConfig(args);
+        }else{
+            this.rcsbFvConfig.updateConfig(args);
+        }
     }
 
     private initRcsbBoard(): void{

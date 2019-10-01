@@ -48,12 +48,8 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
                     y = d.val;
                 }
                 return height - yScale(y);
-            })
-            .attr(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
-                if(typeof d.color === "string")
-                    return d.color;
-                return color;
             });
+
 
         elements.append(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
@@ -66,6 +62,8 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
                 }
                 return height - yScale(y);
             })
+            .transition()
+            .duration(500)
             .attr(RcsbD3Constants.R, radius)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if(typeof d.color === "string")

@@ -9,6 +9,7 @@ export interface RcsbFvBoardConfigInterface {
 
 export interface RcsbFvDisplayConfigInterface{
     displayColor: string;
+    interpolationType?: string;
 }
 
 export interface RcsbFvRowConfigInterface {

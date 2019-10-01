@@ -32,7 +32,6 @@ export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInter
     constructor(props: RcsbFvRowTrackInterface) {
         super(props);
         this.configData = this.props.data;
-        //this.subscribe();
     }
 
     render(){

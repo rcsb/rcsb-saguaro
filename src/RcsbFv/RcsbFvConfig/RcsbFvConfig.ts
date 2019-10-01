@@ -15,6 +15,10 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     interpolationType? : string;
 
     constructor(args:RcsbFvRowConfigInterface) {
+        this.updateConfig(args);
+    }
+
+    public updateConfig(args:RcsbFvRowConfigInterface) {
 
         //external config
         if(typeof args.length === "number"){
@@ -38,7 +42,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         //default config available
         if(typeof args.trackHeight === "number"){
             this.trackHeight = args.trackHeight;
-        }else{
+        }else if(typeof this.displayType !== "number"){
             if(this.displayType === DISPLAY_TYPES.AXIS){
                 this.trackHeight = RcsbFvDefaultConfigValues.trackAxisHeight;
             }else {
@@ -47,31 +51,28 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if( typeof args.trackColor === "string"){
             this.trackColor = args.trackColor;
-        }else{
+        }else if(typeof this.trackColor !== "string"){
             this.trackColor = RcsbFvDefaultConfigValues.trackColor;
         }
         if(typeof args.displayColor === "string"){
             this.displayColor = args.displayColor;
-        }else{
+        }else if(this.displayColor !== "string"){
             this.displayColor = RcsbFvDefaultConfigValues.displayColor;
         }
         if(args.displayDomain instanceof Array){
             this.displayDomain = args.displayDomain;
-        }else{
+        }else if( !(this.displayDomain instanceof Array) ){
             this.displayDomain = RcsbFvDefaultConfigValues.displayDomain;
         }
         if(typeof args.interpolationType === "string"){
             this.interpolationType = this.getInterpolationType(args.interpolationType);
-        }else{
+        }else if(this.interpolationType !== "string"){
             this.interpolationType = RcsbFvDefaultConfigValues.interpolationType;
         }
     }
 
     configCheck() : boolean{
-        if(typeof this.length === "number" && typeof this.elementId === "string"){
-            return true;
-        }
-        return false;
+        return (typeof this.length === "number" && typeof this.elementId === "string")
     }
 
     getInterpolationType(type: string): string{

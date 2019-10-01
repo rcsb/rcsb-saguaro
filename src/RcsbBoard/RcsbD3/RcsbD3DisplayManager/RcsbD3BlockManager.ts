@@ -37,7 +37,6 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
                 return (xScale(d.end+dx) - xScale(d.begin-dx));
             })
             .attr(RcsbD3Constants.HEIGHT, dy)
-            .attr(RcsbD3Constants.FILL, color)
             .transition()
             .duration(500)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface)=> {
