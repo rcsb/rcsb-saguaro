@@ -1,7 +1,7 @@
 export interface RcsbFvTrackDataElementInterface {
     pos?: number;
     val?: number|string;
-    start?: number;
+    begin?: number;
     end?: number;
     label?: string;
     color: string;
@@ -22,8 +22,8 @@ export class RcsbFvDataManager {
     public static getNonOverlappingData(data: RcsbFvTrackData): Array<RcsbFvTrackData> {
         const out : Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
         data.sort((a,b)=>{
-            if(typeof a.start === "number" && typeof b.start === "number") {
-                return (a.start-b.start);
+            if(typeof a.begin === "number" && typeof b.begin === "number") {
+                return (a.begin-b.begin);
             }else if(typeof a.pos === "number" && typeof b.pos === "number"){
                 return (a.pos-b.pos);
             }else{
@@ -57,8 +57,8 @@ export class RcsbFvDataManager {
     }
 
     private static doOverlap(a: RcsbFvTrackDataElementInterface, b: RcsbFvTrackDataElementInterface): boolean{
-        if(typeof a.start === "number" && typeof b.start === "number" && typeof a.end === "number" && typeof b.end === "number") {
-                if( a.end <= b.start || b.end <= a.start)
+        if(typeof a.begin === "number" && typeof b.begin === "number" && typeof a.end === "number" && typeof b.end === "number") {
+                if( a.end <= b.begin || b.end <= a.begin)
                     return false;
         }else if(typeof a.pos === "number" && typeof b.pos === "number") {
             if(a.pos != b.pos)

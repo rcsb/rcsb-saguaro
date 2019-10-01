@@ -30,11 +30,11 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
         const color: string = config.color;
         elements.append(RcsbD3Constants.RECT)
             .attr(RcsbD3Constants.X, (d, i) => {
-                return xScale(d.start-dx);
+                return xScale(d.begin-dx);
             })
             .attr(RcsbD3Constants.Y, y_o)
             .attr(RcsbD3Constants.WIDTH, (d:RcsbFvTrackDataElementInterface) => {
-                return (xScale(d.end+dx) - xScale(d.start-dx));
+                return (xScale(d.end+dx) - xScale(d.begin-dx));
             })
             .attr(RcsbD3Constants.HEIGHT, dy)
             .attr(RcsbD3Constants.FILL, color)
@@ -65,10 +65,10 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
         const blocks: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         blocks.select(RcsbD3Constants.RECT)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.start-dx);
+                return xScale(d.begin-dx);
             })
             .attr(RcsbD3Constants.WIDTH, (d:RcsbFvTrackDataElementInterface) => {
-                return (xScale(d.end+dx) - xScale(d.start-dx));
+                return (xScale(d.end+dx) - xScale(d.begin-dx));
             });
     }
 

@@ -1,22 +1,23 @@
 import {event, mouse} from "d3-selection";
 import {RcsbBoard} from "../RcsbBoard";
 import {RcsbD3Constants} from "./RcsbD3Constants";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbD3EventDispatcher {
 
     static selectionBegin: number = undefined;
 
-    private static setInterval = (d:any) => {
-        if(typeof d.start === "number" && typeof d.end === "number"){
+    private static setInterval = (d:RcsbFvTrackDataElementInterface) => {
+        if(typeof d.begin === "number" && typeof d.end === "number"){
             return d;
         }else if(typeof d.pos === "number"){
-            return {start: d.pos, end: d.pos};
+            return {begin: d.pos, end: d.pos};
         }
     };
 
-    static elementClick(callback:(a: number, b: number, f:boolean)=>void, d:any){
+    static elementClick(callback:(a: number, b: number, f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
         const e = this.setInterval(d);
-        callback(e.start,e.end,false);
+        callback(e.begin,e.end,false);
     }
 
     static boardMousedown(board: RcsbBoard){
