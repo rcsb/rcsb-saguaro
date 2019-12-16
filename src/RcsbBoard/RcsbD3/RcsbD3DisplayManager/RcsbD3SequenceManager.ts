@@ -30,7 +30,7 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
             .attr(RcsbD3Constants.FONT_SIZE, "10")
             .attr(RcsbD3Constants.FONT_FAMILY,"Arial")
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4))
             .style(RcsbD3Constants.TEXT_ANCHOR, "middle")
@@ -52,7 +52,7 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
 
         config.elements.select(RcsbD3Constants.TEXT)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .text((d:RcsbFvTrackDataElementInterface) => {
                 return d.label || "";

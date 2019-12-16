@@ -9,6 +9,7 @@ import {MoveLineInterface, PlotLineInterface, RcsbD3LineManager} from "./RcsbD3D
 import {MoveAreaInterface, PlotAreaInterface, RcsbD3AreaManager} from "./RcsbD3DisplayManager/RcsbD3AreaManager";
 import {MoveVariantInterface, PlotVariantInterface, RcsbD3VariantManager} from "./RcsbD3DisplayManager/RcsbD3VariantManager";
 import {MoveVlineInterface, PlotVlineInterface, RcsbD3VlineManager} from "./RcsbD3DisplayManager/RcsbD3VlineManager";
+import * as classes from "../scss/RcsbBoard.module.scss";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -103,6 +104,11 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.ID, config.elementId)
             .attr(RcsbD3Constants.WIDTH, this._width)
             .style(RcsbD3Constants.FILL, config.bgColor)
+    }
+
+    resetAllTracks(): void{
+        this._trackHeightPosition = 0;
+        this._svgG.selectAll("."+classes.rcsbTrack).remove();
     }
 
     addTrack(config: TrackConfInterface): Selection<SVGGElement, any, null, undefined> {

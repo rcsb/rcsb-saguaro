@@ -1,17 +1,13 @@
 export interface RcsbFvTrackDataElementInterface {
-    pos?: number;
     val?: number|string;
-    begin?: number;
+    begin: number;
     end?: number;
     label?: string;
-    color: string;
+    color?: string;
     description?: string;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
-}
-
-export  class RcsbFvTrackDataArray extends Array<RcsbFvTrackData|string>{
 }
 
 export class RcsbFvTrackDataMap extends Map<string,RcsbFvTrackData|string>{
@@ -24,8 +20,6 @@ export class RcsbFvDataManager {
         data.sort((a,b)=>{
             if(typeof a.begin === "number" && typeof b.begin === "number") {
                 return (a.begin-b.begin);
-            }else if(typeof a.pos === "number" && typeof b.pos === "number"){
-                return (a.pos-b.pos);
             }else{
                 throw "Unknown data element structure";
             }
@@ -60,30 +54,16 @@ export class RcsbFvDataManager {
         if(typeof a.begin === "number" && typeof b.begin === "number" && typeof a.end === "number" && typeof b.end === "number") {
                 if( a.end <= b.begin || b.end <= a.begin)
                     return false;
-        }else if(typeof a.pos === "number" && typeof b.pos === "number") {
-            if(a.pos != b.pos)
+        }else if(typeof a.begin === "number" && typeof b.begin === "number") {
+            if(a.begin != b.begin)
                 return false;
         }
         return true;
     }
 
-    public static processData(dataTrack: string|RcsbFvTrackData|RcsbFvTrackDataArray): string | RcsbFvTrackData | RcsbFvTrackDataArray {
+    public static processData(dataTrack: string|RcsbFvTrackData): string | RcsbFvTrackData {
         if(typeof dataTrack === "string"){
             return dataTrack;
-        }else if( dataTrack instanceof Array && dataTrack.length > 0 && (dataTrack[0] instanceof Array || typeof dataTrack[0] === "string")){
-            const rcsbFvDataListClass: RcsbFvTrackDataArray = new RcsbFvTrackDataArray();
-            for(const dataList of dataTrack){
-                if(dataList instanceof Array) {
-                    const rcsbFvDataClass: RcsbFvTrackData = new RcsbFvTrackData();
-                    for (const dataElement of dataList) {
-                        rcsbFvDataClass.push(dataElement);
-                    }
-                    rcsbFvDataListClass.push(rcsbFvDataClass);
-                }else if(typeof dataList === "string"){
-                    rcsbFvDataListClass.push(dataList);
-                }
-            }
-            return rcsbFvDataListClass;
         }else if(dataTrack instanceof Array) {
             const rcsbFvDataClass: RcsbFvTrackData = new RcsbFvTrackData();
             for (const dataElement of dataTrack) {

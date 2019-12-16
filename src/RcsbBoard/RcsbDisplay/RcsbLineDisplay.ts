@@ -48,7 +48,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         const self: RcsbLineDisplay = this;
         this.line
             .x((d:RcsbFvTrackDataElementInterface) => {
-                return self.xScale(d.pos);
+                return self.xScale(d.begin);
             })
             .y(function (d:RcsbFvTrackDataElementInterface) {
                 return self._height - self.yScale(d.val as number);
@@ -58,7 +58,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     updateFunction(): void{
         const self: RcsbLineDisplay = this;
         this.line.x(function (d: RcsbFvTrackDataElementInterface) {
-            return self.xScale(d.pos);
+            return self.xScale(d.begin);
         });
     }
 
@@ -91,7 +91,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         const thr = this.maxPoints;
         const self: RcsbLineDisplay = this;
         points.forEach(function (p) {
-            if(p.pos>self.xScale.domain()[0] && p.pos<self.xScale.domain()[1]){
+            if(p.begin>self.xScale.domain()[0] && p.begin<self.xScale.domain()[1]){
                 out.push(p);
             }
         });
@@ -102,7 +102,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             sampler.bucketSize(bucketSize);
             const all: RcsbFvTrackDataElementInterface[] = sampler(points);
             all.forEach(function (p) {
-                if(p.pos>=self.xScale.domain()[0] && p.pos<=self.xScale.domain()[1]){
+                if(p.begin>=self.xScale.domain()[0] && p.begin<=self.xScale.domain()[1]){
                     out.push(p);
                 }
             });

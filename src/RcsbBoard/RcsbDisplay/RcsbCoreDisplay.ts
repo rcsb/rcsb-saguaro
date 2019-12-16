@@ -44,7 +44,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
     update(where: LocationViewInterface, compKey?: string) {
 
         const dataElems: RcsbFvTrackData = this._data as RcsbFvTrackData;
-        if (dataElems === undefined) {
+        if (dataElems === undefined || dataElems === null) {
             return;
         }
 

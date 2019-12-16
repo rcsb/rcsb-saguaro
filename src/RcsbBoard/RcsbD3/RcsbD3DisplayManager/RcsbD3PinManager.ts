@@ -34,13 +34,13 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
         const labelShift: number = config.labelShift;
         elements.append(RcsbD3Constants.LINE)
             .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .attr(RcsbD3Constants.Y1, (d:RcsbFvTrackDataElementInterface) => {
                 return height;
             })
             .attr(RcsbD3Constants.X2, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .attr(RcsbD3Constants.Y2, (d:RcsbFvTrackDataElementInterface) => {
                 let y = 0.5;
@@ -53,7 +53,7 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
 
         elements.append(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 let y = 0.5;
@@ -74,7 +74,7 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
         elements.append(RcsbD3Constants.TEXT)
             .attr(RcsbD3Constants.FONT_SIZE, 12)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos)+2.5*labelShift;
+                return xScale(d.begin)+2.5*labelShift;
             })
             .attr(RcsbD3Constants.Y, (d:RcsbFvTrackDataElementInterface) => {
                 var y = 0.5;
@@ -103,13 +103,13 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
 
         pins.select(RcsbD3Constants.LINE)
             .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .attr(RcsbD3Constants.Y1, (d:RcsbFvTrackDataElementInterface) => {
                 return height;
             })
             .attr(RcsbD3Constants.X2, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .attr(RcsbD3Constants.Y2, (d:RcsbFvTrackDataElementInterface) => {
                 var y = 0.5;
@@ -121,7 +121,7 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
 
         pins.select(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos);
+                return xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 var y = 0.5;
@@ -133,7 +133,7 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
 
         pins.select(RcsbD3Constants.TEXT)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.pos)+2.5*labelShift;
+                return xScale(d.begin)+2.5*labelShift;
             })
             .text((d:RcsbFvTrackDataElementInterface) => {
                 return d.label || "";

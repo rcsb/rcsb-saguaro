@@ -3,7 +3,18 @@ import {DISPLAY_TYPES, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDe
 import RcsbFvRow from "../RcsbFvRow/RcsbFvRow";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
 
+import {
+    EVENT_TYPE,
+    RcsbFvContextManager,
+    RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
+} from "../RcsbFvContextManager/RcsbFvContextManager";
+
 interface RcsbFvBoardInterface {
+    rowConfigData: Array<RcsbFvRowConfigInterface>;
+    boardConfigData: RcsbFvBoardConfigInterface;
+}
+
+interface RcsbFvBoardState {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
     boardConfigData: RcsbFvBoardConfigInterface;
 }
@@ -12,26 +23,24 @@ interface RcsbFvBoardStyleInterface{
     width: number;
 }
 
-export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, {}> {
+export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState> {
 
-    rowConfigData : Array<RcsbFvRowConfigInterface>;
-    boardConfigData : RcsbFvBoardConfigInterface;
     boardId : string = "RcsbFvBoard_"+Math.trunc(Math.random()*1000000);
     rcsbFvRowArrayIds : Array<string> = new Array<string>();
+    currentScale: ScaleTransformInterface;
 
-    constructor(props: RcsbFvBoardInterface) {
-        super(props);
-        this.rowConfigData = this.props.rowConfigData;
-        this.boardConfigData = this.props.boardConfigData;
-    }
+    readonly state : RcsbFvBoardState = {
+        rowConfigData: this.props.rowConfigData,
+        boardConfigData: this.props.boardConfigData
+    } as RcsbFvBoardState;
 
     render(){
         let rcsbFvRowAxis = null;
-        if(this.boardConfigData.includeAxis === true){
-            const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000)
+        if(this.state.boardConfigData.includeAxis === true){
+            const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000);
             this.rcsbFvRowArrayIds.push(rowId);
-            const rowData:RcsbFvRowConfigInterface = {displayType:DISPLAY_TYPES.AXIS};
-            const data = this.configRow(rowId,rowData);
+            const rowData:RcsbFvRowConfigInterface = {displayType:DISPLAY_TYPES.AXIS, trackId:"axisId_"+Math.trunc(Math.random()*1000000)};
+            const data: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
             data.isAxis = true;
             rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} data={data} />;
         }
@@ -40,8 +49,8 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
                 {rcsbFvRowAxis}
                 {
 
-                    this.rowConfigData.map(rowData=>{
-                        const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000)
+                    this.state.rowConfigData.map(rowData=>{
+                        const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000);
                         this.rcsbFvRowArrayIds.push(rowId);
                         const data = this.configRow(rowId,rowData);
                         data.isAxis = false;
@@ -54,13 +63,13 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
 
     configStyle() : RcsbFvBoardStyleInterface {
         let titleWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
-        if(typeof this.boardConfigData.rowTitleWidth === "number"){
-            titleWidth = this.boardConfigData.rowTitleWidth;
+        if(typeof this.state.boardConfigData.rowTitleWidth === "number"){
+            titleWidth = this.state.boardConfigData.rowTitleWidth;
         }
 
         let trackWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
-        if(typeof this.boardConfigData.trackWidth === "number"){
-            trackWidth = this.boardConfigData.trackWidth;
+        if(typeof this.state.boardConfigData.trackWidth === "number"){
+            trackWidth = this.state.boardConfigData.trackWidth;
         }
 
         return {
@@ -71,16 +80,42 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
     configRow(id:string, config: RcsbFvRowConfigInterface) : RcsbFvRowConfigInterface{
         const out: RcsbFvRowConfigInterface = Object.assign({},config);
         out.elementId = id;
-        if(typeof this.boardConfigData.length === "number"){
-            out.length = this.boardConfigData.length;
+        if(typeof this.state.boardConfigData.length === "number"){
+            out.length = this.state.boardConfigData.length;
         }
-        if(typeof this.boardConfigData.rowTitleWidth === "number"){
-            out.rowTitleWidth = this.boardConfigData.rowTitleWidth;
+        if(typeof this.state.boardConfigData.rowTitleWidth === "number"){
+            out.rowTitleWidth = this.state.boardConfigData.rowTitleWidth;
         }
-        if(typeof this.boardConfigData.trackWidth === "number"){
-            out.trackWidth = this.boardConfigData.trackWidth;
+        if(typeof this.state.boardConfigData.trackWidth === "number"){
+            out.trackWidth = this.state.boardConfigData.trackWidth;
         }
         return out;
+    }
+
+    addRow(configRow: RcsbFvRowConfigInterface): void{
+        const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
+        rowConfigData.push(configRow);
+        this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData} as RcsbFvBoardState);
+        //this.setScale();
+    }
+
+    componentDidMount(): void {
+        RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+            if(obj.eventType===EVENT_TYPE.ADD_TRACK){
+                this.addRow(obj.eventData as RcsbFvRowConfigInterface);
+            }else if(obj.eventType===EVENT_TYPE.SCALE){
+                this.currentScale = obj.eventData as ScaleTransformInterface;
+            }
+        });
+    }
+
+    setScale(){
+        if(this.currentScale!=null) {
+            RcsbFvContextManager.next({
+                eventType: EVENT_TYPE.SCALE,
+                eventData: this.currentScale
+            } as RcsbFvContextManagerInterface);
+        }
     }
 
 }

@@ -37,5 +37,6 @@ export const enum DISPLAY_TYPES {
     LINE="line",
     AREA="area",
     VLINE="vline",
-    VARIANT="variant"
+    VARIANT="variant",
+    COMPOSITE="composite"
 }

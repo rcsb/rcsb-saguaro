@@ -1,5 +1,7 @@
 import { Subject } from 'rxjs';
-import {SelectionInterface, ScaleTransform} from "../../RcsbBoard/RcsbBoard";
+import {RcsbFvTrackData} from "../RcsbFvDataManager/RcsbFvDataManager";
+import {ZoomTransform} from "d3-zoom";
+import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
 const subject = new Subject();
 const RcsbFvContextManager = {
@@ -9,11 +11,41 @@ const RcsbFvContextManager = {
 
 export enum EVENT_TYPE {
     SELECTION = "eventTypeSelection",
-    SCALE = "eventTypeScale"
+    SCALE = "eventTypeScale",
+    ADD_DATA = "eventTypeAddData",
+    UPDATE_DATA = "eventTypeUpdateData",
+    RESET = "eventTypeReset",
+    ADD_TRACK = "addTrack",
 }
+
+export interface TrackInterface {
+    trackConfig:RcsbFvRowConfigInterface;
+    trackId:string;
+}
+
+export interface ResetInterface {
+    trackId:string;
+}
+
+export interface DataInterface {
+    loadData:RcsbFvTrackData|string;
+    trackId:string;
+}
+
+export interface SelectionInterface {
+    begin: number;
+    end: number;
+    domId: string;
+}
+
+export interface ScaleTransformInterface {
+    transform:ZoomTransform;
+    domId: string;
+}
+
 export interface RcsbFvContextManagerInterface{
     eventType: string;
-    eventData: SelectionInterface|ScaleTransform;
+    eventData: SelectionInterface|ScaleTransformInterface|DataInterface|ResetInterface|RcsbFvRowConfigInterface;
 }
 
 export {RcsbFvContextManager};

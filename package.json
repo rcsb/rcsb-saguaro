@@ -32,7 +32,10 @@
   "dependencies": {
     "@d3fc/d3fc-sample": "^4.0.10",
     "@types/d3": "^5.7.2",
+    "apollo-boost": "^0.4.4",
     "d3": "^5.12.0",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
     "rxjs": "^6.5.2",
     "tnt.api": "^0.1.1",
     "tnt.utils": "^0.1.3"

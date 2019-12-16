@@ -14,16 +14,10 @@ import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
     EVENT_TYPE,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface
+    RcsbFvContextManagerInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
-
-export interface SelectionInterface {
-    begin: number;
-    end: number;
-    domId: string;
-}
 
 export interface LocationViewInterface {
     from: number;
@@ -35,11 +29,6 @@ interface RegionLimitsInterface {
     min: number;
     maxZoom: number;
     minZoom: number;
-}
-
-export interface ScaleTransform {
-    transform:ZoomTransform;
-    domId: string;
 }
 
 export class RcsbBoard {
@@ -68,21 +57,24 @@ export class RcsbBoard {
 
     zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any> = zoom();
 
-    constructor(elementId: string){
+    constructor(elementId: string) {
         this.domId = elementId;
 
         const svgConfig: SVGConfInterface = {
             elementId: elementId,
-            svgClass:classes.rcsbSvg,
-            domClass:classes.rcsbDom,
-            width:this._width,
-            pointerEvents:"all",
-            contextMenu:()=>{
+            svgClass: classes.rcsbSvg,
+            domClass: classes.rcsbDom,
+            width: this._width,
+            pointerEvents: "all",
+            contextMenu: () => {
                 event.preventDefault();
             }
         };
         this.d3Manager.buildSvgNode(svgConfig);
+        this.addMainG();
+    }
 
+    private addMainG():void{
         const innerConfig: MainGConfInterface ={
             masterClass: classes.rcsbMaterG,
             innerClass: classes.rcsbInnerG,
@@ -144,20 +136,24 @@ export class RcsbBoard {
         });
     }
 
-    startBoard(): void{
+    startBoard(): void {
         if ((this.limits.max - this.limits.min) < this.limits.maxZoom) {
             this.limits.maxZoom = this.limits.max - this.limits.min;
         }
 
-    	this.xScale = scaleLinear()
-    	    .domain([this.currentLocationView.from, this.currentLocationView.to])
-    	    .range([this._innerPadding, this._width-this._innerPadding]);
+        this.xScale = scaleLinear()
+            .domain([this.currentLocationView.from, this.currentLocationView.to])
+            .range([this._innerPadding, this._width - this._innerPadding]);
 
-    	this.d3Manager.addZoom({
+        this.d3Manager.addZoom({
             zoomEventHandler: this.zoomEventHandler,
             zoomCallBack: this.moveBoard.bind(this)
         } as ZoomConfigInterface);
 
+        this.startTracks();
+    }
+
+    startTracks(): void{
     	this.tracks.forEach(track=>{
             track.init(this._width, this.xScale);
         });
@@ -174,7 +170,7 @@ export class RcsbBoard {
 
         this.tracks.forEach((track)=> {
             track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
-        })
+        });
 
     }
 
@@ -182,6 +178,11 @@ export class RcsbBoard {
         this.tracks.forEach((track)=> {
             track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
         })
+    }
+
+    reset(): void{
+        this.tracks = new Array<RcsbDisplayInterface>();
+        this.d3Manager.resetAllTracks();
     }
 
     public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>): void{
@@ -261,8 +262,8 @@ export class RcsbBoard {
             return () =>{
                 const args = Array.prototype.slice.call(arguments);
                 const self = this;
-                clearTimeout(tick);
-                tick = setTimeout (function () {
+                window.clearTimeout(tick);
+                tick = window.setTimeout (function () {
                     callBack.apply(self, args);
                 }, waitTime);
             };
@@ -277,7 +278,7 @@ export class RcsbBoard {
         this.highlightRegion(undefined, undefined);
 
         if(propFlag !== true){
-            const data:ScaleTransform = {
+            const data:ScaleTransformInterface = {
                 transform:transform,
                 domId:this.domId
             };
@@ -288,7 +289,7 @@ export class RcsbBoard {
         }
     };
 
-    public setScale(transformEvent: ScaleTransform){
+    public setScale(transformEvent: ScaleTransformInterface){
         if(transformEvent.domId !== this.domId){
     	    this.moveBoard(transformEvent.transform,true);
         }

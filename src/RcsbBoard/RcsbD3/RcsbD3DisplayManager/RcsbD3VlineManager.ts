@@ -20,10 +20,10 @@ export class RcsbD3VlineManager implements RcsbD3DisplayManagerInterface{
     plot(config: PlotVlineInterface){
         config.elements.append (RcsbD3Constants.LINE)
             .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
-                return config.xScale(d.pos);
+                return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.X2, (d:RcsbFvTrackDataElementInterface)=> {
-                return config.xScale(d.pos);
+                return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.Y1, 0)
             .attr(RcsbD3Constants.Y2, config.height)
@@ -35,10 +35,10 @@ export class RcsbD3VlineManager implements RcsbD3DisplayManagerInterface{
     move(config:MoveVlineInterface){
         config.elements.select(RcsbD3Constants.LINE)
             .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
-                return config.xScale(d.pos);
+                return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.X2, (d:RcsbFvTrackDataElementInterface) => {
-                return config.xScale(d.pos);
+                return config.xScale(d.begin);
             });
     }
 

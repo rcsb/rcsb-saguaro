@@ -22,9 +22,9 @@ export class RcsbFvDisplay {
 
     public initDisplay() : RcsbDisplayInterface{
         const config = this.displayConfig;
-        if (typeof config.displayType === "string") {
+        if (typeof config.displayType === "string" && config.displayType != DISPLAY_TYPES.COMPOSITE) {
             return RcsbFvDisplay.singleDisplay(config.displayType, config);
-        }else if(config.displayType instanceof Array){
+        }else if(typeof config.displayType === "string" && config.displayType == DISPLAY_TYPES.COMPOSITE){
             return this.composedDisplay(config);
         }else{
             throw "Display type "+config.displayType+" not supported";
@@ -37,10 +37,13 @@ export class RcsbFvDisplay {
 
     private composedDisplay(config: RcsbFvRowConfigInterface) : RcsbDisplayInterface{
         const display:RcsbCompositeDisplay = new RcsbCompositeDisplay();
-        const displayTypeArray: string | Array<string> = config.displayType;
         let i = 0;
-        for(let displayType of displayTypeArray){
-            const displayId: string = "displayId_"+Math.trunc(Math.random()*1000);
+        for(let displayItem of config.displayConfig){
+            let displayId: string = "displayId_"+Math.trunc(Math.random()*1000000);
+            if(typeof displayItem.displayId === "string"){
+                displayId = displayItem.displayId;
+            }
+            const displayType: string = displayItem.displayType;
             let displayConfig: RcsbFvRowConfigInterface = config;
             if(config.displayConfig) {
                 displayConfig = RcsbFvDisplay.setDisplayConfig(config, config.displayConfig[i]);

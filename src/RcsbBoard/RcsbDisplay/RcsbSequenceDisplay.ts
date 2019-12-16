@@ -21,7 +21,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         }
 
         const dataElems: Array<RcsbFvTrackDataElementInterface> = sequence.split("").map((s:string, i:number)=>{
-            return {pos:(i + 1), label:s} as RcsbFvTrackDataElementInterface;
+            return {begin:(i + 1), label:s} as RcsbFvTrackDataElementInterface;
         }).filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
             return (i+1 >= xScale.domain()[0] && i <= xScale.domain()[1]);
         });

@@ -29,7 +29,7 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
     plot(config: PlotVariantInterface): void{
         config.elements.append(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return config.xScale(d.pos);
+                return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return config.yScale(d.val as string);
@@ -47,7 +47,7 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
     move(config: MoveVariantInterface): void{
         config.elements.select(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return config.xScale(d.pos);
+                return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return config.yScale(d.val as string);

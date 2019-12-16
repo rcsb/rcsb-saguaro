@@ -1,12 +1,13 @@
 import {DISPLAY_TYPES, INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
-import {RcsbFvTrackData, RcsbFvTrackDataArray, RcsbFvDataManager} from "../RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvDataManager} from "../RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
-    displayType: string | Array<string>;
+    trackId: string;
+    displayType: string;
     length: number;
     elementId?: string;
-    trackData?: string | RcsbFvTrackData | RcsbFvTrackDataArray;
+    trackData?: string | RcsbFvTrackData;
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackHeight?: number;
     trackColor?: string;
@@ -21,10 +22,13 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     public updateConfig(args:RcsbFvRowConfigInterface) {
 
         //external config
+        if(typeof args.trackId === "string" ) {
+            this.trackId = args.trackId;
+        }
         if(typeof args.length === "number"){
             this.length = args.length;
         }
-        if(typeof args.displayType === "string" || typeof args.displayType === "object"){
+        if(typeof args.displayType === "string" ){
             this.displayType = args.displayType;
         }else{
             throw "Fatal error: Display type not found";
@@ -42,7 +46,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         //default config available
         if(typeof args.trackHeight === "number"){
             this.trackHeight = args.trackHeight;
-        }else if(typeof this.displayType !== "number"){
+        }else if(typeof this.displayType === "string"){
             if(this.displayType === DISPLAY_TYPES.AXIS){
                 this.trackHeight = RcsbFvDefaultConfigValues.trackAxisHeight;
             }else {
@@ -95,8 +99,25 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
     }
 
+    resetTrackData(): void {
+        this.trackData = undefined;
+    }
 
+    addTrackData( data: string | RcsbFvTrackData ): void {
+        if(typeof data === "string"){
+            this.trackData = data;
+        }else{
+            if(typeof this.trackData === "undefined"){
+                this.trackData = new RcsbFvTrackData();
+            }
+            (RcsbFvDataManager.processData(data) as RcsbFvTrackData).forEach(d=>{
+                (this.trackData as RcsbFvTrackData).push(d);
+            });
+        }
+    }
 
-
+    updateTrackData(data: string | RcsbFvTrackData):void{
+        this.trackData = RcsbFvDataManager.processData(data);
+    }
 
 }

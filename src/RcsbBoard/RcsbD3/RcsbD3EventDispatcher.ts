@@ -10,8 +10,8 @@ export class RcsbD3EventDispatcher {
     private static setInterval = (d:RcsbFvTrackDataElementInterface) => {
         if(typeof d.begin === "number" && typeof d.end === "number"){
             return d;
-        }else if(typeof d.pos === "number"){
-            return {begin: d.pos, end: d.pos};
+        }else if(typeof d.begin === "number"){
+            return {begin: d.begin, end: d.begin};
         }
     };
 
