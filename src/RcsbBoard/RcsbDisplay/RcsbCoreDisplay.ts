@@ -8,6 +8,7 @@ import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 export class RcsbCoreDisplay extends RcsbTrack{
 
     _displayColor: string = "#FF6666";
+    mouseoutCallBack: ()=>void = ()=>{};
 
     setDisplayColor(color: string): void{
         this._displayColor = color;
@@ -38,6 +39,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
             if (event.defaultPrevented) {
                 return;
             }
+            this.mouseoutCallBack();
         });
     }
 
