@@ -6,11 +6,21 @@ import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
     yScale: ScaleLinear<number,number> = scaleLinear();
     intervalRatio: [number,number] = [5,16];
+    private displaySequenceFlag: boolean = true;
+
+    constructor() {
+        super();
+        this.g.on(RcsbD3Constants.MOUSE_OVER,()=>{
+            this.displaySequenceFlag = true;
+            console.log(this.g.selectAll("."+classes.rcsbElement));
+        });
+    }
 
     update(where: LocationViewInterface, compKey?: string) {
         const xScale = this.xScale;

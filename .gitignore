@@ -1,3 +1,12 @@
+node_modules
+dist
+.package-lock.json
+index.js
+main.js
+index.html
+*map
+
 # intellij
 .idea
 *.iml
+
