@@ -14,6 +14,7 @@ import {
     RcsbFvContextManager,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
+import {Subscription} from "rxjs";
 
 export class RcsbFvTrack {
 
@@ -25,6 +26,7 @@ export class RcsbFvTrack {
     private trackData: string | RcsbFvTrackData | Array<string|RcsbFvTrackData> = null;
     private loadedData: boolean = false;
     private updateRowHeight: ()=>void;
+    private subscription: Subscription;
 
     public constructor(args:RcsbFvRowConfigInterface, updateRowHeight:()=>void) {
         if (typeof args.elementId === "string" && document.getElementById(args.elementId) !== null) {
@@ -32,7 +34,7 @@ export class RcsbFvTrack {
         }
         this.buildTrack(args);
         this.updateRowHeight = updateRowHeight;
-        this.subscribe();
+        this.subscription = this.subscribe();
     }
 
     private buildTrack(args:RcsbFvRowConfigInterface) : void{
@@ -151,8 +153,8 @@ export class RcsbFvTrack {
         this.rcsbBoard.startTracks();
     }
 
-    subscribe(): void{
-        RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+    subscribe(): Subscription{
+        return RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EVENT_TYPE.SCALE) {
                 this.setScale(obj.eventData as ScaleTransformInterface);
             }else if(obj.eventType===EVENT_TYPE.SELECTION){
@@ -163,6 +165,10 @@ export class RcsbFvTrack {
                 this.reset(obj.eventData as ResetInterface);
             }
         });
+    }
+
+    unsubscribe(): void{
+        this.subscription.unsubscribe();
     }
 
     public setScale(obj: ScaleTransformInterface) : void {

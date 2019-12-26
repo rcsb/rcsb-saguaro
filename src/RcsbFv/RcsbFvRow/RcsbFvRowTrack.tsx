@@ -47,6 +47,12 @@ export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInter
         this.updateHeight();
     }
 
+    componentWillUnmount(): void {
+        this.rcsbFvTrack.unsubscribe();
+        this.rcsbFvTrack = null;
+        this.configData = null;
+    }
+
     updateHeight(): void{
         const height: number = this.rcsbFvTrack.getTrackHeight();
         this.setState({rowTrackHeight:height,mounted:true} as RcsbFvRowTrackState);

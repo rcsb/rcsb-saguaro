@@ -11,7 +11,7 @@ export interface PlotPinInterface {
     xScale: ScaleLinear<number,number>;
     yScale: ScaleLinear<number,number>;
     height: number;
-    color?: string;
+    color?: string;addLine?: boolean;
 }
 
 export interface MovePinInterface {
@@ -20,6 +20,7 @@ export interface MovePinInterface {
     xScale: ScaleLinear<number,number>;
     yScale: ScaleLinear<number,number>;
     height: number;
+    addLine?: boolean;
 }
 
 export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
@@ -32,23 +33,25 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
         const color: string = config.color;
         const radius: number = config.radius;
         const labelShift: number = config.labelShift;
-        elements.append(RcsbD3Constants.LINE)
-            .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
-            })
-            .attr(RcsbD3Constants.Y1, (d:RcsbFvTrackDataElementInterface) => {
-                return height;
-            })
-            .attr(RcsbD3Constants.X2, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
-            })
-            .attr(RcsbD3Constants.Y2, (d:RcsbFvTrackDataElementInterface) => {
-                let y = 0.5;
-                if(typeof d.val === "number") {
-                    y = d.val;
-                }
-                return height - yScale(y);
-            });
+        if(config.addLine) {
+            elements.append(RcsbD3Constants.LINE)
+                .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
+                    return xScale(d.begin);
+                })
+                .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
+                    return height;
+                })
+                .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
+                    return xScale(d.begin);
+                })
+                .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
+                    let y = 0.5;
+                    if (typeof d.val === "number") {
+                        y = d.val;
+                    }
+                    return height - yScale(y);
+                });
+        }
 
 
         elements.append(RcsbD3Constants.CIRCLE)
@@ -101,23 +104,25 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
         const height: number = config.height;
         const labelShift: number = config.labelShift;
 
-        pins.select(RcsbD3Constants.LINE)
-            .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
-            })
-            .attr(RcsbD3Constants.Y1, (d:RcsbFvTrackDataElementInterface) => {
-                return height;
-            })
-            .attr(RcsbD3Constants.X2, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
-            })
-            .attr(RcsbD3Constants.Y2, (d:RcsbFvTrackDataElementInterface) => {
-                var y = 0.5;
-                if(typeof d.val === "number") {
-                    y = d.val;
-                }
-                return height - yScale(y);
-            });
+        if(config.addLine) {
+            pins.select(RcsbD3Constants.LINE)
+                .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
+                    return xScale(d.begin);
+                })
+                .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
+                    return height;
+                })
+                .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
+                    return xScale(d.begin);
+                })
+                .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
+                    var y = 0.5;
+                    if (typeof d.val === "number") {
+                        y = d.val;
+                    }
+                    return height - yScale(y);
+                });
+        }
 
         pins.select(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {

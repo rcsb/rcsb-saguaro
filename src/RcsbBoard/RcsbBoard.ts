@@ -59,7 +59,6 @@ export class RcsbBoard {
 
     constructor(elementId: string) {
         this.domId = elementId;
-
         const svgConfig: SVGConfInterface = {
             elementId: elementId,
             svgClass: classes.rcsbSvg,

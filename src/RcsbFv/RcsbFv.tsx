@@ -9,7 +9,16 @@ import {
     RcsbFvContextManagerInterface, ResetInterface, TrackInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "./RcsbFvDataManager/RcsbFvDataManager";
-import RcsbQuery from "../RcsbGraphQL/RcsbQuery";
+import RcsbQueryAnnotations, {
+    AnnotationReferenceInterface, AnnotationSourceInterface,
+    RequestAnnotationsInterface
+} from "../RcsbGraphQL/RcsbQueryAnnotations";
+import RcsbQueryAlignment, {
+    RequestAlignmentInterface,
+    SequenceReferenceInterface
+} from "../RcsbGraphQL/RcsbQueryAlignment";
+import RcsbInstanceToEntity, {RequestTranslateInterface} from "../RcsbGraphQL/RcsbInstanceToEntity";
+import {RcsbWebApp} from "../RcsbWeb/RcsbWebApp";
 
 interface RcsbFvInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
@@ -28,11 +37,25 @@ export class RcsbFv {
     constructor(props: RcsbFvInterface){
         this.boardConfigData = props.boardConfigData;
         this.elementId = props.elementId;
+        if(this.elementId===null || this.elementId===undefined){
+            throw "FATAL ERROR: DOM elementId not found";
+        }
         if(props.rowConfigData!=null) {
             this.rowConfigData = props.rowConfigData;
             this.identifyFvTracks(this.rowConfigData);
         }
-        this.init();
+        if(this.boardConfigData!==null) {
+            this.init();
+        }
+    }
+
+    public setBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
+        this.rowConfigData = rowConfigData;
+        this.identifyFvTracks(this.rowConfigData);
+    }
+
+    public setBoardConfig(config: RcsbFvBoardConfigInterface){
+        this.boardConfigData = config;
     }
 
     public init(){
@@ -104,6 +127,30 @@ export class RcsbFv {
 
 }
 
-export class RcsbFvQuery extends RcsbQuery{
+export class RcsbFvQuery {
+    private rcsbFvQueryAnnotations:RcsbQueryAnnotations = new RcsbQueryAnnotations();
+    private rcsbFvQueryAlignment:RcsbQueryAlignment = new RcsbQueryAlignment();
+    private rcsbFvInstanceToEntity:RcsbInstanceToEntity = new RcsbInstanceToEntity();
+
+    public readonly sequenceReference:SequenceReferenceInterface = this.rcsbFvQueryAlignment.sequenceReference;
+    public readonly annotationReference:AnnotationReferenceInterface = this.rcsbFvQueryAnnotations.annotationReference;
+    public readonly annotationSource:AnnotationSourceInterface = this.rcsbFvQueryAnnotations.annotationSource;
+
+    public requestAnnotations(requestConfig: RequestAnnotationsInterface): void{
+        this.rcsbFvQueryAnnotations.request(requestConfig);
+    }
+
+    public requestAlignment(requestConfig: RequestAlignmentInterface): void{
+        this.rcsbFvQueryAlignment.request(requestConfig);
+    }
+
+    public translateInstanceToEntity(requestConfig: RequestTranslateInterface): void{
+        this.rcsbFvInstanceToEntity.request(requestConfig);
+
+    }
+}
+
+export class RcsbFvWebApp extends RcsbWebApp{
 
 }
+

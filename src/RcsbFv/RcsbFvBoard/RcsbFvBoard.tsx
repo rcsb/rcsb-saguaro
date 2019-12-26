@@ -8,6 +8,7 @@ import {
     RcsbFvContextManager,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
+import {Subscription} from "rxjs";
 
 interface RcsbFvBoardInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
@@ -28,6 +29,7 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
     boardId : string = "RcsbFvBoard_"+Math.trunc(Math.random()*1000000);
     rcsbFvRowArrayIds : Array<string> = new Array<string>();
     currentScale: ScaleTransformInterface;
+    private subscription: Subscription;
 
     readonly state : RcsbFvBoardState = {
         rowConfigData: this.props.rowConfigData,
@@ -100,13 +102,25 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
     }
 
     componentDidMount(): void {
-        RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+        this.subscription = this.subscribe();
+    }
+
+    componentWillUnmount(): void {
+        console.warn("Component RcsbFvBoard unmount");
+    }
+
+    private subscribe(): Subscription{
+        return RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EVENT_TYPE.ADD_TRACK){
                 this.addRow(obj.eventData as RcsbFvRowConfigInterface);
             }else if(obj.eventType===EVENT_TYPE.SCALE){
                 this.currentScale = obj.eventData as ScaleTransformInterface;
             }
         });
+    }
+
+    unsubscribe(): void{
+        this.subscription.unsubscribe();
     }
 
     setScale(){

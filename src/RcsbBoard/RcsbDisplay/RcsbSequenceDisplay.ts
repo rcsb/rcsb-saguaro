@@ -5,7 +5,7 @@ import {scaleLinear, ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
-import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -15,15 +15,20 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     update(where: LocationViewInterface, compKey?: string) {
         const xScale = this.xScale;
 
-        let sequence: string = this._data as string;
+        let sequence: RcsbFvTrackData = this._data as RcsbFvTrackData;
         if (sequence === undefined) {
             return;
         }
 
-        const dataElems: Array<RcsbFvTrackDataElementInterface> = sequence.split("").map((s:string, i:number)=>{
-            return {begin:(i + 1), label:s} as RcsbFvTrackDataElementInterface;
-        }).filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
-            return (i+1 >= xScale.domain()[0] && i <= xScale.domain()[1]);
+        const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
+        sequence.forEach(seqRegion=>{
+            (seqRegion.val as string).split("").forEach((s:string, i:number)=>{
+                elems.push({begin:(seqRegion.begin+i), label:s} as RcsbFvTrackDataElementInterface);
+            })
+        });
+
+        const dataElems: Array<RcsbFvTrackDataElementInterface> = elems.filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
+            return (s.begin >= xScale.domain()[0] && s.begin <= xScale.domain()[1]);
         });
 
         let elemClass = "."+classes.rcsbElement;

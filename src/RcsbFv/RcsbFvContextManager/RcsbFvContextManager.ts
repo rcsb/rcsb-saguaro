@@ -6,7 +6,8 @@ import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 const subject = new Subject();
 const RcsbFvContextManager = {
     next: (obj: RcsbFvContextManagerInterface) => subject.next(obj),
-    asObservable: () => subject.asObservable()
+    asObservable: () => subject.asObservable(),
+    unsubscribeAll: () => subject.unsubscribe()
 };
 
 export enum EVENT_TYPE {

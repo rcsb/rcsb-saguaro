@@ -4,7 +4,6 @@ import RcsbFvRowTitle from "./RcsbFvRowTitle";
 import RcsbFvRowTrack from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
-import {RcsbFvTrackData} from "../RcsbFvDataManager/RcsbFvDataManager";
 
 interface RcsbFvRowInterface {
     id: string;
