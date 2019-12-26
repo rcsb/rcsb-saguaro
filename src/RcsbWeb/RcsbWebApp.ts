@@ -166,7 +166,8 @@ export class RcsbWebApp {
             const sequenceDisplay:RcsbFvDisplayConfigInterface = {
                 displayType: "sequence",
                 displayColor: "#000000",
-                displayData: sequenceData
+                displayData: sequenceData,
+                dynamicDisplay: true
             };
             const mismatchDisplay:RcsbFvDisplayConfigInterface = {
                 displayType: "pin",

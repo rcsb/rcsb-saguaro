@@ -13,6 +13,7 @@ export interface RcsbFvDisplayConfigInterface{
     displayData?: string | RcsbFvTrackData;
     displayType: string;
     displayId?: string;
+    dynamicDisplay?: boolean;
 }
 
 export interface RcsbFvRowConfigInterface {
@@ -31,4 +32,5 @@ export interface RcsbFvRowConfigInterface {
     rowTitleWidth?: number;
     interpolationType?: string;
     isAxis?: boolean;
+    dynamicDisplay?: boolean;
 }

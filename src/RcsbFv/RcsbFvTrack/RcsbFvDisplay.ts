@@ -72,7 +72,7 @@ export class RcsbFvDisplay {
             case DISPLAY_TYPES.PIN:
                 return RcsbFvDisplay.pinDisplay(config.displayColor, config.displayDomain);
             case DISPLAY_TYPES.SEQUENCE:
-                return RcsbFvDisplay.sequenceDisplay(config.displayColor);
+                return RcsbFvDisplay.sequenceDisplay(config.displayColor, config.dynamicDisplay);
             case DISPLAY_TYPES.LINE:
                 return RcsbFvDisplay.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
             case DISPLAY_TYPES.AREA:
@@ -90,9 +90,12 @@ export class RcsbFvDisplay {
         return new RcsbAxisDisplay();
     }
 
-    private static sequenceDisplay(color:string) : RcsbDisplayInterface{
+    private static sequenceDisplay(color:string, dynamicDisplayFlag?:boolean) : RcsbDisplayInterface{
         const display: RcsbSequenceDisplay = new RcsbSequenceDisplay();
         display.setDisplayColor(color);
+        if(dynamicDisplayFlag === true) {
+            display.setDynamicDisplay();
+        }
         return display;
     }
 
