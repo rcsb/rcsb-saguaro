@@ -13,6 +13,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     intervalRatio: [number,number] = [5,16];
 
     setDynamicDisplay(){
+        console.log("setDynamicDisplay");
         this.mouseoutCallBack = () => {
             console.log("MOUSE OUT!!!");
         };
