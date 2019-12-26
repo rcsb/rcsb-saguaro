@@ -13,6 +13,8 @@ export class RcsbTrack {
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined> = null;
     _boardHighlight: (begin: number, end: number, propFlag?: boolean) => void;
+    mouseoutCallBack: ()=>void = null;
+    mouseoverCallBack: ()=>void = null;
 
     height(h?: number): number{
         if(typeof h === "number"){
@@ -43,7 +45,9 @@ export class RcsbTrack {
         const config: TrackConfInterface = {
             trackClass: classes.rcsbTrack,
             height: height,
-            bgColor: this._bgColor
+            bgColor: this._bgColor,
+            mouseoutCallBack: this.mouseoutCallBack,
+            mouseoverCallBack: this.mouseoverCallBack
         };
         this.g = this.d3Manager.addTrack(config);
     }

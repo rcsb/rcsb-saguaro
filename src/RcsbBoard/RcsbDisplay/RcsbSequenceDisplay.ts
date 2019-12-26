@@ -6,7 +6,6 @@ import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
-import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -16,8 +15,10 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     constructor() {
         super();
         this.mouseoutCallBack = () => {
+            console.log("MOUSE OUT!!!");
+        };
+        this.mouseoverCallBack = () => {
             console.log(this.g.selectAll("."+classes.rcsbElement));
-
         };
     }
 

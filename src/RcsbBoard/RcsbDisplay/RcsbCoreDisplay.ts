@@ -4,11 +4,12 @@ import {Selection, BaseType, event, EnterElement} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
+import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbCoreDisplay extends RcsbTrack{
 
     _displayColor: string = "#FF6666";
-    mouseoutCallBack: ()=>void = ()=>{};
+
 
     setDisplayColor(color: string): void{
         this._displayColor = color;
@@ -19,27 +20,26 @@ export class RcsbCoreDisplay extends RcsbTrack{
     }
 
     plot(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{
-        element.on("click", (d)=> {
+        element.on(RcsbD3Constants.CLICK, (d)=> {
             if (event.defaultPrevented) {
                 return;
             }
             RcsbD3EventDispatcher.elementClick(this._boardHighlight.bind(this),d);
         });
-        element.on("mouseover", (d, i) => {
+        element.on(RcsbD3Constants.MOUSE_OVER, (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
         });
-        element.on("dblclick", (d, i) => {
+        element.on(RcsbD3Constants.DBL_CLICK, (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
         });
-        element.on("mouseout", (d, i) => {
+        element.on(RcsbD3Constants.MOUSE_OUT, (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
-            this.mouseoutCallBack();
         });
     }
 

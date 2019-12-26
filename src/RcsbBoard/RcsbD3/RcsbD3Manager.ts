@@ -38,6 +38,8 @@ export interface TrackConfInterface {
     trackClass: string;
     height: number;
     bgColor: string;
+    mouseoutCallBack: ()=>void;
+    mouseoverCallBack: ()=>void;
 }
 
 export interface ZoomConfigInterface {
@@ -118,6 +120,13 @@ export class RcsbD3Manager {
             .append<SVGGElement>(RcsbD3Constants.G)
             .attr(RcsbD3Constants.CLASS, config.trackClass)
             .attr(RcsbD3Constants.TRANSFORM, "translate(0," + this._trackHeightPosition + ")");
+
+        if(typeof config.mouseoverCallBack === "function"){
+            trackG.on(RcsbD3Constants.MOUSE_OVER,config.mouseoverCallBack);
+        }
+        if(typeof config.mouseoutCallBack === "function"){
+            trackG.on(RcsbD3Constants.MOUSE_OUT,config.mouseoutCallBack);
+        }
 
         this._trackHeightPosition += config.height;
 
