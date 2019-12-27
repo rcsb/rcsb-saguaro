@@ -6,12 +6,15 @@ import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {scheduleObservable} from "rxjs/internal/scheduled/scheduleObservable";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
     yScale: ScaleLinear<number,number> = scaleLinear();
     intervalRatio: [number,number] = [5,16];
     hideFlag: boolean = false;
+    private currentLocation: LocationViewInterface = null;
+    private compKey: string = null;
 
     setDynamicDisplay(){
         this.hideFlag = true;
@@ -21,10 +24,14 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         };
         this.mouseoverCallBack = () => {
             this.hideFlag = false;
+            this.update(this.currentLocation,this.compKey);
         };
     }
 
     update(where: LocationViewInterface, compKey?: string) {
+        this.currentLocation = where;
+        this.compKey = compKey;
+
         if(this.hideFlag)
             return;
 
