@@ -16,6 +16,6 @@ export interface RcsbDisplayInterface {
     init: (width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean) => void;
     highlightRegion: (x:number,y:number) => void;
     trackColor: (c?: string) => string;
-    mouseoutCallBack: ()=>void;
-    mouseoverCallBack: ()=>void;
+    mouseoutCallBack?: ()=>void;
+    mouseoverCallBack?: ()=>void;
 }
