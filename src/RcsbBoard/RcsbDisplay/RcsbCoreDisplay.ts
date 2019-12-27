@@ -25,7 +25,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
             }
             RcsbD3EventDispatcher.elementClick(this._boardHighlight.bind(this),d);
         });
-        element.on(RcsbD3Constants.MOUSE_OVER, (d, i) => {
+        element.on(RcsbD3Constants.MOUSE_ENTER, (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
@@ -35,7 +35,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
                 return;
             }
         });
-        element.on(RcsbD3Constants.MOUSE_OUT, (d, i) => {
+        element.on(RcsbD3Constants.MOUSE_LEAVE, (d, i) => {
             if (event.defaultPrevented) {
                 return;
             }
