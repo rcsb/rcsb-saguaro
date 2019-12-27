@@ -11,12 +11,14 @@ export interface PlotSequenceInterface {
     color?: string;
     height:number;
     intervalRatio: [number,number];
+    dynamicDisplay: boolean;
 }
 
 export interface MoveSequenceInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     xScale: ScaleLinear<number,number>;
     intervalRatio: [number,number];
+    dynamicDisplay: boolean;
 }
 
 export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
@@ -45,6 +47,9 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
                 return d.label || "";
             })
             .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
+        if(config.dynamicDisplay == true){
+            config.elements.style("display","none");
+        }
     }
 
     move(config: MoveSequenceInterface){
@@ -58,6 +63,9 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
                 return d.label || "";
             })
             .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
+        if(config.dynamicDisplay == true){
+            config.elements.style("display","none");
+        }
     }
 
     private static opacity (elems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, xScale: ScaleLinear<number,number>, intervalRatio: [number,number]): void {
