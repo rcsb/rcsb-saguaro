@@ -70,7 +70,9 @@ export class RcsbBoard {
             pointerEvents: "all",
             contextMenu: () => {
                 event.preventDefault();
-            }
+            },
+            mouseoutCallBack: this.mouseoutCallBack,
+            mouseoverCallBack: this.mouseoverCallBack
         };
         this.d3Manager.buildSvgNode(svgConfig);
         this.addMainG();
@@ -94,9 +96,7 @@ export class RcsbBoard {
             },
             dblClick:()=>{
                 this.highlightRegion(null,null,false);
-            },
-            mouseoutCallBack: this.mouseoutCallBack,
-            mouseoverCallBack: this.mouseoverCallBack
+            }
         };
         this.d3Manager.addMainG(innerConfig);
 

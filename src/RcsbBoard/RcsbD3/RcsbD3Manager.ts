@@ -18,6 +18,8 @@ export interface SVGConfInterface  {
     width: number;
     pointerEvents: string;
     contextMenu: () => void;
+    mouseoutCallBack: Array<()=>void>;
+    mouseoverCallBack: Array<()=>void>;
 }
 
 export interface MainGConfInterface  {
@@ -26,8 +28,6 @@ export interface MainGConfInterface  {
     dblClick: () =>void;
     mouseDown: () => void;
     mouseUp: () => void;
-    mouseoutCallBack: Array<()=>void>;
-    mouseoverCallBack: Array<()=>void>;
 }
 
 export interface PainConfInterface {
@@ -84,7 +84,17 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.CLASS, config.svgClass)
             .attr(RcsbD3Constants.WIDTH, config.width)
             .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents)
-            .on(RcsbD3Constants.CONTEXT_MENU, config.contextMenu);
+            .on(RcsbD3Constants.CONTEXT_MENU, config.contextMenu)
+            .on(RcsbD3Constants.MOUSE_OVER,()=>{
+                config.mouseoverCallBack.forEach(f=>{
+                    f();
+                });
+            })
+            .on(RcsbD3Constants.MOUSE_OUT,()=>{
+                config.mouseoutCallBack.forEach(f=>{
+                    f();
+                })
+            });
 
         this._width = config.width;
     }
@@ -96,17 +106,7 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.CLASS, config.innerClass)
             .on(RcsbD3Constants.DBL_CLICK, config.dblClick)
             .on(RcsbD3Constants.MOUSE_DOWN, config.mouseDown)
-            .on(RcsbD3Constants.MOUSE_UP, config.mouseUp)
-            .on(RcsbD3Constants.MOUSE_OVER,()=>{
-                config.mouseoverCallBack.forEach(f=>{
-                    f();
-                })
-            })
-            .on(RcsbD3Constants.MOUSE_OUT,()=>{
-                config.mouseoutCallBack.forEach(f=>{
-                    f();
-                })
-            });
+            .on(RcsbD3Constants.MOUSE_UP, config.mouseUp);
     }
 
     addPane(config: PainConfInterface): void {
