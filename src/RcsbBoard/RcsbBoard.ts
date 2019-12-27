@@ -57,6 +57,9 @@ export class RcsbBoard {
 
     zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any> = zoom();
 
+    mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
+    mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
+
     constructor(elementId: string) {
         this.domId = elementId;
         const svgConfig: SVGConfInterface = {
@@ -91,7 +94,9 @@ export class RcsbBoard {
             },
             dblClick:()=>{
                 this.highlightRegion(null,null,false);
-            }
+            },
+            mouseoutCallBack: this.mouseoutCallBack,
+            mouseoverCallBack: this.mouseoverCallBack
         };
         this.d3Manager.addMainG(innerConfig);
 
@@ -189,11 +194,23 @@ export class RcsbBoard {
             track.forEach((t) => {
                 t.setD3Manager(this.d3Manager);
                 t.setBoardHighlight(this.highlightRegion.bind(this));
+                if(typeof t.mouseoutCallBack === "function"){
+                    this.mouseoutCallBack.push(t.mouseoutCallBack)
+                }
+                if(typeof t.mouseoverCallBack === "function"){
+                    this.mouseoverCallBack.push(t.mouseoverCallBack)
+                }
                 this.tracks.push(t);
             });
         }else{
             track.setD3Manager(this.d3Manager);
             track.setBoardHighlight(this.highlightRegion.bind(this));
+            if(typeof track.mouseoutCallBack === "function"){
+                this.mouseoutCallBack.push(track.mouseoutCallBack)
+            }
+            if(typeof track.mouseoverCallBack === "function"){
+                this.mouseoverCallBack.push(track.mouseoverCallBack)
+            }
             this.tracks.push(track);
         }
     }

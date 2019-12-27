@@ -45,9 +45,7 @@ export class RcsbTrack {
         const config: TrackConfInterface = {
             trackClass: classes.rcsbTrack,
             height: height,
-            bgColor: this._bgColor,
-            mouseoutCallBack: this.mouseoutCallBack,
-            mouseoverCallBack: this.mouseoverCallBack
+            bgColor: this._bgColor
         };
         this.g = this.d3Manager.addTrack(config);
     }
