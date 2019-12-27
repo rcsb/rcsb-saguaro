@@ -11,14 +11,16 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
 
     yScale: ScaleLinear<number,number> = scaleLinear();
     intervalRatio: [number,number] = [5,16];
-    dynamicDisplay: boolean = false;
+    hideFlag: boolean = false;
 
     setDynamicDisplay(){
-        this.dynamicDisplay = true;
+        this.hideFlag = true;
         this.mouseoutCallBack = () => {
+            this.hideFlag = true;
             this.g.selectAll("."+classes.rcsbElement).style("display","none");
         };
         this.mouseoverCallBack = () => {
+            this.hideFlag = false;
             this.g.selectAll("."+classes.rcsbElement).style("display","initial");
         };
     }
@@ -71,7 +73,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             color: this._displayColor,
             height: this._height,
             intervalRatio: this.intervalRatio,
-            dynamicDisplay: this.dynamicDisplay
+            hideFlag: this.hideFlag
         };
         this.d3Manager.plotSequenceDisplay(config);
     }
@@ -81,7 +83,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             elements: this.getElements(),
             xScale: this.xScale,
             intervalRatio: this.intervalRatio,
-            dynamicDisplay: this.dynamicDisplay
+            hideFlag: this.hideFlag
         };
         this.d3Manager.moveSequenceDisplay(config);
     }

@@ -11,14 +11,14 @@ export interface PlotSequenceInterface {
     color?: string;
     height:number;
     intervalRatio: [number,number];
-    dynamicDisplay: boolean;
+    hideFlag: boolean;
 }
 
 export interface MoveSequenceInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     xScale: ScaleLinear<number,number>;
     intervalRatio: [number,number];
-    dynamicDisplay: boolean;
+    hideFlag: boolean;
 }
 
 export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
@@ -47,8 +47,7 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
                 return d.label || "";
             })
             .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
-        if(config.dynamicDisplay == true){
-            console.log(config.elements);
+        if(config.hideFlag == true){
             config.elements.style("display","none");
         }
     }
@@ -64,7 +63,7 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
                 return d.label || "";
             })
             .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
-        if(config.dynamicDisplay == true){
+        if(config.hideFlag == true){
             config.elements.style("display","none");
         }
     }
