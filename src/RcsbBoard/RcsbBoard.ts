@@ -195,10 +195,10 @@ export class RcsbBoard {
                 t.setD3Manager(this.d3Manager);
                 t.setBoardHighlight(this.highlightRegion.bind(this));
                 if(typeof t.mouseoutCallBack === "function"){
-                    this.mouseoutCallBack.push(t.mouseoutCallBack)
+                    this.mouseoutCallBack.push(t.mouseoutCallBack.bind(t))
                 }
                 if(typeof t.mouseoverCallBack === "function"){
-                    this.mouseoverCallBack.push(t.mouseoverCallBack)
+                    this.mouseoverCallBack.push(t.mouseoverCallBack.bind(t))
                 }
                 this.tracks.push(t);
             });
@@ -206,10 +206,10 @@ export class RcsbBoard {
             track.setD3Manager(this.d3Manager);
             track.setBoardHighlight(this.highlightRegion.bind(this));
             if(typeof track.mouseoutCallBack === "function"){
-                this.mouseoutCallBack.push(track.mouseoutCallBack)
+                this.mouseoutCallBack.push(track.mouseoutCallBack.bind(track))
             }
             if(typeof track.mouseoverCallBack === "function"){
-                this.mouseoverCallBack.push(track.mouseoverCallBack)
+                this.mouseoverCallBack.push(track.mouseoverCallBack.bind(track))
             }
             this.tracks.push(track);
         }
