@@ -60,6 +60,9 @@ export class RcsbFvDisplay {
         if(typeof displayConfig.displayColor === "string"){
             out.displayColor = displayConfig.displayColor;
         }
+        if(typeof displayConfig.dynamicDisplay === "boolean"){
+            out.dynamicDisplay = displayConfig.dynamicDisplay;
+        }
         return out;
     }
 
