@@ -17,11 +17,10 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.hideFlag = true;
         this.mouseoutCallBack = () => {
             this.hideFlag = true;
-            this.g.selectAll("."+classes.rcsbElement).style("display","none");
+            this.g.selectAll("."+classes.rcsbElement).remove();
         };
         this.mouseoverCallBack = () => {
             this.hideFlag = false;
-            this.g.selectAll("."+classes.rcsbElement).remove();
         };
     }
 
