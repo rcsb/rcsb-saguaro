@@ -24,6 +24,10 @@ export interface MoveSequenceInterface {
 export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
 
     plot(config: PlotSequenceInterface){
+        if(config.hideFlag == true){
+            config.elements.remove();
+            return;
+        }
         const xScale = config.xScale;
         const yScale = config.yScale;
 
@@ -47,14 +51,15 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
                 return d.label || "";
             })
             .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
-        if(config.hideFlag == true){
-            config.elements.style("display","none");
-        }
+
     }
 
     move(config: MoveSequenceInterface){
         const xScale = config.xScale;
-
+        if(config.hideFlag == true){
+            config.elements.remove();
+            return;
+        }
         config.elements.select(RcsbD3Constants.TEXT)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
@@ -63,9 +68,6 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
                 return d.label || "";
             })
             .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
-        if(config.hideFlag == true){
-            config.elements.style("display","none");
-        }
     }
 
     private static opacity (elems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, xScale: ScaleLinear<number,number>, intervalRatio: [number,number]): void {

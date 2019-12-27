@@ -21,7 +21,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         };
         this.mouseoverCallBack = () => {
             this.hideFlag = false;
-            this.g.selectAll("."+classes.rcsbElement).style("display","initial");
+            this.g.selectAll("."+classes.rcsbElement).remove();
         };
     }
 
