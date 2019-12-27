@@ -17,6 +17,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.hideFlag = true;
         this.mouseoutCallBack = () => {
             this.hideFlag = true;
+            this.getElements().remove();
         };
         this.mouseoverCallBack = () => {
             this.hideFlag = false;
