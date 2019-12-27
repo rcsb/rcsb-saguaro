@@ -24,7 +24,6 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     }
 
     update(where: LocationViewInterface, compKey?: string) {
-        console.log("UPDATE!!!");
         if(this.hideFlag)
             return;
 
