@@ -48,6 +48,7 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
             })
             .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
         if(config.dynamicDisplay == true){
+            console.log(config.elements);
             config.elements.style("display","none");
         }
     }
