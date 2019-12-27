@@ -184,7 +184,7 @@ export class RcsbWebApp {
                 displayType: "composite",
                 trackColor: "#F9F9F9",
                 rowTitle: targetAlignment.target_id,
-                displayConfig: [alignmentDisplay, mismatchDisplay, sequenceDisplay]
+                displayConfig: [alignmentDisplay, mismatchDisplay]
             };
             //this.rcsbFv.addTrack(track);
             this.rowConfigData.push(track);
