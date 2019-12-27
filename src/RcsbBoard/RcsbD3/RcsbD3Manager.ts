@@ -85,7 +85,7 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.WIDTH, config.width)
             .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents)
             .on(RcsbD3Constants.CONTEXT_MENU, config.contextMenu)
-            .on(RcsbD3Constants.MOUSE_OVER,()=>{
+            /*.on(RcsbD3Constants.MOUSE_OVER,()=>{
                 config.mouseoverCallBack.forEach(f=>{
                     f();
                 });
@@ -94,7 +94,7 @@ export class RcsbD3Manager {
                 config.mouseoutCallBack.forEach(f=>{
                     f();
                 })
-            });
+            })*/;
 
         this._width = config.width;
     }
