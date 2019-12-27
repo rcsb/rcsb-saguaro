@@ -10,7 +10,6 @@ export class RcsbCoreDisplay extends RcsbTrack{
 
     _displayColor: string = "#FF6666";
 
-
     setDisplayColor(color: string): void{
         this._displayColor = color;
     }
