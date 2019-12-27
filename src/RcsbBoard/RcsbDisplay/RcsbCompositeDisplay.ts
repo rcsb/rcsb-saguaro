@@ -14,6 +14,22 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     _data: RcsbFvTrackDataMap = null;
     _bgColor: string = null;
 
+    mouseoutCallBack(): void{
+        this.innerDisplays.forEach(id=>{
+            if(typeof id.display.mouseoutCallBack === "function") {
+                id.display.mouseoutCallBack();
+            }
+        });
+    }
+
+    mouseoverCallBack(): void{
+        this.innerDisplays.forEach(id=>{
+            if(typeof id.display.mouseoverCallBack === "function") {
+                id.display.mouseoverCallBack();
+            }
+        });
+    }
+
     reset(): void{
         this.innerDisplays.forEach(de=>{
             de.display.reset();
