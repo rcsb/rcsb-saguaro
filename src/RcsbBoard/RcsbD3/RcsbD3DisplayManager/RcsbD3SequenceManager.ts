@@ -24,10 +24,6 @@ export interface MoveSequenceInterface {
 export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
 
     plot(config: PlotSequenceInterface){
-        if(config.hideFlag == true){
-            config.elements.remove();
-            return;
-        }
         const xScale = config.xScale;
         const yScale = config.yScale;
 
@@ -56,10 +52,6 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
 
     move(config: MoveSequenceInterface){
         const xScale = config.xScale;
-        if(config.hideFlag == true){
-            config.elements.remove();
-            return;
-        }
         config.elements.select(RcsbD3Constants.TEXT)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);

@@ -17,7 +17,6 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.hideFlag = true;
         this.mouseoutCallBack = () => {
             this.hideFlag = true;
-            this.g.selectAll("."+classes.rcsbElement).remove();
         };
         this.mouseoverCallBack = () => {
             this.hideFlag = false;
@@ -25,6 +24,9 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     }
 
     update(where: LocationViewInterface, compKey?: string) {
+        if(this.hideFlag)
+            return;
+
         const xScale = this.xScale;
 
         let sequence: RcsbFvTrackData = this._data as RcsbFvTrackData;
