@@ -91,6 +91,9 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
         if(typeof this.state.boardConfigData.trackWidth === "number"){
             out.trackWidth = this.state.boardConfigData.trackWidth;
         }
+        if(typeof this.state.boardConfigData.elementClickCallBack === "function"){
+            out.elementClickCallBack = this.state.boardConfigData.elementClickCallBack;
+        }
         return out;
     }
 

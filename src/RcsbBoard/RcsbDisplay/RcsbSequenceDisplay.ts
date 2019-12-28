@@ -6,7 +6,6 @@ import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
-import {scheduleObservable} from "rxjs/internal/scheduled/scheduleObservable";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 

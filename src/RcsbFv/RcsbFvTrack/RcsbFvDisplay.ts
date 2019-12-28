@@ -66,27 +66,40 @@ export class RcsbFvDisplay {
         return out;
     }
 
-    private static singleDisplay(type: string, config: RcsbFvRowConfigInterface) {
+    private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
+        let out:RcsbDisplayInterface = null;
         switch (type) {
             case DISPLAY_TYPES.AXIS:
-                return RcsbFvDisplay.axisDisplay();
+                out = RcsbFvDisplay.axisDisplay();
+                break;
             case DISPLAY_TYPES.BLOCK:
-                return RcsbFvDisplay.blockDisplay(config.displayColor);
+                out = RcsbFvDisplay.blockDisplay(config.displayColor);
+                break;
             case DISPLAY_TYPES.PIN:
-                return RcsbFvDisplay.pinDisplay(config.displayColor, config.displayDomain);
+                out = RcsbFvDisplay.pinDisplay(config.displayColor, config.displayDomain);
+                break;
             case DISPLAY_TYPES.SEQUENCE:
-                return RcsbFvDisplay.sequenceDisplay(config.displayColor, config.dynamicDisplay);
+                out = RcsbFvDisplay.sequenceDisplay(config.displayColor, config.dynamicDisplay);
+                break;
             case DISPLAY_TYPES.LINE:
-                return RcsbFvDisplay.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                out = RcsbFvDisplay.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                break;
             case DISPLAY_TYPES.AREA:
-                return RcsbFvDisplay.areaDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                out = RcsbFvDisplay.areaDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                break;
             case DISPLAY_TYPES.VARIANT:
-                return RcsbFvDisplay.variantDisplay(config.displayColor);
+                out = RcsbFvDisplay.variantDisplay(config.displayColor);
+                break;
             case DISPLAY_TYPES.VLINE:
-                return RcsbFvDisplay.vlineDisplay(config.displayColor);
+                out = RcsbFvDisplay.vlineDisplay(config.displayColor);
+                break;
             default:
                 throw "Track type " + config.displayType + " is not supported";
         }
+        if(typeof config.elementClickCallBack === "function"){
+            out.setElementClickCallBack(config.elementClickCallBack);
+        }
+        return out;
     }
 
     private static axisDisplay(): RcsbDisplayInterface{

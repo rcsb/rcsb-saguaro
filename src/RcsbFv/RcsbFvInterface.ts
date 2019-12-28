@@ -1,10 +1,11 @@
-import {RcsbFvTrackData} from "./RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "./RcsbFvDataManager/RcsbFvDataManager";
 
 export interface RcsbFvBoardConfigInterface {
     length: number;
     rowTitleWidth?: number;
     trackWidth?: number;
     includeAxis?: boolean;
+    elementClickCallBack:()=>void;
 }
 
 export interface RcsbFvDisplayConfigInterface{
@@ -14,6 +15,7 @@ export interface RcsbFvDisplayConfigInterface{
     displayType: string;
     displayId?: string;
     dynamicDisplay?: boolean;
+    elementClickCallBack:()=>void;
 }
 
 export interface RcsbFvRowConfigInterface {
@@ -33,4 +35,5 @@ export interface RcsbFvRowConfigInterface {
     interpolationType?: string;
     isAxis?: boolean;
     dynamicDisplay?: boolean;
+    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }

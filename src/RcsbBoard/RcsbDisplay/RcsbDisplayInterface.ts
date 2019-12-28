@@ -18,4 +18,6 @@ export interface RcsbDisplayInterface {
     trackColor: (c?: string) => string;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
+    elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
 }

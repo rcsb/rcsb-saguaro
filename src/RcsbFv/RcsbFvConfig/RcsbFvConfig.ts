@@ -1,6 +1,10 @@
 import {DISPLAY_TYPES, INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
-import {RcsbFvTrackData, RcsbFvDataManager} from "../RcsbFvDataManager/RcsbFvDataManager";
+import {
+    RcsbFvTrackData,
+    RcsbFvDataManager,
+    RcsbFvTrackDataElementInterface
+} from "../RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackId: string;
@@ -14,6 +18,8 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     displayColor?: string;
     displayDomain?: [number,number];
     interpolationType? : string;
+    dynamicDisplay?: boolean;
+    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 
     constructor(args:RcsbFvRowConfigInterface) {
         this.updateConfig(args);
@@ -41,6 +47,12 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(args.displayConfig instanceof Array) {
             this.displayConfig = args.displayConfig;
+        }
+        if(typeof args.elementClickCallBack === "function"){
+            this.elementClickCallBack = args.elementClickCallBack;
+        }
+        if(typeof args.dynamicDisplay === "boolean"){
+            this.dynamicDisplay = args.dynamicDisplay;
         }
 
         //default config available
