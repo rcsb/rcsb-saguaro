@@ -1,5 +1,9 @@
 import {RcsbFv,RcsbFvQuery} from '../RcsbFv/RcsbFv';
-import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFv/RcsbFvInterface";
+import {
+    RcsbFvBoardConfigInterface,
+    RcsbFvDisplayConfigInterface,
+    RcsbFvRowConfigInterface
+} from "../RcsbFv/RcsbFvInterface";
 import {ProteinSeqeunceAlignmentJson} from "../RcsbGraphQL/RcsbAlignmentInterface";
 import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RequestTranslateInterface} from "../RcsbGraphQL/RcsbInstanceToEntity";
@@ -121,8 +125,11 @@ export class RcsbWebApp {
                 const alignmentData: Array<ProteinSeqeunceAlignmentJson> = data.target_alignment;
                 this.rcsbFv.setBoardConfig({
                     length: result.data.alignment.query_sequence.length,
-                    includeAxis: true
-                });
+                    includeAxis: true,
+                    elementClickCallBack:(d)=>{
+                        console.log(d);
+                    }
+                } as RcsbFvBoardConfigInterface);
                 const track: RcsbFvRowConfigInterface = {
                     trackId: "mainSequenceTrack_" + requestConfig.queryId,
                     displayType: "sequence",

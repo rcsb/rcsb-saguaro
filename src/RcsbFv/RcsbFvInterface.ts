@@ -5,7 +5,7 @@ export interface RcsbFvBoardConfigInterface {
     rowTitleWidth?: number;
     trackWidth?: number;
     includeAxis?: boolean;
-    elementClickCallBack:()=>void;
+    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }
 
 export interface RcsbFvDisplayConfigInterface{
@@ -15,7 +15,7 @@ export interface RcsbFvDisplayConfigInterface{
     displayType: string;
     displayId?: string;
     dynamicDisplay?: boolean;
-    elementClickCallBack:()=>void;
+    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }
 
 export interface RcsbFvRowConfigInterface {
