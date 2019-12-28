@@ -60,6 +60,7 @@ export class RcsbWebApp {
 
     constructor(config: RcsbWebAppInterface) {
         this.rcsbFv = new RcsbFv({rowConfigData: null, boardConfigData: null, elementId: config.elementId});
+        this.elementClickCallBack = config.elementClickCallBack;
     }
 
     public buildUniprotFv(upAcc: string): void{
