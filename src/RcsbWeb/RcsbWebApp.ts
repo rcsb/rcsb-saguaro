@@ -10,6 +10,7 @@ import {RequestTranslateInterface} from "../RcsbGraphQL/RcsbInstanceToEntity";
 
 export interface RcsbWebAppInterface{
     elementId:string;
+    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }
 
 interface CollectSequencesInterface{
@@ -55,6 +56,7 @@ export class RcsbWebApp {
     private rcsbFv: RcsbFv;
     private rcsbFvQuery: RcsbFvQuery = new RcsbFvQuery();
     private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
+    private elementClickCallBack:(d?:RcsbFvTrackDataElementInterface)=>void;
 
     constructor(config: RcsbWebAppInterface) {
         this.rcsbFv = new RcsbFv({rowConfigData: null, boardConfigData: null, elementId: config.elementId});
@@ -126,9 +128,7 @@ export class RcsbWebApp {
                 this.rcsbFv.setBoardConfig({
                     length: result.data.alignment.query_sequence.length,
                     includeAxis: true,
-                    elementClickCallBack:(d)=>{
-                        console.log(d);
-                    }
+                    elementClickCallBack:this.elementClickCallBack
                 } as RcsbFvBoardConfigInterface);
                 const track: RcsbFvRowConfigInterface = {
                     trackId: "mainSequenceTrack_" + requestConfig.queryId,
