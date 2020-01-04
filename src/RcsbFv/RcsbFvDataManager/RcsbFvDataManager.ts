@@ -5,6 +5,7 @@ export interface RcsbFvTrackDataElementInterface {
     label?: string;
     color?: string;
     description?: string;
+    feature_id?: string;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
@@ -52,7 +53,7 @@ export class RcsbFvDataManager {
 
     private static doOverlap(a: RcsbFvTrackDataElementInterface, b: RcsbFvTrackDataElementInterface): boolean{
         if(typeof a.begin === "number" && typeof b.begin === "number" && typeof a.end === "number" && typeof b.end === "number") {
-                if( a.end <= b.begin || b.end <= a.begin)
+                if( a.end < b.begin || b.end < a.begin)
                     return false;
         }else if(typeof a.begin === "number" && typeof b.begin === "number") {
             if(a.begin != b.begin)

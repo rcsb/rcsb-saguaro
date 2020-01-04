@@ -68,9 +68,6 @@ export class RcsbBoard {
             domClass: classes.rcsbDom,
             width: this._width,
             pointerEvents: "all",
-            contextMenu: () => {
-                event.preventDefault();
-            },
             mouseoutCallBack: this.mouseoutCallBack,
             mouseoverCallBack: this.mouseoverCallBack
         };

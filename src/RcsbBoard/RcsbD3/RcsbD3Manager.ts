@@ -1,5 +1,5 @@
 import {RcsbD3Constants} from "./RcsbD3Constants";
-import {Selection, select} from "d3-selection";
+import {Selection, select, event} from "d3-selection";
 import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
 import {ScaleLinear} from "d3-scale";
 import {MoveBlockInterface, PlotBlockInterface, RcsbD3BlockManager} from "./RcsbD3DisplayManager/RcsbD3BlockManager";
@@ -17,7 +17,6 @@ export interface SVGConfInterface  {
     svgClass: string;
     width: number;
     pointerEvents: string;
-    contextMenu: () => void;
     mouseoutCallBack: Array<()=>void>;
     mouseoverCallBack: Array<()=>void>;
 }
@@ -25,7 +24,7 @@ export interface SVGConfInterface  {
 export interface MainGConfInterface  {
     masterClass: string;
     innerClass: string;
-    dblClick: () =>void;
+    dblClick: () => void;
     mouseDown: () => void;
     mouseUp: () => void;
 }
@@ -84,7 +83,9 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.CLASS, config.svgClass)
             .attr(RcsbD3Constants.WIDTH, config.width)
             .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents)
-            .on(RcsbD3Constants.CONTEXT_MENU, config.contextMenu)
+            .on(RcsbD3Constants.CONTEXT_MENU, ()=>{
+                event.preventDefault();
+            })
             .on(RcsbD3Constants.MOUSE_ENTER,()=>{
                 config.mouseoverCallBack.forEach(f=>{
                     f();

@@ -7,6 +7,7 @@ import {
 import {ProteinSeqeunceAlignmentJson} from "../RcsbGraphQL/RcsbAlignmentInterface";
 import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RequestTranslateInterface} from "../RcsbGraphQL/RcsbInstanceToEntity";
+import {RcsbAnnotationMap, RcsbAnnotationMapInterface} from "../RcsbAnnotationConfig/RcsbAnnotationMap";
 
 export interface RcsbWebAppInterface{
     elementId:string;
@@ -56,7 +57,12 @@ export class RcsbWebApp {
     private rcsbFv: RcsbFv;
     private rcsbFvQuery: RcsbFvQuery = new RcsbFvQuery();
     private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
+    private seqeunceConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
+    private alignmentsConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
+    private annotationsConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     private elementClickCallBack:(d?:RcsbFvTrackDataElementInterface)=>void;
+    private bottomAlignments: boolean = false;
+    private rcsbAnnotationMap: RcsbAnnotationMap = new RcsbAnnotationMap();
 
     constructor(config: RcsbWebAppInterface) {
         this.rcsbFv = new RcsbFv({rowConfigData: null, boardConfigData: null, elementId: config.elementId});
@@ -64,6 +70,7 @@ export class RcsbWebApp {
     }
 
     public buildUniprotFv(upAcc: string): void{
+        this.bottomAlignments = true;
         this.collectSequences({
             queryId:upAcc,
             from: this.rcsbFvQuery.sequenceReference.UNIPROT,
@@ -139,8 +146,7 @@ export class RcsbWebApp {
                     rowTitle: requestConfig.queryId,
                     trackData: [{begin: 1, val: result.data.alignment.query_sequence}]
                 };
-                //this.rcsbFv.addTrack(track);
-                this.rowConfigData.push(track);
+                this.seqeunceConfigData.push(track);
                 this.collectTargetAlignments(alignmentData, querySequence, requestConfig.callBack);
             }
         });
@@ -194,57 +200,82 @@ export class RcsbWebApp {
                 rowTitle: targetAlignment.target_id,
                 displayConfig: [alignmentDisplay, mismatchDisplay, sequenceDisplay]
             };
-            //this.rcsbFv.addTrack(track);
-            this.rowConfigData.push(track);
+            this.alignmentsConfigData.push(track);
         });
         callBack();
     }
 
     private collectAnnotations(requestConfig: CollectAnnotationsInterface): void {
-        const randomRgba = ()=>{
-            var o = Math.round, r = Math.random, s = 255;
-            return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
-        };
-
         this.rcsbFvQuery.requestAnnotations({
             queryId: requestConfig.queryId,
             reference: requestConfig.reference,
             source: requestConfig.source,
             callBack: result => {
                 const data: Array<Annotations> = result.data.annotations as Array<Annotations>;
-                const annotations = new Map();
+                const annotations:Map<string,Array<RcsbFvTrackDataElementInterface>> = new Map();
                 data.forEach(ann => {
                     ann.items.forEach(d => {
                         const type = d.type;
                         const positions = d.positions;
-                        if (annotations.has(type)) {
-                            positions.forEach(p => {
-                                annotations.get(type).push(p);
-                            })
-                        } else {
-                            annotations.set(type, positions);
+                        if (!annotations.has(type)) {
+                            annotations.set(type, new Array<RcsbFvTrackDataElementInterface>());
                         }
+                        positions.forEach(p => {
+                            annotations.get(type).push({
+                                begin:p.begin,
+                                end: p.end,
+                                description:d.description,
+                                feature_id: d.feature_id
+                            } as RcsbFvTrackDataElementInterface);
+                        })
                     });
                 });
-                annotations.forEach((data, type) => {
-                    let displayType = "block";
-                    if (data[0].end == null) {
-                        displayType = "pin";
-                    }
-                    const track:RcsbFvRowConfigInterface = {
-                        trackId: "annotationTrack_"+type,
-                        displayType: displayType,
-                        trackColor: "#F9F9F9",
-                        displayColor: randomRgba(),
-                        rowTitle: type,
-                        trackData: data
-                    };
-                    //this.rcsbFv.addTrack(track);
-                    this.rowConfigData.push(track);
+                this.rcsbAnnotationMap.order().forEach(type=>{
+                    if(annotations.has(type))
+                        this.annotationsConfigData.push( this.buildAnnotationTrack(annotations.get(type),type) );
                 });
+                annotations.forEach((data, type) => {
+                    if(!this.rcsbAnnotationMap.order().includes(type))
+                        this.annotationsConfigData.push( this.buildAnnotationTrack(data,type) );
+                });
+                if(this.bottomAlignments){
+                    this.rowConfigData = this.seqeunceConfigData.concat(this.annotationsConfigData).concat(this.alignmentsConfigData);
+                }else {
+                    this.rowConfigData = this.seqeunceConfigData.concat(this.alignmentsConfigData).concat(this.annotationsConfigData);
+                }
                 this.rcsbFv.setBoardData(this.rowConfigData);
                 this.rcsbFv.init();
             }
         });
+    }
+
+    private buildAnnotationTrack(data: Array<RcsbFvTrackDataElementInterface>, type: string):RcsbFvRowConfigInterface{
+        const randomRgba = ()=>{
+            var o = Math.round, r = Math.random, s = 255;
+            return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
+        };
+        let displayType = "block";
+        if (data[0].end == null) {
+            displayType = "pin";
+        }
+        let displayColor = randomRgba();
+        let rowTitle = type;
+        const annConfig:RcsbAnnotationMapInterface = this.rcsbAnnotationMap.getConfig(type);
+        if(annConfig!==null){
+            displayType = annConfig.display;
+            rowTitle = annConfig.title;
+            displayColor = annConfig.color;
+
+        }else{
+            console.warn("Annotation config type "+type+" not found. Using random config");
+        }
+        return {
+            trackId: "annotationTrack_"+type,
+            displayType: displayType,
+            trackColor: "#F9F9F9",
+            displayColor: displayColor,
+            rowTitle: rowTitle,
+            trackData: data
+        } as RcsbFvRowConfigInterface;
     }
 }

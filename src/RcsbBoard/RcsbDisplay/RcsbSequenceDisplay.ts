@@ -14,16 +14,23 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     hideFlag: boolean = false;
     private currentLocation: LocationViewInterface = null;
     private compKey: string = null;
+    private tick: number = null;
 
     setDynamicDisplay(){
         this.hideFlag = true;
         this.mouseoutCallBack = () => {
             this.hideFlag = true;
             this.getElements().remove();
+            window.clearTimeout(this.tick);
         };
         this.mouseoverCallBack = () => {
-            this.hideFlag = false;
-            this.update(this.currentLocation,this.compKey);
+            window.clearTimeout(this.tick);
+            if(this.hideFlag) {
+                this.tick = window.setTimeout(() => {
+                    this.hideFlag = false;
+                    this.update(this.currentLocation, this.compKey);
+                }, 300);
+            }
         };
     }
 
@@ -31,8 +38,11 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.currentLocation = where;
         this.compKey = compKey;
 
-        if(this.hideFlag)
+        if(this.hideFlag) {
+            window.clearTimeout(this.tick);
+            this.getElements().remove();
             return;
+        }
 
         const xScale = this.xScale;
 
@@ -66,10 +76,23 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
                 .attr("class", classes.rcsbElement)
                 .classed(classes.rcsbElement+"_" + compKey, typeof compKey === "string")
                 .call(this.plot.bind(this));
+        }else{
+            this.getElements().remove();
+        }
+
+        if(this.hideFlag) {
+            window.clearTimeout(this.tick);
+            this.getElements().remove();
         }
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>){
+        if(this.hideFlag) {
+            window.clearTimeout(this.tick);
+            this.getElements().remove();
+            return;
+        }
+
         super.plot(elements);
         this.yScale
             .domain([0, this._height])
@@ -84,9 +107,19 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             hideFlag: this.hideFlag
         };
         this.d3Manager.plotSequenceDisplay(config);
+
+        if(this.hideFlag) {
+            window.clearTimeout(this.tick);
+            this.getElements().remove();
+        }
     }
 
     move(){
+        if(this.hideFlag) {
+            window.clearTimeout(this.tick);
+            this.getElements().remove();
+            return;
+        }
         const config: MoveSequenceInterface = {
             elements: this.getElements(),
             xScale: this.xScale,
@@ -94,6 +127,10 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             hideFlag: this.hideFlag
         };
         this.d3Manager.moveSequenceDisplay(config);
+        if(this.hideFlag) {
+            window.clearTimeout(this.tick);
+            this.getElements().remove();
+        }
     }
 
     private getRatio(): number{

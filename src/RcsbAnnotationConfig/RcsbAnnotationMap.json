@@ -1,0 +1,164 @@
+{
+  "order": ["HELIX","STRAND","TURN"],
+  "config": [{
+    "type": "SEQUENCE_VARIANT",
+    "display": "pin",
+    "color": "#ff6666",
+    "title": "GENOME VARIANT"
+  },{
+    "type": "ZINC_FINGER_REGION",
+    "display": "block",
+    "color": "#66ff66",
+    "title": "ZINC FINGER"
+  },{
+    "type": "NUCLEOTIDE_PHOSPHATE_BINDING_REGION",
+    "display": "block",
+    "color": "#ffcc00",
+    "title": "NUCLEOTIDE BS"
+  },{
+    "type": "ACTIVE_SITE",
+    "display": "pin",
+    "color": "#ff88cc",
+    "title": "ACTIVE SITE"
+  },{
+    "type": "COMPOSITIONALLY_BIASED_REGION",
+    "display": "block",
+    "color": "#D58874",
+    "title": "COMPOSITIONAL BIAS"
+  },{
+    "type": "BINDING_SITE",
+    "display": "pin",
+    "color": "#e84657",
+    "title": "BINDING SITE"
+  },{
+    "type": "MUTAGENESIS_SITE",
+    "display": "pin",
+    "color": "#b82a80",
+    "title": "MUTAGENESIS"
+  },{
+    "type": "SEQUENCE_CONFLICT",
+    "display": "pin",
+    "color": "#e80368",
+    "title": "CONFLICT"
+  },{
+    "type": "METAL_ION_BINDING_SITE",
+    "display": "pin",
+    "color": "#41a754",
+    "title": "METAL BS"
+  },{
+    "type": "CROSS_LINK",
+    "display": "pin",
+    "color": "#0a99cd",
+    "title": "CROSS-LINK"
+  },{
+    "type": "INITIATOR_METHIONINE",
+    "display": "pin",
+    "color": "#a2916d",
+    "title": "INITIATOR METHIONINE"
+  },{
+    "type": "HELIX",
+    "display": "block",
+    "color": "#e43372",
+    "title": "HELIX"
+  },{
+    "type": "STRAND",
+    "display": "block",
+    "color": "#f1d23b",
+    "title": "STRAND"
+  },{
+    "type": "MODIFIED_RESIDUE",
+    "display": "pin",
+    "color": "#44b8fd",
+    "title": "MODIFIED RESIDUE"
+  },{
+    "type": "TURN",
+    "display": "block",
+    "color": "#155870",
+    "title": "TURN"
+  },{
+    "type": "CHAIN",
+    "display": "block",
+    "color": "#ad9c5e",
+    "title": "CHAIN"
+  },{
+    "type": "DOMAIN",
+    "display": "block",
+    "color": "#715e76",
+    "title": "DOMAIN"
+  },{
+    "type": "SITE",
+    "display": "block",
+    "color": "#b5748d",
+    "title": "SITE"
+  },{
+    "type": "SHORT_SEQUENCE_MOTIF",
+    "display": "block",
+    "color": "#6a508e",
+    "title": "LINEAR MOTIF"
+  },{
+    "type": "SPLICE_VARIANT",
+    "display": "block",
+    "color": "#f03634",
+    "title": "SEQUENCE SPLICING"
+  },{
+    "type": "LIPID_MOIETY_BINDING_REGION",
+    "display": "pin",
+    "color": "#06cb7a",
+    "title": "LIPIDATION"
+  },{
+    "type": "REGION_OF_INTEREST",
+    "display": "block",
+    "color": "#6797be",
+    "title": "REGION"
+  },{
+    "type": "PROPEPTIDE",
+    "display": "block",
+    "color": "#94d687",
+    "title": "PROPEPTIDE"
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  },{
+    "type": "",
+    "display": "",
+    "color": "",
+    "title": ""
+  }]
+}

@@ -48,6 +48,8 @@ export default class RcsbQueryAnnotations extends RcsbQuery{
                 ){
                     items {
                         type
+                        description
+                        feature_id
                         positions {
                             begin
                             end
