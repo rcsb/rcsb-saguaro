@@ -66,7 +66,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    setBoardHighlight(f: (begin: number, end: number, propFlag?: boolean) => void){
+    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void){
         this.innerDisplays.forEach(de=>{
             de.display.setBoardHighlight(f);
         });
@@ -102,9 +102,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         return this._data;
     }
 
-    highlightRegion(begin: number, end:number): void {
+    highlightRegion(d:RcsbFvTrackDataElementInterface): void {
         if(this.innerDisplays.length > 0 ){
-            this.innerDisplays[0].display.highlightRegion(begin, end);
+            this.innerDisplays[0].display.highlightRegion(d);
         }
     }
 }

@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import RcsbQuery from "./RcsbQuery";
+import {ProteinSeqeunceAlignmentJson} from "./RcsbAlignmentInterface";
 
 export interface SequenceReferenceInterface {
     PDB_ENTITY: string;
@@ -13,7 +14,16 @@ export interface RequestAlignmentInterface {
     queryId: string;
     from: string;
     to: string;
-    callBack: (n: any)=>void;
+    callBack: (n: AlignmentListInterface)=>void;
+}
+
+export interface AlignmentListInterface{
+    query_sequence: string;
+    target_alignment: Array<ProteinSeqeunceAlignmentJson>;
+}
+
+interface AlignmentResponseInterface{
+    alignment: AlignmentListInterface;
 }
 
 export default class RcsbQueryAlignment extends RcsbQuery{
@@ -27,7 +37,7 @@ export default class RcsbQueryAlignment extends RcsbQuery{
     };
 
     public request(requestConfig: RequestAlignmentInterface): void{
-        this.borregoClient.query({
+        this.borregoClient.query<AlignmentResponseInterface>({
             query:gql`query queryAlignment($queryId: String!, $from: SequenceReference, $to:SequenceReference){
                 alignment(
                     queryId:$queryId
@@ -61,7 +71,7 @@ export default class RcsbQueryAlignment extends RcsbQuery{
                 to:requestConfig.to
             }
         }).then(result=>{
-            requestConfig.callBack(result);
+            requestConfig.callBack(result.data.alignment);
         }).catch(error => console.error(error));
     }
 }

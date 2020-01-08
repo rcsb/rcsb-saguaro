@@ -19,7 +19,32 @@ export interface RequestAnnotationsInterface {
     queryId: string;
     reference: string;
     source: Array<string>;
-    callBack: (n: any)=>void;
+    callBack: (n: Array<Annotations>)=>void;
+}
+
+export interface Annotations {
+    items: Array<AnnotationItem>;
+    source: string;
+    target_id: string;
+}
+
+interface AnnotationItem {
+    description: string;
+    feature_id: string;
+    name: string;
+    positions: Array<Position>;
+    type: string;
+    value: number;
+}
+
+interface Position{
+    begin: number;
+    end: number;
+    value: number;
+}
+
+interface AnnotationsResultInterface {
+    annotations: Array<Annotations>;
 }
 
 export default class RcsbQueryAnnotations extends RcsbQuery{
@@ -39,13 +64,15 @@ export default class RcsbQueryAnnotations extends RcsbQuery{
     };
 
     public request(requestConfig: RequestAnnotationsInterface): void{
-        this.borregoClient.query({
+        this.borregoClient.query<AnnotationsResultInterface>({
             query:gql`query queryAnnotations($queryId: String!, $reference: AnnotationReference, $source:[AnnotationSource]){
                 annotations(
                     queryId:$queryId
                     reference:$reference
                     sources:$source
                 ){
+                    source
+                    target_id
                     items {
                         type
                         description
@@ -63,7 +90,7 @@ export default class RcsbQueryAnnotations extends RcsbQuery{
                 source:requestConfig.source
             }
         }).then(result=>{
-            requestConfig.callBack(result);
+            requestConfig.callBack(result.data.annotations);
         }).catch(error => console.error(error));
     }
 }

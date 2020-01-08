@@ -10,6 +10,8 @@ import {MoveAreaInterface, PlotAreaInterface, RcsbD3AreaManager} from "./RcsbD3D
 import {MoveVariantInterface, PlotVariantInterface, RcsbD3VariantManager} from "./RcsbD3DisplayManager/RcsbD3VariantManager";
 import {MoveVlineInterface, PlotVlineInterface, RcsbD3VlineManager} from "./RcsbD3DisplayManager/RcsbD3VlineManager";
 import * as classes from "../scss/RcsbBoard.module.scss";
+import {MoveBondInterface, PlotBondInterface, RcsbD3BondManager} from "./RcsbD3DisplayManager/RcsbD3BondManager";
+import {combineAll} from "rxjs/operators";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -51,6 +53,7 @@ export interface HighlightRegionInterface {
     height: number;
     begin: number;
     end: number;
+    isEmpty:boolean;
     xScale: ScaleLinear<number,number>;
     rectClass: string;
 }
@@ -150,14 +153,22 @@ export class RcsbD3Manager {
     }
 
     highlightRegion(config: HighlightRegionInterface): void {
-        config.trackG.append<SVGRectElement>(RcsbD3Constants.RECT)
-            .attr(RcsbD3Constants.X, config.xScale(config.begin - 0.5))
-            .attr(RcsbD3Constants.Y, 0)
-            .attr(RcsbD3Constants.WIDTH, config.xScale(config.end + 0.5) - config.xScale(config.begin - 0.5))
-            .attr(RcsbD3Constants.HEIGHT, config.height)
-            .attr(RcsbD3Constants.FILL, "#faf3c0")
-            .attr(RcsbD3Constants.FILL_OPACITY, 0.75)
-            .attr(RcsbD3Constants.CLASS, config.rectClass);
+        const hlRegion:(b:number,e:number)=>void = (begin:number,end:number) => {
+            config.trackG.append<SVGRectElement>(RcsbD3Constants.RECT)
+                .attr(RcsbD3Constants.X, config.xScale(begin - 0.5))
+                .attr(RcsbD3Constants.Y, 0)
+                .attr(RcsbD3Constants.WIDTH, config.xScale(end + 0.5) - config.xScale(begin - 0.5))
+                .attr(RcsbD3Constants.HEIGHT, config.height)
+                .attr(RcsbD3Constants.FILL, "#faf3c0")
+                .attr(RcsbD3Constants.FILL_OPACITY, 0.75)
+                .attr(RcsbD3Constants.CLASS, config.rectClass);
+        };
+        if(config.isEmpty) {
+            hlRegion(config.begin, config.begin);
+            hlRegion(config.end, config.end);
+        }else {
+            hlRegion(config.begin, config.end);
+        }
     }
 
     plotBlockDisplay(config: PlotBlockInterface): void {
@@ -177,6 +188,16 @@ export class RcsbD3Manager {
 
     movePinDisplay(config: MovePinInterface): void {
         const track: RcsbD3PinManager = new RcsbD3PinManager();
+        return track.move(config);
+    }
+
+    plotBondDisplay(config: PlotBondInterface): void {
+        const track: RcsbD3BondManager = new RcsbD3BondManager();
+        return track.plot(config);
+    }
+
+    moveBondDisplay(config: MoveBondInterface): void {
+        const track: RcsbD3BondManager = new RcsbD3BondManager();
         return track.move(config);
     }
 

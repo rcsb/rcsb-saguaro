@@ -32,7 +32,7 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
                 return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return config.yScale(d.val as string);
+                return config.yScale(d.value as string);
             })
             .attr(RcsbD3Constants.R, config.radius)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
@@ -50,7 +50,7 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
                 return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return config.yScale(d.val as string);
+                return config.yScale(d.value as string);
             });
         this.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }

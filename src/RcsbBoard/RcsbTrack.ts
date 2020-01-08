@@ -2,17 +2,17 @@ import {HighlightRegionInterface, RcsbD3Manager, TrackConfInterface} from "./Rcs
 import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
-import {RcsbFvTrackData} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbTrack {
     d3Manager: RcsbD3Manager = null;
     _bgColor: string = "#FFFFFF";
     _height: number = null;
     _width: number = null;
-    _data: string | RcsbFvTrackData = null;
+    _data: RcsbFvTrackData = null;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined> = null;
-    _boardHighlight: (begin: number, end: number, propFlag?: boolean) => void;
+    _boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void = null;
     mouseoverCallBack: ()=>void = null;
 
@@ -50,14 +50,14 @@ export class RcsbTrack {
         this.g = this.d3Manager.addTrack(config);
     }
 
-    load(d?: string | RcsbFvTrackData): string | RcsbFvTrackData {
+    load(d?:  RcsbFvTrackData): RcsbFvTrackData {
         if(d !== undefined) {
             this._data = d;
         }
         return this._data;
     }
 
-    setBoardHighlight(f: (begin: number, end: number, propFlag?: boolean) => void){
+    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void){
         this._boardHighlight = f;
     }
 
@@ -65,28 +65,37 @@ export class RcsbTrack {
         this.d3Manager= d3Manager;
     }
 
-    highlightRegion(begin: number, end:number): void {
+    highlightRegion(d:RcsbFvTrackDataElementInterface): void {
 
-        this.g.select("."+classes.rcsbSelectRect).remove();
+        this.g.selectAll("."+classes.rcsbSelectRect).remove();
 
         const height: number = this._height;
         const xScale: ScaleLinear<number,number> = this.xScale;
 
-        if(typeof(height)==="number" && typeof(begin)==="number" && typeof(end)==="number") {
+        if(typeof(height)==="number" && (d!= null && typeof(d.begin)==="number") ) {
+            let _end: number = d.begin;
+            if(typeof(d.end)==="number")
+                _end = d.end;
+            let _isEmpty:boolean = false;
+            if(d.isEmpty)
+                _isEmpty=true;
             const highlightRegConfig: HighlightRegionInterface = {
                 trackG: this.g,
                 height: height,
-                begin: begin,
-                end: end,
+                begin: d.begin,
+                end: _end,
                 xScale: xScale,
+                isEmpty: _isEmpty,
                 rectClass: classes.rcsbSelectRect
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
         }
 
-        const selectRect:SVGRectElement = this.g.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect).node();
-        if(selectRect) {
-            this.moveToBack(selectRect);
+        const selectRect:Selection<SVGRectElement,any,SVGElement,any> = this.g.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
+        if(selectRect.size()>0) {
+            selectRect.nodes().forEach(n=>{
+                this.moveToBack(n);
+            });
         }
     }
 

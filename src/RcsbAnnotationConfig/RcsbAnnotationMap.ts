@@ -9,14 +9,18 @@ export interface RcsbAnnotationMapInterface {
 
 export class RcsbAnnotationMap {
     private annotationMap: Map<string,RcsbAnnotationMapInterface> = new Map<string, RcsbAnnotationMapInterface>();
-    private annotationsOrder: Array<string> = new Array<string>();
+    private readonly uniprotAnnotationsOrder: Array<string> = new Array<string>();
+    private readonly instanceAnnotationsOrder: Array<string> = new Array<string>();
+    private readonly entityAnnotationsOrder: Array<string> = new Array<string>();
 
     constructor() {
         const config: Array<RcsbAnnotationMapInterface> = (<any>annotationMap).config;
         config.forEach(m=>{
             this.annotationMap.set(m.type,m);
         });
-        this.annotationsOrder = (<any>annotationMap).order;
+        this.uniprotAnnotationsOrder = (<any>annotationMap).uniprot_order;
+        this.instanceAnnotationsOrder = (<any>annotationMap).instance_order;
+        this.entityAnnotationsOrder = (<any>annotationMap).entity_order;
     }
 
     getConfig(type: string): RcsbAnnotationMapInterface{
@@ -26,8 +30,20 @@ export class RcsbAnnotationMap {
         return null;
     }
 
-    order(): Array<string>{
-        return this.annotationsOrder;
+    allTypes(): Set<string>{
+        const concat: Array<string> = this.uniprotAnnotationsOrder.concat(this.instanceAnnotationsOrder).concat(this.entityAnnotationsOrder);
+        return new Set(concat);
     }
 
+    uniprotOrder(): Array<string>{
+        return this.uniprotAnnotationsOrder;
+    }
+
+    instanceOrder(): Array<string>{
+        return this.instanceAnnotationsOrder;
+    }
+
+    entityOrder(): Array<string>{
+        return this.entityAnnotationsOrder;
+    }
 }

@@ -23,7 +23,7 @@ export class RcsbFvTrack {
     private rcsbFvDisplay: RcsbFvDisplay = null;
     private rcsbFvConfig: RcsbFvConfig = null;
     private elementId: string = null;
-    private trackData: string | RcsbFvTrackData | Array<string|RcsbFvTrackData> = null;
+    private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData> = null;
     private loadedData: boolean = false;
     private updateRowHeight: ()=>void;
     private subscription: Subscription;
@@ -45,7 +45,7 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.trackData !== "undefined" && this.rcsbFvConfig.displayType !== DISPLAY_TYPES.COMPOSITE ){
             this.load(this.rcsbFvConfig.trackData);
         }else if(this.rcsbFvConfig.displayType === DISPLAY_TYPES.COMPOSITE){
-            const data: Array<string|RcsbFvTrackData> = this.collectCompositeData();
+            const data: Array<RcsbFvTrackData> = this.collectCompositeData();
             if(data !== undefined) {
                 this.load(data);
             }
@@ -80,6 +80,8 @@ export class RcsbFvTrack {
     }
 
     private initRcsbBoard(): void{
+        if(typeof this.rcsbFvConfig.elementClickCallBack === "function")
+            this.rcsbBoard.setHighLightCallBack(this.rcsbFvConfig.elementClickCallBack);
         this.rcsbBoard.setRange(-1*RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
         this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
     }
@@ -92,8 +94,8 @@ export class RcsbFvTrack {
         return rcsbTrack;
     }
 
-    private collectCompositeData(): Array<string|RcsbFvTrackData>{
-        const data: Array<string|RcsbFvTrackData> = new Array<string|RcsbFvTrackData>();
+    private collectCompositeData(): Array<RcsbFvTrackData>{
+        const data: Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
         for(let displayItem of this.rcsbFvConfig.displayConfig){
             if(typeof displayItem.displayData !== "undefined") {
                 data.push(displayItem.displayData);
@@ -105,7 +107,7 @@ export class RcsbFvTrack {
         return undefined;
     }
 
-    public load(trackData: string | RcsbFvTrackData | Array<string|RcsbFvTrackData>) : void{
+    public load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>) : void{
         this.trackData = trackData;
         this.loadedData = true;
         if( this.rcsbFvConfig.displayType === DISPLAY_TYPES.COMPOSITE && trackData instanceof Array){
@@ -122,8 +124,8 @@ export class RcsbFvTrack {
             }
             rcsbTrack.load(trackDataHash);
         }else if (trackData instanceof RcsbFvTrackData){
-            let nonOverlapping: Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
-            if(this.rcsbFvConfig.displayType === DISPLAY_TYPES.BLOCK || this.rcsbFvConfig.displayType === DISPLAY_TYPES.PIN) {
+            let nonOverlapping: Array<RcsbFvTrackData>;
+            if(!this.rcsbFvConfig.overlap) {
                 nonOverlapping = RcsbFvDataManager.getNonOverlappingData(trackData);
             }else{
                 nonOverlapping = [trackData];
@@ -131,8 +133,6 @@ export class RcsbFvTrack {
             nonOverlapping.forEach(trackData=>{
                 this.buildRcsbTrack().load(trackData);
             });
-        }else if(typeof trackData === "string") {
-            this.buildRcsbTrack().load(trackData);
         }else{
             this.loadedData = false;
             throw "Data loader error. Data type not supported.";

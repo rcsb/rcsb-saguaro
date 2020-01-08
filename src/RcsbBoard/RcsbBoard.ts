@@ -18,6 +18,7 @@ import {
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
+import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export interface LocationViewInterface {
     from: number;
@@ -38,9 +39,9 @@ export class RcsbBoard {
     _bgColor: string = "#FFFFFF";
     _innerPadding: number = 10;
     tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
+    onHighLightCallBack:(d?:RcsbFvTrackDataElementInterface) => void = null;
     currentSelection: SelectionInterface = {
-        begin: null,
-        end: null,
+        rcsbFvTrackDataElement: null,
         domId: null
     };
     xScale: ScaleLinear<number,number> = scaleLinear();
@@ -92,7 +93,7 @@ export class RcsbBoard {
                 RcsbD3EventDispatcher.boardMousedown(this);
             },
             dblClick:()=>{
-                this.highlightRegion(null,null,false);
+                this.highlightRegion(null,false);
             }
         };
         this.d3Manager.addMainG(innerConfig);
@@ -103,7 +104,10 @@ export class RcsbBoard {
             paneClass: classes.rcsbPane
         };
         this.d3Manager.addPane(paneConfig);
+    }
 
+    public setHighLightCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void){
+       this.onHighLightCallBack = f;
     }
 
     public setRange(from: number, to: number): void{
@@ -114,27 +118,28 @@ export class RcsbBoard {
 
     public setSelection(selection: SelectionInterface): void{
         if(selection.domId !== this.domId){
-            this.highlightRegion(selection.begin,selection.end,true);
+            this.highlightRegion(selection.rcsbFvTrackDataElement,true);
         }
     }
 
-    highlightRegion(begin: number, end: number, propFlag?: boolean): void{
-        if((typeof(begin) === "number" && typeof(end)==="number") || (begin === null && end===null)){
-            this.currentSelection = {begin:begin, end:end, domId: this.domId} as SelectionInterface;
+    highlightRegion(d:RcsbFvTrackDataElementInterface, propFlag?: boolean): void{
+        if(d === null  || (d!== undefined && typeof(d.begin) === "number") ){
+            this.currentSelection = {rcsbFvTrackDataElement:d, domId: this.domId} as SelectionInterface;
             if(propFlag!==true) {
                 RcsbBoard.triggerSelectionEvent({
                     eventType:EVENT_TYPE.SELECTION,
                     eventData:this.currentSelection
                 } as RcsbFvContextManagerInterface);
             }
-        }else if(typeof(this.currentSelection.begin) === "number" && typeof(this.currentSelection.end)==="number"){
-            begin = this.currentSelection.begin;
-            end = this.currentSelection.end;
+        }else if(this.currentSelection.rcsbFvTrackDataElement != null && typeof(this.currentSelection.rcsbFvTrackDataElement.begin) === "number" ){
+            d = this.currentSelection.rcsbFvTrackDataElement;
         }
 
-        this.tracks.forEach((track)=>{
-            track.highlightRegion(begin, end);
-        });
+        if(d!==undefined) {
+            this.tracks.forEach((track) => {
+                track.highlightRegion(d);
+            });
+        }
     }
 
     startBoard(): void {
@@ -288,7 +293,7 @@ export class RcsbBoard {
             track.move();
         });
 
-        this.highlightRegion(undefined, undefined);
+        this.highlightRegion(undefined );
 
         if(propFlag !== true){
             const data:ScaleTransformInterface = {

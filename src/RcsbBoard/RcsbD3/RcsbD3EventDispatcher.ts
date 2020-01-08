@@ -7,17 +7,8 @@ export class RcsbD3EventDispatcher {
 
     static selectionBegin: number = undefined;
 
-    private static setInterval = (d:RcsbFvTrackDataElementInterface) => {
-        if(typeof d.begin === "number" && typeof d.end === "number"){
-            return d;
-        }else if(typeof d.begin === "number"){
-            return {begin: d.begin, end: d.begin};
-        }
-    };
-
-    static elementClick(callback:(a: number, b: number, f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
-        const e = this.setInterval(d);
-        callback(e.begin,e.end,false);
+    static elementClick(callback:(d:RcsbFvTrackDataElementInterface, f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
+        callback(d,false);
     }
 
     static boardMousedown(board: RcsbBoard){
@@ -30,7 +21,7 @@ export class RcsbD3EventDispatcher {
         }
     }
 
-    private static boardMousemove(board: RcsbBoard){
+    private static boardMousemove(board: RcsbBoard): RcsbFvTrackDataElementInterface{
         const x = mouse(board.d3Manager.svgG().node())[0];
         let _end = Math.round(board.xScale.invert(x));
         let _begin = this.selectionBegin;
@@ -39,14 +30,20 @@ export class RcsbD3EventDispatcher {
             _begin = _end;
             _end = aux;
         }
-        board.highlightRegion(_begin, _end, false);
+        const region:RcsbFvTrackDataElementInterface= {begin:_begin,end:_end};
+        board.highlightRegion(region, false);
+        return region;
     }
 
     static boardMouseup(board: RcsbBoard){
         if(event.which === 3){
             board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, function(){
             });
-            RcsbD3EventDispatcher.boardMousemove(board);
+            const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(board);
+            if(typeof board.onHighLightCallBack === "function"){
+                region.type = "REGION_HIGHLIGHT";
+                board.onHighLightCallBack(region);
+            }
         }
     }
 

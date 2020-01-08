@@ -1,17 +1,20 @@
 export interface RcsbFvTrackDataElementInterface {
-    val?: number|string;
+    value?: number|string;
+    gValue?: number|String;
     begin: number;
     end?: number;
     label?: string;
     color?: string;
     description?: string;
-    feature_id?: string;
+    featureId?: string;
+    type?: string;
+    isEmpty?: boolean;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
 }
 
-export class RcsbFvTrackDataMap extends Map<string,RcsbFvTrackData|string>{
+export class RcsbFvTrackDataMap extends Map<string,RcsbFvTrackData>{
 }
 
 export class RcsbFvDataManager {
@@ -62,10 +65,8 @@ export class RcsbFvDataManager {
         return true;
     }
 
-    public static processData(dataTrack: string|RcsbFvTrackData): string | RcsbFvTrackData {
-        if(typeof dataTrack === "string"){
-            return dataTrack;
-        }else if(dataTrack instanceof Array) {
+    public static processData(dataTrack: RcsbFvTrackData): RcsbFvTrackData {
+        if(dataTrack instanceof Array) {
             const rcsbFvDataClass: RcsbFvTrackData = new RcsbFvTrackData();
             for (const dataElement of dataTrack) {
                 rcsbFvDataClass.push(dataElement as RcsbFvTrackDataElementInterface);

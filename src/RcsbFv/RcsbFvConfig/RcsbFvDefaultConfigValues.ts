@@ -17,7 +17,7 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     trackHeight: 20,
     trackAxisHeight: 30,
     trackWidth: 920,
-    rowTitleWidth: 150,
+    rowTitleWidth: 160,
     displayDomain: [0,1],
     interpolationType: INTERPOLATION_TYPES.STEP
 };
@@ -38,5 +38,6 @@ export const enum DISPLAY_TYPES {
     AREA="area",
     VLINE="vline",
     VARIANT="variant",
+    BOND="bond",
     COMPOSITE="composite"
 }

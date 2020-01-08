@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import {RcsbFvTrackData} from "../RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbFvDataManager/RcsbFvDataManager";
 import {ZoomTransform} from "d3-zoom";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
@@ -29,13 +29,12 @@ export interface ResetInterface {
 }
 
 export interface DataInterface {
-    loadData:RcsbFvTrackData|string;
+    loadData:RcsbFvTrackData;
     trackId:string;
 }
 
 export interface SelectionInterface {
-    begin: number;
-    end: number;
+    rcsbFvTrackDataElement: RcsbFvTrackDataElementInterface;
     domId: string;
 }
 

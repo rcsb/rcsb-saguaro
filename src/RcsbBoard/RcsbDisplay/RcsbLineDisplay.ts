@@ -51,7 +51,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
                 return self.xScale(d.begin);
             })
             .y(function (d:RcsbFvTrackDataElementInterface) {
-                return self._height - self.yScale(d.val as number);
+                return self._height - self.yScale(d.value as number);
             });
     }
 
@@ -98,7 +98,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         if(out.length>thr) {
             const bucketSize = Math.floor(points.length/thr)+1;
             const sampler = modeMedian();
-            sampler.value((d:RcsbFvTrackDataElementInterface) => {return d.val});
+            sampler.value((d:RcsbFvTrackDataElementInterface) => {return d.value});
             sampler.bucketSize(bucketSize);
             const all: RcsbFvTrackDataElementInterface[] = sampler(points);
             all.forEach(function (p) {

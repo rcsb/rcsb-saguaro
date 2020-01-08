@@ -11,7 +11,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     displayType: string;
     length: number;
     elementId?: string;
-    trackData?: string | RcsbFvTrackData;
+    trackData?: RcsbFvTrackData;
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackHeight?: number;
     trackColor?: string;
@@ -20,6 +20,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     interpolationType? : string;
     dynamicDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    overlap:boolean = false;
 
     constructor(args:RcsbFvRowConfigInterface) {
         this.updateConfig(args);
@@ -85,6 +86,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }else if(this.interpolationType !== "string"){
             this.interpolationType = RcsbFvDefaultConfigValues.interpolationType;
         }
+        this.overlap = args.overlap === true;
     }
 
     configCheck() : boolean{
@@ -115,20 +117,16 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         this.trackData = undefined;
     }
 
-    addTrackData( data: string | RcsbFvTrackData ): void {
-        if(typeof data === "string"){
-            this.trackData = data;
-        }else{
-            if(typeof this.trackData === "undefined"){
-                this.trackData = new RcsbFvTrackData();
-            }
-            (RcsbFvDataManager.processData(data) as RcsbFvTrackData).forEach(d=>{
-                (this.trackData as RcsbFvTrackData).push(d);
-            });
+    addTrackData( data: RcsbFvTrackData ): void {
+        if(typeof this.trackData === "undefined"){
+            this.trackData = new RcsbFvTrackData();
         }
+        (RcsbFvDataManager.processData(data) as RcsbFvTrackData).forEach(d=>{
+            (this.trackData as RcsbFvTrackData).push(d);
+        });
     }
 
-    updateTrackData(data: string | RcsbFvTrackData):void{
+    updateTrackData(data: RcsbFvTrackData):void{
         this.trackData = RcsbFvDataManager.processData(data);
     }
 

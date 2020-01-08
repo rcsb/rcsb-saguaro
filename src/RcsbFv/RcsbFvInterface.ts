@@ -8,32 +8,32 @@ export interface RcsbFvBoardConfigInterface {
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }
 
-export interface RcsbFvDisplayConfigInterface{
-    displayColor: string;
+interface CommonConfigInterface{
+    displayColor?: string;
     interpolationType?: string;
-    displayData?: string | RcsbFvTrackData;
     displayType: string;
-    displayId?: string;
     dynamicDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }
 
-export interface RcsbFvRowConfigInterface {
+export interface RcsbFvDisplayConfigInterface extends CommonConfigInterface{
+    displayData?: RcsbFvTrackData;
+    displayId?: string;
+}
+
+export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     trackId: string;
-    displayType: string;
     length? : number;
     elementId?:string;
     trackHeight?: number;
     trackColor?: string;
-    displayColor?: string;
     rowTitle?: string;
-    trackData?: string | RcsbFvTrackData;
+    trackData?: RcsbFvTrackData;
     displayDomain?: [number,number];
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackWidth?: number;
     rowTitleWidth?: number;
     interpolationType?: string;
     isAxis?: boolean;
-    dynamicDisplay?: boolean;
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    overlap?:boolean;
 }

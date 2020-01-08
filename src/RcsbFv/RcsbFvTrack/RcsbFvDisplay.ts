@@ -3,6 +3,7 @@ import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvI
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {RcsbAxisDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAxisDisplay";
 import {RcsbPinDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbPinDisplay";
+import {RcsbBondDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbBondDisplay";
 import {RcsbSequenceDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbSequenceDisplay";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
 import {RcsbBlockDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbBlockDisplay";
@@ -78,6 +79,9 @@ export class RcsbFvDisplay {
             case DISPLAY_TYPES.PIN:
                 out = RcsbFvDisplay.pinDisplay(config.displayColor, config.displayDomain);
                 break;
+            case DISPLAY_TYPES.BOND:
+                out = RcsbFvDisplay.bondDisplay(config.displayColor);
+                break;
             case DISPLAY_TYPES.SEQUENCE:
                 out = RcsbFvDisplay.sequenceDisplay(config.displayColor, config.dynamicDisplay);
                 break;
@@ -125,6 +129,12 @@ export class RcsbFvDisplay {
         const display: RcsbPinDisplay = new RcsbPinDisplay();
         display.setDisplayColor(color);
         display.yDomain(domain);
+        return display;
+    }
+
+    private static bondDisplay(color: string): RcsbDisplayInterface{
+        const display: RcsbBondDisplay = new RcsbBondDisplay();
+        display.setDisplayColor(color);
         return display;
     }
 

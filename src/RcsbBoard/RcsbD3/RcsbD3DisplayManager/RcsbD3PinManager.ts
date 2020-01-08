@@ -46,8 +46,8 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
                 })
                 .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
                     let y = 0.5;
-                    if (typeof d.val === "number") {
-                        y = d.val;
+                    if (typeof d.value === "number") {
+                        y = d.value;
                     }
                     return height - yScale(y);
                 });
@@ -60,8 +60,8 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 let y = 0.5;
-                if(typeof d.val === "number") {
-                    y = d.val;
+                if(typeof d.value === "number") {
+                    y = d.value;
                 }
                 return height - yScale(y);
             })
@@ -81,8 +81,8 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
             })
             .attr(RcsbD3Constants.Y, (d:RcsbFvTrackDataElementInterface) => {
                 var y = 0.5;
-                if(typeof d.val === "number") {
-                    y = d.val;
+                if(typeof d.value === "number") {
+                    y = d.value;
                 }
                 return height - yScale(y) + 0.5*labelShift;
             })
@@ -117,8 +117,8 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
                 })
                 .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
                     var y = 0.5;
-                    if (typeof d.val === "number") {
-                        y = d.val;
+                    if (typeof d.value === "number") {
+                        y = d.value;
                     }
                     return height - yScale(y);
                 });
@@ -130,8 +130,8 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 var y = 0.5;
-                if(typeof d.val === "number") {
-                    y = d.val;
+                if(typeof d.value === "number") {
+                    y = d.value;
                 }
                 return height - yScale(y);
             });
