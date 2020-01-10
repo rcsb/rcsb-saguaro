@@ -82,6 +82,9 @@ export class RcsbFvTrack {
     private initRcsbBoard(): void{
         if(typeof this.rcsbFvConfig.elementClickCallBack === "function")
             this.rcsbBoard.setHighLightCallBack(this.rcsbFvConfig.elementClickCallBack);
+        if(typeof this.rcsbFvConfig.trackWidth === "number")
+            this.rcsbBoard.setBoardWidth(this.rcsbFvConfig.trackWidth);
+
         this.rcsbBoard.setRange(-1*RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
         this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
     }

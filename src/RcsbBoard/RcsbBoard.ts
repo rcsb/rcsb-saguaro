@@ -63,8 +63,11 @@ export class RcsbBoard {
 
     constructor(elementId: string) {
         this.domId = elementId;
+    }
+
+    private addSVG():void {
         const svgConfig: SVGConfInterface = {
-            elementId: elementId,
+            elementId: this.domId,
             svgClass: classes.rcsbSvg,
             domClass: classes.rcsbDom,
             width: this._width,
@@ -143,6 +146,7 @@ export class RcsbBoard {
     }
 
     startBoard(): void {
+        this.addSVG();
         if ((this.limits.max - this.limits.min) < this.limits.maxZoom) {
             this.limits.maxZoom = this.limits.max - this.limits.min;
         }
@@ -223,6 +227,10 @@ export class RcsbBoard {
             h += track.height();
         });
         this.d3Manager.setBoardHeight(h);
+    }
+
+    setBoardWidth(w: number): void{
+        this._width = w;
     }
 
     setLocation(from: number, to: number): void {

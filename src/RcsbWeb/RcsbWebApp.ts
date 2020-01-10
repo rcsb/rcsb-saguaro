@@ -13,11 +13,6 @@ import {AlignmentListInterface} from "../RcsbGraphQL/RcsbQueryAlignment";
 import {Annotations} from "../RcsbGraphQL/RcsbQueryAnnotations";
 import {RcsbFvQuery} from "../RcsbGraphQL/RcsbFvQuery";
 
-export interface RcsbWebAppInterface{
-    elementId:string;
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
-}
-
 interface CollectSequencesInterface{
     queryId: string;
     from: string;
@@ -38,13 +33,13 @@ export class RcsbWebApp {
     private seqeunceConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     private alignmentsConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     private annotationsConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
-    private elementClickCallBack:(d?:RcsbFvTrackDataElementInterface)=>void;
+    private boardConfigData: RcsbFvBoardConfigInterface;
     private bottomAlignments: boolean = false;
     private rcsbAnnotationMap: RcsbAnnotationMap = new RcsbAnnotationMap();
 
-    constructor(config: RcsbWebAppInterface) {
+    constructor(config: RcsbFvBoardConfigInterface) {
         this.rcsbFv = new RcsbFv({rowConfigData: null, boardConfigData: null, elementId: config.elementId});
-        this.elementClickCallBack = config.elementClickCallBack;
+        this.boardConfigData = config;
     }
 
     public buildUniprotFv(upAcc: string): void{
@@ -111,11 +106,10 @@ export class RcsbWebApp {
                 const data: AlignmentListInterface = result;
                 const querySequence: string = data.query_sequence;
                 const alignmentData: Array<ProteinSeqeunceAlignmentJson> = data.target_alignment;
-                this.rcsbFv.setBoardConfig({
-                    length: result.query_sequence.length,
-                    includeAxis: true,
-                    elementClickCallBack:this.elementClickCallBack
-                } as RcsbFvBoardConfigInterface);
+                const boardConfig: RcsbFvBoardConfigInterface = this.boardConfigData;
+                boardConfig.length = result.query_sequence.length;
+                boardConfig.includeAxis = true;
+                this.rcsbFv.setBoardConfig(boardConfig);
                 const track: RcsbFvRowConfigInterface = {
                     trackId: "mainSequenceTrack_" + requestConfig.queryId,
                     displayType: DISPLAY_TYPES.SEQUENCE,
@@ -149,10 +143,10 @@ export class RcsbWebApp {
             const mismatchData:Array<RcsbFvTrackDataElementInterface> = [];
             targetAlignment.aligned_regions.forEach(region=>{
                 const regionSequence = targetSequence.substring(region.target_begin-1,region.target_end);
-                sequenceData.push({begin:region.query_begin, value:regionSequence});
-                alignedBlocks.push({begin:region.query_begin, end:region.query_end});
+                sequenceData.push({begin:region.query_begin, value:regionSequence} as RcsbFvTrackDataElementInterface);
+                alignedBlocks.push({begin:region.query_begin, end:region.query_end, type:"ALIGNED_BLOCK"} as RcsbFvTrackDataElementInterface);
                 findMismatch(regionSequence,querySequence.substring(region.query_begin-1,region.query_end),).forEach(m=>{
-                    mismatchData.push({begin:(m+region.query_begin)});
+                    mismatchData.push({begin:(m+region.query_begin), type:"MISMATCH"} as RcsbFvTrackDataElementInterface);
                 });
             });
             const sequenceDisplay:RcsbFvDisplayConfigInterface = {

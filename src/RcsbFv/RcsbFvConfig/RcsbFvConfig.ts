@@ -14,6 +14,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackData?: RcsbFvTrackData;
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
     trackHeight?: number;
+    trackWidth?: number;
     trackColor?: string;
     displayColor?: string;
     displayDomain?: [number,number];
@@ -54,6 +55,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.dynamicDisplay === "boolean"){
             this.dynamicDisplay = args.dynamicDisplay;
+        }
+        if(typeof args.trackWidth === "number"){
+            this.trackWidth = args.trackWidth;
         }
 
         //default config available

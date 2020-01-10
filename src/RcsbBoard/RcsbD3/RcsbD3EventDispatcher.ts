@@ -41,7 +41,7 @@ export class RcsbD3EventDispatcher {
             });
             const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(board);
             if(typeof board.onHighLightCallBack === "function"){
-                region.type = "REGION_HIGHLIGHT";
+                region.nonSpecific = true;
                 board.onHighLightCallBack(region);
             }
         }

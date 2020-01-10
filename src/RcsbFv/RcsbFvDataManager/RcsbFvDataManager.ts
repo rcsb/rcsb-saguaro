@@ -9,6 +9,7 @@ export interface RcsbFvTrackDataElementInterface {
     featureId?: string;
     type?: string;
     isEmpty?: boolean;
+    nonSpecific?: boolean;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{

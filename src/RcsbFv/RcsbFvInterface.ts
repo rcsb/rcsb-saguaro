@@ -1,6 +1,7 @@
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "./RcsbFvDataManager/RcsbFvDataManager";
 
 export interface RcsbFvBoardConfigInterface {
+    elementId: string;
     length: number;
     rowTitleWidth?: number;
     trackWidth?: number;
