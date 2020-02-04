@@ -33,6 +33,13 @@ export class RcsbD3BondManager implements RcsbD3DisplayManagerInterface{
 
         elements.append(RcsbD3Constants.LINE)
             .style(RcsbD3Constants.STROKE_WIDTH,2)
+            .style(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
+                if (d.color === undefined) {
+                    return color;
+                } else {
+                    return d.color;
+                }
+            })
             .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
