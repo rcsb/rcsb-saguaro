@@ -11,7 +11,7 @@ import {MoveVariantInterface, PlotVariantInterface, RcsbD3VariantManager} from "
 import {MoveVlineInterface, PlotVlineInterface, RcsbD3VlineManager} from "./RcsbD3DisplayManager/RcsbD3VlineManager";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {MoveBondInterface, PlotBondInterface, RcsbD3BondManager} from "./RcsbD3DisplayManager/RcsbD3BondManager";
-import {combineAll} from "rxjs/operators";
+import {RcsbFvTrackDataElementGapInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -56,6 +56,7 @@ export interface HighlightRegionInterface {
     isEmpty:boolean;
     xScale: ScaleLinear<number,number>;
     rectClass: string;
+    gaps: Array<RcsbFvTrackDataElementGapInterface>;
 }
 
 export class RcsbD3Manager {
@@ -166,7 +167,15 @@ export class RcsbD3Manager {
         if(config.isEmpty) {
             hlRegion(config.begin, config.begin);
             hlRegion(config.end, config.end);
-        }else {
+        }else if(config.gaps!=null && config.gaps.length>0){
+            let begin:number = config.begin;
+            config.gaps.forEach(gap=>{
+                let end: number = gap.begin;
+                hlRegion(begin,end);
+                begin = gap.end;
+            });
+            hlRegion(begin,config.end);
+        }else{
             hlRegion(config.begin, config.end);
         }
     }

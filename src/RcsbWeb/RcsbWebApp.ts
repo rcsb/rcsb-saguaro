@@ -10,7 +10,7 @@ import {RequestTranslateInterface} from "../RcsbGraphQL/RcsbInstanceToEntity";
 import {RcsbAnnotationMap, RcsbAnnotationMapInterface} from "../RcsbAnnotationConfig/RcsbAnnotationMap";
 import {DISPLAY_TYPES} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {AlignmentListInterface} from "../RcsbGraphQL/RcsbQueryAlignment";
-import {Annotations} from "../RcsbGraphQL/RcsbQueryAnnotations";
+import {AnnotationList} from "../RcsbGraphQL/RcsbQueryAnnotations";
 import {RcsbFvQuery} from "../RcsbGraphQL/RcsbFvQuery";
 
 interface CollectSequencesInterface{
@@ -183,11 +183,11 @@ export class RcsbWebApp {
             reference: requestConfig.reference,
             source: requestConfig.source,
             callBack: result => {
-                const data: Array<Annotations> = result;
+                const data: Array<AnnotationList> = result;
                 const annotations:Map<string,Array<RcsbFvTrackDataElementInterface>> = new Map();
                 data.forEach(ann => {
                     ann.items.forEach(d => {
-                        const type = d.type;
+                        const type = this.rcsbAnnotationMap.setAnnotationKey(d);
                         if (!annotations.has(type)) {
                             annotations.set(type, new Array<RcsbFvTrackDataElementInterface>());
                         }
@@ -199,7 +199,10 @@ export class RcsbWebApp {
                                 featureId: d.feature_id,
                                 type:type,
                                 value:p.value,
-                                gValue:d.value
+                                gValue:d.value,
+                                gaps:p.gaps,
+                                openBegin:p.open_begin,
+                                openEnd:p.open_end
                             } as RcsbFvTrackDataElementInterface);
                         })
                     });
@@ -232,15 +235,11 @@ export class RcsbWebApp {
     }
 
     private buildAnnotationTrack(data: Array<RcsbFvTrackDataElementInterface>, type: string):RcsbFvRowConfigInterface{
-        const randomRgba = ()=>{
-            var o = Math.round, r = Math.random, s = 255;
-            return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
-        };
         let displayType: string = DISPLAY_TYPES.BLOCK;
         if (data[0].end == null) {
             displayType = DISPLAY_TYPES.PIN;
         }
-        let displayColor:string = randomRgba();
+        let displayColor:string = this.rcsbAnnotationMap.randomRgba();
         let rowTitle:string = type;
 
         const annConfig:RcsbAnnotationMapInterface = this.rcsbAnnotationMap.getConfig(type);
@@ -248,7 +247,6 @@ export class RcsbWebApp {
             displayType = annConfig.display;
             rowTitle = annConfig.title;
             displayColor = annConfig.color;
-
         }else{
             console.warn("Annotation config type "+type+" not found. Using random config");
         }

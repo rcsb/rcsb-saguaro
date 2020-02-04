@@ -91,14 +91,8 @@ export class RcsbD3BondManager implements RcsbD3DisplayManagerInterface{
             .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
-            .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
-            })
             .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
                 return xScale(d.end);
-            })
-            .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
             });
 
         pins.select(RcsbD3Constants.CIRCLE+".bondBegin")

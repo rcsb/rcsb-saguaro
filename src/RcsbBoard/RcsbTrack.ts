@@ -86,7 +86,8 @@ export class RcsbTrack {
                 end: _end,
                 xScale: xScale,
                 isEmpty: _isEmpty,
-                rectClass: classes.rcsbSelectRect
+                rectClass: classes.rcsbSelectRect,
+                gaps: d.gaps
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
         }

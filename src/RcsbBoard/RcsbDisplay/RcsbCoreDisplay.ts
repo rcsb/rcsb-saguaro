@@ -60,7 +60,8 @@ export class RcsbCoreDisplay extends RcsbTrack{
         let visSel: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
         let visElems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
 
-        this.g.selectAll("path").remove();
+        //TODO this cannot be done in that way!!!!!
+        //this.g.selectAll("path").remove();
 
         if (compKey !== undefined) {
             visSel = this.g.selectAll("."+classes.rcsbElement+"_" + compKey);

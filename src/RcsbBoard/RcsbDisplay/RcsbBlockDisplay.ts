@@ -16,7 +16,8 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 			dx: this.dx,
 			y_o: this._height*(1/6),
 			xScale: this.xScale,
-			color: this._displayColor
+			color: this._displayColor,
+			height:this._height
 		};
         this.d3Manager.plotBlockDisplay(config);
     }
@@ -27,6 +28,7 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 			elements: blocks,
 			dx: this.dx,
 			xScale: this.xScale,
+			height:this._height
 		};
 		this.d3Manager.moveBlockDisplay(config);
     }

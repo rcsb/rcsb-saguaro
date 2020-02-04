@@ -1,10 +1,16 @@
 import * as annotationMap from "./RcsbAnnotationMap.json";
+import {Annotation} from "../RcsbGraphQL/RcsbAnnotationInterface";
 
 export interface RcsbAnnotationMapInterface {
     type: string;
     display: string;
     color: string;
     title: string;
+    key?: string;
+}
+
+interface DynamicKeyAnnotationInterface extends Annotation{
+    [key: string]: any;
 }
 
 export class RcsbAnnotationMap {
@@ -45,5 +51,28 @@ export class RcsbAnnotationMap {
 
     entityOrder(): Array<string>{
         return this.entityAnnotationsOrder;
+    }
+
+    setAnnotationKey(d: Annotation): string{
+        const type: string = d.type;
+        const a: DynamicKeyAnnotationInterface = d;
+        if(this.annotationMap.has(type) && this.annotationMap.get(type).key!=null && a[this.annotationMap.get(type).key]){
+            const newType: string = type+":"+a[this.annotationMap.get(type).key];
+            if(!this.annotationMap.has(newType)) {
+                this.annotationMap.set(newType, {
+                    type: newType,
+                    display: this.annotationMap.get(type).display,
+                    color: this.randomRgba(),
+                    title: this.annotationMap.get(type).title+" "+a[this.annotationMap.get(type).key]
+                } as RcsbAnnotationMapInterface);
+            }
+            return newType;
+        }
+        return type;
+    }
+
+    randomRgba(): string{
+        var o = Math.round, r = Math.random, s = 255;
+        return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
     }
 }

@@ -19,6 +19,7 @@ export class RcsbD3Constants{
     public static readonly STROKE: string = 'stroke';
     public static readonly STROKE_OPACITY: string = 'stroke-opacity';
     public static readonly STROKE_WIDTH: string = 'stroke-width';
+    public static readonly STROKE_DASH: string = 'stroke-dasharray';
     public static readonly FONT_SIZE: string = 'font-size';
     public static readonly FONT_FAMILY: string = 'font-family';
     public static readonly TEXT_ANCHOR: string = 'text-anchor';
@@ -36,6 +37,7 @@ export class RcsbD3Constants{
     public static readonly DBLCLIK_ZOOM: string = 'dblclick.zoom';
     public static readonly COLOR: string = 'color';
     public static readonly TRANSFORM: string = 'transform';
+    public static readonly TRANSLATE: string = 'translate';
     public static readonly CLICK: string = "click";
     public static readonly MOUSE_ENTER: string = "mouseenter";
     public static readonly MOUSE_MOVE: string = "mousemove";

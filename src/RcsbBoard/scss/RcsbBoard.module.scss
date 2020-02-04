@@ -34,10 +34,7 @@ svg.rcsbSvg {
   visibility: visible;
 }
 
-.rcsbTrack path, .rcsbTrack line {
-  stroke: grey;
-  stroke-width: 1;
-}
+
 
 .rcsbTrackRect{
   visibility: visible;
@@ -79,6 +76,8 @@ svg.rcsbSvg {
 
 .rcsbAxis path, .tnt_axis line {
   fill: none;
+  stroke: grey;
+  stroke-width: 1;
 }
 
 .tick text {

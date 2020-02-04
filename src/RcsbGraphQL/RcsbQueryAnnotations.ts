@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import RcsbQuery from "./RcsbQuery";
+import {Annotation} from "./RcsbAnnotationInterface";
 
 export interface AnnotationReferenceInterface {
     NCBI_GENOME: string;
@@ -19,32 +20,17 @@ export interface RequestAnnotationsInterface {
     queryId: string;
     reference: string;
     source: Array<string>;
-    callBack: (n: Array<Annotations>)=>void;
+    callBack: (n: Array<AnnotationList>)=>void;
 }
 
-export interface Annotations {
-    items: Array<AnnotationItem>;
+export interface AnnotationList {
+    items: Array<Annotation>;
     source: string;
     target_id: string;
 }
 
-interface AnnotationItem {
-    description: string;
-    feature_id: string;
-    name: string;
-    positions: Array<Position>;
-    type: string;
-    value: number;
-}
-
-interface Position{
-    begin: number;
-    end: number;
-    value: number;
-}
-
 interface AnnotationsResultInterface {
-    annotations: Array<Annotations>;
+    annotations: Array<AnnotationList>;
 }
 
 export default class RcsbQueryAnnotations extends RcsbQuery{
@@ -65,7 +51,7 @@ export default class RcsbQueryAnnotations extends RcsbQuery{
 
     public request(requestConfig: RequestAnnotationsInterface): void{
         this.borregoClient.query<AnnotationsResultInterface>({
-            query:gql`query queryAnnotations($queryId: String!, $reference: AnnotationReference, $source:[AnnotationSource]){
+            query:gql`query queryAnnotations($queryId: String!, $reference: SequenceReference, $source:[AnnotationSource]){
                 annotations(
                     queryId:$queryId
                     reference:$reference
@@ -80,6 +66,12 @@ export default class RcsbQueryAnnotations extends RcsbQuery{
                         positions {
                             begin
                             end
+                            gaps{
+                                begin
+                                end
+                            }
+                            open_begin
+                            open_end
                         }
                     }
                 }

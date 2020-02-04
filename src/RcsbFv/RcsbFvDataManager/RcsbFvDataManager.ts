@@ -1,3 +1,8 @@
+export interface RcsbFvTrackDataElementGapInterface {
+    begin:number;
+    end:number;
+}
+
 export interface RcsbFvTrackDataElementInterface {
     value?: number|string;
     gValue?: number|String;
@@ -10,6 +15,9 @@ export interface RcsbFvTrackDataElementInterface {
     type?: string;
     isEmpty?: boolean;
     nonSpecific?: boolean;
+    gaps?:Array<RcsbFvTrackDataElementGapInterface>;
+    openBegin?:boolean;
+    openEnd?:boolean;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
