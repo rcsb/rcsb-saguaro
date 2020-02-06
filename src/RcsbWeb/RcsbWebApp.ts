@@ -4,13 +4,14 @@ import {
     RcsbFvDisplayConfigInterface,
     RcsbFvRowConfigInterface
 } from "../RcsbFv/RcsbFvInterface";
-import {AlignmentResponse, TargetAlignment} from "../RcsbGraphQL/RcsbAlignmentInterface";
+import {RcsbAlignmentInterface, TargetAlignment} from "../RcsbGraphQL/RcsbAlignmentInterface";
 import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbAnnotationMap, RcsbAnnotationMapInterface} from "../RcsbAnnotationConfig/RcsbAnnotationMap";
 import {DISPLAY_TYPES} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RequestAlignmentInterface, SequenceReference} from "../RcsbGraphQL/RcsbQueryAlignment";
+import {RequestAlignmentInterface} from "../RcsbGraphQL/RcsbQueryAlignment";
 import {RcsbFvQuery} from "../RcsbGraphQL/RcsbFvQuery";
-import {AnnotationFeatures} from "../RcsbGraphQL/RcsbAnnotationInterface";
+import {RcsbAnnotationInterface, Source} from "../RcsbGraphQL/RcsbAnnotationInterface";
+import {RcsbSequenceReferenceInterface} from "../RcsbGraphQL/RcsbSequenceReferenceInterface";
 
 interface CollectSequencesInterface{
     queryId: string;
@@ -45,13 +46,13 @@ export class RcsbWebApp {
         this.bottomAlignments = true;
         this.collectSequences({
             queryId:upAcc,
-            from: SequenceReference.UNIPROT,
-            to: SequenceReference.PDB_ENTITY,
+            from: RcsbSequenceReferenceInterface.Uniprot,
+            to: RcsbSequenceReferenceInterface.PdbEntity,
             callBack:()=>{
                 this.collectAnnotations({
                     queryId: upAcc,
-                    reference: SequenceReference.UNIPROT,
-                    source:[SequenceReference.UNIPROT]
+                    reference: RcsbSequenceReferenceInterface.Uniprot,
+                    source:[RcsbSequenceReferenceInterface.Uniprot]
                 } as CollectAnnotationsInterface);
             }
         } as CollectSequencesInterface);
@@ -60,13 +61,13 @@ export class RcsbWebApp {
     public buildEntityFv(entityId: string): void{
         this.collectSequences({
             queryId:entityId,
-            from: SequenceReference.PDB_ENTITY,
-            to: SequenceReference.UNIPROT,
+            from: RcsbSequenceReferenceInterface.PdbEntity,
+            to: RcsbSequenceReferenceInterface.Uniprot,
             callBack:()=>{
                 this.collectAnnotations({
                     queryId: entityId,
-                    reference: SequenceReference.PDB_ENTITY,
-                    source:[this.rcsbFvQuery.annotationSource.PDB_ENTITY, this.rcsbFvQuery.annotationSource.UNIPROT]
+                    reference: RcsbSequenceReferenceInterface.PdbEntity,
+                    source:[Source.PdbEntity, Source.Uniprot]
                 } as CollectAnnotationsInterface);
             }
         } as CollectSequencesInterface);
@@ -75,19 +76,19 @@ export class RcsbWebApp {
     public buildInstanceFv(instanceId: string): void{
         this.rcsbFvQuery.requestAlignment({
             queryId:instanceId,
-            from:SequenceReference.PDB_INSTANCE,
-            to:SequenceReference.PDB_ENTITY,
+            from:RcsbSequenceReferenceInterface.PdbInstance,
+            to:RcsbSequenceReferenceInterface.PdbEntity,
             callBack:result=>{
                 const queryID: string = result.target_alignment[0].target_id;
                 this.collectSequences({
                     queryId:queryID,
-                    from: SequenceReference.PDB_ENTITY,
-                    to: SequenceReference.UNIPROT,
+                    from: RcsbSequenceReferenceInterface.PdbEntity,
+                    to: RcsbSequenceReferenceInterface.Uniprot,
                     callBack:()=>{
                         this.collectAnnotations({
                             queryId: instanceId,
-                            reference: SequenceReference.PDB_INSTANCE,
-                            source:[this.rcsbFvQuery.annotationSource.PDB_ENTITY, this.rcsbFvQuery.annotationSource.PDB_INSTANCE, this.rcsbFvQuery.annotationSource.UNIPROT]
+                            reference: RcsbSequenceReferenceInterface.PdbInstance,
+                            source:[Source.PdbEntity, Source.PdbInstance, Source.Uniprot]
                         } as CollectAnnotationsInterface);
                     }
                 } as CollectSequencesInterface);
@@ -101,7 +102,7 @@ export class RcsbWebApp {
             from: requestConfig.from,
             to: requestConfig.to,
             callBack: result => {
-                const data: AlignmentResponse = result;
+                const data: RcsbAlignmentInterface = result;
                 const querySequence: string = data.query_sequence;
                 const alignmentData: Array<TargetAlignment> = data.target_alignment;
                 const boardConfig: RcsbFvBoardConfigInterface = this.boardConfigData;
@@ -181,7 +182,7 @@ export class RcsbWebApp {
             reference: requestConfig.reference,
             source: requestConfig.source,
             callBack: result => {
-                const data: Array<AnnotationFeatures> = result;
+                const data: Array<RcsbAnnotationInterface> = result;
                 const annotations:Map<string,Array<RcsbFvTrackDataElementInterface>> = new Map();
                 data.forEach(ann => {
                     ann.features.forEach(d => {

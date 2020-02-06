@@ -1,31 +1,19 @@
 import RcsbQuery from "./RcsbQuery";
-import {AnnotationFeatures} from "./RcsbAnnotationInterface";
+import {RcsbAnnotationInterface} from "./RcsbAnnotationInterface";
 import * as query from "./Queries/QueryAnnotations.graphql";
-
-export interface AnnotationSourceInterface {
-    PDB_ENTITY: string;
-    PDB_INSTANCE: string;
-    UNIPROT: string;
-}
 
 export interface RequestAnnotationsInterface {
     queryId: string;
     reference: string;
     source: Array<string>;
-    callBack: (n: Array<AnnotationFeatures>)=>void;
+    callBack: (n: Array<RcsbAnnotationInterface>)=>void;
 }
 
 interface AnnotationsResultInterface {
-    annotations: Array<AnnotationFeatures>;
+    annotations: Array<RcsbAnnotationInterface>;
 }
 
 export default class RcsbQueryAnnotations extends RcsbQuery{
-
-    readonly annotationSource:AnnotationSourceInterface = {
-        PDB_ENTITY: "PDB_ENTITY",
-        PDB_INSTANCE: "PDB_INSTANCE",
-        UNIPROT: "UNIPROT"
-    };
 
     public request(requestConfig: RequestAnnotationsInterface): void{
         this.borregoClient.query<AnnotationsResultInterface>({
