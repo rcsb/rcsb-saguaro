@@ -1,4 +1,4 @@
-export interface RcsbAlignmentInterface {
+export interface AlignmentResponse {
     query_sequence?:   string;
     target_alignment?: TargetAlignment[];
 }

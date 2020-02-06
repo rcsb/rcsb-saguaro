@@ -1,16 +1,16 @@
 import RcsbQuery from "./RcsbQuery";
-import {RcsbAnnotationInterface} from "./RcsbAnnotationInterface";
+import {AnnotationFeatures} from "./RcsbAnnotationInterface";
 import * as query from "./Queries/QueryAnnotations.graphql";
 
 export interface RequestAnnotationsInterface {
     queryId: string;
     reference: string;
     source: Array<string>;
-    callBack: (n: Array<RcsbAnnotationInterface>)=>void;
+    callBack: (n: Array<AnnotationFeatures>)=>void;
 }
 
 interface AnnotationsResultInterface {
-    annotations: Array<RcsbAnnotationInterface>;
+    annotations: Array<AnnotationFeatures>;
 }
 
 export default class RcsbQueryAnnotations extends RcsbQuery{

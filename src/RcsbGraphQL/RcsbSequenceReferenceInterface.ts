@@ -1,4 +1,4 @@
-export enum RcsbSequenceReferenceInterface {
+export enum SequenceReference {
     NcbiGenome = "NCBI_GENOME",
     NcbiProtein = "NCBI_PROTEIN",
     PdbEntity = "PDB_ENTITY",

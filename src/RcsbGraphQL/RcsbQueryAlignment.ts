@@ -1,16 +1,16 @@
 import RcsbQuery from "./RcsbQuery";
-import {RcsbAlignmentInterface} from "./RcsbAlignmentInterface";
+import {AlignmentResponse} from "./RcsbAlignmentInterface";
 import * as query from "./Queries/QueryAlignments.graphql";
 
 export interface RequestAlignmentInterface {
     queryId: string;
     from: string;
     to: string;
-    callBack: (n: RcsbAlignmentInterface)=>void;
+    callBack: (n: AlignmentResponse)=>void;
 }
 
 interface AlignmentResponseInterface{
-    alignment: RcsbAlignmentInterface;
+    alignment: AlignmentResponse;
 }
 
 export default class RcsbQueryAlignment extends RcsbQuery{

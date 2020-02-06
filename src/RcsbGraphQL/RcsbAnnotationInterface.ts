@@ -1,4 +1,4 @@
-export interface RcsbAnnotationInterface {
+export interface AnnotationFeatures {
     features?:  Feature[];
     source?:    Source;
     target_id?: string;
