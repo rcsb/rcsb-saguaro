@@ -1,14 +1,14 @@
 import RcsbQuery from "./RcsbQuery";
 import {AlignmentResponse} from "./RcsbAlignmentInterface";
 import * as query from "./Queries/QueryAlignments.graphql";
-import {SequenceReference} from "./RcsbSequenceReferenceInterface";
+//import {SequenceReference} from "./RcsbSequenceReferenceInterface";
 
-export interface SequenceReferenceInterface {
-    PDB_ENTITY: string;
-    PDB_INSTANCE: string;
-    UNIPROT: string;
-    NCBI_GENOME: string;
-    NCBI_PROTEIN: string;
+export enum SequenceReference {
+    PDB_ENTITY = "PDB_ENTITY",
+    PDB_INSTANCE = "PDB_INSTANCE",
+    UNIPROT = "UNIPROT",
+    NCBI_GENOME = "NCBI_GENOME",
+    NCBI_PROTEIN = "NCBI_PROTEIN"
 }
 
 export interface RequestAlignmentInterface {
@@ -23,14 +23,6 @@ interface AlignmentResponseInterface{
 }
 
 export default class RcsbQueryAlignment extends RcsbQuery{
-
-    readonly sequenceReference:SequenceReferenceInterface = {
-        NCBI_GENOME: "NCBI_GENOME",
-        NCBI_PROTEIN: "NCBI_PROTEIN",
-        PDB_ENTITY: "PDB_ENTITY",
-        PDB_INSTANCE: "PDB_INSTANCE",
-        UNIPROT: "UNIPROT"
-    };
 
     public request(requestConfig: RequestAlignmentInterface): void{
         this.borregoClient.query<AlignmentResponseInterface>({
