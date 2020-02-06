@@ -5,7 +5,16 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Annotation {
+export interface AnnotationFeatures {
+  target_id?: string;
+  source?: "PDB_INSTANCE" | "PDB_ENTITY" | "UNIPROT";
+  features?: Feature[];
+}
+/**
+ * JSON schema for core NCBI collection in RCSB Data Warehouse.
+ *
+ */
+export interface Feature {
   /**
    * A description for the feature.
    */
@@ -26,25 +35,27 @@ export interface Annotation {
    * The value for the feature.
    */
   value?: number;
-  positions?: {
-    /**
-     * An identifier for the monomer at which this segment of the feature begins.
-     */
-    begin?: number;
-    /**
-     * An identifier for the monomer at which this segment of the feature ends.
-     */
-    end?: number;
-    gaps?: {
-      begin?: number;
-      end?: number;
-      [k: string]: any;
-    }[];
-    open_begin?: boolean;
-    open_end?: boolean;
-    /**
-     * The value for the feature at this monomer.
-     */
-    value?: number;
-  }[];
+  feature_positions?: FeaturePosition[];
+}
+export interface FeaturePosition {
+  /**
+   * An identifier for the monomer at which this segment of the feature begins.
+   */
+  beg_seq_id?: number;
+  /**
+   * An identifier for the monomer at which this segment of the feature ends.
+   */
+  end_seq_id?: number;
+  gaps?: Gap[];
+  open_begin?: boolean;
+  open_end?: boolean;
+  /**
+   * The value for the feature at this monomer.
+   */
+  value?: number;
+}
+export interface Gap {
+  begin?: number;
+  end?: number;
+  [k: string]: any;
 }

@@ -5,46 +5,55 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export interface AlignmentResponse {
+  query_sequence?: string;
+  target_alignment?: TargetAlignment[];
+}
 /**
  * JSON schema for core NCBI collection in RCSB Data Warehouse.
  *
  */
-export interface ProteinSeqeunceAlignmentJson {
+export interface TargetAlignment {
   target_id?: string;
   /**
    * Target sequence region
    */
   target_sequence?: string;
-  /**
-   * Alignment scores
-   */
-  coverage?: {
-    target_coverage: number;
-    query_coverage: number;
-    target_length: number;
-    query_length: number;
-  };
+  coverage?: Coverage;
   /**
    * Aligned sequence regions
    */
-  aligned_regions?: {
-    /**
-     * Target sequence start position
-     */
-    target_begin: number;
-    /**
-     * Query sequence start position
-     */
-    query_begin: number;
-    /**
-     * Target sequence start position
-     */
-    target_end: number;
-    /**
-     * Query sequence end position
-     */
-    query_end: number;
-    exon_shift?: number[];
-  }[];
+  aligned_regions?: AlignedRegion[];
   orientation?: number;
+}
+/**
+ * Alignment scores
+ */
+export interface Coverage {
+  target_coverage: number;
+  query_coverage: number;
+  target_length: number;
+  query_length: number;
+}
+/**
+ * Aligned region
+ */
+export interface AlignedRegion {
+  /**
+   * Target sequence start position
+   */
+  target_begin: number;
+  /**
+   * Query sequence start position
+   */
+  query_begin: number;
+  /**
+   * Target sequence start position
+   */
+  target_end: number;
+  /**
+   * Query sequence end position
+   */
+  query_end: number;
+  exon_shift?: number[];
 }

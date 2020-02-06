@@ -1,0 +1,25 @@
+query QueryAnnotations($queryId: String!, $reference: SequenceReference, $source:[Source]){
+    annotations(
+        queryId:$queryId
+        reference:$reference
+        sources:$source
+    ){
+        source
+        target_id
+        features {
+            type
+            description
+            feature_id
+            feature_positions {
+                beg_seq_id
+                end_seq_id
+                gaps{
+                    begin
+                    end
+                }
+                open_begin
+                open_end
+            }
+        }
+    }
+}

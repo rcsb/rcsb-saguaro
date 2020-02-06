@@ -4,14 +4,13 @@ import {
     RcsbFvDisplayConfigInterface,
     RcsbFvRowConfigInterface
 } from "../RcsbFv/RcsbFvInterface";
-import {ProteinSeqeunceAlignmentJson} from "../RcsbGraphQL/RcsbAlignmentInterface";
+import {AlignmentResponse, TargetAlignment} from "../RcsbGraphQL/RcsbAlignmentInterface";
 import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
-import {RequestTranslateInterface} from "../RcsbGraphQL/RcsbInstanceToEntity";
 import {RcsbAnnotationMap, RcsbAnnotationMapInterface} from "../RcsbAnnotationConfig/RcsbAnnotationMap";
 import {DISPLAY_TYPES} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {AlignmentListInterface} from "../RcsbGraphQL/RcsbQueryAlignment";
-import {AnnotationList} from "../RcsbGraphQL/RcsbQueryAnnotations";
+import {RequestAlignmentInterface} from "../RcsbGraphQL/RcsbQueryAlignment";
 import {RcsbFvQuery} from "../RcsbGraphQL/RcsbFvQuery";
+import {AnnotationFeatures} from "../RcsbGraphQL/RcsbAnnotationInterface";
 
 interface CollectSequencesInterface{
     queryId: string;
@@ -51,7 +50,7 @@ export class RcsbWebApp {
             callBack:()=>{
                 this.collectAnnotations({
                     queryId: upAcc,
-                    reference: this.rcsbFvQuery.annotationReference.UNIPROT,
+                    reference: this.rcsbFvQuery.sequenceReference.UNIPROT,
                     source:[this.rcsbFvQuery.annotationSource.UNIPROT]
                 } as CollectAnnotationsInterface);
             }
@@ -66,7 +65,7 @@ export class RcsbWebApp {
             callBack:()=>{
                 this.collectAnnotations({
                     queryId: entityId,
-                    reference: this.rcsbFvQuery.annotationReference.PDB_ENTITY,
+                    reference: this.rcsbFvQuery.sequenceReference.PDB_ENTITY,
                     source:[this.rcsbFvQuery.annotationSource.PDB_ENTITY, this.rcsbFvQuery.annotationSource.UNIPROT]
                 } as CollectAnnotationsInterface);
             }
@@ -74,13 +73,12 @@ export class RcsbWebApp {
     }
 
     public buildInstanceFv(instanceId: string): void{
-        const ids: Array<string>= instanceId.split(".");
-        this.rcsbFvQuery.translateInstanceToEntity({
-            entryId:ids[0],
-            asymId:ids[1],
+        this.rcsbFvQuery.requestAlignment({
+            queryId:instanceId,
+            from:this.rcsbFvQuery.sequenceReference.PDB_INSTANCE,
+            to:this.rcsbFvQuery.sequenceReference.PDB_ENTITY,
             callBack:result=>{
-                const entityId:number = result.data.polymer_entity_instance.rcsb_polymer_entity_instance_container_identifiers.entity_id;
-                const queryID: string = ids[0]+"."+entityId;
+                const queryID: string = result.target_alignment[0].target_id;
                 this.collectSequences({
                     queryId:queryID,
                     from: this.rcsbFvQuery.sequenceReference.PDB_ENTITY,
@@ -88,13 +86,13 @@ export class RcsbWebApp {
                     callBack:()=>{
                         this.collectAnnotations({
                             queryId: instanceId,
-                            reference: this.rcsbFvQuery.annotationReference.PDB_INSTANCE,
+                            reference: this.rcsbFvQuery.sequenceReference.PDB_INSTANCE,
                             source:[this.rcsbFvQuery.annotationSource.PDB_ENTITY, this.rcsbFvQuery.annotationSource.PDB_INSTANCE, this.rcsbFvQuery.annotationSource.UNIPROT]
                         } as CollectAnnotationsInterface);
                     }
                 } as CollectSequencesInterface);
             }
-        } as RequestTranslateInterface);
+        } as RequestAlignmentInterface);
     }
 
     private collectSequences(requestConfig: CollectSequencesInterface): void {
@@ -103,9 +101,9 @@ export class RcsbWebApp {
             from: requestConfig.from,
             to: requestConfig.to,
             callBack: result => {
-                const data: AlignmentListInterface = result;
+                const data: AlignmentResponse = result;
                 const querySequence: string = data.query_sequence;
-                const alignmentData: Array<ProteinSeqeunceAlignmentJson> = data.target_alignment;
+                const alignmentData: Array<TargetAlignment> = data.target_alignment;
                 const boardConfig: RcsbFvBoardConfigInterface = this.boardConfigData;
                 boardConfig.length = result.query_sequence.length;
                 boardConfig.includeAxis = true;
@@ -121,10 +119,10 @@ export class RcsbWebApp {
                 this.seqeunceConfigData.push(track);
                 this.collectTargetAlignments(alignmentData, querySequence, requestConfig.callBack);
             }
-        });
+        } as RequestAlignmentInterface);
     }
 
-    private collectTargetAlignments(targetAlignmentList: Array<ProteinSeqeunceAlignmentJson>, querySequence: string, callBack:()=>void): void{
+    private collectTargetAlignments(targetAlignmentList: Array<TargetAlignment>, querySequence: string, callBack:()=>void): void{
         const findMismatch = (seqA: string,seqB: string) => {
             const out = [];
             if(seqA.length === seqB.length){
@@ -183,18 +181,18 @@ export class RcsbWebApp {
             reference: requestConfig.reference,
             source: requestConfig.source,
             callBack: result => {
-                const data: Array<AnnotationList> = result;
+                const data: Array<AnnotationFeatures> = result;
                 const annotations:Map<string,Array<RcsbFvTrackDataElementInterface>> = new Map();
                 data.forEach(ann => {
-                    ann.items.forEach(d => {
+                    ann.features.forEach(d => {
                         const type = this.rcsbAnnotationMap.setAnnotationKey(d);
                         if (!annotations.has(type)) {
                             annotations.set(type, new Array<RcsbFvTrackDataElementInterface>());
                         }
-                        d.positions.forEach(p => {
+                        d.feature_positions.forEach(p => {
                             annotations.get(type).push({
-                                begin:p.begin,
-                                end: p.end,
+                                begin:p.beg_seq_id,
+                                end: p.end_seq_id,
                                 description:d.description,
                                 featureId: d.feature_id,
                                 type:type,

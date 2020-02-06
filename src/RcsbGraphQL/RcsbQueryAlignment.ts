@@ -1,6 +1,7 @@
-import gql from 'graphql-tag';
 import RcsbQuery from "./RcsbQuery";
-import {ProteinSeqeunceAlignmentJson} from "./RcsbAlignmentInterface";
+import {AlignmentResponse} from "./RcsbAlignmentInterface";
+import * as query from "./Queries/QueryAlignments.graphql";
+import {SequenceReference} from "./RcsbSequenceReferenceInterface";
 
 export interface SequenceReferenceInterface {
     PDB_ENTITY: string;
@@ -14,16 +15,11 @@ export interface RequestAlignmentInterface {
     queryId: string;
     from: string;
     to: string;
-    callBack: (n: AlignmentListInterface)=>void;
-}
-
-export interface AlignmentListInterface{
-    query_sequence: string;
-    target_alignment: Array<ProteinSeqeunceAlignmentJson>;
+    callBack: (n: AlignmentResponse)=>void;
 }
 
 interface AlignmentResponseInterface{
-    alignment: AlignmentListInterface;
+    alignment: AlignmentResponse;
 }
 
 export default class RcsbQueryAlignment extends RcsbQuery{
@@ -38,33 +34,7 @@ export default class RcsbQueryAlignment extends RcsbQuery{
 
     public request(requestConfig: RequestAlignmentInterface): void{
         this.borregoClient.query<AlignmentResponseInterface>({
-            query:gql`query queryAlignment($queryId: String!, $from: SequenceReference, $to:SequenceReference){
-                alignment(
-                    queryId:$queryId
-                    from:$from
-                    to:$to
-                ){
-                    query_sequence
-                    target_alignment {
-                        target_id
-                        target_sequence
-                        coverage {
-                            query_coverage
-                            query_length
-                            target_coverage
-                            target_length
-                        }
-                        aligned_regions {
-                            query_begin
-                            query_end
-                            target_begin
-                            target_end
-                            exon_shift
-                        }
-                    }
-
-                } 
-            }`,
+            query:query,
             variables:{
                 queryId:requestConfig.queryId,
                 from:requestConfig.from,

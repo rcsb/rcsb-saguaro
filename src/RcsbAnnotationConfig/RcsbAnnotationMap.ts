@@ -1,5 +1,5 @@
 import * as annotationMap from "./RcsbAnnotationMap.json";
-import {Annotation} from "../RcsbGraphQL/RcsbAnnotationInterface";
+import {Feature} from "../RcsbGraphQL/RcsbAnnotationInterface";
 
 export interface RcsbAnnotationMapInterface {
     type: string;
@@ -9,7 +9,7 @@ export interface RcsbAnnotationMapInterface {
     key?: string;
 }
 
-interface DynamicKeyAnnotationInterface extends Annotation{
+interface DynamicKeyAnnotationInterface extends Feature{
     [key: string]: any;
 }
 
@@ -53,7 +53,7 @@ export class RcsbAnnotationMap {
         return this.entityAnnotationsOrder;
     }
 
-    setAnnotationKey(d: Annotation): string{
+    setAnnotationKey(d: Feature): string{
         const type: string = d.type;
         const a: DynamicKeyAnnotationInterface = d;
         if(this.annotationMap.has(type) && this.annotationMap.get(type).key!=null && a[this.annotationMap.get(type).key]){
