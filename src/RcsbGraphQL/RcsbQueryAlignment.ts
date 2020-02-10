@@ -1,5 +1,5 @@
 import RcsbQuery from "./RcsbQuery";
-import {AlignmentResponse} from "./RcsbAlignmentInterface";
+import {AlignmentResponse} from "./Types/GqlTypes";
 import * as query from "./Queries/QueryAlignments.graphql";
 
 export interface RequestAlignmentInterface {

@@ -1,5 +1,5 @@
 import * as annotationMap from "./RcsbAnnotationMap.json";
-import {Feature} from "../RcsbGraphQL/RcsbAnnotationInterface";
+import {Feature} from "../RcsbGraphQL/Types/GqlTypes";
 
 export interface RcsbAnnotationMapInterface {
     type: string;

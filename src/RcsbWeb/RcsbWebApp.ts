@@ -4,14 +4,15 @@ import {
     RcsbFvDisplayConfigInterface,
     RcsbFvRowConfigInterface
 } from "../RcsbFv/RcsbFvInterface";
-import {AlignmentResponse, TargetAlignment} from "../RcsbGraphQL/RcsbAlignmentInterface";
+
+import {AlignmentResponse, TargetAlignment} from "../RcsbGraphQL/Types/GqlTypes";
 import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbAnnotationMap, RcsbAnnotationMapInterface} from "../RcsbAnnotationConfig/RcsbAnnotationMap";
 import {DISPLAY_TYPES} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RequestAlignmentInterface} from "../RcsbGraphQL/RcsbQueryAlignment";
 import {RcsbFvQuery} from "../RcsbGraphQL/RcsbFvQuery";
-import {AnnotationFeatures, Source} from "../RcsbGraphQL/RcsbAnnotationInterface";
-import {SequenceReference} from "../RcsbGraphQL/RcsbSequenceReferenceInterface";
+import {AnnotationFeatures, Source} from "../RcsbGraphQL/Types/GqlTypes";
+import {SequenceReference} from "../RcsbGraphQL/Types/GqlTypes";
 
 interface CollectSequencesInterface{
     queryId: string;

@@ -1,5 +1,5 @@
 import RcsbQuery from "./RcsbQuery";
-import {AnnotationFeatures} from "./RcsbAnnotationInterface";
+import {AnnotationFeatures} from "./Types/GqlTypes";
 import * as query from "./Queries/QueryAnnotations.graphql";
 
 export interface RequestAnnotationsInterface {
