@@ -20,4 +20,5 @@ export interface RcsbDisplayInterface {
     mouseoverCallBack: ()=>void;
     elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
 }

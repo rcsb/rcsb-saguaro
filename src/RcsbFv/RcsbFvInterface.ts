@@ -1,4 +1,5 @@
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "./RcsbFvDataManager/RcsbFvDataManager";
+import {LocationViewInterface} from "../RcsbBoard/RcsbBoard";
 
 export interface RcsbFvBoardConfigInterface {
     elementId: string;
@@ -15,6 +16,7 @@ interface CommonConfigInterface{
     displayType: string;
     dynamicDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    updateDataOnMove?: (d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
 }
 
 export interface RcsbFvDisplayConfigInterface extends CommonConfigInterface{

@@ -5,6 +5,7 @@ import {
     RcsbFvDataManager,
     RcsbFvTrackDataElementInterface
 } from "../RcsbFvDataManager/RcsbFvDataManager";
+import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackId: string;
@@ -21,6 +22,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     interpolationType? : string;
     dynamicDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;
 
     constructor(args:RcsbFvRowConfigInterface) {
@@ -52,6 +54,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.elementClickCallBack === "function"){
             this.elementClickCallBack = args.elementClickCallBack;
+        }
+        if(typeof args.updateDataOnMove === "function"){
+            this.updateDataOnMove = args.updateDataOnMove;
         }
         if(typeof args.dynamicDisplay === "boolean"){
             this.dynamicDisplay = args.dynamicDisplay;

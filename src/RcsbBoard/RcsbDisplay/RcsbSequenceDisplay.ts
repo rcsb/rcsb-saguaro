@@ -34,7 +34,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         };
     }
 
-    update(where: LocationViewInterface, compKey?: string) {
+    _update(where: LocationViewInterface, compKey?: string) {
         this.currentLocation = where;
         this.compKey = compKey;
 
@@ -44,9 +44,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             return;
         }
 
-        const xScale = this.xScale;
-
-        let sequence: RcsbFvTrackData = this._data as RcsbFvTrackData;
+        let sequence: RcsbFvTrackData = this._data;
         if (sequence === undefined) {
             return;
         }
@@ -59,7 +57,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         });
 
         const dataElems: Array<RcsbFvTrackDataElementInterface> = elems.filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
-            return (s.begin >= xScale.domain()[0] && s.begin <= xScale.domain()[1]);
+            return (s.begin >= where.from && s.begin <= where.to);
         });
 
         let elemClass = "."+classes.rcsbElement;

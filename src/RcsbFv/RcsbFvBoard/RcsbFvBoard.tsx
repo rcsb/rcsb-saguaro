@@ -26,7 +26,7 @@ interface RcsbFvBoardStyleInterface{
 
 export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState> {
 
-    boardId : string = "RcsbFvBoard_"+Math.trunc(Math.random()*1000000);
+    boardId : string = "RcsbFvBoard_"+Math.random().toString(36).substr(2);
     rcsbFvRowArrayIds : Array<string> = new Array<string>();
     currentScale: ScaleTransformInterface;
     private subscription: Subscription;
@@ -39,9 +39,9 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
     render(){
         let rcsbFvRowAxis = null;
         if(this.state.boardConfigData.includeAxis === true){
-            const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000);
+            const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
             this.rcsbFvRowArrayIds.push(rowId);
-            const rowData:RcsbFvRowConfigInterface = {displayType:DISPLAY_TYPES.AXIS, trackId:"axisId_"+Math.trunc(Math.random()*1000000)};
+            const rowData:RcsbFvRowConfigInterface = {displayType:DISPLAY_TYPES.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2)};
             const data: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
             data.isAxis = true;
             rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} data={data} />;
@@ -52,7 +52,7 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
                 {
 
                     this.state.rowConfigData.map(rowData=>{
-                        const rowId: string = "RcsbFvRow_"+Math.trunc(Math.random()*1000000);
+                        const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
                         this.rcsbFvRowArrayIds.push(rowId);
                         const data = this.configRow(rowId,rowData);
                         data.isAxis = false;

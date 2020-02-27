@@ -155,10 +155,15 @@ export class RcsbD3Manager {
 
     highlightRegion(config: HighlightRegionInterface): void {
         const hlRegion:(b:number,e:number)=>void = (begin:number,end:number) => {
+            const minWidth = (begin:number, end:number)=>{
+                let w: number = config.xScale(end + 0.5) - config.xScale(begin - 0.5);
+                if(w<2)w=2;
+                return w;
+            };
             config.trackG.append<SVGRectElement>(RcsbD3Constants.RECT)
                 .attr(RcsbD3Constants.X, config.xScale(begin - 0.5))
                 .attr(RcsbD3Constants.Y, 0)
-                .attr(RcsbD3Constants.WIDTH, config.xScale(end + 0.5) - config.xScale(begin - 0.5))
+                .attr(RcsbD3Constants.WIDTH, minWidth(begin,end))
                 .attr(RcsbD3Constants.HEIGHT, config.height)
                 .attr(RcsbD3Constants.FILL, "#faf3c0")
                 .attr(RcsbD3Constants.FILL_OPACITY, 0.75)

@@ -21,10 +21,10 @@ interface RcsbFvInterface {
 export class RcsbFv {
 
     private trackIds: Array<string> = new Array<string>();
-    rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
-    boardConfigData: RcsbFvBoardConfigInterface;
-    elementId: string;
-    mounted: boolean = false;
+    private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
+    private boardConfigData: RcsbFvBoardConfigInterface;
+    private readonly elementId: string;
+    private mounted: boolean = false;
 
     constructor(props: RcsbFvInterface){
         this.boardConfigData = props.boardConfigData;
@@ -63,7 +63,7 @@ export class RcsbFv {
     private identifyFvTracks(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
         for(const trackConfig of rowConfigData){
             if(typeof trackConfig.trackId === "undefined"){
-                trackConfig.trackId = "trackId_"+Math.trunc(Math.random()*1000000);
+                trackConfig.trackId = "trackId_"+Math.random().toString(36).substr(2);
             }
             if(!this.trackIds.includes(trackConfig.trackId)) {
                 this.trackIds.push(trackConfig.trackId);

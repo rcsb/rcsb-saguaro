@@ -10,9 +10,16 @@ export class RcsbCoreDisplay extends RcsbTrack{
 
     _displayColor: string = "#FF6666";
     elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void = null;
+    updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> = null;
+
+    private performance: boolean = false;
 
     setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
         this.elementClickCallBack = f;
+    }
+
+    setUpdateDataOnMove( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> ): void{
+       this.updateDataOnMove = f;
     }
 
     setDisplayColor(color: string): void{
@@ -51,10 +58,33 @@ export class RcsbCoreDisplay extends RcsbTrack{
     }
 
     update(where: LocationViewInterface, compKey?: string) {
-
-        const dataElems: RcsbFvTrackData = this._data as RcsbFvTrackData;
-        if (dataElems === undefined || dataElems === null) {
+        if(typeof this.updateDataOnMove === "function"){
+            this.updateDataOnMove(where).then(result=>{
+                this.load(result);
+                if(this._data != null) {
+                    this._update(where, compKey);
+                }
+            }).catch((error)=>{
+                console.error(error);
+            });
+        }
+        if (this._data === undefined || this._data === null) {
             return;
+        }
+        this._update(where, compKey);
+    }
+
+    _update(where: LocationViewInterface, compKey?: string) {
+
+        let dataElems: RcsbFvTrackData = this._data;
+        if(this.performance) {
+            dataElems = this._data.filter((s: RcsbFvTrackDataElementInterface, i: number) => {
+                if(s.end == null){
+                    return (s.begin >= where.from || s.end <= where.to);
+                }else{
+                    return !(s.begin > where.to || s.end < where.from);
+                }
+            });
         }
 
         let visSel: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;

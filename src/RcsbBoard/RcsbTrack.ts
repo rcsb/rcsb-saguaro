@@ -6,9 +6,9 @@ import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFv
 
 export class RcsbTrack {
     d3Manager: RcsbD3Manager = null;
-    _bgColor: string = "#FFFFFF";
+    private _bgColor: string = "#FFFFFF";
     _height: number = null;
-    _width: number = null;
+    private _width: number = null;
     _data: RcsbFvTrackData = null;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined> = null;

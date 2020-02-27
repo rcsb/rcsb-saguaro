@@ -3,6 +3,7 @@ import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {unknownTypeMessage} from "graphql/validation/rules/KnownTypeNames";
 
 export interface PlotBlockInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
@@ -23,6 +24,8 @@ export interface MoveBlockInterface {
 
 export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
 
+    private minWidth: number = 2;
+
     plot(config: PlotBlockInterface): void{
         const gElements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const dy: number = config.dy;
@@ -32,11 +35,19 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
         const color: string = config.color;
         const height: number = config.height;
 
+        const minWidth = (begin: number, end: number)=>{
+            let w: number = (xScale(end+dx) - xScale(begin-dx));
+            if(w<this.minWidth){
+                w=this.minWidth;
+            }
+            return w;
+        };
+
         const plotBlock = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, begin: number, end: number)=>{
             g.append(RcsbD3Constants.RECT)
                 .attr(RcsbD3Constants.X, xScale(begin-dx))
                 .attr(RcsbD3Constants.Y, y_o)
-                .attr(RcsbD3Constants.WIDTH, (xScale(end+dx) - xScale(begin-dx)))
+                .attr(RcsbD3Constants.WIDTH,  minWidth(begin,end))
                 .attr(RcsbD3Constants.HEIGHT, dy)
                 .transition()
                 .duration(500)
@@ -92,7 +103,7 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
                     .attr(RcsbD3Constants.CY, 0.5*height)
                     .transition()
                     .duration(500)
-                    .attr(RcsbD3Constants.R, dy*1/4)
+                    .attr(RcsbD3Constants.R, dy/4)
                     .attr(RcsbD3Constants.FILL, "#ffffff")
                     .attr(RcsbD3Constants.STROKE,(d:RcsbFvTrackDataElementInterface)=> {
                         if (d.color === undefined) {
@@ -117,7 +128,7 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
                 .attr(RcsbD3Constants.CY, 0.5*height)
                 .transition()
                 .duration(500)
-                .attr(RcsbD3Constants.R, dy*1/4)
+                .attr(RcsbD3Constants.R, dy/4)
                 .attr(RcsbD3Constants.FILL, "#ffffff")
                 .attr(RcsbD3Constants.STROKE,(d:RcsbFvTrackDataElementInterface)=> {
                     if (d.color === undefined) {
@@ -162,9 +173,17 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
         const dx = config.dx;
         const gElements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
 
+        const minWidth = (begin: number, end: number)=>{
+            let w: number = (xScale(end+dx) - xScale(begin-dx));
+            if(w<this.minWidth){
+                w=this.minWidth;
+            }
+            return w;
+        };
+
         const moveBlock = (rect:Selection<SVGRectElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface>, begin:number, end:number)=>{
             rect.attr(RcsbD3Constants.X, xScale(begin-dx))
-                .attr(RcsbD3Constants.WIDTH, (xScale(end+dx) - xScale(begin-dx)));
+                .attr(RcsbD3Constants.WIDTH, minWidth(begin,end));
         };
 
         const moveLine = (line:Selection<SVGLineElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface>, begin:number, end:number)=>{

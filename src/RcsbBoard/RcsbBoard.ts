@@ -34,32 +34,35 @@ interface RegionLimitsInterface {
 
 export class RcsbBoard {
     d3Manager: RcsbD3Manager = new RcsbD3Manager();
-    domId: string = null;
-    _width: number = 920;
-    _bgColor: string = "#FFFFFF";
-    _innerPadding: number = 10;
-    tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
+    private readonly domId: string = null;
+    private _width: number = 920;
+    private _bgColor: string = "#FFFFFF";
+    private _innerPadding: number = 10;
+    private tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
     onHighLightCallBack:(d?:RcsbFvTrackDataElementInterface) => void = null;
-    currentSelection: SelectionInterface = {
+    private currentSelection: SelectionInterface = {
         rcsbFvTrackDataElement: null,
         domId: null
     };
     xScale: ScaleLinear<number,number> = scaleLinear();
-    limits: RegionLimitsInterface = {
-        max: 10000,
+    private limits: RegionLimitsInterface = {
+        max: 1000000000,
         min: -1.5,
-        maxZoom: 1000000,
+        maxZoom: 1000000000,
         minZoom: 30
     };
-    currentLocationView: LocationViewInterface = {
+    private currentLocationView: LocationViewInterface = {
         from:1,
         to:500
     };
 
-    zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any> = zoom();
+    private updateId: number = 0;
+    private updateDelay: number = 300;
 
-    mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
-    mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
+    private zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any> = zoom();
+
+    private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
+    private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
 
     constructor(elementId: string) {
         this.domId = elementId;
@@ -233,7 +236,7 @@ export class RcsbBoard {
         this._width = w;
     }
 
-    setLocation(from: number, to: number): void {
+    private setLocation(from: number, to: number): void {
         this.currentLocationView = {
             from: from,
             to: to
@@ -248,7 +251,13 @@ export class RcsbBoard {
         });
     }
 
-    moveBoard(newTransform: ZoomTransform, propFlag: boolean): void {
+    private moveAllTracks():void{
+        this.tracks.forEach(track=> {
+            track.move();
+        });
+    }
+
+    private moveBoard(newTransform: ZoomTransform, propFlag: boolean): void {
 
         let transform: ZoomTransform = null;
         const isNotIdentity = (transform: ZoomTransform): boolean => {
@@ -283,23 +292,8 @@ export class RcsbBoard {
         this.xScale.domain(newDomain);
         this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
 
-        const deferCancel = (callBack: () => void, waitTime: number) => {
-            let tick:number = null;
-            return () =>{
-                const args = Array.prototype.slice.call(arguments);
-                const self = this;
-                window.clearTimeout(tick);
-                tick = window.setTimeout (function () {
-                    callBack.apply(self, args);
-                }, waitTime);
-            };
-        };
-
-        deferCancel(this.updateAllTracks.bind(this), 500)();
-
-    	this.tracks.forEach(track=> {
-            track.move();
-        });
+        this.updateWithDelay();
+    	this.moveAllTracks();
 
         this.highlightRegion(undefined );
 
@@ -313,6 +307,13 @@ export class RcsbBoard {
                     eventData:data
             } as RcsbFvContextManagerInterface);
         }
+    };
+
+    private updateWithDelay(): void {
+            window.clearTimeout(this.updateId);
+            this.updateId = window.setTimeout (() =>{
+                this.updateAllTracks();
+            }, this.updateDelay);
     };
 
     public setScale(transformEvent: ScaleTransformInterface){

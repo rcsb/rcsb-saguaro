@@ -2,7 +2,11 @@ import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
-import {RcsbFvTrackDataElementInterface, RcsbFvTrackDataMap} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {
+    RcsbFvTrackData,
+    RcsbFvTrackDataElementInterface,
+    RcsbFvTrackDataMap
+} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;
@@ -14,7 +18,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     _data: RcsbFvTrackDataMap = null;
     _bgColor: string = null;
     elementClickCallBack: ()=>void = null;
+
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void = null;
+    setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void = null;
 
     mouseoutCallBack(): void{
         this.innerDisplays.forEach(id=>{

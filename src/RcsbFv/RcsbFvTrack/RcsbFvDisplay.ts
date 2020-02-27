@@ -15,7 +15,7 @@ import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
 export class RcsbFvDisplay {
 
     private displayIds: Array<string> = [];
-    private displayConfig: RcsbFvRowConfigInterface;
+    private readonly displayConfig: RcsbFvRowConfigInterface;
 
     constructor(config: RcsbFvRowConfigInterface){
         this.displayConfig = config;
@@ -40,7 +40,7 @@ export class RcsbFvDisplay {
         const display:RcsbCompositeDisplay = new RcsbCompositeDisplay();
         let i = 0;
         for(let displayItem of config.displayConfig){
-            let displayId: string = "displayId_"+Math.trunc(Math.random()*1000000);
+            let displayId: string = "displayId_"+Math.random().toString(36).substr(2);
             if(typeof displayItem.displayId === "string"){
                 displayId = displayItem.displayId;
             }
@@ -102,6 +102,9 @@ export class RcsbFvDisplay {
         }
         if(typeof config.elementClickCallBack === "function"){
             out.setElementClickCallBack(config.elementClickCallBack);
+        }
+        if(typeof config.updateDataOnMove === "function"){
+            out.setUpdateDataOnMove( config.updateDataOnMove );
         }
         return out;
     }

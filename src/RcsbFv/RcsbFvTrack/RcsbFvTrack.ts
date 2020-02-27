@@ -25,7 +25,7 @@ export class RcsbFvTrack {
     private elementId: string = null;
     private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData> = null;
     private loadedData: boolean = false;
-    private updateRowHeight: ()=>void;
+    private readonly updateRowHeight: ()=>void;
     private subscription: Subscription;
 
     public constructor(args:RcsbFvRowConfigInterface, updateRowHeight:()=>void) {

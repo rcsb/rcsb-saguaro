@@ -6,7 +6,7 @@ import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/Rc
 
 export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
-	dx: number = 0.5;
+	private dx: number = 0.5;
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
         super.plot(elements);
