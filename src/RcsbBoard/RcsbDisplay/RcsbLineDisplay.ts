@@ -5,7 +5,7 @@ import {MoveLineInterface, PlotLineInterface} from "../RcsbD3/RcsbD3DisplayManag
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {modeMedian} from "@d3fc/d3fc-sample";
-import {INTERPOLATION_TYPES} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
@@ -18,13 +18,13 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     linePoints: RcsbFvTrackDataElementInterface[];
 
     setInterpolationType(type: string): void{
-        if(type === INTERPOLATION_TYPES.CARDINAL)
+        if(type === InterpolationTypes.CARDINAL)
             this.line = line<RcsbFvTrackDataElementInterface>().curve(curveCardinal);
-        else if(type === INTERPOLATION_TYPES.STEP)
+        else if(type === InterpolationTypes.STEP)
             this.line = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
-        else if(type === INTERPOLATION_TYPES.BASIS)
+        else if(type === InterpolationTypes.BASIS)
             this.line = line<RcsbFvTrackDataElementInterface>().curve(curveBasis);
-        else if(type === INTERPOLATION_TYPES.LINEAR)
+        else if(type === InterpolationTypes.LINEAR)
             this.line = line<RcsbFvTrackDataElementInterface>().curve(curveLinear);
     }
 

@@ -2,7 +2,9 @@ const path = require('path');
 
 module.exports = {
     mode: "development",
-    entry: './src/RcsbFv/RcsbFv.tsx',
+    entry: {
+        'rcsb-saguaro':'./src/RcsbFv.ts'
+    },
     module: {
       rules: [
         {
@@ -24,10 +26,6 @@ module.exports = {
                   }
               }, 'sass-loader'],
           exclude: /node_modules/
-        },{
-              test: /\.(graphql|gql)$/,
-              exclude: /node_modules/,
-              loader: 'graphql-tag/loader'
         }
       ]
     },

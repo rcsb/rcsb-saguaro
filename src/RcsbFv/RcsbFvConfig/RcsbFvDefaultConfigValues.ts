@@ -19,17 +19,17 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     trackWidth: 920,
     rowTitleWidth: 160,
     displayDomain: [0,1],
-    interpolationType: INTERPOLATION_TYPES.STEP
+    interpolationType: InterpolationTypes.STEP
 };
 
-export const enum INTERPOLATION_TYPES {
+export const enum InterpolationTypes {
     STEP = "step",
     BASIS = "basis",
     CARDINAL = "cardinal",
     LINEAR = "linear"
 }
 
-export const enum DISPLAY_TYPES {
+export const enum RcsbFvDisplayTypes {
     BLOCK = "block",
     AXIS = "axis",
     SEQUENCE = "sequence",

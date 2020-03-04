@@ -1,5 +1,5 @@
 import {RcsbBoard} from '../../RcsbBoard/RcsbBoard';
-import {RcsbFvDefaultConfigValues, DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
+import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
@@ -42,9 +42,9 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.elementId === "string"){
             this.init(this.rcsbFvConfig.elementId);
         }
-        if(typeof this.rcsbFvConfig.trackData !== "undefined" && this.rcsbFvConfig.displayType !== DISPLAY_TYPES.COMPOSITE ){
+        if(typeof this.rcsbFvConfig.trackData !== "undefined" && this.rcsbFvConfig.displayType !== RcsbFvDisplayTypes.COMPOSITE ){
             this.load(this.rcsbFvConfig.trackData);
-        }else if(this.rcsbFvConfig.displayType === DISPLAY_TYPES.COMPOSITE){
+        }else if(this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE){
             const data: Array<RcsbFvTrackData> = this.collectCompositeData();
             if(data !== undefined) {
                 this.load(data);
@@ -113,7 +113,7 @@ export class RcsbFvTrack {
     public load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>) : void{
         this.trackData = trackData;
         this.loadedData = true;
-        if( this.rcsbFvConfig.displayType === DISPLAY_TYPES.COMPOSITE && trackData instanceof Array){
+        if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && trackData instanceof Array){
             const rcsbTrack: RcsbDisplayInterface = this.buildRcsbTrack();
             const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
             const trackDataHash: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();

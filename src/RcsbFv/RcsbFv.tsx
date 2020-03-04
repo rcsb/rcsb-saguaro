@@ -6,13 +6,11 @@ import {
     EVENT_TYPE,
     DataInterface,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ResetInterface, TrackInterface
+    RcsbFvContextManagerInterface, ResetInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "./RcsbFvDataManager/RcsbFvDataManager";
 
-import {RcsbWebApp} from "../RcsbWeb/RcsbWebApp";
-
-interface RcsbFvInterface {
+export interface RcsbFvInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
     boardConfigData: RcsbFvBoardConfigInterface;
     elementId: string;
@@ -116,10 +114,6 @@ export class RcsbFv {
         }
         this.identifyFvTracks(this.rowConfigData);
     }
-
-}
-
-export class RcsbFvWebApp extends RcsbWebApp{
 
 }
 

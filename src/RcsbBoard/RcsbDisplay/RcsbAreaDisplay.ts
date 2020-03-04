@@ -1,7 +1,7 @@
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {RcsbLineDisplay} from "./RcsbLineDisplay";
 import {area, Area, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
-import {INTERPOLATION_TYPES} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {BaseType, Selection} from "d3-selection";
 import {MoveAreaInterface, PlotAreaInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
@@ -11,13 +11,13 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
 
     setInterpolationType(type: string): void{
         super.setInterpolationType(type);
-        if(type === INTERPOLATION_TYPES.CARDINAL)
+        if(type === InterpolationTypes.CARDINAL)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveCardinal);
-        else if(type === INTERPOLATION_TYPES.STEP)
+        else if(type === InterpolationTypes.STEP)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveStep);
-        else if(type === INTERPOLATION_TYPES.BASIS)
+        else if(type === InterpolationTypes.BASIS)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveBasis);
-        else if(type === INTERPOLATION_TYPES.LINEAR)
+        else if(type === InterpolationTypes.LINEAR)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveLinear);
     }
 

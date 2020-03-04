@@ -1,4 +1,4 @@
-import {DISPLAY_TYPES, INTERPOLATION_TYPES, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
+import {RcsbFvDisplayTypes, InterpolationTypes, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {
     RcsbFvTrackData,
@@ -69,7 +69,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         if(typeof args.trackHeight === "number"){
             this.trackHeight = args.trackHeight;
         }else if(typeof this.displayType === "string"){
-            if(this.displayType === DISPLAY_TYPES.AXIS){
+            if(this.displayType === RcsbFvDisplayTypes.AXIS){
                 this.trackHeight = RcsbFvDefaultConfigValues.trackAxisHeight;
             }else {
                 this.trackHeight = RcsbFvDefaultConfigValues.trackHeight;
@@ -104,20 +104,20 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
 
     getInterpolationType(type: string): string{
         switch (type) {
-            case INTERPOLATION_TYPES.STEP: {
-                return INTERPOLATION_TYPES.STEP;
+            case InterpolationTypes.STEP: {
+                return InterpolationTypes.STEP;
             }
-            case INTERPOLATION_TYPES.BASIS: {
-                return INTERPOLATION_TYPES.BASIS;
+            case InterpolationTypes.BASIS: {
+                return InterpolationTypes.BASIS;
             }
-            case INTERPOLATION_TYPES.CARDINAL: {
-                return INTERPOLATION_TYPES.CARDINAL;
+            case InterpolationTypes.CARDINAL: {
+                return InterpolationTypes.CARDINAL;
             }
-            case INTERPOLATION_TYPES.LINEAR: {
-                return INTERPOLATION_TYPES.LINEAR;
+            case InterpolationTypes.LINEAR: {
+                return InterpolationTypes.LINEAR;
             }
             default: {
-                return INTERPOLATION_TYPES.STEP;
+                return InterpolationTypes.STEP;
             }
         }
     }

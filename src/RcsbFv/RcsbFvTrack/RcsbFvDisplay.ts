@@ -1,4 +1,4 @@
-import {DISPLAY_TYPES} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
+import {RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {RcsbAxisDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAxisDisplay";
@@ -23,9 +23,9 @@ export class RcsbFvDisplay {
 
     public initDisplay() : RcsbDisplayInterface{
         const config = this.displayConfig;
-        if (typeof config.displayType === "string" && config.displayType != DISPLAY_TYPES.COMPOSITE) {
+        if (typeof config.displayType === "string" && config.displayType != RcsbFvDisplayTypes.COMPOSITE) {
             return RcsbFvDisplay.singleDisplay(config.displayType, config);
-        }else if(typeof config.displayType === "string" && config.displayType == DISPLAY_TYPES.COMPOSITE){
+        }else if(typeof config.displayType === "string" && config.displayType == RcsbFvDisplayTypes.COMPOSITE){
             return this.composedDisplay(config);
         }else{
             throw "Display type "+config.displayType+" not supported";
@@ -70,31 +70,31 @@ export class RcsbFvDisplay {
     private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
         let out:RcsbDisplayInterface = null;
         switch (type) {
-            case DISPLAY_TYPES.AXIS:
+            case RcsbFvDisplayTypes.AXIS:
                 out = RcsbFvDisplay.axisDisplay();
                 break;
-            case DISPLAY_TYPES.BLOCK:
+            case RcsbFvDisplayTypes.BLOCK:
                 out = RcsbFvDisplay.blockDisplay(config.displayColor);
                 break;
-            case DISPLAY_TYPES.PIN:
+            case RcsbFvDisplayTypes.PIN:
                 out = RcsbFvDisplay.pinDisplay(config.displayColor, config.displayDomain);
                 break;
-            case DISPLAY_TYPES.BOND:
+            case RcsbFvDisplayTypes.BOND:
                 out = RcsbFvDisplay.bondDisplay(config.displayColor);
                 break;
-            case DISPLAY_TYPES.SEQUENCE:
+            case RcsbFvDisplayTypes.SEQUENCE:
                 out = RcsbFvDisplay.sequenceDisplay(config.displayColor, config.dynamicDisplay);
                 break;
-            case DISPLAY_TYPES.LINE:
+            case RcsbFvDisplayTypes.LINE:
                 out = RcsbFvDisplay.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
                 break;
-            case DISPLAY_TYPES.AREA:
+            case RcsbFvDisplayTypes.AREA:
                 out = RcsbFvDisplay.areaDisplay(config.displayColor, config.displayDomain, config.interpolationType);
                 break;
-            case DISPLAY_TYPES.VARIANT:
+            case RcsbFvDisplayTypes.VARIANT:
                 out = RcsbFvDisplay.variantDisplay(config.displayColor);
                 break;
-            case DISPLAY_TYPES.VLINE:
+            case RcsbFvDisplayTypes.VLINE:
                 out = RcsbFvDisplay.vlineDisplay(config.displayColor);
                 break;
             default:

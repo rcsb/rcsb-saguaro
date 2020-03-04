@@ -6,7 +6,7 @@
     "module": "commonjs",
     "jsx": "react",
     "lib": [ "dom", "es2017" ],
-    "allowJs": true,
+    "declaration": true,
     "sourceMap": true
   }
 }

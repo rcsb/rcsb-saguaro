@@ -1,5 +1,5 @@
 import * as React from "react";
-import {DISPLAY_TYPES, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDisplayTypes, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import RcsbFvRow from "../RcsbFvRow/RcsbFvRow";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
 
@@ -41,7 +41,7 @@ export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, 
         if(this.state.boardConfigData.includeAxis === true){
             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
             this.rcsbFvRowArrayIds.push(rowId);
-            const rowData:RcsbFvRowConfigInterface = {displayType:DISPLAY_TYPES.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2)};
+            const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2)};
             const data: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
             data.isAxis = true;
             rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} data={data} />;
