@@ -1,9 +1,10 @@
 import ApolloClient from 'apollo-boost';
+import * as configGraphQL from "../../codegen.json";
 
-export default class RcsbQueryAlignment{
+export default class RcsbQuery{
 
     borregoClient: ApolloClient<any> = new ApolloClient({
-        uri: 'http://bioinsilico.rcsb.org:8080/graphql'
+        uri: (<any>configGraphQL).schema
     });
 
 }

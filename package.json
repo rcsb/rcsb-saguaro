@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
-    "generate": "graphql-codegen --config codegen.yml",
+    "generate": "graphql-codegen --config codegen.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

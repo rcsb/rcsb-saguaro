@@ -1,9 +1,0 @@
-overwrite: true
-schema: "http://bioinsilico.rcsb.org:8080/graphql"
-documents: "src/RcsbGraphQL/Queries/*.graphql"
-config:
-  declarationKind: 'interface'
-generates:
-  ./src/RcsbGraphQL/Types/GqlTypes.ts:
-    plugins:
-      - "typescript"

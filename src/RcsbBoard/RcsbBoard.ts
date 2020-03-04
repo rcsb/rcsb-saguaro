@@ -149,11 +149,17 @@ export class RcsbBoard {
     }
 
     startBoard(): void {
-        this.addSVG();
         if ((this.limits.max - this.limits.min) < this.limits.maxZoom) {
             this.limits.maxZoom = this.limits.max - this.limits.min;
         }
 
+        if ((this.currentLocationView.to - this.currentLocationView.from) < this.limits.minZoom) {
+            this.currentLocationView.to = this.currentLocationView.from + this.limits.minZoom;
+        }else if((this.currentLocationView.to - this.currentLocationView.from) > this.limits.maxZoom){
+            this.currentLocationView.to = this.currentLocationView.from + this.limits.maxZoom;
+        }
+
+        this.addSVG();
         this.xScale = scaleLinear()
             .domain([this.currentLocationView.from, this.currentLocationView.to])
             .range([this._innerPadding, this._width - this._innerPadding]);
@@ -170,17 +176,7 @@ export class RcsbBoard {
     	this.tracks.forEach(track=>{
             track.init(this._width, this.xScale);
         });
-
     	this.setBoardHeight();
-
-        if ((this.currentLocationView.to - this.currentLocationView.from) < this.limits.minZoom) {
-            if ((this.currentLocationView.from + this.limits.minZoom) > this.limits.max) {
-                this.currentLocationView.to = this.limits.max;
-            } else {
-                this.currentLocationView.to = this.currentLocationView.from + this.limits.minZoom;
-            }
-        }
-
         this.tracks.forEach((track)=> {
             track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
         });
@@ -274,11 +270,7 @@ export class RcsbBoard {
 
         let newDomain:number[] = transform.rescaleX(this.xScale).domain();
         let length: number = newDomain[1] - newDomain[0];
-        if(length > this.limits.maxZoom){
-            length = this.limits.maxZoom;
-            const midPoint: number = 0.5*(newDomain[1] + newDomain[0]);
-            newDomain = [midPoint-0.5*length,midPoint+0.5*length];
-        }else if(length<this.limits.minZoom){
+        if(length<this.limits.minZoom || length > this.limits.maxZoom){
             this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
             return;
         }

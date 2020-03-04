@@ -12,7 +12,6 @@ export interface RcsbFvBoardConfigInterface {
 
 interface CommonConfigInterface{
     displayColor?: string;
-    interpolationType?: string;
     displayType: string;
     dynamicDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;

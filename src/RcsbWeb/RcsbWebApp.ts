@@ -85,6 +85,8 @@ export class RcsbWebApp {
         };
         this.seqeunceConfigData.push(track);
         this.collectChromosomeAlignments({queryId:ncbiId, from: SequenceReference.NcbiGenome, to: SequenceReference.PdbEntity, callBack:null});
+        //this.rcsbFv.setBoardData(this.seqeunceConfigData);
+        //this.rcsbFv.init();
     }
 
     private collectChromosomeAlignments(requestConfig: CollectAlignmentInterface){
