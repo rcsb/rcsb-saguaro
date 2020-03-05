@@ -1,10 +1,14 @@
 # rcsb-saguaro
 
-RCSB 1D Feature Viewer 
+RCSB 1D Feature Viewer
 
-GraphQL types are generated dynamically from the 1D coordinate server with GraphQL Code Generator (graphql-codegen).
-The parameters are stored in the configuration file codegen.yml
+<a href="https://www.rcsb.org" >RCSB PDB</a> node module used to display sequence annotations.
 
-To generate the GraphQL types run
-
-    - npm run generate 
+- RcsbFv
+  - RcsbFvInterface
+    - RcsbFvBoardConfigInterface
+    - RcsbFvRowConfigInterface
+      - RcsbFvDisplayConfigInterface
+      - RcsbFvTrackData
+- RcsbFvDisplayTypes
+- RcsbFvLocationViewInterface
