@@ -12,8 +12,8 @@ import {
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
-    EVENT_TYPE,
-    RcsbFvContextManager,
+    EventType,
+    RcsbFvContextManagerClass,
     RcsbFvContextManagerInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
@@ -64,8 +64,11 @@ export class RcsbBoard {
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
     private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
 
-    constructor(elementId: string) {
+    private readonly contextManager: RcsbFvContextManagerClass;
+
+    constructor(elementId: string, contextManager: RcsbFvContextManagerClass) {
         this.domId = elementId;
+        this.contextManager = contextManager;
     }
 
     private addSVG():void {
@@ -132,8 +135,8 @@ export class RcsbBoard {
         if(d === null  || (d!== undefined && typeof(d.begin) === "number") ){
             this.currentSelection = {rcsbFvTrackDataElement:d, domId: this.domId} as SelectionInterface;
             if(propFlag!==true) {
-                RcsbBoard.triggerSelectionEvent({
-                    eventType:EVENT_TYPE.SELECTION,
+                this.triggerSelectionEvent({
+                    eventType:EventType.SELECTION,
                     eventData:this.currentSelection
                 } as RcsbFvContextManagerInterface);
             }
@@ -294,8 +297,8 @@ export class RcsbBoard {
                 transform:transform,
                 domId:this.domId
             };
-            RcsbBoard.triggerScaleEvent({
-                    eventType:EVENT_TYPE.SCALE,
+            this.triggerScaleEvent({
+                    eventType:EventType.SCALE,
                     eventData:data
             } as RcsbFvContextManagerInterface);
         }
@@ -314,11 +317,11 @@ export class RcsbBoard {
         }
     }
 
-    private static triggerScaleEvent(geoTrans: RcsbFvContextManagerInterface){
-        RcsbFvContextManager.next(geoTrans);
+    private triggerScaleEvent(geoTrans: RcsbFvContextManagerInterface){
+        this.contextManager.next(geoTrans);
     }
 
-    private static triggerSelectionEvent(selection: RcsbFvContextManagerInterface){
-        RcsbFvContextManager.next(selection);
+    private triggerSelectionEvent(selection: RcsbFvContextManagerInterface){
+        this.contextManager.next(selection);
     }
 }

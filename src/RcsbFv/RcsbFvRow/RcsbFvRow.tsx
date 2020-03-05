@@ -4,10 +4,12 @@ import RcsbFvRowTitle from "./RcsbFvRowTitle";
 import RcsbFvRowTrack from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import {RcsbFvContextManagerClass} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 interface RcsbFvRowInterface {
     id: string;
     data: RcsbFvRowConfigInterface;
+    contextManager: RcsbFvContextManagerClass;
 }
 
 interface RcsbFvRowStyleInterface{
@@ -41,7 +43,7 @@ export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, Rcsb
         return (
             <div className={classNames} style={this.configStyle()}>
                 <RcsbFvRowTitle data={this.configData} rowTitleHeight={this.state.rowHeight}/>
-                <RcsbFvRowTrack id={this.props.id} data={this.configData} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
+                <RcsbFvRowTrack id={this.props.id} data={this.configData} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
             </div>
         );
     }

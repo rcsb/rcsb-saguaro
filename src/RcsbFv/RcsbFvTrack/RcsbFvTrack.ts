@@ -10,8 +10,8 @@ import {
 } from "../RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {
-    EVENT_TYPE, DataInterface,
-    RcsbFvContextManager,
+    EventType, DataInterface,
+    RcsbFvContextManagerClass,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
@@ -27,13 +27,15 @@ export class RcsbFvTrack {
     private loadedData: boolean = false;
     private readonly updateRowHeight: ()=>void;
     private subscription: Subscription;
+    private readonly contextManager: RcsbFvContextManagerClass;
 
-    public constructor(args:RcsbFvRowConfigInterface, updateRowHeight:()=>void) {
+    public constructor(args:RcsbFvRowConfigInterface, contextManager: RcsbFvContextManagerClass, updateRowHeight:()=>void) {
         if (typeof args.elementId === "string" && document.getElementById(args.elementId) !== null) {
             this.rcsbBoard = new RcsbBoard(args.elementId);
         }
         this.buildTrack(args);
         this.updateRowHeight = updateRowHeight;
+        this.contextManager = contextManager;
         this.subscription = this.subscribe();
     }
 
@@ -157,14 +159,14 @@ export class RcsbFvTrack {
     }
 
     subscribe(): Subscription{
-        return RcsbFvContextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
-            if(obj.eventType===EVENT_TYPE.SCALE) {
+        return this.contextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+            if(obj.eventType===EventType.SCALE) {
                 this.setScale(obj.eventData as ScaleTransformInterface);
-            }else if(obj.eventType===EVENT_TYPE.SELECTION){
+            }else if(obj.eventType===EventType.SELECTION){
                 this.setSelection(obj.eventData as SelectionInterface);
-            }else if(obj.eventType===EVENT_TYPE.UPDATE_DATA || obj.eventType===EVENT_TYPE.ADD_DATA){
+            }else if(obj.eventType===EventType.UPDATE_DATA || obj.eventType===EventType.ADD_DATA){
                 this.updateData(obj.eventData as DataInterface, obj.eventType);
-            }else if(obj.eventType===EVENT_TYPE.RESET){
+            }else if(obj.eventType===EventType.RESET){
                 this.reset(obj.eventData as ResetInterface);
             }
         });
@@ -184,9 +186,9 @@ export class RcsbFvTrack {
 
     private updateData(obj: DataInterface, updateType: string){
         if(this.rcsbFvConfig.trackId === obj.trackId){
-            if(updateType === EVENT_TYPE.UPDATE_DATA) {
+            if(updateType === EventType.UPDATE_DATA) {
                 this.rcsbFvConfig.updateTrackData(obj.loadData);
-            }else if(updateType === EVENT_TYPE.ADD_DATA){
+            }else if(updateType === EventType.ADD_DATA){
                 this.rcsbFvConfig.addTrackData(obj.loadData);
             }
             this._reset();

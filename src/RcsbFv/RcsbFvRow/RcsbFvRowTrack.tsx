@@ -3,10 +3,12 @@ import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvContextManagerClass} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 interface RcsbFvRowTrackInterface {
     id: string;
     data: RcsbFvRowConfigInterface;
+    contextManager: RcsbFvContextManagerClass;
     callbackRcsbFvRow(height: number): void;
 }
 

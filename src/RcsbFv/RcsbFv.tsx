@@ -3,9 +3,9 @@ import * as ReactDom from "react-dom";
 import RcsbFvBoard from "./RcsbFvBoard/RcsbFvBoard";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvInterface";
 import {
-    EVENT_TYPE,
+    EventType,
     DataInterface,
-    RcsbFvContextManager,
+    RcsbFvContextManagerClass,
     RcsbFvContextManagerInterface, ResetInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "./RcsbFvDataManager/RcsbFvDataManager";
@@ -18,6 +18,7 @@ export interface RcsbFvInterface {
 
 export class RcsbFv {
 
+    readonly contextManager: RcsbFvContextManagerClass;
     private trackIds: Array<string> = new Array<string>();
     private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     private boardConfigData: RcsbFvBoardConfigInterface;
@@ -25,6 +26,7 @@ export class RcsbFv {
     private mounted: boolean = false;
 
     constructor(props: RcsbFvInterface){
+        this.contextManager = new RcsbFvContextManagerClass();
         this.boardConfigData = props.boardConfigData;
         this.elementId = props.elementId;
         if(this.elementId===null || this.elementId===undefined){
@@ -52,7 +54,7 @@ export class RcsbFv {
         if(!this.mounted) {
             this.mounted = true;
             ReactDom.render(
-                <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData}/>,
+                <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager}/>,
                 document.getElementById(this.elementId)
             );
         }
@@ -78,8 +80,8 @@ export class RcsbFv {
             trackId:trackId,
             loadData:data
         };
-        RcsbFvContextManager.next({
-            eventType:EVENT_TYPE.ADD_DATA,
+        this.contextManager.next({
+            eventType:EventType.ADD_DATA,
             eventData:loadDataObj
         } as RcsbFvContextManagerInterface);
     }
@@ -89,8 +91,8 @@ export class RcsbFv {
             trackId:trackId,
             loadData:data
         };
-        RcsbFvContextManager.next({
-            eventType:EVENT_TYPE.UPDATE_DATA,
+        this.contextManager.next({
+            eventType:EventType.UPDATE_DATA,
             eventData:loadDataObj
         } as RcsbFvContextManagerInterface);
     }
@@ -99,16 +101,16 @@ export class RcsbFv {
         const resetDataObj:ResetInterface = {
             trackId:trackId
         };
-        RcsbFvContextManager.next({
-            eventType:EVENT_TYPE.RESET,
+        this.contextManager.next({
+            eventType:EventType.RESET,
             eventData:resetDataObj
         } as RcsbFvContextManagerInterface);
     }
 
     public addTrack(trackConfig: RcsbFvRowConfigInterface): void{
         if(this.mounted) {
-            RcsbFvContextManager.next({
-                eventType: EVENT_TYPE.ADD_TRACK,
+            this.contextManager.next({
+                eventType: EventType.ADD_TRACK,
                 eventData: trackConfig
             } as RcsbFvContextManagerInterface)
         }
