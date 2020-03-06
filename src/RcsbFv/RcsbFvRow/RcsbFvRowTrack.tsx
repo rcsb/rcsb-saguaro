@@ -45,7 +45,7 @@ export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInter
     }
 
     componentDidMount(): void{
-        this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.updateHeight.bind(this));
+        this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.contextManager, this.updateHeight.bind(this));
         this.updateHeight();
     }
 

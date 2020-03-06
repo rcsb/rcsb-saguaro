@@ -18,7 +18,7 @@ export interface RcsbFvInterface {
 
 export class RcsbFv {
 
-    readonly contextManager: RcsbFvContextManagerClass;
+    private readonly contextManager: RcsbFvContextManagerClass = new RcsbFvContextManagerClass();;
     private trackIds: Array<string> = new Array<string>();
     private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     private boardConfigData: RcsbFvBoardConfigInterface;
@@ -26,7 +26,6 @@ export class RcsbFv {
     private mounted: boolean = false;
 
     constructor(props: RcsbFvInterface){
-        this.contextManager = new RcsbFvContextManagerClass();
         this.boardConfigData = props.boardConfigData;
         this.elementId = props.elementId;
         if(this.elementId===null || this.elementId===undefined){

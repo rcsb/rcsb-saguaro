@@ -30,12 +30,12 @@ export class RcsbFvTrack {
     private readonly contextManager: RcsbFvContextManagerClass;
 
     public constructor(args:RcsbFvRowConfigInterface, contextManager: RcsbFvContextManagerClass, updateRowHeight:()=>void) {
+        this.contextManager = contextManager;
+        this.updateRowHeight = updateRowHeight;
         if (typeof args.elementId === "string" && document.getElementById(args.elementId) !== null) {
-            this.rcsbBoard = new RcsbBoard(args.elementId);
+            this.rcsbBoard = new RcsbBoard(args.elementId, this.contextManager);
         }
         this.buildTrack(args);
-        this.updateRowHeight = updateRowHeight;
-        this.contextManager = contextManager;
         this.subscription = this.subscribe();
     }
 
@@ -61,7 +61,7 @@ export class RcsbFvTrack {
         if(document.getElementById(elementId)!== null) {
             this.elementId = elementId;
             if(this.rcsbBoard === null){
-                this.rcsbBoard = new RcsbBoard(this.elementId);
+                this.rcsbBoard = new RcsbBoard(this.elementId, this.contextManager);
             }
             if (this.rcsbFvConfig.configCheck()) {
                 this.initRcsbBoard();
