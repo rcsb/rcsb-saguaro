@@ -11,7 +11,7 @@ import {
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {
     EventType, DataInterface,
-    RcsbFvContextManagerClass,
+    RcsbFvContextManager,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
@@ -27,9 +27,9 @@ export class RcsbFvTrack {
     private loadedData: boolean = false;
     private readonly updateRowHeight: ()=>void;
     private subscription: Subscription;
-    private readonly contextManager: RcsbFvContextManagerClass;
+    private readonly contextManager: RcsbFvContextManager;
 
-    public constructor(args:RcsbFvRowConfigInterface, contextManager: RcsbFvContextManagerClass, updateRowHeight:()=>void) {
+    public constructor(args:RcsbFvRowConfigInterface, contextManager: RcsbFvContextManager, updateRowHeight:()=>void) {
         this.contextManager = contextManager;
         this.updateRowHeight = updateRowHeight;
         if (typeof args.elementId === "string" && document.getElementById(args.elementId) !== null) {

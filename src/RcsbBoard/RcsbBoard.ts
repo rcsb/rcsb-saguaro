@@ -13,7 +13,7 @@ import * as classes from "./scss/RcsbBoard.module.scss";
 import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
     EventType,
-    RcsbFvContextManagerClass,
+    RcsbFvContextManager,
     RcsbFvContextManagerInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
@@ -64,9 +64,9 @@ export class RcsbBoard {
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
     private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
 
-    private readonly contextManager: RcsbFvContextManagerClass;
+    private readonly contextManager: RcsbFvContextManager;
 
-    constructor(elementId: string, contextManager: RcsbFvContextManagerClass) {
+    constructor(elementId: string, contextManager: RcsbFvContextManager) {
         this.domId = elementId;
         this.contextManager = contextManager;
     }

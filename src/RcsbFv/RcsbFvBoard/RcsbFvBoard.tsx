@@ -4,7 +4,7 @@ import RcsbFvRow from "../RcsbFvRow/RcsbFvRow";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
 
 import {
-    EventType, RcsbFvContextManagerClass,
+    EventType, RcsbFvContextManager,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
@@ -12,7 +12,7 @@ import {Subscription} from "rxjs";
 interface RcsbFvBoardInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
     boardConfigData: RcsbFvBoardConfigInterface;
-    contextManager: RcsbFvContextManagerClass;
+    contextManager: RcsbFvContextManager;
 }
 
 interface RcsbFvBoardState {

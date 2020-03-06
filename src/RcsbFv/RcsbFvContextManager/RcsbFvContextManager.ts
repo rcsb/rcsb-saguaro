@@ -3,7 +3,7 @@ import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbFvDataMan
 import {ZoomTransform} from "d3-zoom";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
-export class RcsbFvContextManagerClass {
+export class RcsbFvContextManager {
     private subject: any = new Subject();
     public next( obj: RcsbFvContextManagerInterface ):void {
         this.subject.next(obj);
@@ -15,15 +15,6 @@ export class RcsbFvContextManagerClass {
         this.subject.unsubscribe();
     }
 }
-
-const subject = new Subject();
-const RcsbFvContextManager = {
-    next: (obj: RcsbFvContextManagerInterface) => subject.next(obj),
-    asObservable: () => subject.asObservable(),
-    unsubscribeAll: () => subject.unsubscribe()
-};
-
-//const RcsbFvContextManager = new RcsbFvContextManagerClass();
 
 export enum EventType {
     SELECTION = "eventTypeSelection",
@@ -62,6 +53,4 @@ export interface RcsbFvContextManagerInterface{
     eventType: string;
     eventData: SelectionInterface|ScaleTransformInterface|DataInterface|ResetInterface|RcsbFvRowConfigInterface;
 }
-
-//export {RcsbFvContextManager};
 

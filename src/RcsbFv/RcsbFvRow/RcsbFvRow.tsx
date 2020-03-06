@@ -4,12 +4,12 @@ import RcsbFvRowTitle from "./RcsbFvRowTitle";
 import RcsbFvRowTrack from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
-import {RcsbFvContextManagerClass} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 interface RcsbFvRowInterface {
     id: string;
     data: RcsbFvRowConfigInterface;
-    contextManager: RcsbFvContextManagerClass;
+    contextManager: RcsbFvContextManager;
 }
 
 interface RcsbFvRowStyleInterface{
