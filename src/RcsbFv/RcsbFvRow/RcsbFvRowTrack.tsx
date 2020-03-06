@@ -22,7 +22,7 @@ interface RcsbFvRowTrackState {
     mounted: boolean;
 }
 
-export default class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, RcsbFvRowTrackState> {
+export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, RcsbFvRowTrackState> {
 
     configData : RcsbFvRowConfigInterface = null;
     rcsbFvTrack : RcsbFvTrack = null;

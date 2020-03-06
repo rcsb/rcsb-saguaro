@@ -13,7 +13,7 @@ interface RcsbFvRowTitleStyleInterface {
     height: number;
 }
 
-export default class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}> {
+export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}> {
 
     configData : RcsbFvRowConfigInterface = null;
 

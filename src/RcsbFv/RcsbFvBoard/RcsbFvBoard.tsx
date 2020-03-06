@@ -1,6 +1,6 @@
 import * as React from "react";
 import {RcsbFvDisplayTypes, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import RcsbFvRow from "../RcsbFvRow/RcsbFvRow";
+import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
 
 import {
@@ -24,7 +24,7 @@ interface RcsbFvBoardStyleInterface{
     width: number;
 }
 
-export default class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState > {
+export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState > {
 
     boardId : string = "RcsbFvBoard_"+Math.random().toString(36).substr(2);
     rcsbFvRowArrayIds : Array<string> = new Array<string>();

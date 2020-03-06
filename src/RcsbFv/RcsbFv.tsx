@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
-import RcsbFvBoard from "./RcsbFvBoard/RcsbFvBoard";
+import {RcsbFvBoard} from "./RcsbFvBoard/RcsbFvBoard";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvInterface";
 import {
     EventType,

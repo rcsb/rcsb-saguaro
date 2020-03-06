@@ -1,7 +1,7 @@
 import * as React from "react";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import RcsbFvRowTitle from "./RcsbFvRowTitle";
-import RcsbFvRowTrack from "./RcsbFvRowTrack";
+import {RcsbFvRowTitle} from "./RcsbFvRowTitle";
+import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
@@ -22,7 +22,7 @@ interface RcsbFvRowState {
     mounted: boolean;
 }
 
-export default class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowState> {
+export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowState> {
 
     configData : RcsbFvRowConfigInterface = null;
     readonly state : RcsbFvRowState = {
