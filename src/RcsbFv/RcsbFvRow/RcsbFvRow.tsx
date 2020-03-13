@@ -8,7 +8,7 @@ import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager
 
 interface RcsbFvRowInterface {
     id: string;
-    data: RcsbFvRowConfigInterface;
+    rowConfigData: RcsbFvRowConfigInterface;
     contextManager: RcsbFvContextManager;
 }
 
@@ -20,30 +20,30 @@ interface RcsbFvRowStyleInterface{
 interface RcsbFvRowState {
     rowHeight: number;
     mounted: boolean;
+    rowConfigData: RcsbFvRowConfigInterface;
 }
 
 export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowState> {
 
-    configData : RcsbFvRowConfigInterface = null;
     readonly state : RcsbFvRowState = {
-            rowHeight:RcsbFvDefaultConfigValues.trackHeight,
-            mounted: false
+        rowHeight:RcsbFvDefaultConfigValues.trackHeight,
+        mounted: false,
+        rowConfigData: this.props.rowConfigData
     };
 
     constructor(props: RcsbFvRowInterface) {
         super(props);
-        this.configData = this.props.data;
     }
 
     render(){
         let classNames:string = classes.rcsbFvRow;
-        if(this.configData.isAxis === true){
+        if(this.props.rowConfigData.isAxis === true){
             classNames += " "+classes.rcsbFvRowAxis;
         }
         return (
             <div className={classNames} style={this.configStyle()}>
-                <RcsbFvRowTitle data={this.configData} rowTitleHeight={this.state.rowHeight}/>
-                <RcsbFvRowTrack id={this.props.id} data={this.configData} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
+                <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight}/>
+                <RcsbFvRowTrack id={this.props.id} rowTrackConfigData={this.props.rowConfigData} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
             </div>
         );
     }
@@ -54,15 +54,15 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
 
     configStyle() : RcsbFvRowStyleInterface {
         let titleWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
-        if(typeof this.configData.rowTitleWidth === "number"){
-            titleWidth = this.configData.rowTitleWidth;
+        if(typeof this.props.rowConfigData.rowTitleWidth === "number"){
+            titleWidth = this.props.rowConfigData.rowTitleWidth;
         }
         let trackWidth : number = RcsbFvDefaultConfigValues.trackWidth;
-        if(typeof this.configData.trackWidth === "number"){
-            trackWidth = this.configData.trackWidth;
+        if(typeof this.props.rowConfigData.trackWidth === "number"){
+            trackWidth = this.props.rowConfigData.trackWidth;
         }
         return {
-            width: (titleWidth+trackWidth),
+            width: (titleWidth+trackWidth+2),
             height: this.state.rowHeight
         };
     }

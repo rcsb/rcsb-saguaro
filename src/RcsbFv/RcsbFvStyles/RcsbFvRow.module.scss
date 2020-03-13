@@ -2,6 +2,10 @@
 $color-rcsbFvBorder: #DDDDDD;
 $border-rcsbFvRowTrack: 1px;
 
+div.rcsbFvBoard *{
+    box-sizing: content-box;
+}
+
 .rcsbFvRowTitle{
   float:left;
 }

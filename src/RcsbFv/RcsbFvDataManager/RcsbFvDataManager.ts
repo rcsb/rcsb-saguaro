@@ -34,7 +34,7 @@ export class RcsbFvDataManager {
             if(typeof a.begin === "number" && typeof b.begin === "number") {
                 return (a.begin-b.begin);
             }else{
-                throw "Unknown data element structure";
+                throw "Unknown rowConfigData element structure";
             }
         });
         for(const a of data){

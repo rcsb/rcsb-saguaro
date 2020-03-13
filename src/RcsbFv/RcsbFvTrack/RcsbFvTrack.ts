@@ -10,7 +10,7 @@ import {
 } from "../RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {
-    EventType, DataInterface,
+    EventType,
     RcsbFvContextManager,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
@@ -164,8 +164,6 @@ export class RcsbFvTrack {
                 this.setScale(obj.eventData as ScaleTransformInterface);
             }else if(obj.eventType===EventType.SELECTION){
                 this.setSelection(obj.eventData as SelectionInterface);
-            }else if(obj.eventType===EventType.UPDATE_DATA || obj.eventType===EventType.ADD_DATA){
-                this.updateData(obj.eventData as DataInterface, obj.eventType);
             }else if(obj.eventType===EventType.RESET){
                 this.reset(obj.eventData as ResetInterface);
             }
@@ -182,21 +180,6 @@ export class RcsbFvTrack {
 
     public setSelection(obj: SelectionInterface) : void {
         this.rcsbBoard.setSelection(obj);
-    }
-
-    private updateData(obj: DataInterface, updateType: string){
-        if(this.rcsbFvConfig.trackId === obj.trackId){
-            if(updateType === EventType.UPDATE_DATA) {
-                this.rcsbFvConfig.updateTrackData(obj.loadData);
-            }else if(updateType === EventType.ADD_DATA){
-                this.rcsbFvConfig.addTrackData(obj.loadData);
-            }
-            this._reset();
-            this.load(this.rcsbFvConfig.trackData);
-            this.restartTracks();
-            this.rcsbBoard.updateAllTracks();
-            this.updateRowHeight();
-        }
     }
 
     private reset(obj: ResetInterface){

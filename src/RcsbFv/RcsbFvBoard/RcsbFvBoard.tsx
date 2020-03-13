@@ -2,6 +2,7 @@ import * as React from "react";
 import {RcsbFvDisplayTypes, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
+import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 import {
     EventType, RcsbFvContextManager,
@@ -9,9 +10,12 @@ import {
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 
-interface RcsbFvBoardInterface {
+export interface RcsbFvBoardFullConfigInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
     boardConfigData: RcsbFvBoardConfigInterface;
+}
+
+interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
     contextManager: RcsbFvContextManager;
 }
 
@@ -42,28 +46,28 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
             this.rcsbFvRowArrayIds.push(rowId);
             const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2)};
-            const data: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
-            data.isAxis = true;
-            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} data={data} contextManager={this.props.contextManager}/>;
+            const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
+            rowConfigData.isAxis = true;
+            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager}/>;
         }
         return (
-            <div id={this.boardId}>
+            <div id={this.boardId} className={classes.rcsbFvBoard}>
                 {rcsbFvRowAxis}
                 {
 
                     this.state.rowConfigData.map(rowData=>{
                         const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
                         this.rcsbFvRowArrayIds.push(rowId);
-                        const data = this.configRow(rowId,rowData);
-                        data.isAxis = false;
-                        return (<RcsbFvRow key={rowId} id={rowId} data={data} contextManager={this.props.contextManager}/>);
+                        const rowConfigData = this.configRow(rowId,rowData);
+                        rowConfigData.isAxis = false;
+                        return (<RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager}/>);
                     })
                 }
             </div>
         );
     }
 
-    configStyle() : RcsbFvBoardStyleInterface {
+    private configStyle() : RcsbFvBoardStyleInterface {
         let titleWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
         if(typeof this.state.boardConfigData.rowTitleWidth === "number"){
             titleWidth = this.state.boardConfigData.rowTitleWidth;
@@ -79,7 +83,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         };
     }
 
-    configRow(id:string, config: RcsbFvRowConfigInterface) : RcsbFvRowConfigInterface{
+    private configRow(id:string, config: RcsbFvRowConfigInterface) : RcsbFvRowConfigInterface{
         const out: RcsbFvRowConfigInterface = Object.assign({},config);
         out.elementId = id;
         if(typeof this.state.boardConfigData.length === "number"){
@@ -97,11 +101,20 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         return out;
     }
 
-    addRow(configRow: RcsbFvRowConfigInterface): void{
+    private addRow(configRow: RcsbFvRowConfigInterface): void{
         const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
         rowConfigData.push(configRow);
         this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData} as RcsbFvBoardState);
         //this.setScale();
+    }
+
+    private updateBoardConfig(configData: RcsbFvBoardFullConfigInterface): void {
+        this.setState({rowConfigData: configData.rowConfigData, boardConfigData: configData.boardConfigData} );
+    }
+
+    //TODO
+    private updateTrackData(): void{
+
     }
 
     componentDidMount(): void {
@@ -109,7 +122,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     componentWillUnmount(): void {
-        console.warn("Component RcsbFvBoard unmount");
+        console.warn("Component RcsbFvBoard (id: "+this.boardId+") unmount, unsubscribing all events");
+        this.props.contextManager.unsubscribeAll();
     }
 
     private subscribe(): Subscription{
@@ -118,15 +132,17 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.addRow(obj.eventData as RcsbFvRowConfigInterface);
             }else if(obj.eventType===EventType.SCALE){
                 this.currentScale = obj.eventData as ScaleTransformInterface;
+            }else if(obj.eventType===EventType.UPDATE_BOARD_CONFIG){
+                this.updateBoardConfig(obj.eventData as RcsbFvBoardFullConfigInterface);
             }
         });
     }
 
-    unsubscribe(): void{
+    private unsubscribe(): void{
         this.subscription.unsubscribe();
     }
 
-    setScale(){
+    private setScale(){
         if(this.currentScale!=null) {
             this.props.contextManager.next({
                 eventType: EventType.SCALE,

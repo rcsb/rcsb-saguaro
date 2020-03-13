@@ -7,7 +7,7 @@ import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager
 
 interface RcsbFvRowTrackInterface {
     id: string;
-    data: RcsbFvRowConfigInterface;
+    rowTrackConfigData: RcsbFvRowConfigInterface;
     contextManager: RcsbFvContextManager;
     callbackRcsbFvRow(height: number): void;
 }
@@ -18,6 +18,7 @@ interface RcsbFvRowTrackStyleInterface {
 }
 
 interface RcsbFvRowTrackState {
+    rowTrackConfigData: RcsbFvRowConfigInterface;
     rowTrackHeight: number;
     mounted: boolean;
 }
@@ -28,12 +29,13 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     rcsbFvTrack : RcsbFvTrack = null;
     readonly state : RcsbFvRowTrackState = {
         rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
+        rowTrackConfigData: this.props.rowTrackConfigData,
         mounted: false
     };
 
     constructor(props: RcsbFvRowTrackInterface) {
         super(props);
-        this.configData = this.props.data;
+        this.configData = this.props.rowTrackConfigData;
     }
 
     render(){

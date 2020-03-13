@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
-import {RcsbFvBoard} from "./RcsbFvBoard/RcsbFvBoard";
+import {RcsbFvBoard, RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard/RcsbFvBoard";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvInterface";
 import {
     EventType,
@@ -18,7 +18,7 @@ export interface RcsbFvInterface {
 
 export class RcsbFv {
 
-    private readonly contextManager: RcsbFvContextManager = new RcsbFvContextManager();;
+    private readonly contextManager: RcsbFvContextManager = new RcsbFvContextManager();
     private trackIds: Array<string> = new Array<string>();
     private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     private boardConfigData: RcsbFvBoardConfigInterface;
@@ -56,6 +56,8 @@ export class RcsbFv {
                 <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager}/>,
                 document.getElementById(this.elementId)
             );
+        }else{
+            throw "FATAL ERROR: RcsvFvBoard is mounted";
         }
     }
 
@@ -91,8 +93,19 @@ export class RcsbFv {
             loadData:data
         };
         this.contextManager.next({
-            eventType:EventType.UPDATE_DATA,
+            eventType:EventType.UPDATE_TRACK_DATA,
             eventData:loadDataObj
+        } as RcsbFvContextManagerInterface);
+    }
+
+    public updateBoardConfig(boardConfigData: RcsbFvBoardConfigInterface, rowConfigData: Array<RcsbFvRowConfigInterface>){
+        const configDataObj:RcsbFvBoardFullConfigInterface = {
+            rowConfigData: rowConfigData,
+            boardConfigData: boardConfigData
+        };
+        this.contextManager.next({
+            eventType:EventType.UPDATE_BOARD_CONFIG,
+            eventData:configDataObj
         } as RcsbFvContextManagerInterface);
     }
 
