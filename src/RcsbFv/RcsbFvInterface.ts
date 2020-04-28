@@ -7,7 +7,9 @@ export interface RcsbFvBoardConfigInterface {
     rowTitleWidth?: number;
     trackWidth?: number;
     includeAxis?: boolean;
+    includeTooltip?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }
 
 interface CommonConfigInterface{
@@ -15,6 +17,8 @@ interface CommonConfigInterface{
     displayType: string;
     dynamicDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    includeTooltip?: boolean;
     updateDataOnMove?: (d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
 }
 
@@ -24,6 +28,7 @@ export interface RcsbFvDisplayConfigInterface extends CommonConfigInterface{
 }
 
 export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
+    boardId?: string;
     trackId: string;
     length? : number;
     elementId?:string;

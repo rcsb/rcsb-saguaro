@@ -40,6 +40,8 @@ export class RcsbD3Constants{
     public static readonly TRANSLATE: string = 'translate';
     public static readonly CLICK: string = "click";
     public static readonly MOUSE_ENTER: string = "mouseenter";
+    public static readonly MOUSE_OVER: string = "mouseover";
+    public static readonly MOUSE_OUT: string = "mouseout";
     public static readonly MOUSE_MOVE: string = "mousemove";
     public static readonly MOUSE_LEAVE: string = "mouseleave";
     public static readonly TOUCHMOVE: string = "touchmove";

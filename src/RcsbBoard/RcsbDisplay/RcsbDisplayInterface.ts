@@ -19,6 +19,12 @@ export interface RcsbDisplayInterface {
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
     elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
+    includeTooltip: boolean;
+    setTooltip: (flag: boolean)=>void;
+    boardId: string;
+    setBoardId: (name: string)=>void;
 }

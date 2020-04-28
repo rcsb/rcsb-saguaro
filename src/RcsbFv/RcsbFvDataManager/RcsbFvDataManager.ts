@@ -13,6 +13,7 @@ export interface RcsbFvTrackDataElementInterface {
     description?: string;
     featureId?: string;
     type?: string;
+    title?: string;
     isEmpty?: boolean;
     nonSpecific?: boolean;
     gaps?:Array<RcsbFvTrackDataElementGapInterface>;

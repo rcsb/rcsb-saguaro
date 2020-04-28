@@ -9,6 +9,7 @@ import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackId: string;
+    boardId: string;
     displayType: string;
     length: number;
     elementId?: string;
@@ -22,6 +23,8 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     interpolationType? : string;
     dynamicDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    includeTooltip?: boolean;
     updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;
 
@@ -34,6 +37,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         //external config
         if(typeof args.trackId === "string" ) {
             this.trackId = args.trackId;
+        }
+        if(typeof args.boardId === "string"){
+            this.boardId = args.boardId;
         }
         if(typeof args.length === "number"){
             this.length = args.length;
@@ -54,6 +60,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.elementClickCallBack === "function"){
             this.elementClickCallBack = args.elementClickCallBack;
+        }
+        if(typeof args.elementEnterCallBack === "function"){
+            this.elementEnterCallBack = args.elementEnterCallBack;
         }
         if(typeof args.updateDataOnMove === "function"){
             this.updateDataOnMove = args.updateDataOnMove;
@@ -94,6 +103,11 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
             this.interpolationType = this.getInterpolationType(args.interpolationType);
         }else if(this.interpolationType !== "string"){
             this.interpolationType = RcsbFvDefaultConfigValues.interpolationType;
+        }
+        if(typeof args.includeTooltip === "boolean"){
+            this.includeTooltip = args.includeTooltip;
+        }else{
+            this.includeTooltip = true;
         }
         this.overlap = args.overlap === true;
     }

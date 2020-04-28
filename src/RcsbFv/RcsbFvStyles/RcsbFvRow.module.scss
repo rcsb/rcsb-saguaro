@@ -36,3 +36,21 @@ div.rcsbFvBoard *{
 .rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
     border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
+
+$tooltipHeight: 20px;
+.rcsbFvTooltip {
+    font-size: 12px;
+    border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    padding-left:8px;
+    padding-right:8px;
+    background-color:#F9F9F9;
+    height: $tooltipHeight;
+    line-height: $tooltipHeight;
+    text-align: center;
+
+}
+
+.rcsbFvTooltip[popper-hidden] {
+    visibility: hidden;
+    pointer-events: none;
+}

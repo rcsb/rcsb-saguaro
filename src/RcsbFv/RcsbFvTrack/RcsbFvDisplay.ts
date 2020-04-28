@@ -100,11 +100,18 @@ export class RcsbFvDisplay {
             default:
                 throw "Track type " + config.displayType + " is not supported";
         }
+        out.setBoardId(config.boardId);
         if(typeof config.elementClickCallBack === "function"){
             out.setElementClickCallBack(config.elementClickCallBack);
         }
+        if(typeof config.elementEnterCallBack === "function"){
+            out.setElementEnterCallBack(config.elementEnterCallBack);
+        }
         if(typeof config.updateDataOnMove === "function"){
             out.setUpdateDataOnMove( config.updateDataOnMove );
+        }
+        if(config.includeTooltip){
+            out.setTooltip(config.includeTooltip);
         }
         return out;
     }
