@@ -18,13 +18,11 @@ export interface RcsbDisplayInterface {
     trackColor: (c?: string) => string;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
-    elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
-    elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    readonly elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    readonly elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
-    includeTooltip: boolean;
+    readonly includeTooltip: boolean;
     setTooltip: (flag: boolean)=>void;
-    boardId: string;
-    setBoardId: (name: string)=>void;
 }

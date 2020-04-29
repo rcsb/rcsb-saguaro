@@ -6,7 +6,7 @@ import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbAxisDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
-    xAxis: Axis<AxisDomain> = undefined;
+    private xAxis: Axis<AxisDomain> = undefined;
 
     reset() {
         super.reset();

@@ -71,36 +71,35 @@ export class RcsbFvDisplay {
         let out:RcsbDisplayInterface = null;
         switch (type) {
             case RcsbFvDisplayTypes.AXIS:
-                out = RcsbFvDisplay.axisDisplay();
+                out = RcsbFvDisplay.axisDisplay(config.boardId);
                 break;
             case RcsbFvDisplayTypes.BLOCK:
-                out = RcsbFvDisplay.blockDisplay(config.displayColor);
+                out = RcsbFvDisplay.blockDisplay(config.boardId,config.displayColor);
                 break;
             case RcsbFvDisplayTypes.PIN:
-                out = RcsbFvDisplay.pinDisplay(config.displayColor, config.displayDomain);
+                out = RcsbFvDisplay.pinDisplay(config.boardId,config.displayColor, config.displayDomain);
                 break;
             case RcsbFvDisplayTypes.BOND:
-                out = RcsbFvDisplay.bondDisplay(config.displayColor);
+                out = RcsbFvDisplay.bondDisplay(config.boardId,config.displayColor);
                 break;
             case RcsbFvDisplayTypes.SEQUENCE:
-                out = RcsbFvDisplay.sequenceDisplay(config.displayColor, config.dynamicDisplay);
+                out = RcsbFvDisplay.sequenceDisplay(config.boardId,config.displayColor, config.dynamicDisplay);
                 break;
             case RcsbFvDisplayTypes.LINE:
-                out = RcsbFvDisplay.lineDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                out = RcsbFvDisplay.lineDisplay(config.boardId,config.displayColor, config.displayDomain, config.interpolationType);
                 break;
             case RcsbFvDisplayTypes.AREA:
-                out = RcsbFvDisplay.areaDisplay(config.displayColor, config.displayDomain, config.interpolationType);
+                out = RcsbFvDisplay.areaDisplay(config.boardId,config.displayColor, config.displayDomain, config.interpolationType);
                 break;
             case RcsbFvDisplayTypes.VARIANT:
-                out = RcsbFvDisplay.variantDisplay(config.displayColor);
+                out = RcsbFvDisplay.variantDisplay(config.boardId,config.displayColor);
                 break;
             case RcsbFvDisplayTypes.VLINE:
-                out = RcsbFvDisplay.vlineDisplay(config.displayColor);
+                out = RcsbFvDisplay.vlineDisplay(config.boardId,config.displayColor);
                 break;
             default:
                 throw "Track type " + config.displayType + " is not supported";
         }
-        out.setBoardId(config.boardId);
         if(typeof config.elementClickCallBack === "function"){
             out.setElementClickCallBack(config.elementClickCallBack);
         }
@@ -116,12 +115,12 @@ export class RcsbFvDisplay {
         return out;
     }
 
-    private static axisDisplay(): RcsbDisplayInterface{
-        return new RcsbAxisDisplay();
+    private static axisDisplay(boardId:string): RcsbDisplayInterface{
+        return new RcsbAxisDisplay(boardId);
     }
 
-    private static sequenceDisplay(color:string, dynamicDisplayFlag?:boolean) : RcsbDisplayInterface{
-        const display: RcsbSequenceDisplay = new RcsbSequenceDisplay();
+    private static sequenceDisplay(boardId: string, color:string, dynamicDisplayFlag?:boolean) : RcsbDisplayInterface{
+        const display: RcsbSequenceDisplay = new RcsbSequenceDisplay(boardId);
         display.setDisplayColor(color);
         if(dynamicDisplayFlag === true) {
             display.setDynamicDisplay();
@@ -129,49 +128,49 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private static blockDisplay(color:string): RcsbDisplayInterface{
-        const display: RcsbBlockDisplay = new RcsbBlockDisplay();
+    private static blockDisplay(boardId: string, color:string): RcsbDisplayInterface{
+        const display: RcsbBlockDisplay = new RcsbBlockDisplay(boardId);
         display.setDisplayColor(color);
         return display;
     }
 
-    private static pinDisplay(color: string, domain:[number,number]): RcsbDisplayInterface{
-        const display: RcsbPinDisplay = new RcsbPinDisplay();
-        display.setDisplayColor(color);
-        display.yDomain(domain);
-        return display;
-    }
-
-    private static bondDisplay(color: string): RcsbDisplayInterface{
-        const display: RcsbBondDisplay = new RcsbBondDisplay();
-        display.setDisplayColor(color);
-        return display;
-    }
-
-    private static lineDisplay(color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
-        const display: RcsbLineDisplay = new RcsbLineDisplay();
+    private static pinDisplay(boardId: string, color: string, domain:[number,number]): RcsbDisplayInterface{
+        const display: RcsbPinDisplay = new RcsbPinDisplay(boardId);
         display.setDisplayColor(color);
         display.yDomain(domain);
-        display.setInterpolationType(interpolationType);
         return display;
     }
 
-    private static areaDisplay(color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
-        const display: RcsbAreaDisplay = new RcsbAreaDisplay();
+    private static bondDisplay(boardId: string, color: string): RcsbDisplayInterface{
+        const display: RcsbBondDisplay = new RcsbBondDisplay(boardId);
+        display.setDisplayColor(color);
+        return display;
+    }
+
+    private static lineDisplay(boardId: string, color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
+        const display: RcsbLineDisplay = new RcsbLineDisplay(boardId);
         display.setDisplayColor(color);
         display.yDomain(domain);
         display.setInterpolationType(interpolationType);
         return display;
     }
 
-    private static variantDisplay(color: string) :RcsbDisplayInterface{
-        const display: RcsbVariantDisplay = new RcsbVariantDisplay();
+    private static areaDisplay(boardId: string, color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
+        const display: RcsbAreaDisplay = new RcsbAreaDisplay(boardId);
+        display.setDisplayColor(color);
+        display.yDomain(domain);
+        display.setInterpolationType(interpolationType);
+        return display;
+    }
+
+    private static variantDisplay(boardId: string, color: string) :RcsbDisplayInterface{
+        const display: RcsbVariantDisplay = new RcsbVariantDisplay(boardId);
         display.setDisplayColor(color);
         return display;
     }
 
-    private static vlineDisplay(color:string) : RcsbDisplayInterface{
-        const display: RcsbVlineDisplay = new RcsbVlineDisplay();
+    private static vlineDisplay(boardId: string, color:string) : RcsbDisplayInterface{
+        const display: RcsbVlineDisplay = new RcsbVlineDisplay(boardId);
         display.setDisplayColor(color);
         return display;
     }

@@ -13,10 +13,10 @@ interface DisplayElementInterface {
     id: string;
 }
 export class RcsbCompositeDisplay implements RcsbDisplayInterface{
-    innerDisplays: Array<DisplayElementInterface> = new Array<DisplayElementInterface>();
-    _height: number = null;
-    _data: RcsbFvTrackDataMap = null;
-    _bgColor: string = null;
+    private innerDisplays: Array<DisplayElementInterface> = new Array<DisplayElementInterface>();
+    private _height: number = null;
+    private _data: RcsbFvTrackDataMap = null;
+    private _bgColor: string = null;
     elementClickCallBack: ()=>void = null;
     elementEnterCallBack: ()=>void = null;
     includeTooltip: boolean = null;
@@ -25,9 +25,6 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void = null;
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void = null;
     setTooltip: (flag: boolean)=>void = null;
-
-    setBoardId: (name: string)=>void = null;
-    boardId: string;
 
     mouseoutCallBack(): void{
         this.innerDisplays.forEach(id=>{

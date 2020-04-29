@@ -10,11 +10,11 @@ import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/Rc
 
 export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
-    _yDomain: [number, number];
-    yScale: ScaleLinear<number,number> = scaleLinear();
+    private _yDomain: [number, number];
+    private yScale: ScaleLinear<number,number> = scaleLinear();
+    private maxPoints: number = 1000;
     definedScale: boolean = false;
     line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
-    maxPoints: number = 1000;
     linePoints: RcsbFvTrackDataElementInterface[];
 
     setInterpolationType(type: string): void{

@@ -7,17 +7,25 @@ import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 import { createPopper } from '@popperjs/core';
+import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 
-export class RcsbCoreDisplay extends RcsbTrack{
+export abstract class RcsbCoreDisplay extends RcsbTrack{
 
     _displayColor: string = "#FF6666";
     elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void = null;
     elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void = null;
     includeTooltip: boolean = true;
     updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> = null;
-    boardId: string;
+    private boardId: string;
+    private tooltipManager: RcsbTooltipManager = null;
 
     private performance: boolean = false;
+
+    constructor(boardId: string) {
+        super();
+        this.boardId = boardId;
+        this.tooltipManager = new RcsbTooltipManager(boardId);
+    }
 
     setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
         this.elementClickCallBack = f;
@@ -65,22 +73,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
                 this.elementEnterCallBack(d);
             }
             if(this.includeTooltip){
-                const boardDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
-                const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
-                tooltipDiv.removeAttribute("popper-hidden");
-                let region: string = d.begin.toString();
-                if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
-                let title:string = d.title;
-                if(typeof d.name === "string") title += " - "+d.name;
-                if(typeof d.ori_begin === "number" && d.ori_begin!=d.begin){
-                    let ori_region: string = d.ori_begin.toString();
-                    if(typeof d.ori_end === "number") ori_region += " - "+d.ori_end.toString();
-                    region += " / "+d.source+": "+ori_region;
-                }
-                tooltipDiv.append(title+": "+region);
-                createPopper(boardDiv, tooltipDiv, {
-                    placement:'top-end'
-                });
+                this.tooltipManager.showTooltip(d)
             }
         });
         element.on(RcsbD3Constants.DBL_CLICK, (d, i) => {
@@ -93,9 +86,7 @@ export class RcsbCoreDisplay extends RcsbTrack{
                 return;
             }
             if(this.includeTooltip){
-                const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
-                tooltipDiv.innerHTML = null;
-                tooltipDiv.setAttribute("popper-hidden",null);
+                this.tooltipManager.hideTooltip();
             }
         });
     }

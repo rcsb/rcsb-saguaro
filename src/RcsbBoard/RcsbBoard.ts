@@ -49,7 +49,7 @@ export class RcsbBoard {
         max: 1000000000,
         min: -1.5,
         maxZoom: 1000000000,
-        minZoom: 30
+        minZoom: 20
     };
     private currentLocationView: LocationViewInterface = {
         from:1,
@@ -123,6 +123,11 @@ export class RcsbBoard {
         this.currentLocationView.from = from;
         this.currentLocationView.to = to;
         this.limits.max = to;
+        if(this.limits.minZoom > (to-from)){
+            this.limits.minZoom = (3/4)*(to-from);
+            this.currentLocationView.from = 0;
+            this.currentLocationView.to = to-0.5;
+        }
     }
 
     public setSelection(selection: SelectionInterface): void{

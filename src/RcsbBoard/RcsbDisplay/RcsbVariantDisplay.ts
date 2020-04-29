@@ -7,10 +7,10 @@ import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/Rc
 
 export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
-    aaList: Array<string> = ['G', 'A', 'V', 'L', 'I', 'S', 'T', 'C', 'M', 'D', 'N', 'E', 'Q', 'R', 'K', 'H', 'F', 'Y', 'W', 'P', '≡', '⊖'];
-    yScale: ScalePoint<string> = scalePoint();
-    radius: number = 5;
-    definedScale: boolean = false;
+    private aaList: Array<string> = ['G', 'A', 'V', 'L', 'I', 'S', 'T', 'C', 'M', 'D', 'N', 'E', 'Q', 'R', 'K', 'H', 'F', 'Y', 'W', 'P', '≡', '⊖'];
+    private yScale: ScalePoint<string> = scalePoint();
+    private radius: number = 5;
+    private definedScale: boolean = false;
 
     private setScale(): void{
         if(typeof this._height === "number") {

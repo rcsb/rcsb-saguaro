@@ -7,7 +7,7 @@ import {MoveAreaInterface, PlotAreaInterface} from "../RcsbD3/RcsbD3DisplayManag
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInterface{
-    area: Area<RcsbFvTrackDataElementInterface> = area<RcsbFvTrackDataElementInterface>().curve(curveStep);
+    private area: Area<RcsbFvTrackDataElementInterface> = area<RcsbFvTrackDataElementInterface>().curve(curveStep);
 
     setInterpolationType(type: string): void{
         super.setInterpolationType(type);

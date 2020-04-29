@@ -9,9 +9,9 @@ import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/Rcs
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
-    yScale: ScaleLinear<number,number> = scaleLinear();
-    intervalRatio: [number,number] = [5,16];
-    hideFlag: boolean = false;
+    private yScale: ScaleLinear<number,number> = scaleLinear();
+    private intervalRatio: [number,number] = [5,16];
+    private hideFlag: boolean = false;
     private currentLocation: LocationViewInterface = null;
     private compKey: string = null;
     private tick: number = null;

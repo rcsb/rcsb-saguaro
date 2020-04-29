@@ -7,11 +7,11 @@ import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/Rc
 
 export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
-    yScale: ScaleLinear<number,number> = scaleLinear();
-    radius: number = 5;
-    labelShift: number = 10;
-    _yDomain: [number, number];
-    definedScale: boolean = false;
+    private yScale: ScaleLinear<number,number> = scaleLinear();
+    private radius: number = 5;
+    private labelShift: number = 10;
+    private _yDomain: [number, number];
+    private definedScale: boolean = false;
 
     yDomain(domain: [number,number]):void {
         this._yDomain = domain;
