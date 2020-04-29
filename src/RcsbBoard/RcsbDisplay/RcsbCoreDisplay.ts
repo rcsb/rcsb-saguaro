@@ -70,7 +70,9 @@ export class RcsbCoreDisplay extends RcsbTrack{
                 tooltipDiv.removeAttribute("popper-hidden");
                 let region: string = d.begin.toString();
                 if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
-                tooltipDiv.append(d.title+": "+region);
+                let title = d.title;
+                if(typeof d.name === "string") title += " - "+d.name;
+                tooltipDiv.append(title+": "+region);
                 createPopper(boardDiv, tooltipDiv, {
                     placement:'top-end'
                 });

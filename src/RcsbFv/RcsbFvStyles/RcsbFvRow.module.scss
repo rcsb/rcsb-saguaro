@@ -47,7 +47,7 @@ $tooltipHeight: 20px;
     height: $tooltipHeight;
     line-height: $tooltipHeight;
     text-align: center;
-
+    position: absolute;
 }
 
 .rcsbFvTooltip[popper-hidden] {

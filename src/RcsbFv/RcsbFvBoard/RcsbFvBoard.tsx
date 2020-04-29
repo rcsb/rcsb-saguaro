@@ -65,7 +65,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                         })
                     }
                 </div>
-                <div id={this.boardId+"_tooltip"} className={classes.rcsbFvTooltip}/>
+                <div id={this.boardId+"_tooltip"} className={classes.rcsbFvTooltip} />
             </div>
         );
     }
@@ -126,6 +126,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
 
     componentDidMount(): void {
         this.subscription = this.subscribe();
+        const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
+        tooltipDiv.setAttribute("popper-hidden",null);
     }
 
     componentWillUnmount(): void {
