@@ -8,6 +8,8 @@ export interface RcsbFvTrackDataElementInterface {
     gValue?: number|String;
     begin: number;
     end?: number;
+    ori_begin?: number;
+    ori_end?: number;
     label?: string;
     name?: string;
     color?: string;
@@ -20,6 +22,7 @@ export interface RcsbFvTrackDataElementInterface {
     gaps?:Array<RcsbFvTrackDataElementGapInterface>;
     openBegin?:boolean;
     openEnd?:boolean;
+    source?: string;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
