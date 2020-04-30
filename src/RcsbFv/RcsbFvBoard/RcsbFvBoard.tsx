@@ -22,10 +22,16 @@ interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
 interface RcsbFvBoardState {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
     boardConfigData: RcsbFvBoardConfigInterface;
+    verticalTrackHeight: number;
 }
 
 interface RcsbFvBoardStyleInterface{
     width: number;
+}
+
+interface RowHeightInterface {
+    rowId: string;
+    height: number;
 }
 
 export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState > {
@@ -34,11 +40,13 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     rcsbFvRowArrayIds : Array<string> = new Array<string>();
     currentScale: ScaleTransformInterface;
     private subscription: Subscription;
+    private rowHeights: Array<RowHeightInterface> = new Array<RowHeightInterface>();
 
     readonly state : RcsbFvBoardState = {
         rowConfigData: this.props.rowConfigData,
-        boardConfigData: this.props.boardConfigData
-    } as RcsbFvBoardState;
+        boardConfigData: this.props.boardConfigData,
+        verticalTrackHeight: 0
+    };
 
     render(){
         let rcsbFvRowAxis = null;
@@ -48,7 +56,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2), boardId:this.boardId};
             const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
             rowConfigData.isAxis = true;
-            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager}/>;
+            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager} callbackRcsbFvBoard={this.callbackRcsbFvRow.bind(this)}/>;
         }
         return (
             <div>
@@ -61,14 +69,37 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                             this.rcsbFvRowArrayIds.push(rowId);
                             const rowConfigData = this.configRow(rowId,rowData);
                             rowConfigData.isAxis = false;
-                            return (<RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager}/>);
+                            return (<RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager} callbackRcsbFvBoard={this.callbackRcsbFvRow.bind(this)}/>);
                         })
                     }
+                </div>
+                <div className={classes.rcsbFvVerticalTrack} style={this.configVerticalTrackStyle()}>
                 </div>
                 <div id={this.boardId+"_tooltip"} className={classes.rcsbFvTooltip} />
                 <div id={this.boardId+"_tooltipDescription"} className={classes.rcsbFvTooltipDescription} />
             </div>
         );
+    }
+
+    private callbackRcsbFvRow(id:string, height: number): void {
+        this.rowHeights.push({
+            rowId: id,
+            height: height
+        });
+    }
+
+    private updateVerticalTrack(){
+        let n = 0;
+        this.rowHeights.forEach(e=>{
+            n += e.height+1
+        });
+        this.setState({verticalTrackHeight:(n+2)});
+    }
+
+    private configVerticalTrackStyle(){
+        return {
+            height: this.state.verticalTrackHeight
+        };
     }
 
     private configStyle() : RcsbFvBoardStyleInterface {
@@ -132,6 +163,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
 
         const tooltipDescriptionDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltipDescription");
         tooltipDescriptionDiv.setAttribute("popper-hidden",null);
+
+        this.updateVerticalTrack();
     }
 
     componentWillUnmount(): void {

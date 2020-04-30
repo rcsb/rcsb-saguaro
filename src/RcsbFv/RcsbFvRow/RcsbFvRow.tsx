@@ -10,6 +10,7 @@ interface RcsbFvRowInterface {
     id: string;
     rowConfigData: RcsbFvRowConfigInterface;
     contextManager: RcsbFvContextManager;
+    callbackRcsbFvBoard(id:string, height: number): void;
 }
 
 interface RcsbFvRowStyleInterface{
@@ -50,6 +51,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
 
     callbackRcsbFvRowTrack(rcsbRowTrackHeight: number): void {
         this.setState({rowHeight: rcsbRowTrackHeight, mounted:true} as RcsbFvRowState);
+        this.props.callbackRcsbFvBoard(this.props.id,rcsbRowTrackHeight);
     }
 
     configStyle() : RcsbFvRowStyleInterface {
