@@ -50,7 +50,25 @@ $tooltipHeight: 20px;
     position: absolute;
 }
 
-.rcsbFvTooltip[popper-hidden] {
+.rcsbFvTooltipDescription {
+    font-size: 12px;
+    border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    background-color:#F9F9F9;
+    position: absolute;
+    max-width: 300px;
+}
+
+.rcsbFvTooltipDescription div {
+    padding: 8px 0px 8px 0px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.rcsbFvTooltipDescription div:not(:last-child) {
+    border-bottom: $border-rcsbFvRowTrack solid #000000;
+}
+
+[popper-hidden] {
     visibility: hidden;
     pointer-events: none;
 }

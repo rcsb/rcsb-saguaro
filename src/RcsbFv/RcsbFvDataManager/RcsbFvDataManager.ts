@@ -13,7 +13,7 @@ export interface RcsbFvTrackDataElementInterface {
     label?: string;
     name?: string;
     color?: string;
-    description?: string;
+    description?: Array<string>;
     featureId?: string;
     type?: string;
     title?: string;

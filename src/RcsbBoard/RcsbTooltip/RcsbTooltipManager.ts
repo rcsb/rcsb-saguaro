@@ -8,7 +8,7 @@ export class RcsbTooltipManager {
     }
 
     showTooltip(d: RcsbFvTrackDataElementInterface){
-        const boardDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
+        const refDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
         const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
         tooltipDiv.removeAttribute("popper-hidden");
 
@@ -34,13 +34,39 @@ export class RcsbTooltipManager {
         b.style.fontWeight = "bold";
         tooltipDiv.append( b );
         tooltipDiv.append(spanRegion);
-        createPopper(boardDiv, tooltipDiv, {
+        createPopper(refDiv, tooltipDiv, {
             placement:'top-end'
         });
     }
 
+    showTooltipDescription(d: RcsbFvTrackDataElementInterface){
+        if(d.description == null || d.description.length == 0) return;
+        const refDiv: Element = document.querySelector("#"+this.boardId).children.item(1);
+        const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltipDescription");
+        tooltipDiv.removeAttribute("popper-hidden");
+        d.description.forEach(des=>{
+            const desDiv = document.createElement<"div">("div");
+            desDiv.append(RcsbTooltipManager.capitalizeFirstLetter(des));
+            tooltipDiv.append(desDiv);
+        });
+        createPopper(refDiv, tooltipDiv, {
+            placement:'right-start',
+            modifiers: [{
+                name: 'offset',
+                options: {
+                    offset: [0,5],
+                },
+            }]
+        });
+    }
+
     hideTooltip(){
-        const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
+        RcsbTooltipManager._hideTooltip(this.boardId+"_tooltip");
+        RcsbTooltipManager._hideTooltip(this.boardId+"_tooltipDescription");
+    }
+
+    private static _hideTooltip(name: string){
+        const tooltipDiv: HTMLDivElement = document.querySelector("#"+name);
         tooltipDiv.innerHTML = null;
         tooltipDiv.setAttribute("popper-hidden",null);
     }

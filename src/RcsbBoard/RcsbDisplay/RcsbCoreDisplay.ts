@@ -73,7 +73,8 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
                 this.elementEnterCallBack(d);
             }
             if(this.includeTooltip){
-                this.tooltipManager.showTooltip(d)
+                this.tooltipManager.showTooltip(d);
+                this.tooltipManager.showTooltipDescription(d);
             }
         });
         element.on(RcsbD3Constants.DBL_CLICK, (d, i) => {
