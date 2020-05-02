@@ -13,6 +13,8 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private _yDomain: [number, number];
     private yScale: ScaleLinear<number,number> = scaleLinear();
     private maxPoints: number = 1000;
+    private tick: number = null;
+
     definedScale: boolean = false;
     line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     linePoints: RcsbFvTrackDataElementInterface[];
@@ -77,20 +79,32 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     }
 
     move(): void{
-       this.updateFunction();
-       const config: MoveLineInterface  = {
-           points: this.linePoints,
-           line: this.line,
-           trackG: this.g
-       };
-       this.d3Manager.moveLineDisplay(config);
+        window.clearTimeout(this.tick);
+        this.updateFunction();
+        this.tick = window.setTimeout(() => {
+            const config: MoveLineInterface = {
+                points: this.linePoints,
+                line: this.line,
+                trackG: this.g
+            };
+            this.d3Manager.moveLineDisplay(config);
+        },300);
     }
 
     downSampling(points: RcsbFvTrackDataElementInterface[]):RcsbFvTrackDataElementInterface[] {
         const out:RcsbFvTrackDataElementInterface[] = [];
+        const tmp:RcsbFvTrackDataElementInterface[] = [];
         const thr = this.maxPoints;
         const self: RcsbLineDisplay = this;
+        for(let n = 0; n<self.xScale.domain()[1]; n++){
+            tmp.push({begin:n,value:0});
+        }
         points.forEach(function (p) {
+            if(p.begin>self.xScale.domain()[0] && p.begin<self.xScale.domain()[1]) {
+                tmp[p.begin] = p;
+            }
+        });
+        tmp.forEach(function (p) {
             if(p.begin>self.xScale.domain()[0] && p.begin<self.xScale.domain()[1]){
                 out.push(p);
             }

@@ -5,7 +5,7 @@ export interface RcsbFvTrackDataElementGapInterface {
 
 export interface RcsbFvTrackDataElementInterface {
     value?: number|string;
-    gValue?: number|String;
+    gValue?: number|string;
     begin: number;
     end?: number;
     ori_begin?: number;
@@ -32,6 +32,16 @@ export class RcsbFvTrackDataMap extends Map<string,RcsbFvTrackData>{
 }
 
 export class RcsbFvDataManager {
+
+    public static joinTrackDataArray(dataList: Array<RcsbFvTrackData>): RcsbFvTrackData{
+        const out: RcsbFvTrackData = new RcsbFvTrackData();
+        dataList.forEach(d=>{
+            d.forEach(e=>{
+                out.push(e);
+            })
+        });
+        return out;
+    }
 
     public static getNonOverlappingData(data: RcsbFvTrackData): Array<RcsbFvTrackData> {
         const out : Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();

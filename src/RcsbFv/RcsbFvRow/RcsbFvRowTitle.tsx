@@ -13,6 +13,12 @@ interface RcsbFvRowTitleStyleInterface {
     height: number;
 }
 
+interface RcsbFvRowProvenanceStyleInterface {
+    height: number;
+    borderColor: string;
+    backgroundColor: string;
+}
+
 export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}> {
 
     configData : RcsbFvRowConfigInterface = null;
@@ -29,6 +35,9 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
         return (
             <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
                 <div style={this.configStyle()}>{this.setTitle()}</div>
+                {
+                    this.setTitle()!=null ? <div style={this.configProvenanceStyle()} className={classes.rcsbFvRowTitleProvenanceFlag} /> : null
+                }
             </div>
         );
     }
@@ -47,6 +56,18 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
         }
         return {
             width: width,
+            height: this.props.rowTitleHeight
+        };
+    }
+
+    configProvenanceStyle():RcsbFvRowProvenanceStyleInterface {
+        let color: string = "#FFFFFF";
+        if(typeof this.props.data.titleFlagColor === "string"){
+            color = this.props.data.titleFlagColor;
+        }
+        return {
+            backgroundColor: color,
+            borderColor: color,
             height: this.props.rowTitleHeight
         };
     }

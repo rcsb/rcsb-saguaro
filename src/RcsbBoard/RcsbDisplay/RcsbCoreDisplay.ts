@@ -5,8 +5,6 @@ import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
-
-import { createPopper } from '@popperjs/core';
 import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 
 export abstract class RcsbCoreDisplay extends RcsbTrack{

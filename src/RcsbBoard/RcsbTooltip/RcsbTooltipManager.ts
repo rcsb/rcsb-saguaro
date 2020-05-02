@@ -41,7 +41,8 @@ export class RcsbTooltipManager {
 
     showTooltipDescription(d: RcsbFvTrackDataElementInterface){
         if(d.description == null || d.description.length == 0) return;
-        const refDiv: Element = document.querySelector("#"+this.boardId).children.item(1);
+        //const refDiv: Element = document.querySelector("#"+this.boardId).children.item(0).children.item(1);
+        const refDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
         const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltipDescription");
         tooltipDiv.removeAttribute("popper-hidden");
         d.description.forEach(des=>{
@@ -49,13 +50,14 @@ export class RcsbTooltipManager {
             desDiv.append(RcsbTooltipManager.capitalizeFirstLetter(des));
             tooltipDiv.append(desDiv);
         });
+
         createPopper(refDiv, tooltipDiv, {
-            placement:'right-start',
+            placement:'top-end',
             modifiers: [{
                 name: 'offset',
                 options: {
-                    offset: [0,5],
-                },
+                    offset: [0,30]
+                }
             }]
         });
     }

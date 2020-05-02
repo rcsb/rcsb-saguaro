@@ -10,6 +10,16 @@ div.rcsbFvBoard *{
   float:left;
 }
 
+.rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTitle > .rcsbFvRowTitleProvenanceFlag{
+    background-color: $color-rcsbFvBorder;
+    width: 1px;
+    border-top: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+}
+
+.rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTitle > .rcsbFvRowTitleProvenanceFlag {
+    border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+}
+
 .rcsbFvRowTitle div{
     display: table-cell;
     vertical-align: middle;
@@ -55,7 +65,6 @@ $tooltipHeight: 20px;
     border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
     background-color:#F9F9F9;
     position: absolute;
-    max-width: 300px;
 }
 
 .rcsbFvTooltipDescription div {

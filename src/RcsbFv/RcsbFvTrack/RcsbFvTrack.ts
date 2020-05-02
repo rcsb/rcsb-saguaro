@@ -116,18 +116,39 @@ export class RcsbFvTrack {
         this.trackData = trackData;
         this.loadedData = true;
         if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && trackData instanceof Array){
-            const rcsbTrack: RcsbDisplayInterface = this.buildRcsbTrack();
+            const rcsbCompositeTrack: RcsbDisplayInterface = this.buildRcsbTrack();
             const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
-            const trackDataHash: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
-            for(let f of trackData){
-                const id: string = displayIds.shift();
-                if(typeof f === "string") {
-                    trackDataHash.set(id,f);
-                }else{
-                    trackDataHash.set(id,f as RcsbFvTrackData);
-                }
-            }
-            rcsbTrack.load(trackDataHash);
+            const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
+
+            const trackNonOverlappingMap: Map<string, Array<RcsbFvTrackData>> = new Map<string, Array<RcsbFvTrackData>>();
+            let max:number = 0;
+
+            (trackData as Array<RcsbFvTrackData>).forEach((f,i)=>{
+                const id: string = displayIds[i];
+                trackDataMap.set(id,f);
+                /*const nonOverlapping: Array<RcsbFvTrackData> = RcsbFvDataManager.getNonOverlappingData(f);
+                trackNonOverlappingMap.set(id,nonOverlapping);
+                if(nonOverlapping.length > max)
+                    max = nonOverlapping.length;*/
+            });
+
+            /*const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
+            trackNonOverlappingMap.forEach((v,id)=>{
+                trackDataMap.set(id,v[0]);
+            });
+            rcsbCompositeTrack.load(trackDataMap);
+            for(let i=1;i<max;i++){
+                const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
+                trackNonOverlappingMap.forEach((v,id)=>{
+                    if(i<v.length)
+                        trackDataMap.set(id,v[i]);
+                    else
+                        trackDataMap.set(id,[]);
+                });
+                console.log(trackDataMap);
+                this.buildRcsbTrack().load(trackDataMap);
+            }*/
+            rcsbCompositeTrack.load(trackDataMap);
         }else if (trackData instanceof RcsbFvTrackData){
             let nonOverlapping: Array<RcsbFvTrackData>;
             if(!this.rcsbFvConfig.overlap) {

@@ -42,7 +42,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         }
         return (
             <div className={classNames} style={this.configStyle()}>
-                <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight}/>
+                <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} />
                 <RcsbFvRowTrack id={this.props.id} rowTrackConfigData={this.props.rowConfigData} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
             </div>
         );

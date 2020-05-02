@@ -55,7 +55,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()}>
                     {rcsbFvRowAxis}
                     {
-
                         this.state.rowConfigData.map(rowData=>{
                             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
                             this.rcsbFvRowArrayIds.push(rowId);

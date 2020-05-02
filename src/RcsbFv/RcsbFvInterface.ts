@@ -35,6 +35,7 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     trackHeight?: number;
     trackColor?: string;
     rowTitle?: string;
+    titleFlagColor?: string;
     trackData?: RcsbFvTrackData;
     displayDomain?: [number,number];
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
