@@ -284,7 +284,6 @@ export class RcsbBoard {
         }else if(length < this.limits.minZoom){
             this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
             return;
-            length = this.limits.minZoom
         }
 
         if(newDomain[0] < this.limits.min){
