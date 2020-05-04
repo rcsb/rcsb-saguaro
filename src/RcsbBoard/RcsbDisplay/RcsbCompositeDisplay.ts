@@ -17,6 +17,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     private _height: number = null;
     private _data: RcsbFvTrackDataMap = null;
     private _bgColor: string = null;
+    private compositeHeight: number = 0;
     elementClickCallBack: ()=>void = null;
     elementEnterCallBack: ()=>void = null;
     includeTooltip: boolean = null;
@@ -25,6 +26,10 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void = null;
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void = null;
     setTooltip: (flag: boolean)=>void = null;
+
+    setCompositeHeight(h: number): void{
+        this.compositeHeight = h;
+    }
 
     mouseoutCallBack(): void{
         this.innerDisplays.forEach(id=>{
@@ -50,7 +55,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
 
     init(width: number, scale:ScaleLinear<number,number>): void{
         this.innerDisplays.forEach((de)=>{
-            de.display.init(width, scale, true);
+            de.display.init(width, scale, true, this.compositeHeight);
         });
     }
 

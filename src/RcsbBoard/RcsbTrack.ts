@@ -30,21 +30,25 @@ export class RcsbTrack {
         return this._bgColor;
     }
 
-    init(width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean): void{
+    init(width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number): void{
         this._width = width;
         this.xScale = scale;
     	if(this.g !== null) {
             this.g.remove();
         }
-
-    	let height = this._height;
-    	if(compositeFlag ===true){
+    	let height:number = this._height;
+        let compH:number = 0;
+    	if(typeof compositeFlag === "boolean" && compositeFlag ===true){
     	    height = 0;
+    	    if(typeof compositeHeight === "number")
+                compH = compositeHeight;
+    	    else
+    	        height = 0;
         }
-
         const config: TrackConfInterface = {
             trackClass: classes.rcsbTrack,
             height: height,
+            compositeHeight:compH,
             bgColor: this._bgColor
         };
         this.g = this.d3Manager.addTrack(config);

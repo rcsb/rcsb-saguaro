@@ -15,6 +15,7 @@ import {
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface, SelectionInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
+import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
 
 export class RcsbFvTrack {
 
@@ -88,10 +89,10 @@ export class RcsbFvTrack {
             this.rcsbBoard.setBoardWidth(this.rcsbFvConfig.trackWidth);
 
         this.rcsbBoard.setRange(1-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
-        this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
     }
 
     private buildRcsbTrack(): RcsbDisplayInterface{
+        this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
         const rcsbTrack: RcsbDisplayInterface = this.rcsbFvDisplay.initDisplay();
         rcsbTrack.height( this.rcsbFvConfig.trackHeight );
         rcsbTrack.trackColor( this.rcsbFvConfig.trackColor );
@@ -116,39 +117,34 @@ export class RcsbFvTrack {
         this.trackData = trackData;
         this.loadedData = true;
         if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && trackData instanceof Array){
-            const rcsbCompositeTrack: RcsbDisplayInterface = this.buildRcsbTrack();
-            const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
-            const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
-
-            const trackNonOverlappingMap: Map<string, Array<RcsbFvTrackData>> = new Map<string, Array<RcsbFvTrackData>>();
-            let max:number = 0;
-
+            const trackNonOverlappingMap: Array<Array<RcsbFvTrackData>> = new Array<Array<RcsbFvTrackData>>();
+            let maxTracks:number = 1;
             (trackData as Array<RcsbFvTrackData>).forEach((f,i)=>{
-                const id: string = displayIds[i];
-                trackDataMap.set(id,f);
-                /*const nonOverlapping: Array<RcsbFvTrackData> = RcsbFvDataManager.getNonOverlappingData(f);
-                trackNonOverlappingMap.set(id,nonOverlapping);
-                if(nonOverlapping.length > max)
-                    max = nonOverlapping.length;*/
+                if(!this.rcsbFvConfig.overlap) {
+                    const nonOverlapping: Array<RcsbFvTrackData> = RcsbFvDataManager.getNonOverlappingData(f);
+                    trackNonOverlappingMap.push(nonOverlapping);
+                    if(nonOverlapping.length > maxTracks)
+                        maxTracks = nonOverlapping.length;
+                }else {
+                    trackNonOverlappingMap.push([f]);
+                }
+
             });
 
-            /*const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
-            trackNonOverlappingMap.forEach((v,id)=>{
-                trackDataMap.set(id,v[0]);
-            });
-            rcsbCompositeTrack.load(trackDataMap);
-            for(let i=1;i<max;i++){
+            for(let i=0;i<maxTracks;i++){
+                const rcsbCompositeTrack: RcsbDisplayInterface = this.buildRcsbTrack();
+                (rcsbCompositeTrack as RcsbCompositeDisplay).setCompositeHeight(i*this.rcsbFvConfig.trackHeight);
+                const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
                 const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
-                trackNonOverlappingMap.forEach((v,id)=>{
+                trackNonOverlappingMap.forEach((v,j)=>{
+                    const id: string = displayIds[j];
                     if(i<v.length)
                         trackDataMap.set(id,v[i]);
                     else
                         trackDataMap.set(id,[]);
                 });
-                console.log(trackDataMap);
-                this.buildRcsbTrack().load(trackDataMap);
-            }*/
-            rcsbCompositeTrack.load(trackDataMap);
+                rcsbCompositeTrack.load(trackDataMap);
+            }
         }else if (trackData instanceof RcsbFvTrackData){
             let nonOverlapping: Array<RcsbFvTrackData>;
             if(!this.rcsbFvConfig.overlap) {

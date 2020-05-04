@@ -12,7 +12,7 @@ export interface RcsbDisplayInterface {
     load: (d: RcsbFvTrackData | RcsbFvTrackDataMap) => RcsbFvTrackData | RcsbFvTrackDataMap;
     setD3Manager: (d3Manager: RcsbD3Manager) => void;
     height: (h?: number) => number;
-    init: (width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean) => void;
+    init: (width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number) => void;
     highlightRegion: (d:RcsbFvTrackDataElementInterface) => void;
     setBoardHighlight: (f:(d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void) => void;
     trackColor: (c?: string) => string;

@@ -40,6 +40,7 @@ export interface PainConfInterface {
 export interface TrackConfInterface {
     trackClass: string;
     height: number;
+    compositeHeight: number;
     bgColor: string;
 }
 
@@ -134,7 +135,7 @@ export class RcsbD3Manager {
         const trackG: Selection<SVGGElement, any, null, undefined> = this._svgG
             .append<SVGGElement>(RcsbD3Constants.G)
             .attr(RcsbD3Constants.CLASS, config.trackClass)
-            .attr(RcsbD3Constants.TRANSFORM, "translate(0," + this._trackHeightPosition + ")");
+            .attr(RcsbD3Constants.TRANSFORM, "translate(0," + (this._trackHeightPosition+config.compositeHeight) + ")");
 
         this._trackHeightPosition += config.height;
 
