@@ -278,9 +278,13 @@ export class RcsbBoard {
 
         let newDomain:number[] = transform.rescaleX(this.xScale).domain();
         let length: number = newDomain[1] - newDomain[0];
-        if(length<this.limits.minZoom || length > this.limits.maxZoom){
+
+        if(length > this.limits.maxZoom){
+            length = this.limits.maxZoom;
+        }else if(length < this.limits.minZoom){
             this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
             return;
+            length = this.limits.minZoom
         }
 
         if(newDomain[0] < this.limits.min){
