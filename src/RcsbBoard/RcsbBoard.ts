@@ -19,6 +19,7 @@ import {
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 
 export interface LocationViewInterface {
     from: number;
@@ -124,11 +125,19 @@ export class RcsbBoard {
     public setRange(from: number, to: number): void{
         this.currentLocationView.from = from;
         this.currentLocationView.to = to;
+        this.limits.min = from;
         this.limits.max = to;
         if(this.limits.minZoom > (to-from)){
-            this.limits.minZoom = (3/4)*(to-from);
-            this.currentLocationView.from = 0;
-            this.currentLocationView.to = to-0.5;
+            const delta: number = RcsbFvDefaultConfigValues.increasedView;
+            this.currentLocationView.from = from+delta;
+            this.currentLocationView.to = to-delta;
+            this.limits.min = from+delta;
+            this.limits.max = to-delta;
+            this.limits.minZoom = this.limits.max - this.limits.min;
+        }
+        if ((this.limits.max - this.limits.min) < this.limits.maxZoom) {
+            this.limits.maxZoom = this.limits.max - this.limits.min;
+
         }
     }
 
@@ -159,9 +168,6 @@ export class RcsbBoard {
     }
 
     startBoard(): void {
-        if ((this.limits.max - this.limits.min) < this.limits.maxZoom) {
-            this.limits.maxZoom = this.limits.max - this.limits.min;
-        }
 
         if ((this.currentLocationView.to - this.currentLocationView.from) < this.limits.minZoom) {
             this.currentLocationView.to = this.currentLocationView.from + this.limits.minZoom;
