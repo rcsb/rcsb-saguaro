@@ -21,6 +21,7 @@ export interface SVGConfInterface  {
     pointerEvents: string;
     mouseoutCallBack: Array<()=>void>;
     mouseoverCallBack: Array<()=>void>;
+    mousemoveCallBack: Array<()=>void>;
 }
 
 export interface MainGConfInterface  {
@@ -31,7 +32,7 @@ export interface MainGConfInterface  {
     mouseUp: () => void;
 }
 
-export interface PainConfInterface {
+export interface PaneConfInterface {
     paneClass: string;
     bgColor: string;
     elementId: string;
@@ -100,6 +101,10 @@ export class RcsbD3Manager {
                 config.mouseoutCallBack.forEach(f=>{
                     f();
                 })
+            }).on(RcsbD3Constants.MOUSE_MOVE,()=>{
+                config.mousemoveCallBack.forEach(f=>{
+                    f();
+                })
             });
 
         this._width = config.width;
@@ -115,13 +120,17 @@ export class RcsbD3Manager {
             .on(RcsbD3Constants.MOUSE_UP, config.mouseUp);
     }
 
-    addPane(config: PainConfInterface): void {
+    addPane(config: PaneConfInterface): void {
         this._pane = this._svgG
             .append<SVGRectElement>(RcsbD3Constants.RECT)
             .attr(RcsbD3Constants.CLASS, config.paneClass)
             .attr(RcsbD3Constants.ID, config.elementId)
             .attr(RcsbD3Constants.WIDTH, this._width)
             .style(RcsbD3Constants.FILL, config.bgColor)
+    }
+
+    getPane(): SVGRectElement{
+        return this._pane.node();
     }
 
     resetAllTracks(): void{

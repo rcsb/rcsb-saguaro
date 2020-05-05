@@ -47,6 +47,14 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
+    mousemoveCallBack(): void{
+        this.innerDisplays.forEach(id=>{
+            if(typeof id.display.mousemoveCallBack === "function") {
+                id.display.mousemoveCallBack();
+            }
+        });
+    }
+
     reset(): void{
         this.innerDisplays.forEach(de=>{
             de.display.reset();

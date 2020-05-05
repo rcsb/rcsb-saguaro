@@ -1,5 +1,5 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
-import {Selection, BaseType} from "d3-selection";
+import {Selection, BaseType, mouse} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MoveLineInterface, PlotLineInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
@@ -14,10 +14,23 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private yScale: ScaleLinear<number,number> = scaleLinear();
     private maxPoints: number = 1000;
     private tick: number = null;
+    private innerData: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
 
     definedScale: boolean = false;
     line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     linePoints: RcsbFvTrackDataElementInterface[];
+
+    mousemoveCallBack: ()=>void = ()=>{
+        const index: number = Math.round(this.xScale.invert(mouse(this.d3Manager.getPane())[0]));
+        if(this.includeTooltip){
+            if(this.innerData[index] !=null)
+                this.tooltipManager.showTooltip(this.innerData[index]);
+        }
+    };
+
+    mouseoutCallBack: ()=>void = ()=>{
+        this.tooltipManager.hideTooltip();
+    };
 
     setInterpolationType(type: string): void{
         if(type === InterpolationTypes.CARDINAL)
@@ -92,21 +105,23 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     }
 
     downSampling(points: RcsbFvTrackDataElementInterface[]):RcsbFvTrackDataElementInterface[] {
-        const out:RcsbFvTrackDataElementInterface[] = [];
+        let out:RcsbFvTrackDataElementInterface[] = [];
         const tmp:RcsbFvTrackDataElementInterface[] = [];
         const thr = this.maxPoints;
-        const self: RcsbLineDisplay = this;
-        for(let n = 0; n<self.xScale.domain()[1]; n++){
-            tmp.push({begin:n,value:0});
+        let title:string = points[0].title;
+        if(points[0].name != null)title = points[0].name;
+        for(let n = 0; n<this.xScale.domain()[1]; n++){
+            tmp.push({begin:n,value:0,title:title});
         }
-        points.forEach(function (p) {
-            if(p.begin>self.xScale.domain()[0] && p.begin<self.xScale.domain()[1]) {
+        points.forEach((p) => {
+            if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]) {
                 tmp[p.begin] = p;
             }
         });
-        tmp.forEach(function (p) {
-            if(p.begin>self.xScale.domain()[0] && p.begin<self.xScale.domain()[1]){
+        tmp.forEach((p)=> {
+            if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]){
                 out.push(p);
+                this.innerData.push(p);
             }
         });
         if(out.length>thr) {
@@ -115,8 +130,9 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             sampler.value((d:RcsbFvTrackDataElementInterface) => {return d.value});
             sampler.bucketSize(bucketSize);
             const all: RcsbFvTrackDataElementInterface[] = sampler(points);
-            all.forEach(function (p) {
-                if(p.begin>=self.xScale.domain()[0] && p.begin<=self.xScale.domain()[1]){
+            out = [];
+            all.forEach((p)=> {
+                if(p.begin>=this.xScale.domain()[0] && p.begin<=this.xScale.domain()[1]){
                     out.push(p);
                 }
             });

@@ -15,6 +15,7 @@ export class RcsbTrack {
     _boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void = null;
     mouseoverCallBack: ()=>void = null;
+    mousemoveCallBack: ()=>void = null;
 
     height(h?: number): number{
         if(typeof h === "number"){
@@ -58,6 +59,10 @@ export class RcsbTrack {
         if(d !== undefined) {
             this._data = d;
         }
+        return this._data;
+    }
+
+    getData(): RcsbFvTrackData{
         return this._data;
     }
 

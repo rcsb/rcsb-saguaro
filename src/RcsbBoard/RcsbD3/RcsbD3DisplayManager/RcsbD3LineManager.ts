@@ -8,7 +8,7 @@ export interface PlotLineInterface {
     points: RcsbFvTrackDataElementInterface[];
     color: string;
     trackG: Selection<SVGGElement,any,null,undefined>;
-    line:Line<RcsbFvTrackDataElementInterface>
+    line:Line<RcsbFvTrackDataElementInterface>;
 }
 
 export interface MoveLineInterface {

@@ -23,7 +23,7 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
 };
 
 export const enum InterpolationTypes {
-    STEP = "curveStep",
+    STEP = "step",
     BASIS = "basis",
     CARDINAL = "cardinal",
     LINEAR = "linear"

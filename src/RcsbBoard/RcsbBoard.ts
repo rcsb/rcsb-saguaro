@@ -4,7 +4,7 @@ import {zoom, ZoomBehavior, ZoomedElementBaseType, ZoomTransform, zoomIdentity} 
 
 import {
     MainGConfInterface,
-    PainConfInterface,
+    PaneConfInterface,
     RcsbD3Manager,
     SVGConfInterface, ZoomConfigInterface
 } from "./RcsbD3/RcsbD3Manager";
@@ -63,6 +63,7 @@ export class RcsbBoard {
 
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
     private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
+    private mousemoveCallBack: Array<()=>void> = new Array<()=> void>();
 
     private readonly contextManager: RcsbFvContextManager;
 
@@ -79,7 +80,8 @@ export class RcsbBoard {
             width: this._width,
             pointerEvents: "all",
             mouseoutCallBack: this.mouseoutCallBack,
-            mouseoverCallBack: this.mouseoverCallBack
+            mouseoverCallBack: this.mouseoverCallBack,
+            mousemoveCallBack: this.mousemoveCallBack
         };
         this.d3Manager.buildSvgNode(svgConfig);
         this.addMainG();
@@ -107,7 +109,7 @@ export class RcsbBoard {
         };
         this.d3Manager.addMainG(innerConfig);
 
-        const paneConfig: PainConfInterface = {
+        const paneConfig: PaneConfInterface = {
             bgColor: this._bgColor,
             elementId: this.domId+"_pane",
             paneClass: classes.rcsbPane
@@ -205,27 +207,26 @@ export class RcsbBoard {
     public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>): void{
         if (track instanceof Array) {
             track.forEach((t) => {
-                t.setD3Manager(this.d3Manager);
-                t.setBoardHighlight(this.highlightRegion.bind(this));
-                if(typeof t.mouseoutCallBack === "function"){
-                    this.mouseoutCallBack.push(t.mouseoutCallBack.bind(t))
-                }
-                if(typeof t.mouseoverCallBack === "function"){
-                    this.mouseoverCallBack.push(t.mouseoverCallBack.bind(t))
-                }
-                this.tracks.push(t);
+                this.addCallBacks(t);
             });
         }else{
-            track.setD3Manager(this.d3Manager);
-            track.setBoardHighlight(this.highlightRegion.bind(this));
-            if(typeof track.mouseoutCallBack === "function"){
-                this.mouseoutCallBack.push(track.mouseoutCallBack.bind(track))
-            }
-            if(typeof track.mouseoverCallBack === "function"){
-                this.mouseoverCallBack.push(track.mouseoverCallBack.bind(track))
-            }
-            this.tracks.push(track);
+            this.addCallBacks(track);
         }
+    }
+
+    private addCallBacks(t: RcsbDisplayInterface){
+        t.setD3Manager(this.d3Manager);
+        t.setBoardHighlight(this.highlightRegion.bind(this));
+        if(typeof t.mouseoutCallBack === "function"){
+            this.mouseoutCallBack.push(t.mouseoutCallBack.bind(t))
+        }
+        if(typeof t.mouseoverCallBack === "function"){
+            this.mouseoverCallBack.push(t.mouseoverCallBack.bind(t))
+        }
+        if(typeof t.mousemoveCallBack === "function"){
+            this.mousemoveCallBack.push(t.mousemoveCallBack.bind(t))
+        }
+        this.tracks.push(t);
     }
 
     setBoardHeight(): void{

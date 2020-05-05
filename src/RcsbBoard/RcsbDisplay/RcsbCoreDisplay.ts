@@ -15,7 +15,7 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
     includeTooltip: boolean = true;
     updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> = null;
     private boardId: string;
-    private tooltipManager: RcsbTooltipManager = null;
+    protected tooltipManager: RcsbTooltipManager = null;
 
     private performance: boolean = false;
 

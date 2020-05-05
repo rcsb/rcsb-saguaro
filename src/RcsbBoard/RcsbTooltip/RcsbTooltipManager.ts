@@ -10,6 +10,7 @@ export class RcsbTooltipManager {
     showTooltip(d: RcsbFvTrackDataElementInterface){
         const refDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
         const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
+        tooltipDiv.innerHTML = null;
         tooltipDiv.removeAttribute("popper-hidden");
 
         let region: string = "Residues: "+d.begin.toString();
@@ -29,10 +30,13 @@ export class RcsbTooltipManager {
         let title:string = RcsbTooltipManager.capitalizeFirstLetter(d.title);
         if(typeof d.name === "string") title = RcsbTooltipManager.capitalizeFirstLetter(d.name);
         tooltipDiv.append(title);
-        const b:HTMLSpanElement = document.createElement<"span">("span");
-        b.append(" | ");
-        b.style.fontWeight = "bold";
-        tooltipDiv.append( b );
+        tooltipDiv.append( this.bNode() );
+        if(typeof d.value === "number"){
+            const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
+            valueRegion.append(" val: "+d.value);
+            tooltipDiv.append(valueRegion);
+            tooltipDiv.append(this.bNode());
+        }
         tooltipDiv.append(spanRegion);
         createPopper(refDiv, tooltipDiv, {
             placement:'top-end'
@@ -44,6 +48,7 @@ export class RcsbTooltipManager {
         //const refDiv: Element = document.querySelector("#"+this.boardId).children.item(0).children.item(1);
         const refDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
         const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltipDescription");
+        tooltipDiv.innerHTML = null;
         tooltipDiv.removeAttribute("popper-hidden");
         d.description.forEach(des=>{
             const desDiv = document.createElement<"div">("div");
@@ -74,6 +79,15 @@ export class RcsbTooltipManager {
     }
 
     private static capitalizeFirstLetter(string: string): string {
-        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        if(string == null)
+            return null;
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    private bNode(): HTMLSpanElement{
+        const b:HTMLSpanElement = document.createElement<"span">("span");
+        b.append(" | ");
+        b.style.fontWeight = "bold";
+        return b;
     }
 }
