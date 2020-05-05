@@ -1,14 +1,14 @@
 import * as React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
-import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbDefaultConfigValues} from "../../RcsbConfig/RcsbDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
-import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {RcsbContextManager} from "../../RcsbContextManager/RcsbContextManager";
 
 interface RcsbFvRowTrackInterface {
     id: string;
     rowTrackConfigData: RcsbFvRowConfigInterface;
-    contextManager: RcsbFvContextManager;
+    contextManager: RcsbContextManager;
     callbackRcsbFvRow(height: number): void;
 }
 
@@ -28,7 +28,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     configData : RcsbFvRowConfigInterface = null;
     rcsbFvTrack : RcsbFvTrack = null;
     readonly state : RcsbFvRowTrackState = {
-        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
+        rowTrackHeight:RcsbDefaultConfigValues.trackHeight,
         rowTrackConfigData: this.props.rowTrackConfigData,
         mounted: false
     };
@@ -64,7 +64,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     configStyle() : RcsbFvRowTrackStyleInterface {
-        let width : number = RcsbFvDefaultConfigValues.trackWidth;
+        let width : number = RcsbDefaultConfigValues.trackWidth;
         if(typeof this.configData.trackWidth === "number"){
             width = this.configData.trackWidth;
         }

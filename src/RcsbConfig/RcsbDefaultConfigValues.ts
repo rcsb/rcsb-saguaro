@@ -1,4 +1,4 @@
-interface RcsbFvDefaultConfigValuesInterface  {
+interface RcsbDefaultConfigValuesInterface  {
     readonly increasedView: number;
     readonly trackColor: string;
     readonly displayColor: string;
@@ -10,7 +10,7 @@ interface RcsbFvDefaultConfigValuesInterface  {
     readonly interpolationType: string;
 }
 
-export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
+export const RcsbDefaultConfigValues: RcsbDefaultConfigValuesInterface = {
     increasedView:1.5,
     trackColor: "#FFFFFF",
     displayColor: "#000000",

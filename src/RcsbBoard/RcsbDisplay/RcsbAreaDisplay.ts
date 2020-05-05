@@ -1,7 +1,7 @@
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {RcsbLineDisplay} from "./RcsbLineDisplay";
 import {area, Area, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
-import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {InterpolationTypes} from "../../RcsbConfig/RcsbDefaultConfigValues";
 import {BaseType, Selection} from "d3-selection";
 import {MoveAreaInterface, PlotAreaInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";

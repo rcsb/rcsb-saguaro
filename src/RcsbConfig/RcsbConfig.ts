@@ -1,13 +1,13 @@
-import {RcsbFvDisplayTypes, InterpolationTypes, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
-import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvDisplayTypes, InterpolationTypes, RcsbDefaultConfigValues} from './RcsbDefaultConfigValues';
+import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFv/RcsbFvInterface";
 import {
     RcsbFvTrackData,
     RcsbFvDataManager,
     RcsbFvTrackDataElementInterface
-} from "../RcsbFvDataManager/RcsbFvDataManager";
-import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
+} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {LocationViewInterface} from "../RcsbBoard/RcsbBoard";
 
-export class RcsbFvConfig implements RcsbFvRowConfigInterface{
+export class RcsbConfig implements RcsbFvRowConfigInterface{
     trackId: string;
     boardId: string;
     displayType: string;
@@ -79,30 +79,30 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
             this.trackHeight = args.trackHeight;
         }else if(typeof this.displayType === "string"){
             if(this.displayType === RcsbFvDisplayTypes.AXIS){
-                this.trackHeight = RcsbFvDefaultConfigValues.trackAxisHeight;
+                this.trackHeight = RcsbDefaultConfigValues.trackAxisHeight;
             }else {
-                this.trackHeight = RcsbFvDefaultConfigValues.trackHeight;
+                this.trackHeight = RcsbDefaultConfigValues.trackHeight;
             }
         }
         if( typeof args.trackColor === "string"){
             this.trackColor = args.trackColor;
         }else if(typeof this.trackColor !== "string"){
-            this.trackColor = RcsbFvDefaultConfigValues.trackColor;
+            this.trackColor = RcsbDefaultConfigValues.trackColor;
         }
         if(typeof args.displayColor === "string"){
             this.displayColor = args.displayColor;
         }else if(this.displayColor !== "string"){
-            this.displayColor = RcsbFvDefaultConfigValues.displayColor;
+            this.displayColor = RcsbDefaultConfigValues.displayColor;
         }
         if(args.displayDomain instanceof Array){
             this.displayDomain = args.displayDomain;
         }else if( !(this.displayDomain instanceof Array) ){
-            this.displayDomain = RcsbFvDefaultConfigValues.displayDomain;
+            this.displayDomain = RcsbDefaultConfigValues.displayDomain;
         }
         if(typeof args.interpolationType === "string"){
             this.interpolationType = this.getInterpolationType(args.interpolationType);
         }else if(this.interpolationType !== "string"){
-            this.interpolationType = RcsbFvDefaultConfigValues.interpolationType;
+            this.interpolationType = RcsbDefaultConfigValues.interpolationType;
         }
         if(typeof args.includeTooltip === "boolean"){
             this.includeTooltip = args.includeTooltip;

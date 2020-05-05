@@ -5,9 +5,9 @@ import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvInte
 import {
     EventType,
     DataInterface,
-    RcsbFvContextManager,
+    RcsbContextManager,
     RcsbFvContextManagerInterface, ResetInterface
-} from "./RcsbFvContextManager/RcsbFvContextManager";
+} from "../RcsbContextManager/RcsbContextManager";
 import {RcsbFvTrackData} from "./RcsbFvDataManager/RcsbFvDataManager";
 
 export interface RcsbFvInterface {
@@ -18,7 +18,7 @@ export interface RcsbFvInterface {
 
 export class RcsbFv {
 
-    private readonly contextManager: RcsbFvContextManager = new RcsbFvContextManager();
+    private readonly contextManager: RcsbContextManager = new RcsbContextManager();
     private trackIds: Array<string> = new Array<string>();
     private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     private boardConfigData: RcsbFvBoardConfigInterface;

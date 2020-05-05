@@ -5,7 +5,7 @@ import {MoveLineInterface, PlotLineInterface} from "../RcsbD3/RcsbD3DisplayManag
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {modeMedian} from "@d3fc/d3fc-sample";
-import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {InterpolationTypes} from "../../RcsbConfig/RcsbDefaultConfigValues";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 
 export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{

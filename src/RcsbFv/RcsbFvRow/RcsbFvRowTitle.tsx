@@ -1,5 +1,5 @@
 import * as React from "react";
-import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbDefaultConfigValues} from "../../RcsbConfig/RcsbDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 
@@ -50,7 +50,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
     }
 
     configStyle() : RcsbFvRowTitleStyleInterface {
-        let width : number = RcsbFvDefaultConfigValues.rowTitleWidth;
+        let width : number = RcsbDefaultConfigValues.rowTitleWidth;
         if(typeof this.configData.rowTitleWidth === "number"){
             width = this.configData.rowTitleWidth;
         }

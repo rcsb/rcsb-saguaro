@@ -1,10 +1,10 @@
 import { Subject } from 'rxjs';
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
 import {ZoomTransform} from "d3-zoom";
-import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
-import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
+import {RcsbFvRowConfigInterface} from "../RcsbFv/RcsbFvInterface";
+import {RcsbFvBoardFullConfigInterface} from "../RcsbFv/RcsbFvBoard/RcsbFvBoard";
 
-export class RcsbFvContextManager {
+export class RcsbContextManager {
     private subject: any = new Subject();
     public next( obj: RcsbFvContextManagerInterface ):void {
         this.subject.next(obj);

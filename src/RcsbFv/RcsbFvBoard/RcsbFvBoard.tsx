@@ -1,13 +1,13 @@
 import * as React from "react";
-import {RcsbFvDisplayTypes, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDisplayTypes, RcsbDefaultConfigValues} from "../../RcsbConfig/RcsbDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 import {
-    EventType, RcsbFvContextManager,
+    EventType, RcsbContextManager,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
-} from "../RcsbFvContextManager/RcsbFvContextManager";
+} from "../../RcsbContextManager/RcsbContextManager";
 import {Subscription} from "rxjs";
 
 export interface RcsbFvBoardFullConfigInterface {
@@ -16,7 +16,7 @@ export interface RcsbFvBoardFullConfigInterface {
 }
 
 interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
-    contextManager: RcsbFvContextManager;
+    contextManager: RcsbContextManager;
 }
 
 interface RcsbFvBoardState {
@@ -71,12 +71,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private configStyle() : RcsbFvBoardStyleInterface {
-        let titleWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
+        let titleWidth : number = RcsbDefaultConfigValues.rowTitleWidth;
         if(typeof this.state.boardConfigData.rowTitleWidth === "number"){
             titleWidth = this.state.boardConfigData.rowTitleWidth;
         }
 
-        let trackWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
+        let trackWidth : number = RcsbDefaultConfigValues.rowTitleWidth;
         if(typeof this.state.boardConfigData.trackWidth === "number"){
             trackWidth = this.state.boardConfigData.trackWidth;
         }

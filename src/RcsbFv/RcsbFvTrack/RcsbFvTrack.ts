@@ -1,7 +1,7 @@
 import {RcsbBoard} from '../../RcsbBoard/RcsbBoard';
-import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
+import {RcsbDefaultConfigValues, RcsbFvDisplayTypes} from '../../RcsbConfig/RcsbDefaultConfigValues';
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
-import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
+import {RcsbConfig} from "../../RcsbConfig/RcsbConfig";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {
     RcsbFvTrackData,
@@ -11,9 +11,9 @@ import {
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {
     EventType,
-    RcsbFvContextManager,
+    RcsbContextManager,
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface, SelectionInterface
-} from "../RcsbFvContextManager/RcsbFvContextManager";
+} from "../../RcsbContextManager/RcsbContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
 
@@ -22,15 +22,15 @@ export class RcsbFvTrack {
     private rcsbBoard: RcsbBoard = null;
     private rcsbTrackArray: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
     private rcsbFvDisplay: RcsbFvDisplay = null;
-    private rcsbFvConfig: RcsbFvConfig = null;
+    private rcsbFvConfig: RcsbConfig = null;
     private elementId: string = null;
     private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData> = null;
     private loadedData: boolean = false;
     private readonly updateRowHeight: ()=>void;
     private subscription: Subscription;
-    private readonly contextManager: RcsbFvContextManager;
+    private readonly contextManager: RcsbContextManager;
 
-    public constructor(args:RcsbFvRowConfigInterface, contextManager: RcsbFvContextManager, updateRowHeight:()=>void) {
+    public constructor(args:RcsbFvRowConfigInterface, contextManager: RcsbContextManager, updateRowHeight:()=>void) {
         this.contextManager = contextManager;
         this.updateRowHeight = updateRowHeight;
         if (typeof args.elementId === "string" && document.getElementById(args.elementId) !== null) {
@@ -76,7 +76,7 @@ export class RcsbFvTrack {
 
     public setConfig(args: RcsbFvRowConfigInterface) : void{
         if(this.rcsbFvConfig === null) {
-            this.rcsbFvConfig = new RcsbFvConfig(args);
+            this.rcsbFvConfig = new RcsbConfig(args);
         }else{
             this.rcsbFvConfig.updateConfig(args);
         }
@@ -88,7 +88,7 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.trackWidth === "number")
             this.rcsbBoard.setBoardWidth(this.rcsbFvConfig.trackWidth);
 
-        this.rcsbBoard.setRange(1-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
+        this.rcsbBoard.setRange(1-RcsbDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbDefaultConfigValues.increasedView);
     }
 
     private buildRcsbTrack(): RcsbDisplayInterface{
