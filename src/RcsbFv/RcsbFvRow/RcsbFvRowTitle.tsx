@@ -44,7 +44,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
 
     setTitle(): string {
         if(typeof this.configData.rowTitle === "string"){
-            return String(this.configData.rowTitle).toUpperCase();
+            return this.configData.rowTitle;
         }
         return null;
     }
