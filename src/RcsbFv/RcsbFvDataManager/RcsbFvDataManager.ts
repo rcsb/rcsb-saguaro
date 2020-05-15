@@ -22,7 +22,8 @@ export interface RcsbFvTrackDataElementInterface {
     gaps?:Array<RcsbFvTrackDataElementGapInterface>;
     openBegin?:boolean;
     openEnd?:boolean;
-    source?: string;
+    sourceId?: string;
+    provenance?: string;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{

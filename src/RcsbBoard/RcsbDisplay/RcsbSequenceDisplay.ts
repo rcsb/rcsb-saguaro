@@ -55,8 +55,10 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
                 const e:RcsbFvTrackDataElementInterface = {begin:(seqRegion.begin+i), type:"RESIDUE", title:"RESIDUE", label:s};
                 if(typeof seqRegion.ori_begin === "number")
                     e.ori_begin = seqRegion.ori_begin+i
-                if(typeof seqRegion.source === "string")
-                    e.source = seqRegion.source;
+                if(typeof seqRegion.sourceId === "string")
+                    e.sourceId = seqRegion.sourceId;
+                if(typeof seqRegion.provenance === "string")
+                    e.provenance = seqRegion.provenance;
                 elems.push(e);
             })
         });

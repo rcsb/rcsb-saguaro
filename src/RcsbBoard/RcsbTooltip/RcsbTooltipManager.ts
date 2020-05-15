@@ -22,7 +22,7 @@ export class RcsbTooltipManager {
             let ori_region: string = d.ori_begin.toString();
             if(typeof d.ori_end === "number") ori_region += " - "+d.ori_end.toString();
             const spanOriRegion: HTMLSpanElement = document.createElement<"span">("span");
-            spanOriRegion.append("  ("+d.source+": "+ori_region+")");
+            spanOriRegion.append(" | "+d.provenance.replace("_"," ")+" > "+d.sourceId+": "+ori_region);
             spanOriRegion.style.color = "#888888";
             spanRegion.append(spanOriRegion);
         }
