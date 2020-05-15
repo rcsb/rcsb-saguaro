@@ -4,9 +4,10 @@ import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MoveLineInterface, PlotLineInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
-import {modeMedian} from "@d3fc/d3fc-sample";
+import {modeMedian,largestTriangleThreeBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {sample} from "rxjs/operators";
 
 export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
@@ -124,18 +125,13 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
                 this.innerData.push(p);
             }
         });
-        if(out.length>thr) {
-            const bucketSize = Math.floor(points.length/thr)+1;
-            const sampler = modeMedian();
-            sampler.value((d:RcsbFvTrackDataElementInterface) => {return d.value});
+        if(out.length>thr){
+            const bucketSize = out.length/thr ;
+            const sampler = largestTriangleThreeBucket();
             sampler.bucketSize(bucketSize);
-            const all: RcsbFvTrackDataElementInterface[] = sampler(points);
-            out = [];
-            all.forEach((p)=> {
-                if(p.begin>=this.xScale.domain()[0] && p.begin<=this.xScale.domain()[1]){
-                    out.push(p);
-                }
-            });
+            sampler.x((d:RcsbFvTrackDataElementInterface)=>{return d.begin});
+            sampler.y((d:RcsbFvTrackDataElementInterface)=>{return d.value});
+            out = sampler(out);
         }
         return out;
     }
