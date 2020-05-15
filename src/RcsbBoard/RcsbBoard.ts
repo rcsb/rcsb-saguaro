@@ -128,7 +128,7 @@ export class RcsbBoard {
         this.limits.min = from;
         this.limits.max = to;
         if(this.limits.minZoom > (to-from)){
-            const delta: number = RcsbFvDefaultConfigValues.increasedView;
+            const delta: number = RcsbFvDefaultConfigValues.increasedView*0.5;
             this.currentLocationView.from = from+delta;
             this.currentLocationView.to = to-delta;
             this.limits.min = from+delta;

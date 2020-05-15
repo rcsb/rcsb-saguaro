@@ -52,7 +52,12 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         sequence.forEach(seqRegion=>{
             (seqRegion.value as string).split("").forEach((s:string, i:number)=>{
-                elems.push({begin:(seqRegion.begin+i), type:"RESIDUE", title:"RESIDUE", label:s} as RcsbFvTrackDataElementInterface);
+                const e:RcsbFvTrackDataElementInterface = {begin:(seqRegion.begin+i), type:"RESIDUE", title:"RESIDUE", label:s};
+                if(typeof seqRegion.ori_begin === "number")
+                    e.ori_begin = seqRegion.ori_begin+i
+                if(typeof seqRegion.source === "string")
+                    e.source = seqRegion.source;
+                elems.push(e);
             })
         });
 
