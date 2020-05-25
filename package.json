@@ -15,7 +15,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "publishConfig": {
-    "registry": "http://nexus3.rcsb.org/repository/npm-rcsb/"
+    "registry": "http://nexus3.rcsb.org/repository/npm-rcsb-snapshots/"
   },
   "keywords": [],
   "author": "",
