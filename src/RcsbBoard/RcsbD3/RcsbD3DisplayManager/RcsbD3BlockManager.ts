@@ -160,11 +160,11 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
             if(d.openBegin || d.openEnd){
                 plotOpen(g);
             }
+            //g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).raise();
             g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).each(function(){
                 this.parentNode.append(this);
             });
         });
-
     }
 
     move(config: MoveBlockInterface){
