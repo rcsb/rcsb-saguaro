@@ -320,10 +320,12 @@ export class RcsbBoard {
     };
 
     private updateWithDelay(): void {
+        if(typeof window!== "undefined") {
             window.clearTimeout(this.updateId);
-            this.updateId = window.setTimeout (() =>{
+            this.updateId = window.setTimeout(() => {
                 this.updateAllTracks();
             }, this.updateDelay);
+        }
     };
 
     public setScale(transformEvent: ScaleTransformInterface){

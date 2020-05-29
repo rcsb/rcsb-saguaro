@@ -21,15 +21,19 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.mouseoutCallBack = () => {
             this.hideFlag = true;
             this.getElements().remove();
-            window.clearTimeout(this.tick);
+            if(typeof window !== "undefined")
+                window.clearTimeout(this.tick);
         };
         this.mouseoverCallBack = () => {
-            window.clearTimeout(this.tick);
-            if(this.hideFlag) {
-                this.tick = window.setTimeout(() => {
-                    this.hideFlag = false;
-                    this.update(this.currentLocation, this.compKey);
-                }, 300);
+
+            if(typeof window !== "undefined") {
+                window.clearTimeout(this.tick);
+                if (this.hideFlag) {
+                    this.tick = window.setTimeout(() => {
+                        this.hideFlag = false;
+                        this.update(this.currentLocation, this.compKey);
+                    }, 300);
+                }
             }
         };
     }
@@ -39,7 +43,8 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.compKey = compKey;
 
         if(this.hideFlag) {
-            window.clearTimeout(this.tick);
+            if(typeof window!== "undefined")
+                window.clearTimeout(this.tick);
             this.getElements().remove();
             return;
         }
@@ -86,14 +91,16 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         }
 
         if(this.hideFlag) {
-            window.clearTimeout(this.tick);
+            if(typeof window!== "undefined")
+                window.clearTimeout(this.tick);
             this.getElements().remove();
         }
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>){
         if(this.hideFlag) {
-            window.clearTimeout(this.tick);
+            if(typeof window!== "undefined")
+                window.clearTimeout(this.tick);
             this.getElements().remove();
             return;
         }
@@ -114,14 +121,16 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.d3Manager.plotSequenceDisplay(config);
 
         if(this.hideFlag) {
-            window.clearTimeout(this.tick);
+            if(typeof window!== "undefined")
+                window.clearTimeout(this.tick);
             this.getElements().remove();
         }
     }
 
     move(){
         if(this.hideFlag) {
-            window.clearTimeout(this.tick);
+            if(typeof window!== "undefined")
+                window.clearTimeout(this.tick);
             this.getElements().remove();
             return;
         }
@@ -133,7 +142,8 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         };
         this.d3Manager.moveSequenceDisplay(config);
         if(this.hideFlag) {
-            window.clearTimeout(this.tick);
+            if(typeof window!== "undefined")
+                window.clearTimeout(this.tick);
             this.getElements().remove();
         }
     }

@@ -93,16 +93,18 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     }
 
     move(): void{
-        window.clearTimeout(this.tick);
-        this.updateFunction();
-        this.tick = window.setTimeout(() => {
-            const config: MoveLineInterface = {
-                points: this.linePoints,
-                line: this.line,
-                trackG: this.g
-            };
-            this.d3Manager.moveLineDisplay(config);
-        },300);
+        if(typeof window!== "undefined") {
+            window.clearTimeout(this.tick);
+            this.updateFunction();
+            this.tick = window.setTimeout(() => {
+                const config: MoveLineInterface = {
+                    points: this.linePoints,
+                    line: this.line,
+                    trackG: this.g
+                };
+                this.d3Manager.moveLineDisplay(config);
+            }, 300);
+        }
     }
 
     downSampling(points: RcsbFvTrackDataElementInterface[]):RcsbFvTrackDataElementInterface[] {
