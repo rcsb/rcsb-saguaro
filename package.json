@@ -14,6 +14,10 @@
     "build": "webpack --config ./webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rcsb/rcsb-saguaro.git"
+  },
   "publishConfig": {
     "registry": "http://nexus3.rcsb.org/repository/npm-rcsb-snapshots/"
   },
@@ -39,8 +43,8 @@
     "webpack-cli": "^3.3.7"
   },
   "dependencies": {
-    "@d3fc/d3fc-sample": "^4.0.10",
     "@popperjs/core": "^2.4.0",
+    "@d3fc/d3fc-sample": "^4.0.10",
     "@types/d3": "^5.7.2",
     "d3": "^5.12.0",
     "rxjs": "^6.5.2"
