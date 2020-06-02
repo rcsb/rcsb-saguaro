@@ -1,7 +1,7 @@
 import {event, mouse} from "d3-selection";
 import {RcsbBoard} from "../RcsbBoard";
 import {RcsbD3Constants} from "./RcsbD3Constants";
-import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbD3EventDispatcher {
 

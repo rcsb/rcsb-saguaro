@@ -2,9 +2,9 @@ import {RcsbFvDisplayTypes, InterpolationTypes, RcsbFvDefaultConfigValues} from 
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {
     RcsbFvTrackData,
-    RcsbFvDataManager,
+    RcsbDataManager,
     RcsbFvTrackDataElementInterface
-} from "../RcsbFvDataManager/RcsbFvDataManager";
+} from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
@@ -53,7 +53,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
             this.elementId = args.elementId;
         }
         if(typeof args.trackData  !== "undefined") {
-            this.trackData = RcsbFvDataManager.processData(args.trackData);
+            this.trackData = RcsbDataManager.processData(args.trackData);
         }
         if(args.displayConfig instanceof Array) {
             this.displayConfig = args.displayConfig;
@@ -144,13 +144,13 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         if(typeof this.trackData === "undefined"){
             this.trackData = new RcsbFvTrackData();
         }
-        (RcsbFvDataManager.processData(data) as RcsbFvTrackData).forEach(d=>{
+        (RcsbDataManager.processData(data) as RcsbFvTrackData).forEach(d=>{
             (this.trackData as RcsbFvTrackData).push(d);
         });
     }
 
     updateTrackData(data: RcsbFvTrackData):void{
-        this.trackData = RcsbFvDataManager.processData(data);
+        this.trackData = RcsbDataManager.processData(data);
     }
 
 }

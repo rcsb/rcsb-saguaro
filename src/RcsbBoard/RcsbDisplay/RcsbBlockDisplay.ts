@@ -2,7 +2,7 @@ import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
 import {Selection, BaseType} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MoveBlockInterface, PlotBlockInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager";
-import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 

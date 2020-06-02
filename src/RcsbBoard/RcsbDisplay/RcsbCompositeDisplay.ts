@@ -6,7 +6,7 @@ import {
     RcsbFvTrackData,
     RcsbFvTrackDataElementInterface,
     RcsbFvTrackDataMap
-} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+} from "../../RcsbDataManager/RcsbDataManager";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;

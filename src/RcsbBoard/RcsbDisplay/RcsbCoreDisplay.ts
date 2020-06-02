@@ -2,7 +2,7 @@ import {RcsbTrack} from "../RcsbTrack";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {Selection, BaseType, event, EnterElement} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";

@@ -8,7 +8,7 @@ import {
     RcsbFvContextManager,
     RcsbFvContextManagerInterface, ResetInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
-import {RcsbFvTrackData} from "./RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 
 export interface RcsbFvInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;

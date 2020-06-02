@@ -3,7 +3,7 @@ import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MoveVariantInterface, PlotVariantInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3VariantManager";
 import {scalePoint, ScalePoint} from "d3-scale";
-import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 

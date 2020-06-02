@@ -2,7 +2,7 @@ import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
-import {RcsbFvTrackDataElementInterface} from "../../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotBlockInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;

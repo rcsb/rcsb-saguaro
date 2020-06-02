@@ -4,7 +4,7 @@ import {area, Area, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {BaseType, Selection} from "d3-selection";
 import {MoveAreaInterface, PlotAreaInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
-import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInterface{
     private area: Area<RcsbFvTrackDataElementInterface> = area<RcsbFvTrackDataElementInterface>().curve(curveStep);

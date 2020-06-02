@@ -47,16 +47,13 @@ div.rcsbFvBoard *{
     border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
 
-$tooltipHeight: 20px;
 .rcsbFvTooltip {
     font-size: 12px;
     border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
     padding-left:8px;
     padding-right:8px;
     background-color:#F9F9F9;
-    height: $tooltipHeight;
-    line-height: $tooltipHeight;
-    text-align: center;
+    vertical-align: middle;
     position: absolute;
 }
 
@@ -65,16 +62,18 @@ $tooltipHeight: 20px;
     border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
     background-color:#F9F9F9;
     position: absolute;
+    padding-left:8px;
+    padding-right:8px;
+    color: #888888;
 }
 
 .rcsbFvTooltipDescription div {
-    padding: 8px 0px 8px 0px;
-    margin-left: 12px;
-    margin-right: 12px;
+    vertical-align: middle;
+    text-align: right;
 }
 
 .rcsbFvTooltipDescription div:not(:last-child) {
-    border-bottom: $border-rcsbFvRowTrack solid #000000;
+    border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
 
 [popper-hidden] {

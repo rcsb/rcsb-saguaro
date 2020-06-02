@@ -11,7 +11,7 @@ import {MoveVariantInterface, PlotVariantInterface, RcsbD3VariantManager} from "
 import {MoveVlineInterface, PlotVlineInterface, RcsbD3VlineManager} from "./RcsbD3DisplayManager/RcsbD3VlineManager";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {MoveBondInterface, PlotBondInterface, RcsbD3BondManager} from "./RcsbD3DisplayManager/RcsbD3BondManager";
-import {RcsbFvTrackDataElementGapInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementGapInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export interface SVGConfInterface  {
     elementId: string,

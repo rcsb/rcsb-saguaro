@@ -18,7 +18,7 @@ import {
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
-import {RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 
 export interface LocationViewInterface {

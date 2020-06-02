@@ -1,4 +1,4 @@
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "./RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../RcsbBoard/RcsbBoard";
 
 export interface RcsbFvBoardConfigInterface {

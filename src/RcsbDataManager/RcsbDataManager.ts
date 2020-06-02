@@ -8,8 +8,11 @@ export interface RcsbFvTrackDataElementInterface {
     gValue?: number|string;
     begin: number;
     end?: number;
-    ori_begin?: number;
-    ori_end?: number;
+    oriBegin?: number;
+    oriEnd?: number;
+    authBegin?: number;
+    authEnd?: number;
+    authProvenance?: boolean;
     label?: string;
     name?: string;
     color?: string;
@@ -32,7 +35,7 @@ export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
 export class RcsbFvTrackDataMap extends Map<string,RcsbFvTrackData>{
 }
 
-export class RcsbFvDataManager {
+export class RcsbDataManager {
 
     public static joinTrackDataArray(dataList: Array<RcsbFvTrackData>): RcsbFvTrackData{
         const out: RcsbFvTrackData = new RcsbFvTrackData();

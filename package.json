@@ -1,6 +1,6 @@
 {
   "name": "rcsb-saguaro",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "0.0.3-SNAPSHOT",
   "description": "",
   "main": "dist/RcsbFv.js",
   "files": [
@@ -22,7 +22,7 @@
     "registry": "http://nexus3.rcsb.org/repository/npm-rcsb-snapshots/"
   },
   "keywords": [],
-  "author": "",
+  "author": "Joan Segura",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.5.5",

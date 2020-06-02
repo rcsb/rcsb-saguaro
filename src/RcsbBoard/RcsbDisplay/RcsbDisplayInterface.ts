@@ -2,7 +2,7 @@ import {Selection, BaseType} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
 import {ScaleLinear} from "d3-scale";
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface, RcsbFvTrackDataMap} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface, RcsbFvTrackDataMap} from "../../RcsbDataManager/RcsbDataManager";
 
 export interface RcsbDisplayInterface {
     reset: ()=> void;

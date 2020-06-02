@@ -5,9 +5,9 @@ import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {
     RcsbFvTrackData,
-    RcsbFvDataManager,
+    RcsbDataManager,
     RcsbFvTrackDataMap
-} from "../RcsbFvDataManager/RcsbFvDataManager";
+} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {
     EventType,
@@ -121,7 +121,7 @@ export class RcsbFvTrack {
             let maxTracks:number = 1;
             (trackData as Array<RcsbFvTrackData>).forEach((f,i)=>{
                 if(!this.rcsbFvConfig.overlap) {
-                    const nonOverlapping: Array<RcsbFvTrackData> = RcsbFvDataManager.getNonOverlappingData(f);
+                    const nonOverlapping: Array<RcsbFvTrackData> = RcsbDataManager.getNonOverlappingData(f);
                     trackNonOverlappingMap.push(nonOverlapping);
                     if(nonOverlapping.length > maxTracks)
                         maxTracks = nonOverlapping.length;
@@ -148,7 +148,7 @@ export class RcsbFvTrack {
         }else if (trackData instanceof RcsbFvTrackData){
             let nonOverlapping: Array<RcsbFvTrackData>;
             if(!this.rcsbFvConfig.overlap) {
-                nonOverlapping = RcsbFvDataManager.getNonOverlappingData(trackData);
+                nonOverlapping = RcsbDataManager.getNonOverlappingData(trackData);
             }else{
                 nonOverlapping = [trackData];
             }

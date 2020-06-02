@@ -4,7 +4,7 @@ export {
     RcsbFvDisplayConfigInterface,
     RcsbFvRowConfigInterface
 } from "./RcsbFv/RcsbFvInterface";
-export {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "./RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+export {RcsbFvTrackData, RcsbFvTrackDataElementInterface, RcsbFvTrackDataElementGapInterface} from "./RcsbDataManager/RcsbDataManager";
 export {RcsbFvDisplayTypes, InterpolationTypes} from "./RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 export {LocationViewInterface as RcsbFvLocationViewInterface} from "./RcsbBoard/RcsbBoard";
 

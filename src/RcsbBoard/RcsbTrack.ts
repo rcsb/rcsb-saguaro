@@ -2,7 +2,7 @@ import {HighlightRegionInterface, RcsbD3Manager, TrackConfInterface} from "./Rcs
 import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 
 export class RcsbTrack {
     d3Manager: RcsbD3Manager = null;

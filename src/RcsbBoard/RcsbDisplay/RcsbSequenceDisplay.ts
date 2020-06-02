@@ -5,7 +5,7 @@ import {scaleLinear, ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -58,8 +58,8 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         sequence.forEach(seqRegion=>{
             (seqRegion.value as string).split("").forEach((s:string, i:number)=>{
                 const e:RcsbFvTrackDataElementInterface = {begin:(seqRegion.begin+i), type:"RESIDUE", title:"RESIDUE", label:s};
-                if(typeof seqRegion.ori_begin === "number")
-                    e.ori_begin = seqRegion.ori_begin+i
+                if(typeof seqRegion.oriBegin === "number")
+                    e.oriBegin = seqRegion.oriBegin+i;
                 if(typeof seqRegion.sourceId === "string")
                     e.sourceId = seqRegion.sourceId;
                 if(typeof seqRegion.provenance === "string")

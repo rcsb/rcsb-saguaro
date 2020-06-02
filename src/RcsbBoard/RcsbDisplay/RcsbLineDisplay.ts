@@ -6,7 +6,7 @@ import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {modeMedian,largestTriangleThreeBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvTrackDataElementInterface} from "../../RcsbFv/RcsbFvDataManager/RcsbFvDataManager";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {sample} from "rxjs/operators";
 
 export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{

@@ -3,6 +3,7 @@ import {RcsbFvTrackDataElementInterface} from "../../RcsbFv";
 
 export class RcsbTooltipManager {
     private readonly boardId: string;
+    private readonly divHeight:number = 25;
     constructor(boardId: string) {
         this.boardId = boardId;
     }
@@ -18,12 +19,24 @@ export class RcsbTooltipManager {
         const spanRegion: HTMLSpanElement = document.createElement<"span">("span");
         spanRegion.append(region);
 
-        if(typeof d.ori_begin === "number"){
-            let ori_region: string = d.ori_begin.toString();
-            if(typeof d.ori_end === "number") ori_region += " - "+d.ori_end.toString();
+        const spanAuthRegion: HTMLSpanElement = document.createElement<"span">("span");
+        if(typeof d.authBegin === "number"){
+            let authRegion: string = d.authBegin.toString();
+            if(typeof d.authEnd === "number") authRegion += " - "+d.authEnd.toString();
+            spanAuthRegion.append( " [auth: "+authRegion+"]" );
+            spanAuthRegion.style.color = "#888888";
+            if(!d.authProvenance)
+                spanRegion.append(spanAuthRegion);
+        }
+
+        if(typeof d.oriBegin === "number"){
+            let ori_region: string = d.oriBegin.toString();
+            if(typeof d.oriEnd === "number") ori_region += " - "+d.oriEnd.toString();
             const spanOriRegion: HTMLSpanElement = document.createElement<"span">("span");
             spanOriRegion.append(" | "+d.provenance.replace("_"," ")+" > "+d.sourceId+": "+ori_region);
             spanOriRegion.style.color = "#888888";
+            if(d.authProvenance && typeof d.authBegin === "number")
+                spanOriRegion.append(spanAuthRegion);
             spanRegion.append(spanOriRegion);
         }
 
@@ -38,6 +51,8 @@ export class RcsbTooltipManager {
             tooltipDiv.append(this.bNode());
         }
         tooltipDiv.append(spanRegion);
+        tooltipDiv.style.height = this.divHeight.toString()+"px";
+        tooltipDiv.style.lineHeight = this.divHeight.toString()+"px";
         createPopper(refDiv, tooltipDiv, {
             placement:'top-end'
         });
@@ -45,14 +60,16 @@ export class RcsbTooltipManager {
 
     showTooltipDescription(d: RcsbFvTrackDataElementInterface){
         if(d.description == null || d.description.length == 0) return;
-        //const refDiv: Element = document.querySelector("#"+this.boardId).children.item(0).children.item(1);
         const refDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
         const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltipDescription");
         tooltipDiv.innerHTML = null;
         tooltipDiv.removeAttribute("popper-hidden");
+        tooltipDiv.style.height = (this.divHeight*d.description.length).toString()+"px";
         d.description.forEach(des=>{
             const desDiv = document.createElement<"div">("div");
             desDiv.append(RcsbTooltipManager.capitalizeFirstLetter(des));
+            desDiv.style.height = this.divHeight.toString()+"px";
+            desDiv.style.lineHeight = this.divHeight.toString()+"px";
             tooltipDiv.append(desDiv);
         });
 
