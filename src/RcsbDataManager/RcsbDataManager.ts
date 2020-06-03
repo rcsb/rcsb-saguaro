@@ -8,11 +8,13 @@ export interface RcsbFvTrackDataElementInterface {
     gValue?: number|string;
     begin: number;
     end?: number;
+    beginName?: string;
+    endName?: string;
     oriBegin?: number;
     oriEnd?: number;
-    authBegin?: number;
-    authEnd?: number;
-    authProvenance?: boolean;
+    oriBeginName?: string;
+    oriEndName?: string;
+    indexName?: string;
     label?: string;
     name?: string;
     color?: string;

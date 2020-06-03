@@ -56,16 +56,34 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
 
         const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         sequence.forEach(seqRegion=>{
-            (seqRegion.value as string).split("").forEach((s:string, i:number)=>{
-                const e:RcsbFvTrackDataElementInterface = {begin:(seqRegion.begin+i), type:"RESIDUE", title:"RESIDUE", label:s};
-                if(typeof seqRegion.oriBegin === "number")
-                    e.oriBegin = seqRegion.oriBegin+i;
-                if(typeof seqRegion.sourceId === "string")
-                    e.sourceId = seqRegion.sourceId;
-                if(typeof seqRegion.provenance === "string")
-                    e.provenance = seqRegion.provenance;
-                elems.push(e);
-            })
+            if(typeof seqRegion.value === "string") {
+                if(seqRegion.value.length>1) {
+                    seqRegion.value.split("").forEach((s: string, i: number) => {
+                        const e: RcsbFvTrackDataElementInterface = {
+                            begin: (seqRegion.begin + i),
+                            type: "RESIDUE",
+                            title: "RESIDUE",
+                            label: s
+                        };
+                        if(typeof seqRegion.oriBegin === "number")
+                            e.oriBegin = seqRegion.oriBegin + i;
+                        if(typeof seqRegion.sourceId === "string")
+                            e.sourceId = seqRegion.sourceId;
+                        if(typeof seqRegion.provenance === "string")
+                            e.provenance = seqRegion.provenance;
+                        elems.push(e);
+                    });
+                }else{
+                    const e: RcsbFvTrackDataElementInterface = {
+                        ...seqRegion,
+                        begin: seqRegion.begin,
+                        type: "RESIDUE",
+                        title: "RESIDUE",
+                        label: seqRegion.value
+                    };
+                    elems.push(e);
+                }
+            }
         });
 
         const dataElems: Array<RcsbFvTrackDataElementInterface> = elems.filter((s: RcsbFvTrackDataElementInterface, i: number)=> {

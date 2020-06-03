@@ -1,6 +1,6 @@
 {
   "name": "rcsb-saguaro",
-  "version": "0.0.3-SNAPSHOT",
+  "version": "0.0.4-SNAPSHOT",
   "description": "",
   "main": "dist/RcsbFv.js",
   "files": [

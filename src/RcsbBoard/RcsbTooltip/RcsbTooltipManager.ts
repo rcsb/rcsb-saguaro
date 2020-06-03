@@ -19,14 +19,8 @@ export class RcsbTooltipManager {
         const spanRegion: HTMLSpanElement = document.createElement<"span">("span");
         spanRegion.append(region);
 
-        const spanAuthRegion: HTMLSpanElement = document.createElement<"span">("span");
-        if(typeof d.authBegin === "number"){
-            let authRegion: string = d.authBegin.toString();
-            if(typeof d.authEnd === "number") authRegion += " - "+d.authEnd.toString();
-            spanAuthRegion.append( " [auth: "+authRegion+"]" );
-            spanAuthRegion.style.color = "#888888";
-            if(!d.authProvenance)
-                spanRegion.append(spanAuthRegion);
+        if(typeof d.beginName === "string"){
+            spanRegion.append(RcsbTooltipManager.buildIndexNames(d.beginName,d.endName,d.indexName));
         }
 
         if(typeof d.oriBegin === "number"){
@@ -35,8 +29,8 @@ export class RcsbTooltipManager {
             const spanOriRegion: HTMLSpanElement = document.createElement<"span">("span");
             spanOriRegion.append(" | "+d.provenance.replace("_"," ")+" > "+d.sourceId+": "+ori_region);
             spanOriRegion.style.color = "#888888";
-            if(d.authProvenance && typeof d.authBegin === "number")
-                spanOriRegion.append(spanAuthRegion);
+            if( typeof d.oriBeginName === "string")
+                spanOriRegion.append(RcsbTooltipManager.buildIndexNames(d.oriBeginName,d.oriEndName,d.indexName));
             spanRegion.append(spanOriRegion);
         }
 
@@ -56,6 +50,15 @@ export class RcsbTooltipManager {
         createPopper(refDiv, tooltipDiv, {
             placement:'top-end'
         });
+    }
+
+    private static buildIndexNames(beginName:string, endName:string, name: string): HTMLSpanElement{
+        const spanAuthRegion: HTMLSpanElement = document.createElement<"span">("span");
+        let authRegion: string = beginName;
+        if(typeof endName === "string") authRegion += " - "+endName;
+        spanAuthRegion.append( " ["+name+": "+authRegion+"]" );
+        spanAuthRegion.style.color = "#888888";
+        return spanAuthRegion;
     }
 
     showTooltipDescription(d: RcsbFvTrackDataElementInterface){
