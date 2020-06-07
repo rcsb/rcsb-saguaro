@@ -60,6 +60,8 @@ export class RcsbBoard {
     private updateId: number = 0;
     private updateDelay: number = 300;
 
+    private upToDate: boolean = true;
+
     private zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any> = zoom();
 
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
@@ -71,6 +73,10 @@ export class RcsbBoard {
     constructor(elementId: string, contextManager: RcsbFvContextManager) {
         this.domId = elementId;
         this.contextManager = contextManager;
+        window.addEventListener("scroll",()=>{
+            if(this.upToDate === false)
+                this.updateAndMove();
+        });
     }
 
     private addSVG():void {
@@ -302,8 +308,7 @@ export class RcsbBoard {
         this.xScale.domain(newDomain);
         this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
 
-        this.updateWithDelay();
-    	this.moveAllTracks();
+        this.updateAndMove();
 
         this.highlightRegion(undefined );
 
@@ -318,6 +323,16 @@ export class RcsbBoard {
             } as RcsbFvContextManagerInterface);
         }
     };
+
+    private updateAndMove(): void{
+        if(this.boardInViewport()) {
+            this.updateWithDelay();
+            this.moveAllTracks();
+            this.upToDate = true;
+        }else{
+            this.upToDate = false;
+        }
+    }
 
     private updateWithDelay(): void {
         if(typeof window!== "undefined") {
@@ -340,5 +355,14 @@ export class RcsbBoard {
 
     private triggerSelectionEvent(selection: RcsbFvContextManagerInterface){
         this.contextManager.next(selection);
+    }
+
+    private boardInViewport():boolean {
+        const boardDiv: HTMLElement = document.getElementById(this.domId);
+        const rect = boardDiv.getBoundingClientRect();
+        return (
+            rect.top >= -10 &&
+            rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight)+10)
+        );
     }
 }
