@@ -14,12 +14,13 @@ import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ScaleTransformInterface, SelectionInterface
+    RcsbFvContextManagerInterface, ScaleTransformInterface
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbSelection, SelectionInterface} from "./RcsbSelection";
 
 export interface LocationViewInterface {
     from: number;
@@ -41,11 +42,10 @@ export class RcsbBoard {
     private _innerPadding: number = 10;
     private tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
     onHighLightCallBack:(d?:RcsbFvTrackDataElementInterface) => void = null;
-    private currentSelection: SelectionInterface = {
-        rcsbFvTrackDataElement: null,
-        domId: null
-    };
-    xScale: ScaleLinear<number,number> = scaleLinear();
+
+    private readonly _xScale: ScaleLinear<number,number> = scaleLinear();
+    private readonly selection: RcsbSelection;
+
     private limits: RegionLimitsInterface = {
         max: 1000000000,
         min: -1.5,
@@ -70,9 +70,11 @@ export class RcsbBoard {
 
     private readonly contextManager: RcsbFvContextManager;
 
-    constructor(elementId: string, contextManager: RcsbFvContextManager) {
+    constructor(elementId: string, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
         this.domId = elementId;
         this.contextManager = contextManager;
+        this._xScale = xScale;
+        this.selection = selection;
         window.addEventListener("scroll",()=>{
             if(this.upToDate === false)
                 this.updateAndMove();
@@ -147,28 +149,30 @@ export class RcsbBoard {
         }
     }
 
-    public setSelection(selection: SelectionInterface): void{
-        if(selection.domId !== this.domId){
-            this.highlightRegion(selection.rcsbFvTrackDataElement,true);
-        }
+    public setSelection(): void{
+        this.highlightRegion(null,true);
     }
 
     highlightRegion(d:RcsbFvTrackDataElementInterface, propFlag?: boolean): void{
-        if(d === null  || (d!== undefined && typeof(d.begin) === "number") ){
-            this.currentSelection = {rcsbFvTrackDataElement:d, domId: this.domId} as SelectionInterface;
-            if(propFlag!==true) {
-                this.triggerSelectionEvent({
-                    eventType:EventType.SELECTION,
-                    eventData:this.currentSelection
-                } as RcsbFvContextManagerInterface);
-            }
-        }else if(this.currentSelection.rcsbFvTrackDataElement != null && typeof(this.currentSelection.rcsbFvTrackDataElement.begin) === "number" ){
-            d = this.currentSelection.rcsbFvTrackDataElement;
+        if(d!=null)
+            this.selection.setSelected({rcsbFvTrackDataElement:d,domId:this.domId});
+        else if(propFlag === false)
+            this.selection.clearSelection();
+
+        if(propFlag!==true) {
+            this.triggerSelectionEvent({
+                eventType:EventType.SELECTION,
+                eventData:null
+            });
         }
 
-        if(d!==undefined) {
+        if(this.selection.getSelected().length > 0) {
             this.tracks.forEach((track) => {
-                track.highlightRegion(d);
+                track.highlightRegion(this.selection.getSelected()[0].rcsbFvTrackDataElement);
+            });
+        }else{
+            this.tracks.forEach((track) => {
+                track.highlightRegion(null);
             });
         }
     }
@@ -182,8 +186,7 @@ export class RcsbBoard {
         }
 
         this.addSVG();
-        this.xScale = scaleLinear()
-            .domain([this.currentLocationView.from, this.currentLocationView.to])
+        this._xScale.domain([this.currentLocationView.from, this.currentLocationView.to])
             .range([this._innerPadding, this._width - this._innerPadding]);
 
         this.d3Manager.addZoom({
@@ -196,7 +199,7 @@ export class RcsbBoard {
 
     startTracks(): void{
     	this.tracks.forEach(track=>{
-            track.init(this._width, this.xScale);
+            track.init(this._width, this._xScale);
         });
     	this.setBoardHeight();
         this.tracks.forEach((track)=> {
@@ -261,7 +264,7 @@ export class RcsbBoard {
     }
 
     updateAllTracks(): void {
-        const location = this.xScale.domain();
+        const location = this._xScale.domain();
     	this.setLocation(~~location[0],~~location[1]);
         this.tracks.forEach(track=> {
             track.update(this.currentLocationView);
@@ -272,6 +275,10 @@ export class RcsbBoard {
         this.tracks.forEach(track=> {
             track.move();
         });
+    }
+
+    xScale(): ScaleLinear<number,number>{
+        return this._xScale;
     }
 
     private moveBoard(newTransform: ZoomTransform, propFlag: boolean): void {
@@ -289,7 +296,7 @@ export class RcsbBoard {
             return;
         }
 
-        let newDomain:number[] = transform.rescaleX(this.xScale).domain();
+        let newDomain:number[] = transform.rescaleX(this._xScale).domain();
         let length: number = newDomain[1] - newDomain[0];
 
         if(length > this.limits.maxZoom){
@@ -305,12 +312,10 @@ export class RcsbBoard {
             newDomain = [this.limits.max - length , this.limits.max];
         }
 
-        this.xScale.domain(newDomain);
+        this._xScale.domain(newDomain);
         this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
 
         this.updateAndMove();
-
-        this.highlightRegion(undefined );
 
         if(propFlag !== true){
             const data:ScaleTransformInterface = {
@@ -328,6 +333,7 @@ export class RcsbBoard {
         if(this.boardInViewport()) {
             this.updateWithDelay();
             this.moveAllTracks();
+            this.highlightRegion(undefined );
             this.upToDate = true;
         }else{
             this.upToDate = false;
@@ -345,7 +351,7 @@ export class RcsbBoard {
 
     public setScale(transformEvent: ScaleTransformInterface){
         if(transformEvent.domId !== this.domId){
-    	    this.moveBoard(transformEvent.transform,true);
+            this.updateAndMove();
         }
     }
 

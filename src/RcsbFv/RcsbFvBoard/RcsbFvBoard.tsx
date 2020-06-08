@@ -9,6 +9,8 @@ import {
     RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
+import {scaleLinear, ScaleLinear} from "d3-scale";
+import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 export interface RcsbFvBoardFullConfigInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
@@ -16,7 +18,7 @@ export interface RcsbFvBoardFullConfigInterface {
 }
 
 interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
-    contextManager: RcsbFvContextManager;
+    readonly contextManager: RcsbFvContextManager;
 }
 
 interface RcsbFvBoardState {
@@ -34,6 +36,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     rcsbFvRowArrayIds : Array<string> = new Array<string>();
     currentScale: ScaleTransformInterface;
     private subscription: Subscription;
+    private readonly xScale: ScaleLinear<number,number> = scaleLinear();
+    private readonly selection:RcsbSelection = new RcsbSelection();
 
     readonly state : RcsbFvBoardState = {
         rowConfigData: this.props.rowConfigData,
@@ -48,7 +52,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2), boardId:this.boardId};
             const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
             rowConfigData.isAxis = true;
-            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager}/>;
+            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
         }
         return (
             <div>
@@ -60,7 +64,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                             this.rcsbFvRowArrayIds.push(rowId);
                             const rowConfigData = this.configRow(rowId,rowData);
                             rowConfigData.isAxis = false;
-                            return (<RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} contextManager={this.props.contextManager}/>);
+                            return (<RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>);
                         })
                     }
                 </div>

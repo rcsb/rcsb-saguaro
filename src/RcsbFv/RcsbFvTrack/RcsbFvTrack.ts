@@ -12,10 +12,12 @@ import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInter
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface, SelectionInterface
+    RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
+import {ScaleLinear} from "d3-scale";
+import {RcsbSelection, SelectionInterface} from "../../RcsbBoard/RcsbSelection";
 
 export class RcsbFvTrack {
 
@@ -29,12 +31,16 @@ export class RcsbFvTrack {
     private readonly updateRowHeight: ()=>void;
     private subscription: Subscription;
     private readonly contextManager: RcsbFvContextManager;
+    private readonly xScale: ScaleLinear<number,number>;
+    private readonly selection: RcsbSelection;
 
-    public constructor(args:RcsbFvRowConfigInterface, contextManager: RcsbFvContextManager, updateRowHeight:()=>void) {
+    public constructor(args:RcsbFvRowConfigInterface, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager, updateRowHeight:()=>void) {
         this.contextManager = contextManager;
         this.updateRowHeight = updateRowHeight;
+        this.xScale = xScale;
+        this.selection = selection;
         if (typeof args.elementId === "string" && document.getElementById(args.elementId) !== null) {
-            this.rcsbBoard = new RcsbBoard(args.elementId, this.contextManager);
+            this.rcsbBoard = new RcsbBoard(args.elementId, xScale, this.selection, this.contextManager);
         }
         this.buildTrack(args);
         this.subscription = this.subscribe();
@@ -62,7 +68,7 @@ export class RcsbFvTrack {
         if(document.getElementById(elementId)!== null) {
             this.elementId = elementId;
             if(this.rcsbBoard === null){
-                this.rcsbBoard = new RcsbBoard(this.elementId, this.contextManager);
+                this.rcsbBoard = new RcsbBoard(this.elementId, this.xScale, this.selection, this.contextManager);
             }
             if (this.rcsbFvConfig.configCheck()) {
                 this.initRcsbBoard();
@@ -180,7 +186,7 @@ export class RcsbFvTrack {
             if(obj.eventType===EventType.SCALE) {
                 this.setScale(obj.eventData as ScaleTransformInterface);
             }else if(obj.eventType===EventType.SELECTION){
-                this.setSelection(obj.eventData as SelectionInterface);
+                this.setSelection();
             }else if(obj.eventType===EventType.RESET){
                 this.reset(obj.eventData as ResetInterface);
             }
@@ -195,8 +201,8 @@ export class RcsbFvTrack {
         this.rcsbBoard.setScale(obj);
     }
 
-    public setSelection(obj: SelectionInterface) : void {
-        this.rcsbBoard.setSelection(obj);
+    public setSelection() : void {
+        this.rcsbBoard.setSelection();
     }
 
     private reset(obj: ResetInterface){

@@ -5,11 +5,15 @@ import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {ScaleLinear} from "d3-scale";
+import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 interface RcsbFvRowInterface {
     id: string;
     rowConfigData: RcsbFvRowConfigInterface;
-    contextManager: RcsbFvContextManager;
+    readonly contextManager: RcsbFvContextManager;
+    readonly xScale: ScaleLinear<number,number>;
+    readonly selection: RcsbSelection;
 }
 
 interface RcsbFvRowStyleInterface{
@@ -43,7 +47,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         return (
             <div className={classNames} style={this.configStyle()}>
                 <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} />
-                <RcsbFvRowTrack id={this.props.id} rowTrackConfigData={this.props.rowConfigData} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
+                <RcsbFvRowTrack id={this.props.id} rowTrackConfigData={this.props.rowConfigData} xScale={this.props.xScale} selection={this.props.selection} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
             </div>
         );
     }

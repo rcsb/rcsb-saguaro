@@ -17,13 +17,13 @@ export class RcsbD3EventDispatcher {
                 RcsbD3EventDispatcher.boardMousemove(board);
             });
             const x = mouse(board.d3Manager.svgG().node())[0];
-            this.selectionBegin = Math.round(board.xScale.invert(x));
+            this.selectionBegin = Math.round(board.xScale().invert(x));
         }
     }
 
     private static boardMousemove(board: RcsbBoard): RcsbFvTrackDataElementInterface{
         const x = mouse(board.d3Manager.svgG().node())[0];
-        let _end = Math.round(board.xScale.invert(x));
+        let _end = Math.round(board.xScale().invert(x));
         let _begin = this.selectionBegin;
         if(_begin>_end){
             const aux = _begin;

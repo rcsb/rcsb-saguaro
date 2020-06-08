@@ -4,11 +4,15 @@ import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValu
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {ScaleLinear} from "d3-scale";
+import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 interface RcsbFvRowTrackInterface {
     id: string;
     rowTrackConfigData: RcsbFvRowConfigInterface;
-    contextManager: RcsbFvContextManager;
+    readonly contextManager: RcsbFvContextManager;
+    readonly xScale: ScaleLinear<number,number>;
+    readonly selection: RcsbSelection;
     callbackRcsbFvRow(height: number): void;
 }
 
@@ -47,7 +51,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     componentDidMount(): void{
-        this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.contextManager, this.updateHeight.bind(this));
+        this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager, this.updateHeight.bind(this));
         this.updateHeight();
     }
 

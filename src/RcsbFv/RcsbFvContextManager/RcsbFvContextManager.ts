@@ -3,6 +3,7 @@ import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataMa
 import {ZoomTransform} from "d3-zoom";
 import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
 import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
+import {SelectionInterface} from "../../RcsbBoard/RcsbSelection";
 
 export class RcsbFvContextManager {
     private subject: any = new Subject();
@@ -40,11 +41,6 @@ export interface ResetInterface {
 export interface DataInterface {
     loadData:RcsbFvTrackData;
     trackId:string;
-}
-
-export interface SelectionInterface {
-    rcsbFvTrackDataElement: RcsbFvTrackDataElementInterface;
-    domId: string;
 }
 
 export interface ScaleTransformInterface {
