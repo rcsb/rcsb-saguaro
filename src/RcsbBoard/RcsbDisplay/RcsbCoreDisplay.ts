@@ -100,11 +100,12 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
             }).catch((error)=>{
                 console.error(error);
             });
+        }else{
+            if (this._data === undefined || this._data === null) {
+                return;
+            }
+            this._update(where, compKey);
         }
-        if (this._data === undefined || this._data === null) {
-            return;
-        }
-        this._update(where, compKey);
     }
 
     _update(where: LocationViewInterface, compKey?: string) {

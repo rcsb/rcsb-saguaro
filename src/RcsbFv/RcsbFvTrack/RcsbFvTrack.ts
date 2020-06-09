@@ -2,7 +2,7 @@ import {RcsbBoard} from '../../RcsbBoard/RcsbBoard';
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
-import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {
     RcsbFvTrackData,
     RcsbDataManager,

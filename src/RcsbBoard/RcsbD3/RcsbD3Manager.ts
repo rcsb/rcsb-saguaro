@@ -4,7 +4,12 @@ import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
 import {ScaleLinear} from "d3-scale";
 import {MoveBlockInterface, PlotBlockInterface, RcsbD3BlockManager} from "./RcsbD3DisplayManager/RcsbD3BlockManager";
 import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "./RcsbD3DisplayManager/RcsbD3PinManager";
-import {MoveSequenceInterface, PlotSequenceInterface, RcsbD3SequenceManager} from "./RcsbD3DisplayManager/RcsbD3SequenceManager";
+import {
+    MoveSequenceInterface,
+    PlotSequenceInterface,
+    PlotSequenceLineInterface,
+    RcsbD3SequenceManager
+} from "./RcsbD3DisplayManager/RcsbD3SequenceManager";
 import {MoveLineInterface, PlotLineInterface, RcsbD3LineManager} from "./RcsbD3DisplayManager/RcsbD3LineManager";
 import {MoveAreaInterface, PlotAreaInterface, RcsbD3AreaManager} from "./RcsbD3DisplayManager/RcsbD3AreaManager";
 import {MoveVariantInterface, PlotVariantInterface, RcsbD3VariantManager} from "./RcsbD3DisplayManager/RcsbD3VariantManager";
@@ -222,16 +227,6 @@ export class RcsbD3Manager {
 
     moveBondDisplay(config: MoveBondInterface): void {
         const track: RcsbD3BondManager = new RcsbD3BondManager();
-        return track.move(config);
-    }
-
-    plotSequenceDisplay(config: PlotSequenceInterface): void {
-        const track: RcsbD3SequenceManager = new RcsbD3SequenceManager();
-        return track.plot(config);
-    }
-
-    moveSequenceDisplay(config: MoveSequenceInterface): void {
-        const track: RcsbD3SequenceManager = new RcsbD3SequenceManager();
         return track.move(config);
     }
 

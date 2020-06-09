@@ -1,5 +1,5 @@
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
-import {LocationViewInterface} from "../RcsbBoard/RcsbBoard";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
 export interface RcsbFvBoardConfigInterface {
     elementId: string;
@@ -12,10 +12,12 @@ export interface RcsbFvBoardConfigInterface {
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
 }
 
+//TODO Create additionalConfig to encode display type specific configuration
 interface CommonConfigInterface{
     displayColor?: string;
     displayType: string;
     dynamicDisplay?: boolean;
+    nonEmptyDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     includeTooltip?: boolean;

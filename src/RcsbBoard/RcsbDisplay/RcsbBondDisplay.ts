@@ -19,7 +19,6 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         };
     }
 
-
     private setScale(): void{
         if(typeof this._height === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
             this.yScale

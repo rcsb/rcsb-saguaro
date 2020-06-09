@@ -1,7 +1,7 @@
 import * as React from "react";
 import {RcsbFvDisplayTypes, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
-import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 import {

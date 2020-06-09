@@ -4,8 +4,13 @@ import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import * as classes from "../scss/RcsbBoard.module.scss";
-import {PlotSequenceInterface, MoveSequenceInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
+import {
+    PlotSequenceInterface,
+    MoveSequenceInterface,
+    PlotSequenceLineInterface, RcsbD3SequenceManager
+} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -14,40 +19,30 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     private hideFlag: boolean = false;
     private currentLocation: LocationViewInterface = null;
     private compKey: string = null;
-    private tick: number = null;
+    private nonEmptyDisplay: boolean = false;
+
 
     setDynamicDisplay(){
         this.hideFlag = true;
         this.mouseoutCallBack = () => {
             this.hideFlag = true;
             this.getElements().remove();
-            if(typeof window !== "undefined")
-                window.clearTimeout(this.tick);
         };
         this.mouseoverCallBack = () => {
-
-            if(typeof window !== "undefined") {
-                window.clearTimeout(this.tick);
-                if (this.hideFlag) {
-                    this.tick = window.setTimeout(() => {
-                        this.hideFlag = false;
-                        this.update(this.currentLocation, this.compKey);
-                    }, 300);
-                }
-            }
+            this.hideFlag = false;
+            this.update(this.currentLocation, this.compKey);
         };
+    }
+
+    setNonEmptyDisplay(flag: boolean): void{
+        this.nonEmptyDisplay = flag;
     }
 
     _update(where: LocationViewInterface, compKey?: string) {
         this.currentLocation = where;
         this.compKey = compKey;
-
-        if(this.hideFlag) {
-            if(typeof window!== "undefined")
-                window.clearTimeout(this.tick);
-            this.getElements().remove();
+        if(this.hideFlag)
             return;
-        }
 
         let sequence: RcsbFvTrackData = this._data;
         if (sequence === undefined) {
@@ -98,6 +93,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.g.selectAll(elemClass).remove();
 
         if(this.minRatio()){
+            this.g.select(RcsbD3Constants.LINE).remove();
             this.g.selectAll(elemClass).data(dataElems)
                 .enter()
                 .append("g")
@@ -106,23 +102,15 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
                 .call(this.plot.bind(this));
         }else{
             this.getElements().remove();
+            if(this.nonEmptyDisplay)
+                this.plotSequenceLine();
         }
-
-        if(this.hideFlag) {
-            if(typeof window!== "undefined")
-                window.clearTimeout(this.tick);
-            this.getElements().remove();
-        }
+        this.checkHideFlag();
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>){
-        if(this.hideFlag) {
-            if(typeof window!== "undefined")
-                window.clearTimeout(this.tick);
-            this.getElements().remove();
+        if(this.hideFlag)
             return;
-        }
-
         super.plot(elements);
         this.yScale
             .domain([0, this._height])
@@ -134,34 +122,32 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             color: this._displayColor,
             height: this._height,
             intervalRatio: this.intervalRatio,
-            hideFlag: this.hideFlag
         };
-        this.d3Manager.plotSequenceDisplay(config);
+        RcsbD3SequenceManager.plot(config);
+        this.checkHideFlag();
+    }
 
-        if(this.hideFlag) {
-            if(typeof window!== "undefined")
-                window.clearTimeout(this.tick);
-            this.getElements().remove();
-        }
+    plotSequenceLine(): void{
+        const config: PlotSequenceLineInterface = {
+            xScale: this.xScale,
+            yScale: this.yScale,
+            height: this.height(),
+            g:this.g
+        };
+        RcsbD3SequenceManager.plotSequenceLine.call(this,config);
     }
 
     move(){
-        if(this.hideFlag) {
-            if(typeof window!== "undefined")
-                window.clearTimeout(this.tick);
-            this.getElements().remove();
-            return;
-        }
         const config: MoveSequenceInterface = {
             elements: this.getElements(),
             xScale: this.xScale,
             intervalRatio: this.intervalRatio,
-            hideFlag: this.hideFlag
         };
-        this.d3Manager.moveSequenceDisplay(config);
+        RcsbD3SequenceManager.move(config);
+    }
+
+    private checkHideFlag(): void{
         if(this.hideFlag) {
-            if(typeof window!== "undefined")
-                window.clearTimeout(this.tick);
             this.getElements().remove();
         }
     }

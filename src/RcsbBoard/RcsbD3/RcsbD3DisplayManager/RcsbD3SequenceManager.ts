@@ -11,19 +11,25 @@ export interface PlotSequenceInterface {
     color?: string;
     height:number;
     intervalRatio: [number,number];
-    hideFlag: boolean;
+}
+
+export interface PlotSequenceLineInterface {
+    xScale: ScaleLinear<number,number>;
+    yScale: ScaleLinear<number,number>;
+    g:Selection<SVGGElement,any,null,undefined>;
+    height:number;
+    color?: string;
 }
 
 export interface MoveSequenceInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     xScale: ScaleLinear<number,number>;
     intervalRatio: [number,number];
-    hideFlag: boolean;
 }
 
-export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
+export class RcsbD3SequenceManager {
 
-    plot(config: PlotSequenceInterface){
+    static plot(config: PlotSequenceInterface){
         const xScale = config.xScale;
         const yScale = config.yScale;
 
@@ -50,7 +56,19 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
 
     }
 
-    move(config: MoveSequenceInterface){
+    static plotSequenceLine(config: PlotSequenceLineInterface): void{
+        config.g.select(RcsbD3Constants.LINE).remove();
+        config.g.append(RcsbD3Constants.LINE)
+            .style(RcsbD3Constants.STROKE_WIDTH,2)
+            .style(RcsbD3Constants.STROKE, "#DDDDDD")
+            .attr(RcsbD3Constants.STROKE_DASH,"2")
+            .attr(RcsbD3Constants.X1, config.xScale.range()[0])
+            .attr(RcsbD3Constants.Y1, config.yScale(config.height*0.5))
+            .attr(RcsbD3Constants.X2, config.xScale.range()[1])
+            .attr(RcsbD3Constants.Y2, config.yScale(config.height*0.5));
+    }
+
+    static move(config: MoveSequenceInterface){
         const xScale = config.xScale;
         config.elements.select(RcsbD3Constants.TEXT)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
@@ -64,17 +82,15 @@ export class RcsbD3SequenceManager implements RcsbD3DisplayManagerInterface{
 
     private static opacity (elems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, xScale: ScaleLinear<number,number>, intervalRatio: [number,number]): void {
         const r = (xScale.range()[1]-xScale.range()[0])/(xScale.domain()[1]-xScale.domain()[0]);
-        const o_min = 0.01;
+        const o_min = 0.2;
         const a = intervalRatio[0];
         const b = intervalRatio[1];
         if(r<a) {
-            elems.attr("display", "none");
+            elems.remove();
         }else if(r>=a && r<b) {
-            elems.attr("display", "");
             var o = (1-o_min)/(b-a)*(r-a)+o_min;
             elems.attr("fill-opacity",o);
         } else {
-            elems.attr("display", "");
             elems.attr("fill-opacity", "1");
         }
     }

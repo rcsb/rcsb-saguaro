@@ -1,7 +1,7 @@
 import * as React from "react";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
-import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 
 interface RcsbFvRowTitleInterface {
     data: RcsbFvRowConfigInterface;

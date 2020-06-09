@@ -1,5 +1,5 @@
 import {RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
-import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {RcsbAxisDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAxisDisplay";
 import {RcsbPinDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbPinDisplay";
@@ -83,7 +83,7 @@ export class RcsbFvDisplay {
                 out = RcsbFvDisplay.bondDisplay(config.boardId,config.displayColor);
                 break;
             case RcsbFvDisplayTypes.SEQUENCE:
-                out = RcsbFvDisplay.sequenceDisplay(config.boardId,config.displayColor, config.dynamicDisplay);
+                out = RcsbFvDisplay.sequenceDisplay(config.boardId,config.displayColor, config.dynamicDisplay, config.nonEmptyDisplay);
                 break;
             case RcsbFvDisplayTypes.LINE:
                 out = RcsbFvDisplay.lineDisplay(config.boardId,config.displayColor, config.displayDomain, config.interpolationType);
@@ -119,11 +119,14 @@ export class RcsbFvDisplay {
         return new RcsbAxisDisplay(boardId);
     }
 
-    private static sequenceDisplay(boardId: string, color:string, dynamicDisplayFlag?:boolean) : RcsbDisplayInterface{
+    private static sequenceDisplay(boardId: string, color:string, dynamicDisplayFlag:boolean, nonEmptyDisplayFlag:boolean) : RcsbDisplayInterface{
         const display: RcsbSequenceDisplay = new RcsbSequenceDisplay(boardId);
         display.setDisplayColor(color);
         if(dynamicDisplayFlag === true) {
             display.setDynamicDisplay();
+        }
+        if(nonEmptyDisplayFlag === true){
+            display.setNonEmptyDisplay(true);
         }
         return display;
     }

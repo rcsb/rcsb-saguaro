@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {ZoomTransform} from "d3-zoom";
-import {RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
 import {SelectionInterface} from "../../RcsbBoard/RcsbSelection";
 

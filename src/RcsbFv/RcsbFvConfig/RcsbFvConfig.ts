@@ -1,5 +1,5 @@
 import {RcsbFvDisplayTypes, InterpolationTypes, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
-import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvInterface";
+import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "./RcsbFvConfigInterface";
 import {
     RcsbFvTrackData,
     RcsbDataManager,
@@ -22,6 +22,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     displayDomain?: [number,number];
     interpolationType? : string;
     dynamicDisplay?: boolean;
+    nonEmptyDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     includeTooltip?: boolean;
@@ -69,6 +70,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.dynamicDisplay === "boolean"){
             this.dynamicDisplay = args.dynamicDisplay;
+        }
+        if(typeof args.nonEmptyDisplay === "boolean"){
+            this.nonEmptyDisplay = args.nonEmptyDisplay;
         }
         if(typeof args.trackWidth === "number"){
             this.trackWidth = args.trackWidth;
