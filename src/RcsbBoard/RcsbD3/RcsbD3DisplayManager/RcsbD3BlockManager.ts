@@ -1,7 +1,6 @@
 import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotBlockInterface {
@@ -21,11 +20,11 @@ export interface MoveBlockInterface {
     height: number;
 }
 
-export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
+export class RcsbD3BlockManager {
 
-    private minWidth: number = 2;
+    private static minWidth: number = 2;
 
-    plot(config: PlotBlockInterface): void{
+    static plot(config: PlotBlockInterface): void{
         const gElements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const dy: number = config.dy;
         const dx: number = config.dx;
@@ -36,8 +35,8 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
 
         const minWidth = (begin: number, end: number)=>{
             let w: number = (xScale(end+dx) - xScale(begin-dx));
-            if(w<this.minWidth){
-                w=this.minWidth;
+            if(w<RcsbD3BlockManager.minWidth){
+                w=RcsbD3BlockManager.minWidth;
             }
             return w;
         };
@@ -167,15 +166,15 @@ export class RcsbD3BlockManager implements RcsbD3DisplayManagerInterface{
         });
     }
 
-    move(config: MoveBlockInterface){
+    static move(config: MoveBlockInterface){
         var xScale = config.xScale;
         const dx = config.dx;
         const gElements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
 
         const minWidth = (begin: number, end: number)=>{
             let w: number = (xScale(end+dx) - xScale(begin-dx));
-            if(w<this.minWidth){
-                w=this.minWidth;
+            if(w<RcsbD3BlockManager.minWidth){
+                w=RcsbD3BlockManager.minWidth;
             }
             return w;
         };

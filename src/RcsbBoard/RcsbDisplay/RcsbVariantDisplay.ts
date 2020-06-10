@@ -1,7 +1,11 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
 import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
-import {MoveVariantInterface, PlotVariantInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3VariantManager";
+import {
+    MoveVariantInterface,
+    PlotVariantInterface,
+    RcsbD3VariantManager
+} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3VariantManager";
 import {scalePoint, ScalePoint} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
@@ -37,7 +41,7 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
             color: this._displayColor,
             trackG: this.g
         };
-        this.d3Manager.plotVariantDisplay(config);
+        RcsbD3VariantManager.plot(config);
     }
 
     move(): void{
@@ -49,6 +53,6 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
             height: this._height,
             trackG: this.g
         };
-        this.d3Manager.moveVariantDisplay(config);
+        RcsbD3VariantManager.move(config);
     }
 }

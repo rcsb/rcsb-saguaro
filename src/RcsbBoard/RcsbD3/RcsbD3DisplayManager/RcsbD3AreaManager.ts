@@ -1,7 +1,6 @@
 import {Selection} from "d3-selection";
 import {Area} from "d3-shape";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotAreaInterface {
@@ -17,9 +16,9 @@ export interface MoveAreaInterface {
     area:Area<RcsbFvTrackDataElementInterface>
 }
 
-export class RcsbD3AreaManager implements RcsbD3DisplayManagerInterface{
+export class RcsbD3AreaManager {
 
-    plot(config: PlotAreaInterface){
+    static plot(config: PlotAreaInterface){
 
         config.trackG.select(RcsbD3Constants.PATH).remove();
         config.trackG.append(RcsbD3Constants.PATH)
@@ -31,7 +30,7 @@ export class RcsbD3AreaManager implements RcsbD3DisplayManagerInterface{
             .attr(RcsbD3Constants.FILL, config.color);
     }
 
-    move(config:MoveAreaInterface){
+    static move(config:MoveAreaInterface){
         config.trackG.select(RcsbD3Constants.PATH)
             .datum(config.points)
             .attr(RcsbD3Constants.D, config.area);

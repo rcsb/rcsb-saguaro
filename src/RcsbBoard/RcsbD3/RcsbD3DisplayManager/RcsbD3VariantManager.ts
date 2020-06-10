@@ -2,7 +2,6 @@ import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear, ScalePoint} from "d3-scale";
 import {axisLeft, Axis} from "d3-axis";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import * as classes from "../../scss/RcsbBoard.module.scss";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
@@ -24,9 +23,9 @@ export interface MoveVariantInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
 }
 
-export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
+export class RcsbD3VariantManager {
 
-    plot(config: PlotVariantInterface): void{
+    static plot(config: PlotVariantInterface): void{
         config.elements.append(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return config.xScale(d.begin);
@@ -41,10 +40,10 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
                 }
                 return config.color;
             });
-        this.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
+        RcsbD3VariantManager.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }
 
-    move(config: MoveVariantInterface): void{
+    static move(config: MoveVariantInterface): void{
         config.elements.select(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return config.xScale(d.begin);
@@ -52,10 +51,10 @@ export class RcsbD3VariantManager implements RcsbD3DisplayManagerInterface{
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return config.yScale(d.value as string);
             });
-        this.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
+        RcsbD3VariantManager.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }
 
-    private includeAxis (trackG: Selection<SVGGElement,any,BaseType,undefined>, xScale:ScaleLinear<number,number>, yScale:ScalePoint<string>, height: number){
+    private static includeAxis (trackG: Selection<SVGGElement,any,BaseType,undefined>, xScale:ScaleLinear<number,number>, yScale:ScalePoint<string>, height: number){
         trackG.selectAll("."+classes.rcsbAxis).remove();
         trackG.selectAll("."+classes.rcsbVariantGrid).remove();
         trackG.append(RcsbD3Constants.G).classed(classes.rcsbVariantGrid, true);

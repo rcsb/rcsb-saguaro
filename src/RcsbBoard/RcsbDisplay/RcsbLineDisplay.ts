@@ -1,7 +1,11 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
 import {Selection, BaseType, mouse} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
-import {MoveLineInterface, PlotLineInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
+import {
+    MoveLineInterface,
+    PlotLineInterface,
+    RcsbD3LineManager
+} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {modeMedian,largestTriangleThreeBucket} from "@d3fc/d3fc-sample";
@@ -89,7 +93,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             color: this._displayColor,
             trackG: this.g
         };
-        this.d3Manager.plotLineDisplay(config);
+        RcsbD3LineManager.plot(config);
     }
 
     move(): void{
@@ -102,7 +106,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
                     line: this.line,
                     trackG: this.g
                 };
-                this.d3Manager.moveLineDisplay(config);
+                RcsbD3LineManager.move(config);
             }, 300);
         }
     }

@@ -2,20 +2,7 @@ import {RcsbD3Constants} from "./RcsbD3Constants";
 import {Selection, select, event} from "d3-selection";
 import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
 import {ScaleLinear} from "d3-scale";
-import {MoveBlockInterface, PlotBlockInterface, RcsbD3BlockManager} from "./RcsbD3DisplayManager/RcsbD3BlockManager";
-import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "./RcsbD3DisplayManager/RcsbD3PinManager";
-import {
-    MoveSequenceInterface,
-    PlotSequenceInterface,
-    PlotSequenceLineInterface,
-    RcsbD3SequenceManager
-} from "./RcsbD3DisplayManager/RcsbD3SequenceManager";
-import {MoveLineInterface, PlotLineInterface, RcsbD3LineManager} from "./RcsbD3DisplayManager/RcsbD3LineManager";
-import {MoveAreaInterface, PlotAreaInterface, RcsbD3AreaManager} from "./RcsbD3DisplayManager/RcsbD3AreaManager";
-import {MoveVariantInterface, PlotVariantInterface, RcsbD3VariantManager} from "./RcsbD3DisplayManager/RcsbD3VariantManager";
-import {MoveVlineInterface, PlotVlineInterface, RcsbD3VlineManager} from "./RcsbD3DisplayManager/RcsbD3VlineManager";
 import * as classes from "../scss/RcsbBoard.module.scss";
-import {MoveBondInterface, PlotBondInterface, RcsbD3BondManager} from "./RcsbD3DisplayManager/RcsbD3BondManager";
 import {RcsbFvTrackDataElementGapInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export interface SVGConfInterface  {
@@ -200,73 +187,4 @@ export class RcsbD3Manager {
         }
     }
 
-    plotBlockDisplay(config: PlotBlockInterface): void {
-        const track: RcsbD3BlockManager = new RcsbD3BlockManager();
-        return track.plot(config);
-    }
-
-    moveBlockDisplay(config: MoveBlockInterface) {
-        const track: RcsbD3BlockManager = new RcsbD3BlockManager();
-        return track.move(config);
-    }
-
-    plotPinDisplay(config: PlotPinInterface): void {
-        const track: RcsbD3PinManager = new RcsbD3PinManager();
-        return track.plot(config);
-    }
-
-    movePinDisplay(config: MovePinInterface): void {
-        const track: RcsbD3PinManager = new RcsbD3PinManager();
-        return track.move(config);
-    }
-
-    plotBondDisplay(config: PlotBondInterface): void {
-        const track: RcsbD3BondManager = new RcsbD3BondManager();
-        return track.plot(config);
-    }
-
-    moveBondDisplay(config: MoveBondInterface): void {
-        const track: RcsbD3BondManager = new RcsbD3BondManager();
-        return track.move(config);
-    }
-
-    plotLineDisplay(config: PlotLineInterface): void {
-        const track: RcsbD3LineManager = new RcsbD3LineManager();
-        return track.plot(config);
-    }
-
-    moveLineDisplay(config: MoveLineInterface): void {
-        const track: RcsbD3LineManager = new RcsbD3LineManager();
-        return track.move(config);
-    }
-
-    plotAreaDisplay(config: PlotAreaInterface): void {
-        const track: RcsbD3AreaManager = new RcsbD3AreaManager();
-        return track.plot(config);
-    }
-
-    moveAreaDisplay(config: MoveAreaInterface): void {
-        const track: RcsbD3AreaManager = new RcsbD3AreaManager();
-        return track.move(config);
-    }
-
-    plotVariantDisplay(config: PlotVariantInterface): void {
-        const track: RcsbD3VariantManager = new RcsbD3VariantManager();
-        return track.plot(config);
-    }
-
-    moveVariantDisplay(config: MoveVariantInterface): void {
-        const track: RcsbD3VariantManager = new RcsbD3VariantManager();
-        return track.move(config);
-    }
-
-    plotVlineDisplay(config: PlotVlineInterface): void {
-        const track: RcsbD3VlineManager = new RcsbD3VlineManager();
-        return track.plot(config);
-    }
-
-    moveVlineDisplay(config: MoveVlineInterface): void {
-        const track: RcsbD3VlineManager = new RcsbD3VlineManager();
-        return track.move(config);
-    }
 }

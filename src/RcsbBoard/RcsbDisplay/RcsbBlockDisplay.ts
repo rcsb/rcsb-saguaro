@@ -1,7 +1,11 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
 import {Selection, BaseType} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
-import {MoveBlockInterface, PlotBlockInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager";
+import {
+	MoveBlockInterface,
+	PlotBlockInterface,
+	RcsbD3BlockManager
+} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
@@ -19,7 +23,7 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 			color: this._displayColor,
 			height:this._height
 		};
-        this.d3Manager.plotBlockDisplay(config);
+		RcsbD3BlockManager.plot(config);
     }
 
     move(): void{
@@ -30,7 +34,7 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 			xScale: this.xScale,
 			height:this._height
 		};
-		this.d3Manager.moveBlockDisplay(config);
+		RcsbD3BlockManager.move(config);
     }
 
 }

@@ -1,7 +1,6 @@
 import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotSequenceInterface {

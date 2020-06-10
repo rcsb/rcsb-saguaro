@@ -1,7 +1,6 @@
 import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotVlineInterface {
@@ -16,8 +15,8 @@ export interface MoveVlineInterface {
     xScale: ScaleLinear<number,number>;
 }
 
-export class RcsbD3VlineManager implements RcsbD3DisplayManagerInterface{
-    plot(config: PlotVlineInterface){
+export class RcsbD3VlineManager {
+    static plot(config: PlotVlineInterface){
         config.elements.append (RcsbD3Constants.LINE)
             .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
                 return config.xScale(d.begin);
@@ -32,7 +31,7 @@ export class RcsbD3VlineManager implements RcsbD3DisplayManagerInterface{
 
     }
 
-    move(config:MoveVlineInterface){
+    static move(config:MoveVlineInterface){
         config.elements.select(RcsbD3Constants.LINE)
             .attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
                 return config.xScale(d.begin);

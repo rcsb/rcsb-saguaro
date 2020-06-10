@@ -3,7 +3,11 @@ import {RcsbLineDisplay} from "./RcsbLineDisplay";
 import {area, Area, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {BaseType, Selection} from "d3-selection";
-import {MoveAreaInterface, PlotAreaInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
+import {
+    MoveAreaInterface,
+    PlotAreaInterface,
+    RcsbD3AreaManager
+} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInterface{
@@ -45,7 +49,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
             trackG: this.g,
             area: this.area,
         };
-        this.d3Manager.plotAreaDisplay(config);
+        RcsbD3AreaManager.plot(config);
     }
 
     move(): void{
@@ -55,6 +59,6 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
             trackG: this.g,
             area: this.area,
         };
-        this.d3Manager.moveAreaDisplay(config);
+        RcsbD3AreaManager.move(config);
     }
 }

@@ -1,7 +1,6 @@
 import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotPinInterface {
@@ -23,9 +22,9 @@ export interface MovePinInterface {
     addLine?: boolean;
 }
 
-export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
+export class RcsbD3PinManager {
 
-    plot(config: PlotPinInterface): void{
+    static plot(config: PlotPinInterface): void{
         const elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
@@ -97,7 +96,7 @@ export class RcsbD3PinManager implements RcsbD3DisplayManagerInterface{
             });
     }
 
-    move(config: MovePinInterface): void{
+    static move(config: MovePinInterface): void{
         const pins: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;

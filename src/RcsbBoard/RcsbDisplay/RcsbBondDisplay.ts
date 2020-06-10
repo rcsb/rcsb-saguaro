@@ -1,7 +1,11 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
 import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
-import {MoveBondInterface, PlotBondInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BondManager";
+import {
+    MoveBondInterface,
+    PlotBondInterface,
+    RcsbD3BondManager
+} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BondManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
@@ -43,7 +47,7 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             height: this._height,
             color: this._displayColor
         };
-        this.d3Manager.plotBondDisplay(config);
+        RcsbD3BondManager.plot(config);
     }
 
     move(): void{
@@ -54,6 +58,6 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             yScale: this.yScale,
             height: this._height,
         };
-        this.d3Manager.moveBondDisplay(config);
+        RcsbD3BondManager.move(config);
     }
 }

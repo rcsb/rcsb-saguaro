@@ -1,7 +1,7 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
 import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
-import {MovePinInterface, PlotPinInterface} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3PinManager";
+import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3PinManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
@@ -42,7 +42,7 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
             height: this._height,
             color: this._displayColor
         };
-        this.d3Manager.plotPinDisplay(config);
+        RcsbD3PinManager.plot(config);
     }
 
     move(): void{
@@ -54,6 +54,6 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
             yScale: this.yScale,
             height: this._height,
         };
-        this.d3Manager.movePinDisplay(config);
+        RcsbD3PinManager.move(config);
     }
 }

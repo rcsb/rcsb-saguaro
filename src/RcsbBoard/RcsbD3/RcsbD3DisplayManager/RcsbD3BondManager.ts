@@ -1,7 +1,6 @@
 import {Selection, BaseType} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import {RcsbD3DisplayManagerInterface} from "./RcsbD3DisplayManagerInterface"
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotBondInterface {
@@ -21,9 +20,9 @@ export interface MoveBondInterface {
     addLine?: boolean;
 }
 
-export class RcsbD3BondManager implements RcsbD3DisplayManagerInterface{
+export class RcsbD3BondManager {
 
-    plot(config: PlotBondInterface): void{
+    static plot(config: PlotBondInterface): void{
         const elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
@@ -88,7 +87,7 @@ export class RcsbD3BondManager implements RcsbD3DisplayManagerInterface{
             });
     }
 
-    move(config: MoveBondInterface): void{
+    static move(config: MoveBondInterface): void{
         const pins: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
