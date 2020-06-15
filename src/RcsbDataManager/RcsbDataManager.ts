@@ -28,7 +28,9 @@ export interface RcsbFvTrackDataElementInterface {
     openBegin?:boolean;
     openEnd?:boolean;
     sourceId?: string;
-    provenance?: string;
+    source?: string;
+    provenanceName?: string;
+    provenanceColor?: string;
 }
 
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{

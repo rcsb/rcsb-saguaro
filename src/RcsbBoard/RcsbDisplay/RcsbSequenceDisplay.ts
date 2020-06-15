@@ -64,8 +64,8 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
                             e.oriBegin = seqRegion.oriBegin + i;
                         if(typeof seqRegion.sourceId === "string")
                             e.sourceId = seqRegion.sourceId;
-                        if(typeof seqRegion.provenance === "string")
-                            e.provenance = seqRegion.provenance;
+                        if(typeof seqRegion.source === "string")
+                            e.source = seqRegion.source;
                         elems.push(e);
                     });
                 }else{

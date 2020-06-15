@@ -1,9 +1,12 @@
 import {RcsbD3Constants} from "./RcsbD3Constants";
-import {Selection, select, event} from "d3-selection";
+import {Selection, select, event, BaseType, EnterElement} from "d3-selection";
 import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
 import {ScaleLinear} from "d3-scale";
 import * as classes from "../scss/RcsbBoard.module.scss";
-import {RcsbFvTrackDataElementGapInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {
+    RcsbFvTrackDataElementGapInterface,
+    RcsbFvTrackDataElementInterface
+} from "../../RcsbDataManager/RcsbDataManager";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -51,6 +54,17 @@ export interface HighlightRegionInterface {
     xScale: ScaleLinear<number,number>;
     rectClass: string;
     gaps: Array<RcsbFvTrackDataElementGapInterface>;
+}
+
+export interface MoveSelectedRegionInterface {
+    trackG: Selection<SVGGElement,any,null,undefined>;
+    xScale: ScaleLinear<number,number>;
+    rectClass: string;
+}
+
+interface SelectedElementInterface {
+    begin: number;
+    end: number;
 }
 
 export class RcsbD3Manager {
@@ -156,35 +170,69 @@ export class RcsbD3Manager {
     }
 
     highlightRegion(config: HighlightRegionInterface): void {
-        const hlRegion:(b:number,e:number)=>void = (begin:number,end:number) => {
-            const minWidth = (begin:number, end:number)=>{
-                let w: number = config.xScale(end + 0.5) - config.xScale(begin - 0.5);
-                if(w<2)w=2;
-                return w;
-            };
-            config.trackG.append<SVGRectElement>(RcsbD3Constants.RECT)
-                .attr(RcsbD3Constants.X, config.xScale(begin - 0.5))
-                .attr(RcsbD3Constants.Y, 0)
-                .attr(RcsbD3Constants.WIDTH, minWidth(begin,end))
-                .attr(RcsbD3Constants.HEIGHT, config.height)
-                .attr(RcsbD3Constants.FILL, "#faf3c0")
-                .attr(RcsbD3Constants.FILL_OPACITY, 0.75)
-                .attr(RcsbD3Constants.CLASS, config.rectClass);
+
+        const elementsToSelect: Array<SelectedElementInterface> = new Array<SelectedElementInterface>();
+        const hlRegion:(b:number,e:number)=>SelectedElementInterface = (begin:number,end:number) => {
+            return {begin:begin, end:end};
         };
+        const minWidth = (begin:number, end:number)=>{
+            let w: number = config.xScale(end + 0.5) - config.xScale(begin - 0.5);
+            if(w<2)w=2;
+            return w;
+        };
+
         if(config.isEmpty) {
-            hlRegion(config.begin, config.begin);
-            hlRegion(config.end, config.end);
+            elementsToSelect.push(hlRegion(config.begin, config.begin));
+            elementsToSelect.push(hlRegion(config.end, config.end));
         }else if(config.gaps!=null && config.gaps.length>0){
             let begin:number = config.begin;
             config.gaps.forEach(gap=>{
                 let end: number = gap.begin;
-                hlRegion(begin,end);
+                elementsToSelect.push(hlRegion(begin,end));
                 begin = gap.end;
             });
-            hlRegion(begin,config.end);
+            elementsToSelect.push(hlRegion(begin,config.end));
         }else{
-            hlRegion(config.begin, config.end);
+            elementsToSelect.push(hlRegion(config.begin, config.end));
         }
+
+        const visSel:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = config.trackG.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
+        const visElems:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = visSel.data(elementsToSelect);
+        const newElem:Selection<EnterElement,SelectedElementInterface,SVGElement,any> = visElems.enter();
+
+        newElem.append<SVGRectElement>(RcsbD3Constants.RECT)
+            .attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
+                return config.xScale(d.begin - 0.5)})
+            .attr(RcsbD3Constants.Y, 0)
+            .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
+                return minWidth(d.begin,d.end)})
+            .attr(RcsbD3Constants.HEIGHT, config.height)
+            .attr(RcsbD3Constants.FILL, "#faf3c0")
+            .attr(RcsbD3Constants.FILL_OPACITY, 0.75)
+            .attr(RcsbD3Constants.CLASS, config.rectClass)
+            .lower();
+        visElems.exit().remove();
     }
 
+    moveSelection(config: MoveSelectedRegionInterface): void{
+        const minWidth = (begin:number, end:number)=>{
+            let w: number = config.xScale(end + 0.5) - config.xScale(begin - 0.5);
+            if(w<2)w=2;
+            return w;
+        };
+        const selectRect:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = config.trackG.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
+        selectRect.attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
+            return config.xScale(d.begin - 0.5)})
+            .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
+                return minWidth(d.begin,d.end)});
+
+    }
+
+    moveToFront(elem: HTMLElement|SVGElement): void {
+        elem.parentNode.appendChild(elem);
+    };
+
+    moveToBack(elem: HTMLElement|SVGElement): void {
+        elem.parentNode.prepend(elem);
+    };
 }

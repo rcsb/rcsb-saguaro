@@ -57,6 +57,7 @@ div.rcsbFvBoard *{
     background-color:#F9F9F9;
     vertical-align: middle;
     position: absolute;
+    z-index: 2147483647;
 }
 
 .rcsbFvTooltipDescription {
@@ -67,6 +68,7 @@ div.rcsbFvBoard *{
     padding-left:8px;
     padding-right:8px;
     color: #888888;
+    z-index: 2147483646;
 }
 
 .rcsbFvTooltipDescription div {

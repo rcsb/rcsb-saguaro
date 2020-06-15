@@ -1,4 +1,9 @@
-import {HighlightRegionInterface, RcsbD3Manager, TrackConfInterface} from "./RcsbD3/RcsbD3Manager";
+import {
+    HighlightRegionInterface,
+    MoveSelectedRegionInterface,
+    RcsbD3Manager,
+    TrackConfInterface
+} from "./RcsbD3/RcsbD3Manager";
 import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
@@ -12,7 +17,7 @@ export class RcsbTrack {
     _data: RcsbFvTrackData = null;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined> = null;
-    _boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
+    private boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void = null;
     mouseoverCallBack: ()=>void = null;
     mousemoveCallBack: ()=>void = null;
@@ -67,7 +72,11 @@ export class RcsbTrack {
     }
 
     setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void){
-        this._boardHighlight = f;
+        this.boardHighlight = f;
+    }
+
+    getBoardHighlight(): (d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void {
+        return this.boardHighlight;
     }
 
     setD3Manager(d3Manager: RcsbD3Manager){
@@ -101,20 +110,18 @@ export class RcsbTrack {
             this.d3Manager.highlightRegion(highlightRegConfig);
         }
 
-        const selectRect:Selection<SVGRectElement,any,SVGElement,any> = this.g.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
-        if(selectRect.size()>0) {
-            selectRect.nodes().forEach(n=>{
-                this.moveToBack(n);
-            });
-        }
     }
 
-    moveToFront(elem: HTMLElement|SVGElement): void {
-        elem.parentNode.appendChild(elem);
-    };
+    moveSelection(): void{
 
-    moveToBack(elem: HTMLElement|SVGElement): void {
-        elem.parentNode.prepend(elem);
-    };
+        const xScale: ScaleLinear<number,number> = this.xScale;
+        const moveSelectionConfig: MoveSelectedRegionInterface = {
+            trackG: this.g,
+            xScale: xScale,
+            rectClass: classes.rcsbSelectRect
+        };
+
+        this.d3Manager.moveSelection(moveSelectionConfig);
+    }
 
 }

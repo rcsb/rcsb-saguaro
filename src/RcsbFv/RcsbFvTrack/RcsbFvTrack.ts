@@ -186,7 +186,7 @@ export class RcsbFvTrack {
             if(obj.eventType===EventType.SCALE) {
                 this.setScale(obj.eventData as ScaleTransformInterface);
             }else if(obj.eventType===EventType.SELECTION){
-                this.setSelection();
+                this.setSelection(obj.eventData as string);
             }else if(obj.eventType===EventType.RESET){
                 this.reset(obj.eventData as ResetInterface);
             }
@@ -201,8 +201,8 @@ export class RcsbFvTrack {
         this.rcsbBoard.setScale(obj);
     }
 
-    public setSelection() : void {
-        this.rcsbBoard.setSelection();
+    public setSelection(boardId: string) : void {
+        this.rcsbBoard.setSelection(boardId);
     }
 
     private reset(obj: ResetInterface){

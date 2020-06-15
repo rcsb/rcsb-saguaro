@@ -79,6 +79,12 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
+    moveSelection(): void{
+        this.innerDisplays.forEach(de=>{
+            de.display.moveSelection();
+        });
+    }
+
     addDisplay(displayId: string, display: RcsbDisplayInterface){
         this.innerDisplays.push({id: displayId, display: display} as DisplayElementInterface);
     }

@@ -1,4 +1,6 @@
 import {createPopper} from "@popperjs/core";
+import { detectOverflow } from '@popperjs/core/lib/popper-base';
+
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv";
 
 export class RcsbTooltipManager {
@@ -27,7 +29,7 @@ export class RcsbTooltipManager {
             let ori_region: string = d.oriBegin.toString();
             if(typeof d.oriEnd === "number") ori_region += " - "+d.oriEnd.toString();
             const spanOriRegion: HTMLSpanElement = document.createElement<"span">("span");
-            spanOriRegion.append(" | "+d.provenance.replace("_"," ")+" > "+d.sourceId+": "+ori_region);
+            spanOriRegion.append(" | ["+d.source.replace("_"," ")+"] "+d.sourceId+": "+ori_region);
             spanOriRegion.style.color = "#888888";
             if( typeof d.oriBeginName === "string")
                 spanOriRegion.append(RcsbTooltipManager.buildIndexNames(d.oriBeginName,d.oriEndName,d.indexName));
@@ -37,6 +39,20 @@ export class RcsbTooltipManager {
         let title:string = RcsbTooltipManager.capitalizeFirstLetter(d.title);
         if(typeof d.name === "string") title = RcsbTooltipManager.capitalizeFirstLetter(d.name);
         tooltipDiv.append(title);
+        if(typeof d.provenanceName === "string"){
+            const spanProvenance: HTMLSpanElement = document.createElement<"span">("span");
+
+            const spanProvenanceString: HTMLSpanElement = document.createElement<"span">("span");
+            spanProvenanceString.append(d.provenanceName);
+            if(typeof d.provenanceColor === "string")
+                spanProvenanceString.style.color = d.provenanceColor;
+            else
+                spanProvenanceString.style.color = "#888888";
+            spanProvenance.append(" [",spanProvenanceString,"]");
+            spanProvenance.style.color = "#888888";
+            tooltipDiv.append(spanProvenance);
+
+        }
         tooltipDiv.append( this.bNode() );
         if(typeof d.value === "number"){
             const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
@@ -48,7 +64,18 @@ export class RcsbTooltipManager {
         tooltipDiv.style.height = this.divHeight.toString()+"px";
         tooltipDiv.style.lineHeight = this.divHeight.toString()+"px";
         createPopper(refDiv, tooltipDiv, {
-            placement:'top-end'
+            placement:'top-end',
+            modifiers:[{
+                name: 'preventOverflow',
+                options: {
+                    altAxis: true
+                }
+            },{
+                name: 'flip',
+                options: {
+                    fallbackPlacements: ['bottom-end', 'right', 'auto'],
+                },
+            }]
         });
     }
 
@@ -79,6 +106,16 @@ export class RcsbTooltipManager {
         createPopper(refDiv, tooltipDiv, {
             placement:'top-end',
             modifiers: [{
+                name: 'preventOverflow',
+                options: {
+                    altAxis: true
+                }
+            },{
+                name: 'flip',
+                options: {
+                    fallbackPlacements: ['bottom-end', 'right', 'auto'],
+                },
+            },{
                 name: 'offset',
                 options: {
                     offset: [0,30]
@@ -101,7 +138,7 @@ export class RcsbTooltipManager {
     private static capitalizeFirstLetter(string: string): string {
         if(string == null)
             return null;
-        return string.charAt(0).toUpperCase() + string.slice(1);
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
     private bNode(): HTMLSpanElement{

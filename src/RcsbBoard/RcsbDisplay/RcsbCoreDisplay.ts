@@ -61,7 +61,7 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
             if(typeof this.elementClickCallBack === "function") {
                 this.elementClickCallBack(d);
             }
-            RcsbD3EventDispatcher.elementClick(this._boardHighlight.bind(this),d);
+            RcsbD3EventDispatcher.elementClick(this.getBoardHighlight(),d);
         });
         element.on(RcsbD3Constants.MOUSE_ENTER, (d, i) => {
             if (event.defaultPrevented) {

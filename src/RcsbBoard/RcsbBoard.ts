@@ -149,8 +149,9 @@ export class RcsbBoard {
         }
     }
 
-    public setSelection(): void{
-        this.highlightRegion(null,true);
+    public setSelection(boardId: string): void{
+        if(this.domId != boardId)
+            this.highlightRegion(null,true);
     }
 
     highlightRegion(d:RcsbFvTrackDataElementInterface, propFlag?: boolean): void{
@@ -162,7 +163,7 @@ export class RcsbBoard {
         if(propFlag!==true) {
             this.triggerSelectionEvent({
                 eventType:EventType.SELECTION,
-                eventData:null
+                eventData:this.domId
             });
         }
 
@@ -173,6 +174,14 @@ export class RcsbBoard {
         }else{
             this.tracks.forEach((track) => {
                 track.highlightRegion(null);
+            });
+        }
+    }
+
+    moveSelection(): void{
+        if(this.selection.getSelected().length > 0) {
+            this.tracks.forEach((track) => {
+                track.moveSelection();
             });
         }
     }
@@ -222,14 +231,14 @@ export class RcsbBoard {
     public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>): void{
         if (track instanceof Array) {
             track.forEach((t) => {
-                this.addCallBacks(t);
+                this.addTrackCallBacks(t);
             });
         }else{
-            this.addCallBacks(track);
+            this.addTrackCallBacks(track);
         }
     }
 
-    private addCallBacks(t: RcsbDisplayInterface){
+    private addTrackCallBacks(t: RcsbDisplayInterface){
         t.setD3Manager(this.d3Manager);
         t.setBoardHighlight(this.highlightRegion.bind(this));
         if(typeof t.mouseoutCallBack === "function"){
@@ -333,7 +342,7 @@ export class RcsbBoard {
         if(this.boardInViewport()) {
             this.updateWithDelay();
             this.moveAllTracks();
-            this.highlightRegion(undefined );
+            this.moveSelection();
             this.upToDate = true;
         }else{
             this.upToDate = false;
