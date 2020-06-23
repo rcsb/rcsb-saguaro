@@ -8,15 +8,14 @@ import {
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
-import {modeMedian,largestTriangleThreeBucket} from "@d3fc/d3fc-sample";
+import {largestTriangleOneBucket,largestTriangleThreeBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
-import {sample} from "rxjs/operators";
 
 export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
     private _yDomain: [number, number];
-    private yScale: ScaleLinear<number,number> = scaleLinear();
+    protected yScale: ScaleLinear<number,number> = scaleLinear();
     private maxPoints: number = 1000;
     private tick: number = null;
     private innerData: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
@@ -56,7 +55,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         if(typeof this._height === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
             this.yScale
                 .domain(this._yDomain)
-                .range([0, 0.95*this._height]);
+                .range([this._height-1,1]);
             this.setFunction();
             this.definedScale = true;
         }else{
@@ -71,7 +70,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
                 return self.xScale(d.begin);
             })
             .y(function (d:RcsbFvTrackDataElementInterface) {
-                return self._height - self.yScale(d.value as number);
+                return self.yScale(d.value as number);
             });
     }
 
@@ -117,7 +116,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         const thr = this.maxPoints;
         let title:string = points[0].title;
         if(points[0].name != null)title = points[0].name;
-        for(let n = 0; n<this.xScale.domain()[1]; n++){
+        for(let n = 1; n<this.xScale.domain()[1]; n++){
             tmp.push({begin:n,value:0,title:title});
         }
         points.forEach((p) => {
@@ -131,9 +130,11 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
                 this.innerData.push(p);
             }
         });
+        //out.unshift({begin:out[0].begin-1,value:0});
+        //out.push({begin:out[out.length-1].begin+1,value:0});
         if(out.length>thr){
             const bucketSize = out.length/thr ;
-            const sampler = largestTriangleThreeBucket();
+            const sampler = largestTriangleOneBucket();
             sampler.bucketSize(bucketSize);
             sampler.x((d:RcsbFvTrackDataElementInterface)=>{return d.begin});
             sampler.y((d:RcsbFvTrackDataElementInterface)=>{return d.value});

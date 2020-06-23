@@ -29,7 +29,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
         this.area
             .x(this.line.x())
             .y1(this.line.y())
-            .y0(this._height);
+            .y0( this.yScale(0));
     }
 
     private updateArea(): void{
