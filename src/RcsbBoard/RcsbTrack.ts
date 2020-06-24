@@ -7,20 +7,24 @@ import {
 import {Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
+import {
+    RcsbFvTrackData,
+    RcsbFvTrackDataElementGapInterface,
+    RcsbFvTrackDataElementInterface, RcsbFvTrackDataMap
+} from "../RcsbDataManager/RcsbDataManager";
 
 export class RcsbTrack {
-    d3Manager: RcsbD3Manager = null;
+    d3Manager: RcsbD3Manager ;
     private _bgColor: string = "#FFFFFF";
-    _height: number = null;
-    private _width: number = null;
-    _data: RcsbFvTrackData = null;
+    _height: number;
+    private _width: number;
+    _data: RcsbFvTrackData;
     xScale: ScaleLinear<number,number> = scaleLinear();
-    g: Selection<SVGGElement,any,null,undefined> = null;
+    g: Selection<SVGGElement,any,null,undefined>;
     private boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
-    mouseoutCallBack: ()=>void = null;
-    mouseoverCallBack: ()=>void = null;
-    mousemoveCallBack: ()=>void = null;
+    mouseoutCallBack: ()=>void;
+    mouseoverCallBack: ()=>void;
+    mousemoveCallBack: ()=>void;
 
     height(h?: number): number{
         if(typeof h === "number"){
@@ -44,7 +48,7 @@ export class RcsbTrack {
         }
     	let height:number = this._height;
         let compH:number = 0;
-    	if(typeof compositeFlag === "boolean" && compositeFlag ===true){
+    	if(compositeFlag === true){
     	    height = 0;
     	    if(typeof compositeHeight === "number")
                 compH = compositeHeight;
@@ -60,9 +64,9 @@ export class RcsbTrack {
         this.g = this.d3Manager.addTrack(config);
     }
 
-    load(d?:  RcsbFvTrackData): RcsbFvTrackData {
+    load(d?:  RcsbFvTrackData | RcsbFvTrackDataMap): RcsbFvTrackData {
         if(d !== undefined) {
-            this._data = d;
+            this._data = (d as RcsbFvTrackData);
         }
         return this._data;
     }
@@ -105,7 +109,7 @@ export class RcsbTrack {
                 xScale: xScale,
                 isEmpty: _isEmpty,
                 rectClass: classes.rcsbSelectRect,
-                gaps: d.gaps
+                gaps: (d.gaps as Array<RcsbFvTrackDataElementGapInterface>)
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
         }

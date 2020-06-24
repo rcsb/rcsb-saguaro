@@ -21,12 +21,12 @@ import {RcsbSelection, SelectionInterface} from "../../RcsbBoard/RcsbSelection";
 
 export class RcsbFvTrack {
 
-    private rcsbBoard: RcsbBoard = null;
+    private rcsbBoard: RcsbBoard;
     private rcsbTrackArray: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
-    private rcsbFvDisplay: RcsbFvDisplay = null;
-    private rcsbFvConfig: RcsbFvConfig = null;
-    private elementId: string = null;
-    private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData> = null;
+    private rcsbFvDisplay: RcsbFvDisplay;
+    private rcsbFvConfig: RcsbFvConfig;
+    private elementId: string;
+    private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>;
     private loadedData: boolean = false;
     private readonly updateRowHeight: ()=>void;
     private subscription: Subscription;
@@ -54,7 +54,7 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.trackData !== "undefined" && this.rcsbFvConfig.displayType !== RcsbFvDisplayTypes.COMPOSITE ){
             this.load(this.rcsbFvConfig.trackData);
         }else if(this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE){
-            const data: Array<RcsbFvTrackData> = this.collectCompositeData();
+            const data: Array<RcsbFvTrackData> = (this.collectCompositeData() as Array<RcsbFvTrackData>);
             if(data !== undefined) {
                 this.load(data);
             }
@@ -106,15 +106,17 @@ export class RcsbFvTrack {
         return rcsbTrack;
     }
 
-    private collectCompositeData(): Array<RcsbFvTrackData>{
+    private collectCompositeData(): Array<RcsbFvTrackData> | undefined {
         const data: Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
-        for(let displayItem of this.rcsbFvConfig.displayConfig){
-            if(typeof displayItem.displayData !== "undefined") {
-                data.push(displayItem.displayData);
+        if(this.rcsbFvConfig?.displayConfig != undefined) {
+            for (let displayItem of this.rcsbFvConfig.displayConfig) {
+                if (typeof displayItem.displayData !== "undefined") {
+                    data.push(displayItem.displayData);
+                }
             }
-        }
-        if(data.length == this.rcsbFvConfig.displayConfig.length) {
-            return data;
+            if (data.length == this.rcsbFvConfig.displayConfig.length) {
+                return data;
+            }
         }
         return undefined;
     }
@@ -139,7 +141,8 @@ export class RcsbFvTrack {
 
             for(let i=0;i<maxTracks;i++){
                 const rcsbCompositeTrack: RcsbDisplayInterface = this.buildRcsbTrack();
-                (rcsbCompositeTrack as RcsbCompositeDisplay).setCompositeHeight(i*this.rcsbFvConfig.trackHeight);
+                if(this.rcsbFvConfig?.trackHeight)
+                    (rcsbCompositeTrack as RcsbCompositeDisplay).setCompositeHeight(i*this.rcsbFvConfig.trackHeight);
                 const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
                 const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
                 trackNonOverlappingMap.forEach((v,j)=>{
@@ -217,9 +220,9 @@ export class RcsbFvTrack {
     }
 
     public getTrackHeight(): number{
-        if(this.rcsbTrackArray.length > 0) {
+        if(this.rcsbTrackArray.length > 0 && this.rcsbFvConfig?.trackHeight) {
             return this.rcsbTrackArray.length * this.rcsbFvConfig.trackHeight;
         }
-        return this.rcsbFvConfig.trackHeight;
+        return (this.rcsbFvConfig.trackHeight as number);
     }
 }

@@ -10,12 +10,12 @@ import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 export abstract class RcsbCoreDisplay extends RcsbTrack{
 
     _displayColor: string = "#FF6666";
-    elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void = null;
-    elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void = null;
+    elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void ;
     includeTooltip: boolean = true;
-    updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> = null;
+    updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     private boardId: string;
-    protected tooltipManager: RcsbTooltipManager = null;
+    protected tooltipManager: RcsbTooltipManager;
 
     private performance: boolean = false;
 
@@ -114,7 +114,7 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
         if(this.performance) {
             dataElems = this._data.filter((s: RcsbFvTrackDataElementInterface, i: number) => {
                 if(s.end == null){
-                    return (s.begin >= where.from || s.end <= where.to);
+                    return (s.begin >= where.from);
                 }else{
                     return !(s.begin > where.to || s.end < where.from);
                 }
