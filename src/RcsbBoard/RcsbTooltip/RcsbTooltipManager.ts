@@ -1,5 +1,4 @@
 import {createPopper} from "@popperjs/core";
-import { detectOverflow } from '@popperjs/core/lib/popper-base';
 
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv";
 
@@ -53,12 +52,12 @@ export class RcsbTooltipManager {
             tooltipDiv.append(spanProvenance);
 
         }
-        tooltipDiv.append( this.bNode() );
+        tooltipDiv.append( RcsbTooltipManager.bNode() );
         if(typeof d.value === "number"){
             const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
             valueRegion.append(" val: "+d.value);
             tooltipDiv.append(valueRegion);
-            tooltipDiv.append(this.bNode());
+            tooltipDiv.append(RcsbTooltipManager.bNode());
         }
         tooltipDiv.append(spanRegion);
         tooltipDiv.style.height = this.divHeight.toString()+"px";
@@ -141,7 +140,7 @@ export class RcsbTooltipManager {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
-    private bNode(): HTMLSpanElement{
+    private static bNode(): HTMLSpanElement{
         const b:HTMLSpanElement = document.createElement<"span">("span");
         b.append(" | ");
         b.style.fontWeight = "bold";

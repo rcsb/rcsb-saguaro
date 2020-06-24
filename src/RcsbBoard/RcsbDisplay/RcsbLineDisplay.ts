@@ -8,7 +8,7 @@ import {
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
-import {largestTriangleOneBucket,largestTriangleThreeBucket} from "@d3fc/d3fc-sample";
+import {largestTriangleOneBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
@@ -130,8 +130,6 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
                 this.innerData.push(p);
             }
         });
-        //out.unshift({begin:out[0].begin-1,value:0});
-        //out.push({begin:out[out.length-1].begin+1,value:0});
         if(out.length>thr){
             const bucketSize = out.length/thr ;
             const sampler = largestTriangleOneBucket();
