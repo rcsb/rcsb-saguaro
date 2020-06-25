@@ -81,7 +81,7 @@ export class RcsbFvTrack {
     }
 
     public setConfig(args: RcsbFvRowConfigInterface) : void{
-        if(this.rcsbFvConfig === null) {
+        if(this.rcsbFvConfig == null) {
             this.rcsbFvConfig = new RcsbFvConfig(args);
         }else{
             this.rcsbFvConfig.updateConfig(args);

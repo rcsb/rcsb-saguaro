@@ -44,12 +44,12 @@ export class RcsbTrack {
     init(width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number): void{
         this._width = width;
         this.xScale = scale;
-    	if(this.g !== null) {
+    	if(this.g != null) {
             this.g.remove();
         }
     	let height:number = this._height;
         let compH:number = 0;
-    	if(typeof compositeFlag === "boolean" && compositeFlag ===true){
+    	if(compositeFlag === true){
     	    height = 0;
     	    if(typeof compositeHeight === "number")
                 compH = compositeHeight;

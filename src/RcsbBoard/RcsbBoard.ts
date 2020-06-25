@@ -76,7 +76,7 @@ export class RcsbBoard {
         this._xScale = xScale;
         this.selection = selection;
         window.addEventListener("scroll",()=>{
-            if(this.upToDate === false)
+            if(!this.upToDate)
                 this.updateAndMove();
         });
     }
@@ -326,7 +326,7 @@ export class RcsbBoard {
 
         this.updateAndMove();
 
-        if(propFlag !== true){
+        if(!propFlag){
             const data:ScaleTransformInterface = {
                 transform:transform,
                 domId:this.domId
@@ -373,7 +373,7 @@ export class RcsbBoard {
     }
 
     private boardInViewport():boolean {
-        const boardDiv: HTMLElement | null= document.getElementById(this.domId);
+        const boardDiv: HTMLElement | null = document.getElementById(this.domId);
         if(boardDiv == null)
             throw "Board DOM element not found";
         const rect = boardDiv.getBoundingClientRect();
