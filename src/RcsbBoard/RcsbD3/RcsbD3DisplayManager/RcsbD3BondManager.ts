@@ -27,7 +27,7 @@ export class RcsbD3BondManager {
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
         const height: number = config.height;
-        const color: string = config.color;
+        const color: string = config.color != undefined ? config.color : "#CCCCCC";
         const radius: number = config.radius;
 
         elements.append(RcsbD3Constants.LINE)
@@ -46,6 +46,8 @@ export class RcsbD3BondManager {
                 return height - yScale(0.5);
             })
             .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
+                if(d.end == undefined)
+                    throw "Element end position not found";
                 return xScale(d.end);
             })
             .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
@@ -72,6 +74,8 @@ export class RcsbD3BondManager {
         elements.append(RcsbD3Constants.CIRCLE)
             .classed("bondEnd",true)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+                if(d.end == undefined)
+                    throw "Element end position not found";
                 return xScale(d.end);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
@@ -98,6 +102,8 @@ export class RcsbD3BondManager {
                 return xScale(d.begin);
             })
             .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
+                if(d.end == undefined)
+                    throw "Missing bond end property";
                 return xScale(d.end);
             });
 
@@ -111,6 +117,8 @@ export class RcsbD3BondManager {
 
         pins.select(RcsbD3Constants.CIRCLE+".bondEnd")
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+                if(d.end == undefined)
+                    throw "Missing bond end property";
                 return xScale(d.end);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {

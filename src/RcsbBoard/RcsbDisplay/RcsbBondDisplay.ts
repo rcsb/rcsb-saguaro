@@ -19,7 +19,7 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     constructor(boardId: string) {
         super(boardId);
         this.elementClickCallBack = (d?:RcsbFvTrackDataElementInterface) => {
-            d.isEmpty = true;
+            if(d!=undefined)d.isEmpty = true;
         };
     }
 

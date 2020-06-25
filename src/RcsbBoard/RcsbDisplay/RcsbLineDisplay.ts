@@ -17,7 +17,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private _yDomain: [number, number];
     protected yScale: ScaleLinear<number,number> = scaleLinear();
     private maxPoints: number = 1000;
-    private tick: number = null;
+    private tick: number;
     private innerData: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
 
     definedScale: boolean = false;
@@ -114,7 +114,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         let out:RcsbFvTrackDataElementInterface[] = [];
         const tmp:RcsbFvTrackDataElementInterface[] = [];
         const thr = this.maxPoints;
-        let title:string = points[0].title;
+        let title:string | undefined = points[0].title;
         if(points[0].name != null)title = points[0].name;
         for(let n = 1; n<this.xScale.domain()[1]; n++){
             tmp.push({begin:n,value:0,title:title});

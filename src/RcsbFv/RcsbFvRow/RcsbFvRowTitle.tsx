@@ -10,7 +10,7 @@ interface RcsbFvRowTitleInterface {
 
 export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}> {
 
-    configData : RcsbFvRowConfigInterface = null;
+    configData : RcsbFvRowConfigInterface;
     private readonly PADDING_RIGHT: number = 5;
 
     constructor(props: RcsbFvRowTitleInterface) {
@@ -23,8 +23,9 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
 
     render(){
         const height: number = (this.configStyle().height as number);
+        const trackTitle: string = this.configData?.rowTitle != undefined ? this.configData.rowTitle : "";
         if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0){
-            const prefixWidth: number = Math.round(((this.configData.rowPrefix.length/this.configData.rowPrefix.concat(this.configData.rowTitle).length)*(this.configStyle().width as number)));
+            const prefixWidth: number = Math.round(((this.configData.rowPrefix.length/this.configData.rowPrefix.concat(trackTitle).length)*(this.configStyle().width as number)));
             const titleWidth: number = (this.configStyle().width as number)-prefixWidth;
             return (
                 <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
@@ -49,7 +50,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
         }
     }
 
-    setTitle(): string {
+    setTitle(): string | null{
         if(typeof this.configData.rowTitle === "string"){
             return this.configData.rowTitle;
         }

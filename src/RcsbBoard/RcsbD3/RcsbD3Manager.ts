@@ -69,14 +69,14 @@ interface SelectedElementInterface {
 
 export class RcsbD3Manager {
 
-    _dom: Selection<HTMLElement, any, null, undefined> = null;
-    _svg: Selection<SVGSVGElement, any, null, undefined> = null;
-    _zoomG: Selection<SVGGElement, any, null, undefined> = null;
-    _svgG: Selection<SVGGElement, any, null, undefined> = null;
-    _pane: Selection<SVGRectElement, any, null, undefined> = null;
+    _dom: Selection<HTMLElement | null, any, null, undefined>;
+    _svg: Selection<SVGSVGElement, any, null, undefined>;
+    _zoomG: Selection<SVGGElement, any, null, undefined>;
+    _svgG: Selection<SVGGElement, any, null, undefined>;
+    _pane: Selection<SVGRectElement, any, null, undefined>;
     _trackHeightPosition: number = 0;
 
-    _width: number = null;
+    _width: number;
 
     svgG(): Selection<SVGGElement, any, null, undefined> {
         return this._svgG;
@@ -136,7 +136,10 @@ export class RcsbD3Manager {
     }
 
     getPane(): SVGRectElement{
-        return this._pane.node();
+        const out: SVGRectElement | null =  this._pane.node();
+        if( out == null)
+            throw "SVG main panel is null";
+        return out;
     }
 
     resetAllTracks(): void{
@@ -227,12 +230,4 @@ export class RcsbD3Manager {
                 return minWidth(d.begin,d.end)});
 
     }
-
-    moveToFront(elem: HTMLElement|SVGElement): void {
-        elem.parentNode.appendChild(elem);
-    };
-
-    moveToBack(elem: HTMLElement|SVGElement): void {
-        elem.parentNode.prepend(elem);
-    };
 }

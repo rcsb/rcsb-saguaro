@@ -26,7 +26,7 @@ export class RcsbD3VlineManager {
             })
             .attr(RcsbD3Constants.Y1, 0)
             .attr(RcsbD3Constants.Y2, config.height)
-            .style(RcsbD3Constants.STROKE, config.color)
+            .style(RcsbD3Constants.STROKE, config.color != undefined ? config.color : "#DDDDDD")
             .style(RcsbD3Constants.STROKE_WIDTH, 4);
 
     }

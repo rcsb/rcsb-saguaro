@@ -17,8 +17,8 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     private yScale: ScaleLinear<number,number> = scaleLinear();
     private intervalRatio: [number,number] = [5,16];
     private hideFlag: boolean = false;
-    private currentLocation: LocationViewInterface = null;
-    private compKey: string = null;
+    private currentLocation: LocationViewInterface;
+    private compKey: string;
     private nonEmptyDisplay: boolean = false;
 
 
@@ -40,7 +40,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
 
     _update(where: LocationViewInterface, compKey?: string) {
         this.currentLocation = where;
-        this.compKey = compKey;
+        this.compKey = compKey != undefined ? compKey : "";
         if(this.hideFlag)
             return;
 

@@ -11,6 +11,7 @@ import {RcsbLineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbLineDisplay";
 import {RcsbAreaDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAreaDisplay";
 import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay";
 import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
+import {Simulate} from "react-dom/test-utils";
 
 export class RcsbFvDisplay {
 
@@ -24,7 +25,11 @@ export class RcsbFvDisplay {
     public initDisplay() : RcsbDisplayInterface{
         const config = this.displayConfig;
         if (typeof config.displayType === "string" && config.displayType != RcsbFvDisplayTypes.COMPOSITE) {
-            return RcsbFvDisplay.singleDisplay(config.displayType, config);
+            const out: RcsbDisplayInterface | null = RcsbFvDisplay.singleDisplay(config.displayType, config);
+            if(out!= null)
+                return out;
+            else
+                throw "Display config "+config+" not supported";
         }else if(typeof config.displayType === "string" && config.displayType == RcsbFvDisplayTypes.COMPOSITE){
             return this.composedDisplay(config);
         }else{
@@ -39,20 +44,26 @@ export class RcsbFvDisplay {
     private composedDisplay(config: RcsbFvRowConfigInterface) : RcsbDisplayInterface{
         const display:RcsbCompositeDisplay = new RcsbCompositeDisplay();
         let i = 0;
-        for(let displayItem of config.displayConfig){
-            let displayId: string = "displayId_"+Math.random().toString(36).substr(2);
-            if(typeof displayItem.displayId === "string"){
-                displayId = displayItem.displayId;
+        if(config.displayConfig != undefined)
+            for(let displayItem of config.displayConfig){
+                let displayId: string = "displayId_"+Math.random().toString(36).substr(2);
+                if(typeof displayItem.displayId === "string"){
+                    displayId = displayItem.displayId;
+                }
+                const displayType: string = displayItem.displayType;
+                let displayConfig: RcsbFvRowConfigInterface = config;
+                if(config.displayConfig) {
+                    displayConfig = RcsbFvDisplay.setDisplayConfig(config, config.displayConfig[i]);
+                    i++;
+                }
+                const singleDisplay: RcsbDisplayInterface | null = RcsbFvDisplay.singleDisplay(displayType, displayConfig);
+                if( singleDisplay != null) {
+                    display.addDisplay(displayId, singleDisplay);
+                    this.displayIds.push(displayId);
+                }else{
+                    throw "Display type "+displayConfig+" not supported";
+                }
             }
-            const displayType: string = displayItem.displayType;
-            let displayConfig: RcsbFvRowConfigInterface = config;
-            if(config.displayConfig) {
-                displayConfig = RcsbFvDisplay.setDisplayConfig(config, config.displayConfig[i]);
-                i++;
-            }
-            display.addDisplay( displayId, RcsbFvDisplay.singleDisplay(displayType, displayConfig) );
-            this.displayIds.push(displayId);
-        }
         return display;
     }
 
@@ -68,49 +79,64 @@ export class RcsbFvDisplay {
     }
 
     private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
-        let out:RcsbDisplayInterface = null;
-        switch (type) {
-            case RcsbFvDisplayTypes.AXIS:
-                out = RcsbFvDisplay.axisDisplay(config.boardId);
-                break;
-            case RcsbFvDisplayTypes.BLOCK:
-                out = RcsbFvDisplay.blockDisplay(config.boardId,config.displayColor);
-                break;
-            case RcsbFvDisplayTypes.PIN:
-                out = RcsbFvDisplay.pinDisplay(config.boardId,config.displayColor, config.displayDomain);
-                break;
-            case RcsbFvDisplayTypes.BOND:
-                out = RcsbFvDisplay.bondDisplay(config.boardId,config.displayColor);
-                break;
-            case RcsbFvDisplayTypes.SEQUENCE:
-                out = RcsbFvDisplay.sequenceDisplay(config.boardId,config.displayColor, config.dynamicDisplay, config.nonEmptyDisplay);
-                break;
-            case RcsbFvDisplayTypes.LINE:
-                out = RcsbFvDisplay.lineDisplay(config.boardId,config.displayColor, config.displayDomain, config.interpolationType);
-                break;
-            case RcsbFvDisplayTypes.AREA:
-                out = RcsbFvDisplay.areaDisplay(config.boardId,config.displayColor, config.displayDomain, config.interpolationType);
-                break;
-            case RcsbFvDisplayTypes.VARIANT:
-                out = RcsbFvDisplay.variantDisplay(config.boardId,config.displayColor);
-                break;
-            case RcsbFvDisplayTypes.VLINE:
-                out = RcsbFvDisplay.vlineDisplay(config.boardId,config.displayColor);
-                break;
-            default:
-                throw "Track type " + config.displayType + " is not supported";
-        }
-        if(typeof config.elementClickCallBack === "function"){
-            out.setElementClickCallBack(config.elementClickCallBack);
-        }
-        if(typeof config.elementEnterCallBack === "function"){
-            out.setElementEnterCallBack(config.elementEnterCallBack);
-        }
-        if(typeof config.updateDataOnMove === "function"){
-            out.setUpdateDataOnMove( config.updateDataOnMove );
-        }
-        if(config.includeTooltip){
-            out.setTooltip(config.includeTooltip);
+        let out:RcsbDisplayInterface;
+        if(config.boardId != undefined && config.displayColor != undefined) {
+            switch (type) {
+                case RcsbFvDisplayTypes.AXIS:
+                    out = RcsbFvDisplay.axisDisplay(config.boardId);
+                    break;
+                case RcsbFvDisplayTypes.BLOCK:
+                    out = RcsbFvDisplay.blockDisplay(config.boardId, config.displayColor);
+                    break;
+                case RcsbFvDisplayTypes.PIN:
+                    if(config.displayDomain != undefined)
+                        out = RcsbFvDisplay.pinDisplay(config.boardId, config.displayColor, config.displayDomain);
+                    else
+                        throw "Track displayDomain (yScale) not defined";
+                    break;
+                case RcsbFvDisplayTypes.BOND:
+                    out = RcsbFvDisplay.bondDisplay(config.boardId, config.displayColor);
+                    break;
+                case RcsbFvDisplayTypes.SEQUENCE:
+                    const dynamicDisplay: boolean = config.dynamicDisplay != undefined ? config.dynamicDisplay: false;
+                    const nonEmptyDisplay: boolean = config.nonEmptyDisplay != undefined ? config.nonEmptyDisplay : false;
+                    out = RcsbFvDisplay.sequenceDisplay(config.boardId, config.displayColor, dynamicDisplay, nonEmptyDisplay);
+                    break;
+                case RcsbFvDisplayTypes.LINE:
+                    if(config.displayDomain != undefined)
+                        out = RcsbFvDisplay.lineDisplay(config.boardId, config.displayColor, config.displayDomain, config.interpolationType);
+                    else
+                        throw "Track displayDomain (yScale) not defined";
+                    break;
+                case RcsbFvDisplayTypes.AREA:
+                    if(config.displayDomain != undefined)
+                        out = RcsbFvDisplay.areaDisplay(config.boardId, config.displayColor, config.displayDomain, config.interpolationType);
+                    else
+                        throw "Track displayDomain (yScale) not defined";
+                    break;
+                case RcsbFvDisplayTypes.VARIANT:
+                    out = RcsbFvDisplay.variantDisplay(config.boardId, config.displayColor);
+                    break;
+                case RcsbFvDisplayTypes.VLINE:
+                    out = RcsbFvDisplay.vlineDisplay(config.boardId, config.displayColor);
+                    break;
+                default:
+                    throw "Track type " + config.displayType + " is not supported";
+            }
+            if (out != null && typeof config.elementClickCallBack === "function") {
+                out.setElementClickCallBack(config.elementClickCallBack);
+            }
+            if (out != null && typeof config.elementEnterCallBack === "function") {
+                out.setElementEnterCallBack(config.elementEnterCallBack);
+            }
+            if (out != null && typeof config.updateDataOnMove === "function") {
+                out.setUpdateDataOnMove(config.updateDataOnMove);
+            }
+            if (out != null && config.includeTooltip) {
+                out.setTooltip(config.includeTooltip);
+            }
+        }else{
+            throw "Single Display failed missing boardId or displayColor";
         }
         return out;
     }
@@ -150,19 +176,21 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private static lineDisplay(boardId: string, color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
+    private static lineDisplay(boardId: string, color: string, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
         const display: RcsbLineDisplay = new RcsbLineDisplay(boardId);
         display.setDisplayColor(color);
         display.yDomain(domain);
-        display.setInterpolationType(interpolationType);
+        if(interpolationType != undefined)
+            display.setInterpolationType(interpolationType);
         return display;
     }
 
-    private static areaDisplay(boardId: string, color: string, domain:[number,number], interpolationType: string) : RcsbDisplayInterface{
+    private static areaDisplay(boardId: string, color: string, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
         const display: RcsbAreaDisplay = new RcsbAreaDisplay(boardId);
         display.setDisplayColor(color);
         display.yDomain(domain);
-        display.setInterpolationType(interpolationType);
+        if(interpolationType != undefined)
+            display.setInterpolationType(interpolationType);
         return display;
     }
 

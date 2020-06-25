@@ -29,7 +29,7 @@ export class RcsbD3PinManager {
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
         const height: number = config.height;
-        const color: string = config.color;
+        const color: string = config.color != undefined ? config.color : "#CCCCCC";
         const radius: number = config.radius;
         const labelShift: number = config.labelShift;
         if(config.addLine) {

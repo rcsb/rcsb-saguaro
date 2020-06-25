@@ -20,15 +20,21 @@ export class RcsbD3LineManager {
 
     static plot(config: PlotLineInterface){
         config.trackG.select(RcsbD3Constants.PATH).remove();
+        const line: string | null = config.line(config.points);
+        if(line == null)
+            throw "Line elements were not transformed";
         config.trackG.append(RcsbD3Constants.PATH)
-            .attr(RcsbD3Constants.D, config.line(config.points))
+            .attr(RcsbD3Constants.D, line)
             .style(RcsbD3Constants.STROKE, config.color)
             .style(RcsbD3Constants.STROKE_WIDTH, 2)
             .style(RcsbD3Constants.FILL, "none");
     }
 
     static move(config:MoveLineInterface){
+        const line: string | null = config.line(config.points);
+        if(line == null)
+            throw "Line elements were not transformed";
         config.trackG.select(RcsbD3Constants.PATH)
-            .attr(RcsbD3Constants.D, config.line(config.points));
+            .attr(RcsbD3Constants.D, line);
     }
 }

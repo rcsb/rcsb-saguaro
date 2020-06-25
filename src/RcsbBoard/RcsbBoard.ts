@@ -36,12 +36,12 @@ interface RegionLimitsInterface {
 
 export class RcsbBoard {
     d3Manager: RcsbD3Manager = new RcsbD3Manager();
-    private readonly domId: string = null;
+    private readonly domId: string;
     private _width: number = 920;
     private _bgColor: string = "#FFFFFF";
     private _innerPadding: number = 10;
     private tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
-    onHighLightCallBack:(d?:RcsbFvTrackDataElementInterface) => void = null;
+    onHighLightCallBack:(d?:RcsbFvTrackDataElementInterface) => void;
 
     private readonly _xScale: ScaleLinear<number,number> = scaleLinear();
     private readonly selection: RcsbSelection;
@@ -154,7 +154,7 @@ export class RcsbBoard {
             this.highlightRegion(null,true);
     }
 
-    highlightRegion(d:RcsbFvTrackDataElementInterface, propFlag?: boolean): void{
+    highlightRegion(d:RcsbFvTrackDataElementInterface | null, propFlag?: boolean): void{
         if(d!=null)
             this.selection.setSelected({rcsbFvTrackDataElement:d,domId:this.domId});
         else if(propFlag === false)
@@ -292,7 +292,7 @@ export class RcsbBoard {
 
     private moveBoard(newTransform: ZoomTransform, propFlag: boolean): void {
 
-        let transform: ZoomTransform = null;
+        let transform: ZoomTransform;
         const isNotIdentity = (transform: ZoomTransform): boolean => {
             return !(transform.x === 0 && transform.y === 0 && transform.k === 1);
         };
@@ -373,7 +373,9 @@ export class RcsbBoard {
     }
 
     private boardInViewport():boolean {
-        const boardDiv: HTMLElement = document.getElementById(this.domId);
+        const boardDiv: HTMLElement | null= document.getElementById(this.domId);
+        if(boardDiv == null)
+            throw "Board DOM element not found";
         const rect = boardDiv.getBoundingClientRect();
         return (
             rect.top >= -10 &&

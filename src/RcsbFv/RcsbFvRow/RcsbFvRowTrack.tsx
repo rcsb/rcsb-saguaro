@@ -29,8 +29,8 @@ interface RcsbFvRowTrackState {
 
 export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, RcsbFvRowTrackState> {
 
-    configData : RcsbFvRowConfigInterface = null;
-    rcsbFvTrack : RcsbFvTrack = null;
+    configData : RcsbFvRowConfigInterface;
+    rcsbFvTrack : RcsbFvTrack;
     readonly state : RcsbFvRowTrackState = {
         rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
         rowTrackConfigData: this.props.rowTrackConfigData,
@@ -57,14 +57,16 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
 
     componentWillUnmount(): void {
         this.rcsbFvTrack.unsubscribe();
-        this.rcsbFvTrack = null;
-        this.configData = null;
+        this.rcsbFvTrack;
+        this.configData;
     }
 
     updateHeight(): void{
-        const height: number = this.rcsbFvTrack.getTrackHeight();
-        this.setState({rowTrackHeight:height,mounted:true} as RcsbFvRowTrackState);
-        this.props.callbackRcsbFvRow(height);
+        const height: number | null = this.rcsbFvTrack.getTrackHeight();
+        if(height != null) {
+            this.setState({rowTrackHeight: height, mounted: true} as RcsbFvRowTrackState);
+            this.props.callbackRcsbFvRow(height);
+        }
     }
 
     configStyle() : RcsbFvRowTrackStyleInterface {

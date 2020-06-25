@@ -10,9 +10,13 @@ export class RcsbTooltipManager {
     }
 
     showTooltip(d: RcsbFvTrackDataElementInterface){
-        const refDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
-        const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
-        tooltipDiv.innerHTML = null;
+        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
+        if(refDiv == null)
+            throw "Main board DOM element not found";
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_tooltip");
+        if(tooltipDiv == null)
+            throw "Tooltip DOM element not found";
+        tooltipDiv.innerHTML = "";
         tooltipDiv.removeAttribute("popper-hidden");
 
         let region: string = "Residues: "+d.begin.toString();
@@ -20,7 +24,7 @@ export class RcsbTooltipManager {
         const spanRegion: HTMLSpanElement = document.createElement<"span">("span");
         spanRegion.append(region);
 
-        if(typeof d.beginName === "string"){
+        if(typeof d.beginName === "string" && d.indexName != undefined){
             spanRegion.append(RcsbTooltipManager.buildIndexNames(d.beginName,d.endName,d.indexName));
         }
 
@@ -28,14 +32,16 @@ export class RcsbTooltipManager {
             let ori_region: string = d.oriBegin.toString();
             if(typeof d.oriEnd === "number") ori_region += " - "+d.oriEnd.toString();
             const spanOriRegion: HTMLSpanElement = document.createElement<"span">("span");
-            spanOriRegion.append(" | ["+d.source.replace("_"," ")+"] "+d.sourceId+": "+ori_region);
+            if(d.source != undefined)
+                spanOriRegion.append(" | ["+d.source.replace("_"," ")+"] "+d.sourceId+": "+ori_region);
             spanOriRegion.style.color = "#888888";
-            if( typeof d.oriBeginName === "string")
+            if( typeof d.oriBeginName === "string" && d.indexName!= undefined)
                 spanOriRegion.append(RcsbTooltipManager.buildIndexNames(d.oriBeginName,d.oriEndName,d.indexName));
             spanRegion.append(spanOriRegion);
         }
 
-        let title:string = RcsbTooltipManager.capitalizeFirstLetter(d.title);
+        let title:string = d.title != undefined ? d.title : "";
+        title = RcsbTooltipManager.capitalizeFirstLetter(title);
         if(typeof d.name === "string") title = RcsbTooltipManager.capitalizeFirstLetter(d.name);
         tooltipDiv.append(title);
         if(typeof d.provenanceName === "string"){
@@ -78,7 +84,7 @@ export class RcsbTooltipManager {
         });
     }
 
-    private static buildIndexNames(beginName:string, endName:string, name: string): HTMLSpanElement{
+    private static buildIndexNames(beginName:string, endName:string|undefined, name: string): HTMLSpanElement{
         const spanAuthRegion: HTMLSpanElement = document.createElement<"span">("span");
         let authRegion: string = beginName;
         if(typeof endName === "string") authRegion += " - "+endName;
@@ -89,9 +95,13 @@ export class RcsbTooltipManager {
 
     showTooltipDescription(d: RcsbFvTrackDataElementInterface){
         if(d.description == null || d.description.length == 0) return;
-        const refDiv: HTMLDivElement = document.querySelector("#"+this.boardId);
-        const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltipDescription");
-        tooltipDiv.innerHTML = null;
+        const refDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId);
+        if(refDiv == null)
+            throw "Main board DOM element not found";
+        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+"_tooltipDescription");
+        if(tooltipDiv == null)
+            throw "Tooltip DOM element not found";
+        tooltipDiv.innerHTML = "";
         tooltipDiv.removeAttribute("popper-hidden");
         tooltipDiv.style.height = (this.divHeight*d.description.length).toString()+"px";
         d.description.forEach(des=>{
@@ -129,14 +139,14 @@ export class RcsbTooltipManager {
     }
 
     private static _hideTooltip(name: string){
-        const tooltipDiv: HTMLDivElement = document.querySelector("#"+name);
-        tooltipDiv.innerHTML = null;
-        tooltipDiv.setAttribute("popper-hidden",null);
+        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+name);
+        if(tooltipDiv == null)
+            throw "Tooltip DOM element not found";
+        tooltipDiv.innerHTML = "";
+        tooltipDiv.setAttribute("popper-hidden","");
     }
 
     private static capitalizeFirstLetter(string: string): string {
-        if(string == null)
-            return null;
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 

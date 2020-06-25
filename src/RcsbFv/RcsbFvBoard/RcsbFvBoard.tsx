@@ -130,11 +130,13 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
 
     componentDidMount(): void {
         this.subscription = this.subscribe();
-        const tooltipDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltip");
-        tooltipDiv.setAttribute("popper-hidden",null);
+        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+"_tooltip");
+        if(tooltipDiv != null)
+            tooltipDiv.setAttribute("popper-hidden","");
 
-        const tooltipDescriptionDiv: HTMLDivElement = document.querySelector("#"+this.boardId+"_tooltipDescription");
-        tooltipDescriptionDiv.setAttribute("popper-hidden",null);
+        const tooltipDescriptionDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+"_tooltipDescription");
+        if(tooltipDescriptionDiv != null)
+            tooltipDescriptionDiv.setAttribute("popper-hidden","");
     }
 
     componentWillUnmount(): void {

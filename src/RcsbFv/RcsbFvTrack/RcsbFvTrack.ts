@@ -21,13 +21,13 @@ import {RcsbSelection, SelectionInterface} from "../../RcsbBoard/RcsbSelection";
 
 export class RcsbFvTrack {
 
-    private rcsbBoard: RcsbBoard = null;
+    private rcsbBoard: RcsbBoard;
     private rcsbTrackArray: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
-    private rcsbFvDisplay: RcsbFvDisplay = null;
-    private rcsbFvConfig: RcsbFvConfig = null;
-    private elementId: string = null;
-    private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData> = null;
-    private loadedData: boolean = false;
+    private rcsbFvDisplay: RcsbFvDisplay;
+    private rcsbFvConfig: RcsbFvConfig;
+    private elementId: string;
+    private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>;
+    private loadedData: boolean;
     private readonly updateRowHeight: ()=>void;
     private subscription: Subscription;
     private readonly contextManager: RcsbFvContextManager;
@@ -54,8 +54,8 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.trackData !== "undefined" && this.rcsbFvConfig.displayType !== RcsbFvDisplayTypes.COMPOSITE ){
             this.load(this.rcsbFvConfig.trackData);
         }else if(this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE){
-            const data: Array<RcsbFvTrackData> = this.collectCompositeData();
-            if(data !== undefined) {
+            const data: Array<RcsbFvTrackData> | null = this.collectCompositeData();
+            if(data != null) {
                 this.load(data);
             }
         }else{
@@ -106,20 +106,22 @@ export class RcsbFvTrack {
         return rcsbTrack;
     }
 
-    private collectCompositeData(): Array<RcsbFvTrackData>{
+    private collectCompositeData(): Array<RcsbFvTrackData> | null {
         const data: Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
-        for(let displayItem of this.rcsbFvConfig.displayConfig){
-            if(typeof displayItem.displayData !== "undefined") {
-                data.push(displayItem.displayData);
+        if(this.rcsbFvConfig?.displayConfig!=undefined) {
+            for (let displayItem of this.rcsbFvConfig.displayConfig) {
+                if (typeof displayItem.displayData !== "undefined") {
+                    data.push(displayItem.displayData);
+                }
+            }
+            if (data.length == this.rcsbFvConfig.displayConfig.length) {
+                return data;
             }
         }
-        if(data.length == this.rcsbFvConfig.displayConfig.length) {
-            return data;
-        }
-        return undefined;
+        return null;
     }
 
-    public load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>) : void{
+    public load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>): void{
         this.trackData = trackData;
         this.loadedData = true;
         if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && trackData instanceof Array){
@@ -139,7 +141,8 @@ export class RcsbFvTrack {
 
             for(let i=0;i<maxTracks;i++){
                 const rcsbCompositeTrack: RcsbDisplayInterface = this.buildRcsbTrack();
-                (rcsbCompositeTrack as RcsbCompositeDisplay).setCompositeHeight(i*this.rcsbFvConfig.trackHeight);
+                if(this.rcsbFvConfig?.trackHeight != undefined)
+                    (rcsbCompositeTrack as RcsbCompositeDisplay).setCompositeHeight(i*this.rcsbFvConfig.trackHeight);
                 const displayIds: Array<string> = this.rcsbFvDisplay.getDisplayIds();
                 const trackDataMap: RcsbFvTrackDataMap = new RcsbFvTrackDataMap();
                 trackNonOverlappingMap.forEach((v,j)=>{
@@ -216,10 +219,13 @@ export class RcsbFvTrack {
         this.rcsbBoard.reset();
     }
 
-    public getTrackHeight(): number{
-        if(this.rcsbTrackArray.length > 0) {
+    public getTrackHeight(): number | null{
+        if(this.rcsbTrackArray.length > 0 && this.rcsbFvConfig?.trackHeight != undefined) {
             return this.rcsbTrackArray.length * this.rcsbFvConfig.trackHeight;
+        }else if( this.rcsbFvConfig?.trackHeight != undefined ){
+            return this.rcsbFvConfig.trackHeight;
+        }else{
+            return null;
         }
-        return this.rcsbFvConfig.trackHeight;
     }
 }

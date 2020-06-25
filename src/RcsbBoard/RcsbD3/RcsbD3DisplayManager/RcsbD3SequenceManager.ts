@@ -44,8 +44,11 @@ export class RcsbD3SequenceManager {
             .style(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if (typeof d.color === "string"){
                     return d.color;
-                } else {
+                } else if(typeof config.color === "string"){
                     return config.color;
+                }else{
+                    console.warn("Config color noy found");
+                    return "#CCCCCC";
                 }
             })
             .text((d:RcsbFvTrackDataElementInterface) => {

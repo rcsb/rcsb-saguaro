@@ -28,17 +28,28 @@ export class RcsbD3VariantManager {
     static plot(config: PlotVariantInterface): void{
         config.elements.append(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+                if(d.begin == undefined )
+                    throw "Position element not found";
                 return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return config.yScale(d.value as string);
+                if(d.value == undefined)
+                    throw "Variant value not found";
+                const y: number | undefined = config.yScale((d.value as string));
+                if(y == undefined)
+                    throw "Variant value ("+d.value+") not available";
+                return y;
             })
             .attr(RcsbD3Constants.R, config.radius)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if(typeof d.color === "string"){
                     return d.color;
+                }else if(typeof config.color === "string"){
+                    return config.color;
+                }else{
+                    console.warn("Config color noy found");
+                    return "#CCCCCC";
                 }
-                return config.color;
             });
         RcsbD3VariantManager.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }
@@ -46,10 +57,17 @@ export class RcsbD3VariantManager {
     static move(config: MoveVariantInterface): void{
         config.elements.select(RcsbD3Constants.CIRCLE)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+                if(d.begin == undefined )
+                    throw "Position element not found";
                 return config.xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return config.yScale(d.value as string);
+                if(d.value == undefined)
+                    throw "Variant value not found";
+                const y: number | undefined = config.yScale((d.value as string));
+                if(y == undefined)
+                    throw "Variant value ("+d.value+") not available";
+                return y;
             });
         RcsbD3VariantManager.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }
@@ -59,15 +77,20 @@ export class RcsbD3VariantManager {
         trackG.selectAll("."+classes.rcsbVariantGrid).remove();
         trackG.append(RcsbD3Constants.G).classed(classes.rcsbVariantGrid, true);
         yScale.domain().forEach((aa:string) => {
-            trackG.selectAll("."+classes.rcsbVariantGrid).append(RcsbD3Constants.LINE)
-                .attr(RcsbD3Constants.LINE,"stroke:#EEEEEE;")
-                .attr(RcsbD3Constants.X1, xScale.range()[0])
-                .attr(RcsbD3Constants.Y1, yScale(aa))
-                .attr(RcsbD3Constants.X2, xScale.range()[1])
-                .attr(RcsbD3Constants.Y2, yScale(aa))
+            const aaY: number | undefined = yScale(aa);
+            if(aaY != undefined)
+                trackG.selectAll("."+classes.rcsbVariantGrid).append(RcsbD3Constants.LINE)
+                    .attr(RcsbD3Constants.LINE,"stroke:#EEEEEE;")
+                    .attr(RcsbD3Constants.X1, xScale.range()[0])
+                    .attr(RcsbD3Constants.Y1, aaY)
+                    .attr(RcsbD3Constants.X2, xScale.range()[1])
+                    .attr(RcsbD3Constants.Y2, aaY)
+            else
+                console.warn("Variation ("+aa+") not found");
         });
         trackG.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>("."+classes.rcsbElement).each(function(){
-            this.parentNode.append(this);
+            if( this.parentNode != undefined)
+                this.parentNode.append(this);
         });
 
         const variantAxis:Axis<string> = axisLeft(yScale);

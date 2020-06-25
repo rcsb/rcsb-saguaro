@@ -14,18 +14,18 @@ interface DisplayElementInterface {
 }
 export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     private innerDisplays: Array<DisplayElementInterface> = new Array<DisplayElementInterface>();
-    private _height: number = null;
-    private _data: RcsbFvTrackDataMap = null;
-    private _bgColor: string = null;
-    private compositeHeight: number = 0;
-    elementClickCallBack: ()=>void = null;
-    elementEnterCallBack: ()=>void = null;
-    includeTooltip: boolean = null;
+    private _height: number;
+    private _data: RcsbFvTrackDataMap;
+    private _bgColor: string;
+    private compositeHeight: number;
+    elementClickCallBack: ()=>void;
+    elementEnterCallBack: ()=>void;
+    includeTooltip: boolean;
 
-    setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void = null;
-    setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void = null;
-    setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void = null;
-    setTooltip: (flag: boolean)=>void = null;
+    setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void;
+    setTooltip: (flag: boolean)=>void;
 
     setCompositeHeight(h: number): void{
         this.compositeHeight = h;
@@ -121,13 +121,16 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         return this._bgColor;
     }
 
-    load(d?: RcsbFvTrackDataMap): RcsbFvTrackDataMap{
-        if(d !== undefined) {
-            this._data = d;
+    load(d?: RcsbFvTrackDataMap | RcsbFvTrackData): RcsbFvTrackDataMap{
+        if(d != undefined) {
+            const e: RcsbFvTrackDataMap = d as RcsbFvTrackDataMap;
+            this._data = e;
+            this.innerDisplays.forEach(de=>{
+                const deData: RcsbFvTrackData | undefined = e.get(de.id);
+                if(deData != undefined)
+                    de.display.load(deData);
+            });
         }
-        this.innerDisplays.forEach(de=>{
-            de.display.load(d.get(de.id));
-        });
         return this._data;
     }
 

@@ -30,7 +30,7 @@ export class RcsbD3BlockManager {
         const dx: number = config.dx;
         const y_o: number = config.y_o;
         const xScale: ScaleLinear<number,number> = config.xScale;
-        const color: string = config.color;
+        const color: string = config.color ? config.color : "#CCCCCC";
         const height: number = config.height;
 
         const minWidth = (begin: number, end: number)=>{
@@ -116,7 +116,8 @@ export class RcsbD3BlockManager {
                 plotFlag(g,g.datum().begin-dx,"openBegin");
             }
             if(g.datum().openEnd){
-                plotFlag(g,g.datum().end+dx, "openEnd");
+                const end: number | undefined = g.datum().end;
+                if(end!= undefined) plotFlag(g,end+dx, "openEnd");
             }
         };
 
@@ -152,16 +153,16 @@ export class RcsbD3BlockManager {
                     else if(end+1==begin)
                         plotCircle(g,end)
                 });
-                plotBlock(g,begin,d.end);
+                if( d.end!= undefined ) plotBlock(g,begin,d.end);
             }else{
-                plotBlock(g,d.begin,d.end);
+                if( d.end!= undefined ) plotBlock(g,d.begin,d.end);
             }
             if(d.openBegin || d.openEnd){
                 plotOpen(g);
             }
             //g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).raise();
             g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).each(function(){
-                this.parentNode.append(this);
+                if(this.parentNode != undefined) this.parentNode.append(this);
             });
         });
     }
@@ -179,28 +180,32 @@ export class RcsbD3BlockManager {
             return w;
         };
 
-        const moveBlock = (rect:Selection<SVGRectElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface>, begin:number, end:number)=>{
+        const moveBlock = (rect:Selection<SVGRectElement,RcsbFvTrackDataElementInterface,null,undefined>, begin:number, end:number)=>{
             rect.attr(RcsbD3Constants.X, xScale(begin-dx))
                 .attr(RcsbD3Constants.WIDTH, minWidth(begin,end));
         };
 
-        const moveLine = (line:Selection<SVGLineElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface>, begin:number, end:number)=>{
+        const moveLine = (line:Selection<SVGLineElement,RcsbFvTrackDataElementInterface,null,undefined>, begin:number, end:number)=>{
             line.attr(RcsbD3Constants.X1,xScale(begin+dx))
                 .attr(RcsbD3Constants.X2,xScale(end-dx));
 
         };
 
-        const moveOpen = (path: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface>) => {
+        const moveOpen = (path: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,null,undefined>) => {
             path.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface)=>{
                 if(path.classed("openBegin")){
                     return xScale(d.begin-dx);
                 }else if(path.classed("openEnd")){
+                    if(d.end == undefined)
+                        throw "Missing end property";
                     return xScale(d.end+dx);
+                }else{
+                    throw "Missing openBegin and openEnd properties";
                 }
             });
         };
 
-        const moveCircle = (circle: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface>, pos: number) =>{
+        const moveCircle = (circle: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,null,undefined>, pos: number) =>{
             circle.attr(RcsbD3Constants.CX, xScale(pos+dx));
         };
 
@@ -228,27 +233,31 @@ export class RcsbD3BlockManager {
             if(typeof d.gaps != "undefined" && d.gaps.length > 0){
                 end = d.gaps[i].begin;
             }
-            rects.each(function(){
-                const rect: Selection<SVGRectElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = select(this);
-                moveBlock(rect,begin,end);
-                if(typeof d.gaps != "undefined" && i<d.gaps.length) {
-                    begin = d.gaps[i].end;
-                    if (end + 1 < begin){
-                        moveLine(select(lines.nodes()[i]), end, begin);
-                    }else if(end+1==begin) {
-                        moveCircle(select(circles.nodes()[j]),end);
-                        j++;
+            rects.each(function() {
+                const rect: Selection<SVGRectElement, RcsbFvTrackDataElementInterface, null, undefined> = select(this);
+                if (end != undefined){
+                    moveBlock(rect, begin, end);
+                    if (typeof d.gaps != "undefined" && i < d.gaps.length) {
+                        begin = d.gaps[i].end;
+                        if (end + 1 < begin) {
+                            moveLine(select(lines.nodes()[i]), end, begin);
+                        } else if (end + 1 == begin) {
+                            moveCircle(select(circles.nodes()[j]), end);
+                            j++;
+                        }
                     }
-                }
-                i++;
-                if(typeof d.gaps != "undefined" && i<d.gaps.length) {
-                    end = d.gaps[i].begin;
+                    i++;
+                    if (typeof d.gaps != "undefined" && i < d.gaps.length) {
+                        end = d.gaps[i].begin;
+                    } else {
+                        end = d.end;
+                    }
                 }else{
-                    end = d.end;
+                    console.warn("Missing rect end property");
                 }
             });
             openFlags.each(function () {
-                const path: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = select(this);
+                const path: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,null,undefined> = select(this);
                 moveOpen(path)
             });
         });
