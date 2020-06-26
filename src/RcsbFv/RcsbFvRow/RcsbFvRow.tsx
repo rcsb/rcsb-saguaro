@@ -8,25 +8,30 @@ import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
+/**Board track React component interface*/
 interface RcsbFvRowInterface {
-    id: string;
-    rowConfigData: RcsbFvRowConfigInterface;
+    readonly id: string;
+    readonly rowConfigData: RcsbFvRowConfigInterface;
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: ScaleLinear<number,number>;
     readonly selection: RcsbSelection;
 }
 
+/**Board track React style interface*/
 interface RcsbFvRowStyleInterface{
-    width: number;
-    height: number;
+    readonly width: number;
+    readonly height: number;
 }
 
+/**Board track React state interface*/
 interface RcsbFvRowState {
-    rowHeight: number;
-    mounted: boolean;
-    rowConfigData: RcsbFvRowConfigInterface;
+    readonly rowHeight: number;
+    readonly mounted: boolean;
+    readonly rowConfigData: RcsbFvRowConfigInterface;
 }
 
+
+/**Board track React Component class*/
 export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowState> {
 
     readonly state : RcsbFvRowState = {
@@ -52,10 +57,14 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         );
     }
 
+    /**This functio will be called once the final height of the track is known*/
     callbackRcsbFvRowTrack(rcsbRowTrackHeight: number): void {
         this.setState({rowHeight: rcsbRowTrackHeight, mounted:true} as RcsbFvRowState);
     }
 
+    /**Returns the full track width (title+annotations) and height
+     * @return Board track full width
+     * */
     configStyle() : RcsbFvRowStyleInterface {
         let titleWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
         if(typeof this.props.rowConfigData.rowTitleWidth === "number"){

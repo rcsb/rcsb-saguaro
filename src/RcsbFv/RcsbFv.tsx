@@ -14,9 +14,12 @@ import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
  * Protein Feature Viewer (PFV) constructor interface
  */
 export interface RcsbFvInterface {
-    rowConfigData: Array<RcsbFvRowConfigInterface>;
-    boardConfigData: RcsbFvBoardConfigInterface;
-    elementId: string;
+    /**Array of configurations for each board track*/
+    readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
+    /**Board global configuration*/
+    readonly boardConfigData: RcsbFvBoardConfigInterface;
+    /**DOM element Id where the PFV will be rendered*/
+    readonly elementId: string;
 }
 
 /**
@@ -24,11 +27,17 @@ export interface RcsbFvInterface {
  */
 export class RcsbFv {
 
+    /**rxjs event based handler used to communicate events (click, highlight, move) between board tracks*/
     private readonly contextManager: RcsbFvContextManager = new RcsbFvContextManager();
+    /**Array storing board tracks ids*/
     private trackIds: Array<string> = new Array<string>();
+    /**Configuration for each board track*/
     private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
+    /**Global board configuration*/
     private boardConfigData: RcsbFvBoardConfigInterface;
+    /**DOM elemnt id where the board will be displayed*/
     private readonly elementId: string;
+    /**Flag indicating that the React component has been mounted*/
     private mounted: boolean = false;
 
     constructor(props: RcsbFvInterface){
@@ -48,7 +57,7 @@ export class RcsbFv {
 
     /**
     * Loads the configuration for each row of the board
-    * @param rowConfigData array of configurations for each row in the board
+    * @param rowConfigData Array of configurations for each row in the board
     */
     public setBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
         this.rowConfigData = rowConfigData;
@@ -57,12 +66,13 @@ export class RcsbFv {
 
     /**
      * Loads the configuration of the board
-     * @param config configuration of the board
+     * @param config Configuration of the board
      */
     public setBoardConfig(config: RcsbFvBoardConfigInterface){
         this.boardConfigData = config;
     }
 
+    /**Renders the board*/
     public init(){
         if(!this.mounted && this.boardConfigData != undefined) {
             this.mounted = true;
@@ -75,6 +85,10 @@ export class RcsbFv {
         }
     }
 
+
+    /**Method used to check and force  the identification for each track
+     * @param rowConfigData Array of track configurations
+     * */
     private identifyFvTracks(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
         for(const trackConfig of rowConfigData){
             if(typeof trackConfig.trackId === "undefined"){
@@ -86,10 +100,15 @@ export class RcsbFv {
         }
     }
 
+    /**Returns all track Ids in the same order that are visualised in the board*/
     public getTrackIds(): Array<string>{
         return this.trackIds;
     }
 
+    /**Adds new annotations for a particular board track
+     * @param trackId Id that identifies the track
+     * @param data Annotations to be added in the track
+     * */
     public addData(trackId:string, data:RcsbFvTrackData): void{
         const loadDataObj:DataInterface = {
             trackId:trackId,
@@ -101,6 +120,10 @@ export class RcsbFv {
         } as RcsbFvContextManagerInterface);
     }
 
+    /**Replaces annotations a particular board track
+     * @param trackId Id that identifies the track
+     * @param data New annotations to be displayed
+     * */
     public updateData(trackId:string, data:RcsbFvTrackData): void{
         const loadDataObj:DataInterface = {
             trackId:trackId,
@@ -112,10 +135,13 @@ export class RcsbFv {
         } as RcsbFvContextManagerInterface);
     }
 
-    public updateBoardConfig(boardConfigData: RcsbFvBoardConfigInterface, rowConfigData: Array<RcsbFvRowConfigInterface>){
-        const configDataObj:RcsbFvBoardFullConfigInterface = {
-            rowConfigData: rowConfigData,
-            boardConfigData: boardConfigData
+    /**Method used to update board global and all-tracks configuration
+     * @param newConfig New board configuration data
+     * */
+    public updateBoardConfig(newConfig: Partial<RcsbFvBoardFullConfigInterface>){
+        const configDataObj:Partial<RcsbFvBoardFullConfigInterface> = {
+            rowConfigData: newConfig.rowConfigData,
+            boardConfigData: newConfig.boardConfigData
         };
         this.contextManager.next({
             eventType:EventType.UPDATE_BOARD_CONFIG,
@@ -123,7 +149,10 @@ export class RcsbFv {
         } as RcsbFvContextManagerInterface);
     }
 
-    public reset(trackId:string): void{
+    /**Removes the content and display configuration for a particular track
+     * @param trackId Id that identifies the track
+     * */
+    public resetTrack(trackId:string): void{
         const resetDataObj:ResetInterface = {
             trackId:trackId
         };
@@ -133,6 +162,9 @@ export class RcsbFv {
         } as RcsbFvContextManagerInterface);
     }
 
+    /**Adds a new track to the board
+     * @param trackConfig Track configuration data
+     * */
     public addTrack(trackConfig: RcsbFvRowConfigInterface): void{
         if(this.mounted) {
             this.contextManager.next({

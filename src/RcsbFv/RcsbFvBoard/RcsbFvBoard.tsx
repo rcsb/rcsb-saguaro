@@ -12,37 +12,50 @@ import {Subscription} from "rxjs";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
+/**Board React component configuration interface*/
 export interface RcsbFvBoardFullConfigInterface {
-    rowConfigData: Array<RcsbFvRowConfigInterface>;
-    boardConfigData: RcsbFvBoardConfigInterface;
+    readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
+    readonly boardConfigData: RcsbFvBoardConfigInterface;
 }
 
+/**Board React component interface*/
 interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
     readonly contextManager: RcsbFvContextManager;
 }
 
+/**Board React component state interface*/
 interface RcsbFvBoardState {
-    rowConfigData: Array<RcsbFvRowConfigInterface>;
-    boardConfigData: RcsbFvBoardConfigInterface;
+    readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
+    readonly boardConfigData: RcsbFvBoardConfigInterface;
 }
 
+/**Board React component style interface*/
 interface RcsbFvBoardStyleInterface{
-    width: number;
+    readonly width: number;
 }
 
+/**Board React Component class*/
 export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState > {
 
-    boardId : string = "RcsbFvBoard_"+Math.random().toString(36).substr(2);
-    rcsbFvRowArrayIds : Array<string> = new Array<string>();
-    currentScale: ScaleTransformInterface;
+    /**Inner div board DOM element id*/
+    private readonly boardId : string = "RcsbFvBoard_"+Math.random().toString(36).substr(2);
+    /**Array of inner div board track DOM element ids*/
+    private readonly rcsbFvRowArrayIds : Array<string> = new Array<string>();
+    /**To be removed*/
+    private currentScale: ScaleTransformInterface;
+    /**Subscription to events*/
     private subscription: Subscription;
+    /**Global d3 Xscale object shaed among all board tracks*/
     private readonly xScale: ScaleLinear<number,number> = scaleLinear();
+    /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
 
     readonly state : RcsbFvBoardState = {
+        /**Array of configurations for eah board track*/
         rowConfigData: this.props.rowConfigData,
+        /**Board global configuration*/
         boardConfigData: this.props.boardConfigData
-    } as RcsbFvBoardState;
+    };
 
     render(){
         let rcsbFvRowAxis = null;
@@ -74,6 +87,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         );
     }
 
+    /**Returns the full track width (title+annotations)
+     * @return Board track full width
+     * */
     private configStyle() : RcsbFvBoardStyleInterface {
         let titleWidth : number = RcsbFvDefaultConfigValues.rowTitleWidth;
         if(typeof this.state.boardConfigData.rowTitleWidth === "number"){
@@ -90,6 +106,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         };
     }
 
+    /**Combines global board configuration attributes and values with a particular track configuration object
+     * @param id Inner div board track DOM element Id
+     * @param config Track configuration object
+     * @return Config track object
+     * */
     private configRow(id:string, config: RcsbFvRowConfigInterface) : RcsbFvRowConfigInterface{
         const out: RcsbFvRowConfigInterface = Object.assign({},config);
         out.elementId = id;
@@ -112,6 +133,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         return out;
     }
 
+    /**Adds a new track to the board
+     * @param configRow Track configuration object
+     * */
     private addRow(configRow: RcsbFvRowConfigInterface): void{
         const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
         rowConfigData.push(configRow);
@@ -119,8 +143,16 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         //this.setScale();
     }
 
-    private updateBoardConfig(configData: RcsbFvBoardFullConfigInterface): void {
-        this.setState({rowConfigData: configData.rowConfigData, boardConfigData: configData.boardConfigData} );
+    /**Updates board configuration
+     * @param configData Board and track configuration interface
+     * */
+    private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
+        if(configData.rowConfigData!=null){
+            this.setState({rowConfigData: configData.rowConfigData} );
+        }
+        if(configData.boardConfigData!=null){
+            this.setState({boardConfigData: configData.boardConfigData} );
+        }
     }
 
     //TODO
@@ -143,7 +175,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         console.warn("Component RcsbFvBoard (id: "+this.boardId+") unmount, unsubscribing all events");
         this.props.contextManager.unsubscribeAll();
     }
-
+    /**Subscribe class to rxjs events (adding tracks, change scale, update board config)
+     * @return rxjs Subscription object
+     * */
     private subscribe(): Subscription{
         return this.props.contextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EventType.ADD_TRACK){
@@ -156,10 +190,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         });
     }
 
+    /**Unsubscribe class to rxjs events. Useful if many panels are created an destroyed.*/
     private unsubscribe(): void{
         this.subscription.unsubscribe();
     }
 
+    /**To be removed*/
     private setScale(){
         if(this.currentScale!=null) {
             this.props.contextManager.next({

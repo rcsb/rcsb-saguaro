@@ -1,3 +1,4 @@
+/**Default board configuration values definition*/
 interface RcsbFvDefaultConfigValuesInterface  {
     readonly increasedView: number;
     readonly trackColor: string;
@@ -10,6 +11,7 @@ interface RcsbFvDefaultConfigValuesInterface  {
     readonly interpolationType: string;
 }
 
+/**Default board configuration values*/
 export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     increasedView:1.5,
     trackColor: "#FFFFFF",
@@ -22,6 +24,7 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     interpolationType: InterpolationTypes.STEP
 };
 
+/**Interpolation types for line and area displays*/
 export const enum InterpolationTypes {
     STEP = "step",
     BASIS = "basis",
@@ -29,6 +32,7 @@ export const enum InterpolationTypes {
     LINEAR = "linear"
 }
 
+/**Board track display types*/
 export const enum RcsbFvDisplayTypes {
     BLOCK = "block",
     AXIS = "axis",

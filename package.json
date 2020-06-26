@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
+    "buildDoc": "npx typedoc --mode file --out docs src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
