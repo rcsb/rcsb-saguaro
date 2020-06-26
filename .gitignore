@@ -1,11 +1,6 @@
 node_modules
 dist
-.package-lock.json
-index.js
-main.js
-index.html
 *map
-package-lock.json
 
 # intellij
 .idea
