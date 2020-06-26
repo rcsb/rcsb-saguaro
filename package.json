@@ -22,8 +22,11 @@
   "publishConfig": {
     "registry": "http://nexus3.rcsb.org/repository/npm-rcsb-snapshots/"
   },
-  "keywords": [],
-  "author": "Joan Segura",
+  "keywords": ["1D","sequence","annotations","gene","protein"],
+  "author": {
+    "name": "Joan Segura Mora",
+    "email": "joan.segura@rcsb.org"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.5.5",
