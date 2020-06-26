@@ -17,7 +17,7 @@ import {
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
 import {ScaleLinear} from "d3-scale";
-import {RcsbSelection, SelectionInterface} from "../../RcsbBoard/RcsbSelection";
+import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 export class RcsbFvTrack {
 

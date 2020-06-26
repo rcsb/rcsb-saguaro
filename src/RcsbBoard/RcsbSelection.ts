@@ -1,6 +1,6 @@
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 
-export interface SelectionInterface {
+interface SelectionInterface {
     rcsbFvTrackDataElement: RcsbFvTrackDataElementInterface;
     domId: string;
 }

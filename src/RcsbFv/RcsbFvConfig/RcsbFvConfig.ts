@@ -10,7 +10,7 @@ import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackId: string;
     boardId: string;
-    displayType: string;
+    displayType: RcsbFvDisplayTypes;
     length: number;
     elementId?: string;
     trackData?: RcsbFvTrackData;

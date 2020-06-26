@@ -40,10 +40,9 @@ export class RcsbTooltipManager {
             spanRegion.append(spanOriRegion);
         }
 
-        let title:string = d.title != undefined ? d.title : "";
-        title = RcsbTooltipManager.capitalizeFirstLetter(title);
-        if(typeof d.name === "string") title = RcsbTooltipManager.capitalizeFirstLetter(d.name);
-        tooltipDiv.append(title);
+        let title:string | undefined = d.title;
+        if(typeof d.name === "string") title = d.name;
+        if(title != undefined )tooltipDiv.append(title);
         if(typeof d.provenanceName === "string"){
             const spanProvenance: HTMLSpanElement = document.createElement<"span">("span");
 
@@ -56,9 +55,10 @@ export class RcsbTooltipManager {
             spanProvenance.append(" [",spanProvenanceString,"]");
             spanProvenance.style.color = "#888888";
             tooltipDiv.append(spanProvenance);
-
+            tooltipDiv.append( RcsbTooltipManager.bNode() );
+        }else if(title!=undefined){
+            tooltipDiv.append( RcsbTooltipManager.bNode() );
         }
-        tooltipDiv.append( RcsbTooltipManager.bNode() );
         if(typeof d.value === "number"){
             const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
             valueRegion.append(" val: "+d.value);
@@ -106,7 +106,7 @@ export class RcsbTooltipManager {
         tooltipDiv.style.height = (this.divHeight*d.description.length).toString()+"px";
         d.description.forEach(des=>{
             const desDiv = document.createElement<"div">("div");
-            desDiv.append(RcsbTooltipManager.capitalizeFirstLetter(des));
+            desDiv.append(des);
             desDiv.style.height = this.divHeight.toString()+"px";
             desDiv.style.lineHeight = this.divHeight.toString()+"px";
             tooltipDiv.append(desDiv);

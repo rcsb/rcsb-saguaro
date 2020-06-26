@@ -20,7 +20,7 @@ import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbSelection, SelectionInterface} from "./RcsbSelection";
+import {RcsbSelection} from "./RcsbSelection";
 
 export interface LocationViewInterface {
     from: number;

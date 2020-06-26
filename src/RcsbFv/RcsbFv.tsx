@@ -10,12 +10,18 @@ import {
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 
+/**
+ * Protein Feature Viewer (PFV) constructor interface
+ */
 export interface RcsbFvInterface {
     rowConfigData: Array<RcsbFvRowConfigInterface>;
     boardConfigData: RcsbFvBoardConfigInterface;
     elementId: string;
 }
 
+/**
+ * Protein Feature Viewer entry point
+ */
 export class RcsbFv {
 
     private readonly contextManager: RcsbFvContextManager = new RcsbFvContextManager();
@@ -31,33 +37,41 @@ export class RcsbFv {
         if(this.elementId===null || this.elementId===undefined){
             throw "FATAL ERROR: DOM elementId not found";
         }
-        if(props.rowConfigData!=null) {
+        if(props.rowConfigData != null) {
             this.rowConfigData = props.rowConfigData;
             this.identifyFvTracks(this.rowConfigData);
         }
-        if(this.boardConfigData!==null) {
+        if(this.boardConfigData != null) {
             this.init();
         }
     }
 
+    /**
+    * Loads the configuration for each row of the board
+    * @param rowConfigData array of configurations for each row in the board
+    */
     public setBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
         this.rowConfigData = rowConfigData;
         this.identifyFvTracks(this.rowConfigData);
     }
 
+    /**
+     * Loads the configuration of the board
+     * @param config configuration of the board
+     */
     public setBoardConfig(config: RcsbFvBoardConfigInterface){
         this.boardConfigData = config;
     }
 
     public init(){
-        if(!this.mounted) {
+        if(!this.mounted && this.boardConfigData != undefined) {
             this.mounted = true;
             ReactDom.render(
                 <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager}/>,
                 document.getElementById(this.elementId)
             );
         }else{
-            throw "FATAL ERROR: RcsvFvBoard is mounted";
+            throw "FATAL ERROR: RcsvFvBoard is mounted or board configuration was not loaded";
         }
     }
 

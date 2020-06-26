@@ -50,6 +50,7 @@ div.rcsbFvBoard *{
 }
 
 .rcsbFvTooltip {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
     border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
     padding-left:8px;
@@ -61,6 +62,7 @@ div.rcsbFvBoard *{
 }
 
 .rcsbFvTooltipDescription {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
     border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
     background-color:#F9F9F9;

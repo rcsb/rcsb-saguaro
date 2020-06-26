@@ -3,7 +3,8 @@ const path = require('path');
 module.exports = {
     mode: "development",
     entry: {
-        'rcsb-saguaro':'./src/RcsbFv.ts'
+        'RcsbFv':'./src/RcsbFv.ts',
+        'rcsb-saguaro':'./src/RcsbSaguaro.js'
     },
     module: {
       rules: [
@@ -33,7 +34,7 @@ module.exports = {
       extensions: [ '.tsx', '.ts', '.js', 'jsx' ]
     },
     output: {
-        filename: 'RcsbFv.js',
+        filename: '[name].js',
         library: 'RcsbFv',
         libraryTarget: 'umd',
         umdNamedDefine: true,

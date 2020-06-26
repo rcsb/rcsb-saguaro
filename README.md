@@ -2,13 +2,7 @@
 
 RCSB 1D Feature Viewer
 
-<a href="https://www.rcsb.org">RCSB PDB</a> node module used to display sequence annotations in the web.
+<a href="https://www.rcsb.org">RCSB PDB</a> node module used to display annotations over protein and genomic sequences.
 
-- RcsbFv
-  - RcsbFvInterface
-    - RcsbFvBoardConfigInterface
-    - RcsbFvRowConfigInterface
-      - RcsbFvDisplayConfigInterface
-      - RcsbFvTrackData
-- RcsbFvDisplayTypes
-- RcsbFvLocationViewInterface
+Main class RcsbFv
+
