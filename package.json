@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
+    "buildAll": "npm run build && npm run buildAllDoc",
     "buildDoc": "npx typedoc --mode file --out docs src",
     "cpExamples": "ncp examples docs/examples",
     "buildAllDoc": "npm run buildDoc && npm run cpExamples",
