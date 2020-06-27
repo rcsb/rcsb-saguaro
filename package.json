@@ -1,7 +1,7 @@
 {
   "name": "rcsb-saguaro",
   "version": "0.2.0-SNAPSHOT",
-  "description": "",
+  "description": "RCSB 1D Feature Viewer",
   "main": "dist/RcsbFv.js",
   "files": [
     "dist/RcsbFv.js",
@@ -13,20 +13,22 @@
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "buildDoc": "npx typedoc --mode file --out docs src",
+    "cpExamples": "ncp examples docs/examples",
+    "buildAllDoc": "npm run buildDoc && npm run cpExamples",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/rcsb/rcsb-saguaro.git"
   },
-  "publishConfig": {
-    "registry": "http://nexus3.rcsb.org/repository/npm-rcsb-snapshots/"
-  },
-  "keywords": ["1D","sequence","annotations","gene","protein"],
-  "author": {
-    "name": "Joan Segura Mora",
-    "email": "joan.segura@rcsb.org"
-  },
+  "keywords": [
+    "1D",
+    "sequence",
+    "annotations",
+    "gene",
+    "protein"
+  ],
+  "author": "Joan Segura Mora <joan.segura@rcsb.org>",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -36,9 +38,8 @@
     "@types/react-dom": "^16.9.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "ncp": "^2.0.0",
     "node-sass": "^4.12.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
     "ts-loader": "^6.0.4",
@@ -52,6 +53,16 @@
     "@d3fc/d3fc-sample": "^4.0.10",
     "@types/d3": "^5.7.2",
     "d3": "^5.12.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "rxjs": "^6.5.2"
+  },
+  "bugs": {
+    "url": "https://github.com/rcsb/rcsb-saguaro/issues"
+  },
+  "homepage": "https://github.com/rcsb/rcsb-saguaro#readme",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
   }
 }
