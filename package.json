@@ -1,6 +1,6 @@
 {
-  "name": "rcsb-saguaro",
-  "version": "0.2.1",
+  "name": "@bioinsilico/rcsb-saguaro",
+  "version": "0.2.2",
   "description": "RCSB 1D Feature Viewer",
   "main": "dist/RcsbFv.js",
   "files": [
@@ -8,7 +8,8 @@
     "dist/*ts",
     "dist/**/*ts",
     "dist/**/**/*ts",
-    "dist/**/**/**/*ts"
+    "dist/**/**/**/*ts",
+    "dist/rcsb-saguaro.js"
   ],
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
