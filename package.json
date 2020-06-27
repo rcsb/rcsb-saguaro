@@ -29,6 +29,7 @@
     "protein"
   ],
   "author": "Joan Segura Mora <joan.segura@rcsb.org>",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.5.5",
