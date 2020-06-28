@@ -12,7 +12,9 @@ npm install @bioinsilico/rcsb-saguaro
 &lt;script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.2.2/dist/rcsb-saguaro.js" type="text/javascript">&lt;/script>
 </pre>
 <h3>Examples</h3>
-<a href="https://rcsb.github.io/rcsb-saguaro/examples/example.html">Single Tracks</a>
+<a href="https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html">Single Tracks</a>
+
+<a href="https://rcsb.github.io/rcsb-saguaro/examples/composite_track.html">Composite Track</a>
 
 <a href="https://codepen.io/collection/njrBOR?grid_type=list">CODEPEN collection</a>
 <h3>Library Documentation</h3>
