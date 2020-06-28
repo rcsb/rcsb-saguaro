@@ -9,8 +9,65 @@
     </script>
 </head>
 <body>
-<div id="pfv"></div>
-<script>
+<div style="width: 50%;float: left;">
+    <div id="pfv" style="margin-top:50px" ></div>>
+    <script>
+        const boardConfigData = {
+            length:sequence.length,
+            trackWidth: 940,
+            includeAxis: true
+        };
+        const rowConfigData = [
+            {
+                trackId: "sequenceTrack",
+                trackHeight: 20,
+                trackColor: "#FEFEFE",
+                displayType:"sequence",
+                nonEmptyDisplay: true,
+                rowTitle: "SEQUENCE",
+                trackData:[{
+                    begin:1,
+                    value:sequence
+                }]
+            },{
+                trackId: "blockTrack",
+                trackHeight: 20,
+                trackColor: "#FEFEFE",
+                displayType:"block",
+                displayColor:"#FF0000",
+                rowTitle: "BLOCK",
+                trackData:[{
+                    begin:30,
+                    end:60
+                },{
+                    begin:50,
+                    end:80,
+                    openEnd:true
+                }]
+            },{
+                trackId: "bondTrack",
+                trackHeight: 20,
+                trackColor: "#FEFEFE",
+                displayType:"bond",
+                displayColor:"#6572E3",
+                rowTitle: "BOND",
+                trackData:[{
+                    begin:30,
+                    end:90
+                }]
+            }
+        ];
+        const elementId = "pfv";
+        const pfv = new RcsbFv.Create({
+            boardConfigData,
+            rowConfigData,
+            elementId
+        });
+    </script>
+</div>
+<div style="width: 50%;float: right;">
+    <pre>
+    <code>
     const boardConfigData = {
         length:sequence.length,
         trackWidth: 940,
@@ -62,7 +119,9 @@
         rowConfigData,
         elementId
     });
-    console.log(pfv.getTrackIds());
-</script>
+    </code>
+    </pre>
+</div>
+
 </body>
 </html>
