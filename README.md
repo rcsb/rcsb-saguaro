@@ -13,6 +13,8 @@ npm install @bioinsilico/rcsb-saguaro
 </pre>
 <h3>Examples</h3>
 <a href="https://rcsb.github.io/rcsb-saguaro/examples/example.html">Single Tracks</a>
+
+<a href="https://codepen.io/collection/njrBOR?grid_type=list">CODEPEN collection</a>
 <h3>Library Documentation</h3>
 Package classes documentation can be found <a href="https://rcsb.github.io/rcsb-saguaro">here</a>.
 
