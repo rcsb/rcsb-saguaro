@@ -51,7 +51,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private readonly selection:RcsbSelection = new RcsbSelection();
 
     readonly state : RcsbFvBoardState = {
-        /**Array of configurations for eah board track*/
+        /**Array of configurations for each board track*/
         rowConfigData: this.props.rowConfigData,
         /**Board global configuration*/
         boardConfigData: this.props.boardConfigData
@@ -179,7 +179,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * @return rxjs Subscription object
      * */
     private subscribe(): Subscription{
-        return this.props.contextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+        return this.props.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EventType.ADD_TRACK){
                 this.addRow(obj.eventData as RcsbFvRowConfigInterface);
             }else if(obj.eventType===EventType.SCALE){

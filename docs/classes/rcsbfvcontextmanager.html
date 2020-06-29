@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>rxjs Event Handler Object. It allows objects to subscribe methods and then, get(send) events to(from) other objects</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -87,8 +94,8 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbfvcontextmanager.html#asobservable" class="tsd-kind-icon">as<wbr>Observable</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbfvcontextmanager.html#next" class="tsd-kind-icon">next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbfvcontextmanager.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbfvcontextmanager.html#unsubscribeall" class="tsd-kind-icon">unsubscribe<wbr>All</a></li>
 							</ul>
 						</section>
@@ -99,34 +106,17 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="subject" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> subject</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> subject</h3>
 					<div class="tsd-signature tsd-kind-icon">subject<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = new Subject()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/e2401e4/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L8">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/51dfa43/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L9">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="asobservable" class="tsd-anchor"></a>
-					<h3>as<wbr>Observable</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">as<wbr>Observable<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/e2401e4/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L12">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:12</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="next" class="tsd-anchor"></a>
 					<h3>next</h3>
@@ -137,16 +127,71 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/e2401e4/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L9">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/51dfa43/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L13">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:13</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Call other subscribed methods</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>obj: <a href="../interfaces/rcsbfvcontextmanagerinterface.html" class="tsd-signature-type">RcsbFvContextManagerInterface</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Event Data Structure Interface</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="subscribe" class="tsd-anchor"></a>
+					<h3>subscribe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">subscribe<span class="tsd-signature-symbol">(</span>f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvcontextmanagerinterface.html" class="tsd-signature-type">RcsbFvContextManagerInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Subscription</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/51dfa43/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L19">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:19</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Subscribe method</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>f: <span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvcontextmanagerinterface.html" class="tsd-signature-type">RcsbFvContextManagerInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvcontextmanagerinterface.html" class="tsd-signature-type">RcsbFvContextManagerInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>x: <a href="../interfaces/rcsbfvcontextmanagerinterface.html" class="tsd-signature-type">RcsbFvContextManagerInterface</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Subscription</span></h4>
+							<p>Subscription</p>
 						</li>
 					</ul>
 				</section>
@@ -160,9 +205,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/e2401e4/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L15">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/51dfa43/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L23">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:23</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unsubscribe all methods</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -188,10 +238,10 @@
 								<a href="rcsbfvcontextmanager.html#subject" class="tsd-kind-icon">subject</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbfvcontextmanager.html#asobservable" class="tsd-kind-icon">as<wbr>Observable</a>
+								<a href="rcsbfvcontextmanager.html#next" class="tsd-kind-icon">next</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbfvcontextmanager.html#next" class="tsd-kind-icon">next</a>
+								<a href="rcsbfvcontextmanager.html#subscribe" class="tsd-kind-icon">subscribe</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="rcsbfvcontextmanager.html#unsubscribeall" class="tsd-kind-icon">unsubscribe<wbr>All</a>

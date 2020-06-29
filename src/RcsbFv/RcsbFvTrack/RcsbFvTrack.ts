@@ -19,19 +19,31 @@ import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDis
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
+/**This class provides  an abstraction layer to build and manage a particular board annotation cell*/
 export class RcsbFvTrack {
-
+    /**SVG/HTML level object manager*/
     private rcsbBoard: RcsbBoard;
+    /**Board annotation cells may contain different tracks to avoid visual overlapping*/
     private rcsbTrackArray: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
+    /**Object that handles how data needs to be displayed*/
     private rcsbFvDisplay: RcsbFvDisplay;
+    /**Row configuration object*/
     private rcsbFvConfig: RcsbFvConfig;
+    /**DOM element id where the SVG component will be rendered*/
     private elementId: string;
+    /**Row annotation data*/
     private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>;
+    /**Annotation loaded data flag*/
     private loadedData: boolean;
+    /**Callback function to update row height*/
     private readonly updateRowHeight: ()=>void;
+    /**Event handler subscription*/
     private subscription: Subscription;
+    /**Event Handler Manager. This is a common object for all board annotation cells*/
     private readonly contextManager: RcsbFvContextManager;
+    /**X-Scale d3 object. This is a common for all board annotation cells*/
     private readonly xScale: ScaleLinear<number,number>;
+    /**Current selection object. This is a common for all board annotation cells*/
     private readonly selection: RcsbSelection;
 
     public constructor(args:RcsbFvRowConfigInterface, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager, updateRowHeight:()=>void) {
@@ -46,6 +58,9 @@ export class RcsbFvTrack {
         this.subscription = this.subscribe();
     }
 
+    /**Builds the board annotation cell
+     * @param args Board track configuration object
+     * */
     private buildTrack(args:RcsbFvRowConfigInterface) : void{
         this.setConfig(args);
         if(typeof this.rcsbFvConfig.elementId === "string"){
@@ -64,6 +79,9 @@ export class RcsbFvTrack {
         this.start();
     }
 
+    /**Start rendering the board track annotation cell
+     * @param elementId DOM element Id
+     * */
     public init(elementId: string) : void{
         if(document.getElementById(elementId)!== null) {
             this.elementId = elementId;
@@ -80,6 +98,9 @@ export class RcsbFvTrack {
         }
     }
 
+    /**Replaces the track configuration
+     * @param args Board row configuration object
+     * */
     public setConfig(args: RcsbFvRowConfigInterface) : void{
         if(this.rcsbFvConfig == null) {
             this.rcsbFvConfig = new RcsbFvConfig(args);
@@ -88,6 +109,7 @@ export class RcsbFvTrack {
         }
     }
 
+    /**Sets parameters for the SVG/HTML level object manager*/
     private initRcsbBoard(): void{
         if(typeof this.rcsbFvConfig.elementClickCallBack === "function")
             this.rcsbBoard.setHighLightCallBack(this.rcsbFvConfig.elementClickCallBack);
@@ -97,6 +119,9 @@ export class RcsbFvTrack {
         this.rcsbBoard.setRange(1-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
     }
 
+    /**Build an inner track within a board track annotation cell
+     * @return Inner track display object
+     * */
     private buildRcsbTrack(): RcsbDisplayInterface{
         this.rcsbFvDisplay = new RcsbFvDisplay(this.rcsbFvConfig);
         const rcsbTrack: RcsbDisplayInterface = this.rcsbFvDisplay.initDisplay();
@@ -106,6 +131,9 @@ export class RcsbFvTrack {
         return rcsbTrack;
     }
 
+    /**Transforms data of composite displays
+     * @return Array of annotation objects
+     * */
     private collectCompositeData(): Array<RcsbFvTrackData> | null {
         const data: Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
         if(this.rcsbFvConfig?.displayConfig!=undefined) {
@@ -121,7 +149,10 @@ export class RcsbFvTrack {
         return null;
     }
 
-    public load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>): void{
+    /**Class inner function that transform annotation data for composite or single displays
+     * @param trackData array of annotation objects
+     * */
+    private load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>): void{
         this.trackData = trackData;
         this.loadedData = true;
         if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && trackData instanceof Array){
@@ -170,22 +201,19 @@ export class RcsbFvTrack {
         }
     }
 
-    public start() : void{
+    /**Add all inner track to the SVG/HTML level manager and start rendering*/
+    private start() : void{
         this.rcsbTrackArray.forEach(track=>{
             this.rcsbBoard.addTrack(track);
         });
         this.rcsbBoard.startBoard();
     }
 
-    private restartTracks() : void{
-        this.rcsbTrackArray.forEach(track=>{
-            this.rcsbBoard.addTrack(track);
-        });
-        this.rcsbBoard.startTracks();
-    }
-
-    subscribe(): Subscription{
-        return this.contextManager.asObservable().subscribe((obj:RcsbFvContextManagerInterface)=>{
+    /**Subscribe function to handle events and communicate all board track annotations cell panels
+     * @return Subscription object
+     * */
+    private subscribe(): Subscription{
+        return this.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EventType.SCALE) {
                 this.setScale(obj.eventData as ScaleTransformInterface);
             }else if(obj.eventType===EventType.SELECTION){
@@ -196,29 +224,44 @@ export class RcsbFvTrack {
         });
     }
 
-    unsubscribe(): void{
+    /**Unsubscribe all functions
+     * */
+    public unsubscribe(): void{
         this.subscription.unsubscribe();
     }
 
+    /**Modify d3 x-scale
+     * @param obj Scale event object Interface
+     * */
     public setScale(obj: ScaleTransformInterface) : void {
         this.rcsbBoard.setScale(obj);
     }
 
+    /**Highlights the region(s) defined by the attribute selection
+     * @param boardId Id of the SVG/HTML manager that triggered the event
+     * */
     public setSelection(boardId: string) : void {
         this.rcsbBoard.setSelection(boardId);
     }
 
+    /**Reset the cell content
+     * @param obj Event reset object interface
+     * */
     private reset(obj: ResetInterface){
         if(this.rcsbFvConfig.trackId === obj.trackId){
             this._reset();
         }
     }
 
+    /**Reset all inner tracks*/
     private _reset(): void{
         this.rcsbTrackArray = new Array<RcsbDisplayInterface>();
         this.rcsbBoard.reset();
     }
 
+    /**Calculate height as function of the number of inner tracks
+     * @return Board track annotation cell height
+     * */
     public getTrackHeight(): number | null{
         if(this.rcsbTrackArray.length > 0 && this.rcsbFvConfig?.trackHeight != undefined) {
             return this.rcsbTrackArray.length * this.rcsbFvConfig.trackHeight;

@@ -3,6 +3,7 @@ import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValu
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 
+/**Board track title cell React component interface*/
 interface RcsbFvRowTitleInterface {
     data: RcsbFvRowConfigInterface;
     rowTitleHeight: number;
@@ -30,7 +31,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
             return (
                 <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
                     {
-                        this.setTitle() != null ? <div style={this.configProvenanceStyle()}
+                        this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
                     <div style={{width:titleWidth,height:height,paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px"}}>{this.setTitle()}</div></div>
@@ -41,7 +42,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
             return (
                 <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
                     {
-                        this.setTitle() != null ? <div style={this.configProvenanceStyle()}
+                        this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
                     <div style={{paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px"}}>{this.setTitle()}</div></div>
@@ -50,6 +51,9 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
         }
     }
 
+    /**
+     * @return Title string defined in the track configuration object
+     * */
     setTitle(): string | null{
         if(typeof this.configData.rowTitle === "string"){
             return this.configData.rowTitle;
@@ -57,6 +61,9 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
         return null;
     }
 
+    /**
+     * @return CSS style width and height for the cell
+     * */
     configStyle() : React.CSSProperties {
         let width : number = RcsbFvDefaultConfigValues.rowTitleWidth;
         if(typeof this.configData.rowTitleWidth === "number"){
@@ -68,7 +75,10 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
         };
     }
 
-    configProvenanceStyle():React.CSSProperties {
+    /**
+     * @return Title flag color css style properties
+     * */
+    configTitleFlagColorStyle():React.CSSProperties {
         let color: string = "#FFFFFF";
         if(typeof this.props.data.titleFlagColor === "string"){
             color = this.props.data.titleFlagColor;

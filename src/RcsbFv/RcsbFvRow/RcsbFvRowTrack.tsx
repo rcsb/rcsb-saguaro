@@ -7,6 +7,7 @@ import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
+/**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {
     id: string;
     rowTrackConfigData: RcsbFvRowConfigInterface;
@@ -16,11 +17,13 @@ interface RcsbFvRowTrackInterface {
     callbackRcsbFvRow(height: number): void;
 }
 
+/**Board track  annotations cell React component style*/
 interface RcsbFvRowTrackStyleInterface {
     width: number;
     height: number;
 }
 
+/**Board track  annotations cell React component state*/
 interface RcsbFvRowTrackState {
     rowTrackConfigData: RcsbFvRowConfigInterface;
     rowTrackHeight: number;
@@ -29,8 +32,11 @@ interface RcsbFvRowTrackState {
 
 export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, RcsbFvRowTrackState> {
 
-    configData : RcsbFvRowConfigInterface;
-    rcsbFvTrack : RcsbFvTrack;
+    /**Board track configuration object*/
+    private readonly configData : RcsbFvRowConfigInterface;
+
+    /**Track Protein Feature Viewer object*/
+    private rcsbFvTrack : RcsbFvTrack;
     readonly state : RcsbFvRowTrackState = {
         rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
         rowTrackConfigData: this.props.rowTrackConfigData,
@@ -61,7 +67,8 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
         this.configData;
     }
 
-    updateHeight(): void{
+    /**This method is called when the final track height is known, it updates React Component height State*/
+    private updateHeight(): void{
         const height: number | null = this.rcsbFvTrack.getTrackHeight();
         if(height != null) {
             this.setState({rowTrackHeight: height, mounted: true} as RcsbFvRowTrackState);
@@ -69,7 +76,10 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
         }
     }
 
-    configStyle() : RcsbFvRowTrackStyleInterface {
+    /**
+     * @return CSS style width and height for the cell
+     * */
+    private configStyle() : RcsbFvRowTrackStyleInterface {
         let width : number = RcsbFvDefaultConfigValues.trackWidth;
         if(typeof this.configData.trackWidth === "number"){
             width = this.configData.trackWidth;
