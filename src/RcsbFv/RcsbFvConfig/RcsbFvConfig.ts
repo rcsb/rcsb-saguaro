@@ -7,6 +7,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
+/**Board track configuration manager class*/
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackId: string;
     boardId: string;
@@ -33,7 +34,10 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         this.updateConfig(args);
     }
 
-    public updateConfig(args:RcsbFvRowConfigInterface) {
+    /**Update board track configuration. This method sets some attributes to default values when configuration values are not available.
+     * @param args Board track configuration object
+     * */
+    public updateConfig(args:RcsbFvRowConfigInterface): void {
 
         //external config
         if(typeof args.trackId === "string" ) {
@@ -116,6 +120,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         this.overlap = args.overlap === true;
     }
 
+    /**Check if sequence length and DOM element Id are available
+     * @return boolean
+     * */
     configCheck() : boolean{
         return (typeof this.length === "number" && typeof this.elementId === "string")
     }
@@ -140,10 +147,14 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
     }
 
+    /**Deletes board track annotation data*/
     resetTrackData(): void {
         this.trackData = undefined;
     }
 
+    /**Load board track annotation data
+     * @param data New board track annotation data
+     * */
     addTrackData( data: RcsbFvTrackData ): void {
         if(typeof this.trackData === "undefined"){
             this.trackData = new RcsbFvTrackData();
@@ -153,6 +164,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         });
     }
 
+    /**Load board track annotation data
+     * @param data New board track annotation data
+     * */
     updateTrackData(data: RcsbFvTrackData):void{
         this.trackData = RcsbDataManager.processData(data);
     }
