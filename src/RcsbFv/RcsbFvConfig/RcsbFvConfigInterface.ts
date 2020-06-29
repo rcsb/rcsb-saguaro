@@ -52,7 +52,7 @@ export interface RcsbFvDisplayConfigInterface extends CommonConfigInterface{
  * Board track configuration object
  */
 export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
-    /**DOM element Id where the PFV will is displayed*/
+    /**DOM element Id where the PFV will be rendered*/
     boardId?: string;
     /**Id used to identify the board track*/
     trackId: string;
