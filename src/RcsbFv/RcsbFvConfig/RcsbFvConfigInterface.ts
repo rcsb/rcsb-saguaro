@@ -86,4 +86,6 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     isAxis?: boolean;
     /**If true, track annotations can overlap*/
     overlap?:boolean;
+    /**The track must dbe hide*/
+    trackVisibility?:boolean;
 }

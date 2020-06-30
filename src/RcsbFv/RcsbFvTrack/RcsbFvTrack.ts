@@ -12,7 +12,7 @@ import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInter
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ResetInterface
+    RcsbFvContextManagerInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
@@ -219,7 +219,7 @@ export class RcsbFvTrack {
             }else if(obj.eventType===EventType.SELECTION){
                 this.setSelection(obj.eventData as string);
             }else if(obj.eventType===EventType.RESET){
-                this.reset(obj.eventData as ResetInterface);
+                this.reset(obj.eventData as string);
             }
         });
     }
@@ -245,10 +245,10 @@ export class RcsbFvTrack {
     }
 
     /**Reset the cell content
-     * @param obj Event reset object interface
+     * @param trackId Event reset object interface
      * */
-    private reset(obj: ResetInterface){
-        if(this.rcsbFvConfig.trackId === obj.trackId){
+    private reset(trackId: string){
+        if(this.rcsbFvConfig.trackId === trackId){
             this._reset();
         }
     }

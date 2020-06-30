@@ -4,9 +4,9 @@ import {RcsbFvBoard, RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard/RcsbFvB
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvConfig/RcsbFvConfigInterface";
 import {
     EventType,
-    DataInterface,
+    TrackDataInterface,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ResetInterface
+    RcsbFvContextManagerInterface, TrackVisibilityInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
@@ -49,7 +49,7 @@ export class RcsbFv {
         }
         if(props.rowConfigData != null) {
             this.rowConfigData = props.rowConfigData;
-            this.identifyFvTracks(this.rowConfigData);
+            this.checkFvTrackConfig(this.rowConfigData);
         }
         if(this.boardConfigData != null) {
             this.init();
@@ -62,7 +62,7 @@ export class RcsbFv {
     */
     public setBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
         this.rowConfigData = rowConfigData;
-        this.identifyFvTracks(this.rowConfigData);
+        this.checkFvTrackConfig(this.rowConfigData);
     }
 
     /**
@@ -86,6 +86,13 @@ export class RcsbFv {
         }
     }
 
+    /**Method used to check data config properties
+     * @param rowConfigData Array of track configurations
+     * */
+    private checkFvTrackConfig(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
+        this.identifyFvTracks(rowConfigData);
+        RcsbFv.checkTrackVisibility(rowConfigData);
+    }
 
     /**Method used to check and force  the identification for each track
      * @param rowConfigData Array of track configurations
@@ -101,6 +108,17 @@ export class RcsbFv {
         }
     }
 
+    /**Checks track visibility attribute, if undefined it is set to true
+     * @param rowConfigData Array of track configurations
+     * */
+    private static checkTrackVisibility(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
+        for(const trackConfig of rowConfigData){
+            if(typeof trackConfig.trackVisibility != "boolean"){
+                trackConfig.trackVisibility = true;
+            }
+        }
+    }
+
     /**Returns all track Ids in the same order that are visualised in the board*/
     public getTrackIds(): Array<string>{
         return this.trackIds;
@@ -110,13 +128,13 @@ export class RcsbFv {
      * @param trackId Id that identifies the track
      * @param data Annotations to be added in the track
      * */
-    public addData(trackId:string, data:RcsbFvTrackData): void{
-        const loadDataObj:DataInterface = {
+    public addTrackData(trackId:string, data:RcsbFvTrackData): void{
+        const loadDataObj:TrackDataInterface = {
             trackId:trackId,
-            loadData:data
+            trackData:data
         };
         this.contextManager.next({
-            eventType:EventType.ADD_DATA,
+            eventType:EventType.ADD_TRACK_DATA,
             eventData:loadDataObj
         } as RcsbFvContextManagerInterface);
     }
@@ -125,10 +143,10 @@ export class RcsbFv {
      * @param trackId Id that identifies the track
      * @param data New annotations to be displayed
      * */
-    public updateData(trackId:string, data:RcsbFvTrackData): void{
-        const loadDataObj:DataInterface = {
+    public updateTrackData(trackId:string, data:RcsbFvTrackData): void{
+        const loadDataObj:TrackDataInterface = {
             trackId:trackId,
-            loadData:data
+            trackData:data
         };
         this.contextManager.next({
             eventType:EventType.UPDATE_TRACK_DATA,
@@ -150,16 +168,13 @@ export class RcsbFv {
         } as RcsbFvContextManagerInterface);
     }
 
-    /**Removes the content and display configuration for a particular track
+    /**Rerender the board track
      * @param trackId Id that identifies the track
      * */
     public resetTrack(trackId:string): void{
-        const resetDataObj:ResetInterface = {
-            trackId:trackId
-        };
         this.contextManager.next({
             eventType:EventType.RESET,
-            eventData:resetDataObj
+            eventData:trackId
         } as RcsbFvContextManagerInterface);
     }
 
@@ -167,14 +182,20 @@ export class RcsbFv {
      * @param trackConfig Track configuration data
      * */
     public addTrack(trackConfig: RcsbFvRowConfigInterface): void{
+        this.checkFvTrackConfig([trackConfig]);
         if(this.mounted) {
             this.contextManager.next({
                 eventType: EventType.ADD_TRACK,
                 eventData: trackConfig
             } as RcsbFvContextManagerInterface)
         }
-        this.identifyFvTracks(this.rowConfigData);
     }
 
+    public changeTrackVisibility(obj: TrackVisibilityInterface): void{
+        this.contextManager.next({
+            eventType:EventType.TRACK_VISIBILITY,
+            eventData:obj
+        } as RcsbFvContextManagerInterface);
+    }
 }
 

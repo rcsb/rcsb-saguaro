@@ -29,33 +29,35 @@ export class RcsbFvContextManager {
 export enum EventType {
     SELECTION = "eventTypeSelection",
     SCALE = "eventTypeScale",
-    ADD_DATA = "eventTypeAddData",
+    ADD_TRACK_DATA = "eventTypeAddData",
     UPDATE_TRACK_DATA = "eventTypeUpdateData",
     RESET = "eventTypeReset",
+    TRACK_VISIBILITY = "eventTypeVisibility",
     ADD_TRACK = "addTrack",
     UPDATE_BOARD_CONFIG = "updateBoardConfig"
 }
 
 /**Event Data Interface used to update row configuration*/
-export interface TrackInterface {
+export interface TrackConfigInterface {
     trackConfig:RcsbFvRowConfigInterface;
     trackId:string;
 }
 
-/**Event Data Interface used to reset a board row*/
-export interface ResetInterface {
-    trackId:string;
+export interface TrackVisibilityInterface {
+    trackId: string;
+    visibility: boolean;
 }
 
 /**Event Data Interface used to reset a board row*/
-export interface DataInterface {
-    loadData:RcsbFvTrackData;
+export interface TrackDataInterface {
+    trackData:RcsbFvTrackData;
     trackId:string;
+    displayId?:string;
 }
 
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface{
     eventType: string;
-    eventData: string|DataInterface|ResetInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackInterface;
+    eventData: string|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface;
 }
 

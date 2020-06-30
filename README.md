@@ -15,12 +15,14 @@ The package offers multiple types of data displays and a rich set of options to 
 `npm install @bioinsilico/rcsb-saguaro`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.2.8/dist/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.2.10/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### JavaScript Examples
 * [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)
 * [Composite Track](https://rcsb.github.io/rcsb-saguaro/examples/composite_track.html)
 * [Dynamic Tracks](https://rcsb.github.io/rcsb-saguaro/examples/dynamic_track_loading.html)
+* [Track Visibility](https://rcsb.github.io/rcsb-saguaro/examples/change_track_visibility.html)
+* [Update Track Data](https://rcsb.github.io/rcsb-saguaro/examples/update_track_data.html)
 
 The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
 ### Library Documentation

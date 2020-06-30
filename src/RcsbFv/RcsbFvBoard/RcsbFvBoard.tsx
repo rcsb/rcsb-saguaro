@@ -1,12 +1,19 @@
 import * as React from "react";
-import {RcsbFvDisplayTypes, RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
-import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {
+    RcsbFvBoardConfigInterface,
+    RcsbFvDisplayConfigInterface,
+    RcsbFvRowConfigInterface
+} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 import {
-    EventType, RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ResetInterface
+    EventType,
+    RcsbFvContextManager,
+    RcsbFvContextManagerInterface,
+    TrackDataInterface,
+    TrackVisibilityInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {scaleLinear, ScaleLinear} from "d3-scale";
@@ -71,7 +78,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()}>
                     {rcsbFvRowAxis}
                     {
-                        this.state.rowConfigData.map(rowData=>{
+                        this.state.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
+                            return rowData.trackVisibility;
+                        }).map((rowData: RcsbFvRowConfigInterface) =>{
                             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
                             this.rcsbFvRowArrayIds.push(rowId);
                             const rowConfigData = this.configRow(rowId,rowData);
@@ -154,9 +163,37 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
     }
 
-    //TODO
-    private updateTrackData(): void{
+    private updateTrackData(obj: TrackDataInterface, ): void{
+        this.changeTrackData(obj,"replace");
+    }
 
+    private addTrackData(obj: TrackDataInterface): void{
+        this.changeTrackData(obj,"add");
+    }
+
+    private changeTrackData(obj: TrackDataInterface, flag: "replace"|"add"): void{
+        const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
+        rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface)=>{
+            if(rowConfig.trackId === obj.trackId){
+                if(rowConfig.displayType != RcsbFvDisplayTypes.COMPOSITE) {
+                    if(flag === "replace")
+                        rowConfig.trackData = obj.trackData;
+                    else if(flag === "add" && rowConfig.trackData instanceof Array)
+                        rowConfig.trackData = rowConfig.trackData?.concat(obj.trackData);
+                }
+                else if(rowConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && rowConfig.displayConfig instanceof Array)
+                    rowConfig.displayConfig?.forEach((display: RcsbFvDisplayConfigInterface)=>{
+                       if(display.displayId === obj.displayId){
+                           if(flag === "replace")
+                               display.displayData = obj.trackData;
+                           else if(flag === "add" && display.displayData instanceof Array)
+                               display.displayData = display.displayData?.concat(obj.trackData);
+                       }
+                    });
+            }
+        });
+        this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData});
+        this.setScale();
     }
 
     componentDidMount(): void {
@@ -174,6 +211,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         console.warn("Component RcsbFvBoard (id: "+this.boardId+") unmount, unsubscribing all events");
         this.props.contextManager.unsubscribeAll();
     }
+
     /**Subscribe class to rxjs events (adding tracks, change scale, update board config)
      * @return rxjs Subscription object
      * */
@@ -183,6 +221,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.addRow(obj.eventData as RcsbFvRowConfigInterface);
             }else if(obj.eventType===EventType.UPDATE_BOARD_CONFIG){
                 this.updateBoardConfig(obj.eventData as RcsbFvBoardFullConfigInterface);
+            }else if(obj.eventType===EventType.TRACK_VISIBILITY){
+                this.changeTrackVisibility(obj.eventData as TrackVisibilityInterface);
+            }else if(obj.eventType===EventType.ADD_TRACK_DATA){
+                this.addTrackData(obj.eventData as TrackDataInterface);
+            }else if(obj.eventType===EventType.UPDATE_TRACK_DATA){
+                this.updateTrackData(obj.eventData as TrackDataInterface);
             }
         });
     }
@@ -193,13 +237,24 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     /**Force all board track annotation cells to set xScale. Called when a new track has been added*/
-    private setScale(){
+    private setScale(): void{
         if(this.xScale!=null) {
             this.props.contextManager.next({
                 eventType: EventType.SCALE,
                 eventData: this.boardId
             } as RcsbFvContextManagerInterface);
         }
+    }
+
+    private changeTrackVisibility(obj: TrackVisibilityInterface): void{
+        const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
+        rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface)=>{
+            if(rowConfig.trackId === obj.trackId){
+                rowConfig.trackVisibility = obj.visibility;
+            }
+        });
+        this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData});
+        this.setScale();
     }
 
 }
