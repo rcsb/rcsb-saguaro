@@ -1,7 +1,7 @@
 # rcsb-saguaro
 
 RCSB Saguaro 1D Feature Viewer is an open-source TypeScript library used to display protein and genomic sequence annotations over the web.
-The project is developed and maintained at <a href="https://rcsb.org">RCSB PDB</a> and it is currently used to display protein features on its web site.
+The project is developed and maintained at [RCSB PDB](https://rcsb.org) and it is currently used to display protein features on its web site.
 The package offers multiple types of data displays and a rich set of options to customize feature visualization.
 
 <!---
@@ -11,24 +11,20 @@ The package offers multiple types of data displays and a rich set of options to 
 <script type="text/javascript">RcsbFvWebApp.RcsbFvBuilder.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");</script>
 --->
 
-<h3>Node Module Instalation</h3>
-<pre>
-npm install @bioinsilico/rcsb-saguaro
-</pre>
-<h3>CDN JavaScript</h3>
-<pre>
-&lt;script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.2.8/dist/rcsb-saguaro.js" type="text/javascript">&lt;/script>
-</pre>
-<h3>JavaScript Examples</h3>
-<a href="https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html">Single Tracks</a>
+### Node Module Instalation
+`npm install @bioinsilico/rcsb-saguaro`
 
-<a href="https://rcsb.github.io/rcsb-saguaro/examples/composite_track.html">Composite Track</a>
+### CDN JavaScript
+`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.2.8/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
-<a href="https://rcsb.github.io/rcsb-saguaro/examples/dynamic_track_loading.html">Dynamic Tracks</a>
+### JavaScript Examples
+* [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)
+* [Composite Track](https://rcsb.github.io/rcsb-saguaro/examples/composite_track.html)
+* [Dynamic Tracks](https://rcsb.github.io/rcsb-saguaro/examples/dynamic_track_loading.html)
 
-<a href="https://codepen.io/collection/njrBOR?grid_type=list">CODEPEN collection</a>
-<h3>Library Documentation</h3>
-TypeScript classes documentation can be found <a href="https://rcsb.github.io/rcsb-saguaro">here</a>.
+The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
+### Library Documentation
+TypeScript classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro).
 
 
 
