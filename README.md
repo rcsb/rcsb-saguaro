@@ -4,11 +4,12 @@ RCSB Saguaro 1D Feature Viewer is an open-source TypeScript library used to disp
 The project is developed and maintained at <a href="https://rcsb.org">RCSB PDB</a> and it is currently used to display protein features on its web site.
 The package offers multiple types of data displays and a rich set of options to customize feature visualization.
 
+<!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
-
 <script type="text/javascript" src="https://pfv-dev.rcsb.org/saguaro/app.js"></script>
-
+<script type="text/javascript">RcsbFvWebApp.RcsbFvBuilder.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");</script>
+--->
 
 <h3>Node Module Instalation</h3>
 <pre>
