@@ -1,6 +1,5 @@
 import {Subject, Subscription} from 'rxjs';
 import {RcsbFvTrackData} from "../../RcsbDataManager/RcsbDataManager";
-import {ZoomTransform} from "d3-zoom";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
 
@@ -54,15 +53,9 @@ export interface DataInterface {
     trackId:string;
 }
 
-/**Event Data Interface used to propagate board zoom*/
-export interface ScaleTransformInterface {
-    transform:ZoomTransform;
-    domId: string;
-}
-
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface{
     eventType: string;
-    eventData: string|ScaleTransformInterface|DataInterface|ResetInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackInterface;
+    eventData: string|DataInterface|ResetInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackInterface;
 }
 

@@ -6,7 +6,7 @@ import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 import {
     EventType, RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
+    RcsbFvContextManagerInterface, ResetInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {scaleLinear, ScaleLinear} from "d3-scale";
@@ -34,6 +34,7 @@ interface RcsbFvBoardStyleInterface{
     readonly width: number;
 }
 
+
 /**Board React Component class*/
 export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState > {
 
@@ -41,8 +42,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private readonly boardId : string = "RcsbFvBoard_"+Math.random().toString(36).substr(2);
     /**Array of inner div board track DOM element ids*/
     private readonly rcsbFvRowArrayIds : Array<string> = new Array<string>();
-    /**To be removed*/
-    private currentScale: ScaleTransformInterface;
     /**Subscription to events*/
     private subscription: Subscription;
     /**Global d3 Xscale object shaed among all board tracks*/
@@ -140,7 +139,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
         rowConfigData.push(configRow);
         this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData} as RcsbFvBoardState);
-        //this.setScale();
+        this.setScale();
     }
 
     /**Updates board configuration
@@ -182,8 +181,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         return this.props.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EventType.ADD_TRACK){
                 this.addRow(obj.eventData as RcsbFvRowConfigInterface);
-            }else if(obj.eventType===EventType.SCALE){
-                this.currentScale = obj.eventData as ScaleTransformInterface;
             }else if(obj.eventType===EventType.UPDATE_BOARD_CONFIG){
                 this.updateBoardConfig(obj.eventData as RcsbFvBoardFullConfigInterface);
             }
@@ -195,12 +192,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         this.subscription.unsubscribe();
     }
 
-    /**To be removed*/
+    /**Force all board track annotation cells to set xScale. Called when a new track has been added*/
     private setScale(){
-        if(this.currentScale!=null) {
+        if(this.xScale!=null) {
             this.props.contextManager.next({
                 eventType: EventType.SCALE,
-                eventData: this.currentScale
+                eventData: this.boardId
             } as RcsbFvContextManagerInterface);
         }
     }

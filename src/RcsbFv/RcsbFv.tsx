@@ -9,6 +9,7 @@ import {
     RcsbFvContextManagerInterface, ResetInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
+import {scaleLinear, ScaleLinear} from "d3-scale";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface

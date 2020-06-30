@@ -14,7 +14,7 @@ import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ScaleTransformInterface
+    RcsbFvContextManagerInterface
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
@@ -195,8 +195,9 @@ export class RcsbBoard {
         }
 
         this.addSVG();
-        this._xScale.domain([this.currentLocationView.from, this.currentLocationView.to])
-            .range([this._innerPadding, this._width - this._innerPadding]);
+        if(this.xScale().domain()[0] === 0 && this.xScale().domain()[1] === 1)
+            this.xScale().domain([this.currentLocationView.from, this.currentLocationView.to])
+                         .range([this._innerPadding, this._width - this._innerPadding]);
 
         this.d3Manager.addZoom({
             zoomEventHandler: this.zoomEventHandler,
@@ -327,13 +328,9 @@ export class RcsbBoard {
         this.updateAndMove();
 
         if(!propFlag){
-            const data:ScaleTransformInterface = {
-                transform:transform,
-                domId:this.domId
-            };
             this.triggerScaleEvent({
                     eventType:EventType.SCALE,
-                    eventData:data
+                    eventData:this.domId
             } as RcsbFvContextManagerInterface);
         }
     };
@@ -358,8 +355,8 @@ export class RcsbBoard {
         }
     };
 
-    public setScale(transformEvent: ScaleTransformInterface){
-        if(transformEvent.domId !== this.domId){
+    public setScale(domId: string){
+        if(domId !== this.domId){
             this.updateAndMove();
         }
     }

@@ -12,7 +12,7 @@ import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInter
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, ResetInterface, ScaleTransformInterface
+    RcsbFvContextManagerInterface, ResetInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
@@ -215,7 +215,7 @@ export class RcsbFvTrack {
     private subscribe(): Subscription{
         return this.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EventType.SCALE) {
-                this.setScale(obj.eventData as ScaleTransformInterface);
+                this.setScale(obj.eventData as string);
             }else if(obj.eventType===EventType.SELECTION){
                 this.setSelection(obj.eventData as string);
             }else if(obj.eventType===EventType.RESET){
@@ -231,10 +231,10 @@ export class RcsbFvTrack {
     }
 
     /**Modify d3 x-scale
-     * @param obj Scale event object Interface
+     * @param boardId Id of the SVG/HTML manager that triggered the event
      * */
-    public setScale(obj: ScaleTransformInterface) : void {
-        this.rcsbBoard.setScale(obj);
+    public setScale(boardId: string) : void {
+        this.rcsbBoard.setScale(boardId);
     }
 
     /**Highlights the region(s) defined by the attribute selection
