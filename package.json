@@ -1,6 +1,6 @@
 {
   "name": "@bioinsilico/rcsb-saguaro",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "RCSB 1D Feature Viewer",
   "main": "dist/RcsbFv.js",
   "files": [

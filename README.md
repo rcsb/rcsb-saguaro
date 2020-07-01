@@ -15,7 +15,7 @@ The package offers multiple types of data displays and a rich set of options to 
 `npm install @bioinsilico/rcsb-saguaro`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.2.10/dist/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.2.11/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### JavaScript Examples
 * [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)
@@ -23,10 +23,11 @@ The package offers multiple types of data displays and a rich set of options to 
 * [Dynamic Tracks](https://rcsb.github.io/rcsb-saguaro/examples/dynamic_track_loading.html)
 * [Track Visibility](https://rcsb.github.io/rcsb-saguaro/examples/change_track_visibility.html)
 * [Update Track Data](https://rcsb.github.io/rcsb-saguaro/examples/update_track_data.html)
+* [Click Callback](https://rcsb.github.io/rcsb-saguaro/examples/click_callbak.html)
 
 The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
 ### Library Documentation
-TypeScript classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro).
+TypeScript classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/globals.html).
 
 
 

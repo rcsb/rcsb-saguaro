@@ -114,6 +114,8 @@ export class RcsbBoard {
             },
             dblClick:()=>{
                 this.highlightRegion(null,false);
+                if(typeof this.onHighLightCallBack === "function")
+                    this.onHighLightCallBack();
             }
         };
         this.d3Manager.addMainG(innerConfig);

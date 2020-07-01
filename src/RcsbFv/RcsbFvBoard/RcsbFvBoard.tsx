@@ -163,14 +163,23 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
     }
 
+    /**Replace board track rack data
+     * @param obj New track data and target track id
+     * */
     private updateTrackData(obj: TrackDataInterface, ): void{
         this.changeTrackData(obj,"replace");
     }
 
+    /**Add new data to a given board track
+     * @param obj Additional track data and target track id
+     * */
     private addTrackData(obj: TrackDataInterface): void{
         this.changeTrackData(obj,"add");
     }
 
+    /**Modifies a board track data
+     * @param obj Additional track data and target track id
+     * */
     private changeTrackData(obj: TrackDataInterface, flag: "replace"|"add"): void{
         const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
         rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface)=>{
@@ -246,6 +255,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
     }
 
+    /**Modifies visibility of a board track
+     * @param obj Target track id and visibility flag (true/false)
+     * */
     private changeTrackVisibility(obj: TrackVisibilityInterface): void{
         const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
         rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface)=>{
