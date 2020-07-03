@@ -40,7 +40,7 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
             xScale: this.xScale,
             yScale: this.yScale,
             height: this._height,
-            color: this._displayColor
+            color: this._displayColor as string
         };
         RcsbD3PinManager.plot(config);
     }

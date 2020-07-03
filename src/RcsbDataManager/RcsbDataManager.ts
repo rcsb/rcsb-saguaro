@@ -64,6 +64,11 @@ export interface RcsbFvTrackDataElementInterface {
     provenanceColor?: string;
 }
 
+export interface RcsbFvColorGradient {
+    thresholds:Array<number>;
+    colors:Array<string>;
+}
+
 /**Array of annotation elements*/
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
 }

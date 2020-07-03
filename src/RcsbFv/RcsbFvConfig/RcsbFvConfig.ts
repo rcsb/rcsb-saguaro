@@ -3,7 +3,7 @@ import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "./RcsbFvCo
 import {
     RcsbFvTrackData,
     RcsbDataManager,
-    RcsbFvTrackDataElementInterface
+    RcsbFvTrackDataElementInterface, RcsbFvColorGradient
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
@@ -19,7 +19,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackHeight?: number;
     trackWidth?: number;
     trackColor?: string;
-    displayColor?: string;
+    displayColor?: string | RcsbFvColorGradient;
     displayDomain?: [number,number];
     interpolationType? : string;
     dynamicDisplay?: boolean;
@@ -97,7 +97,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }else if(typeof this.trackColor !== "string"){
             this.trackColor = RcsbFvDefaultConfigValues.trackColor;
         }
-        if(typeof args.displayColor === "string"){
+        if(typeof args.displayColor === "string" || typeof args.displayColor === "object"){
             this.displayColor = args.displayColor;
         }else if(this.displayColor !== "string"){
             this.displayColor = RcsbFvDefaultConfigValues.displayColor;

@@ -16,7 +16,7 @@ export class RcsbVlineDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
         const config: PlotVlineInterface = {
             elements: elements,
             xScale: this.xScale,
-            color: this._displayColor,
+            color: this._displayColor as string,
             height: this._height
         };
         RcsbD3VlineManager.plot(config);

@@ -20,7 +20,7 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 			dx: this.dx,
 			y_o: this._height*(1/6),
 			xScale: this.xScale,
-			color: this._displayColor,
+			color: this._displayColor as string,
 			height:this._height
 		};
 		RcsbD3BlockManager.plot(config);

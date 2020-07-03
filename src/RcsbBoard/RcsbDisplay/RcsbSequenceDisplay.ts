@@ -119,7 +119,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             elements: elements,
             xScale: this.xScale,
             yScale: this.yScale,
-            color: this._displayColor,
+            color: this._displayColor as string,
             height: this._height,
             intervalRatio: this.intervalRatio,
         };

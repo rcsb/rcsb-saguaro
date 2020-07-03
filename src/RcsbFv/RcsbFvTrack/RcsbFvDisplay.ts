@@ -11,6 +11,7 @@ import {RcsbLineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbLineDisplay";
 import {RcsbAreaDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAreaDisplay";
 import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay";
 import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
+import {RcsbFvColorGradient} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbFvDisplay {
 
@@ -85,25 +86,25 @@ export class RcsbFvDisplay {
                     out = RcsbFvDisplay.axisDisplay(config.boardId);
                     break;
                 case RcsbFvDisplayTypes.BLOCK:
-                    out = RcsbFvDisplay.blockDisplay(config.boardId, config.displayColor);
+                    out = RcsbFvDisplay.blockDisplay(config.boardId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.PIN:
                     if(config.displayDomain != undefined)
-                        out = RcsbFvDisplay.pinDisplay(config.boardId, config.displayColor, config.displayDomain);
+                        out = RcsbFvDisplay.pinDisplay(config.boardId, config.displayColor as string, config.displayDomain);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.BOND:
-                    out = RcsbFvDisplay.bondDisplay(config.boardId, config.displayColor);
+                    out = RcsbFvDisplay.bondDisplay(config.boardId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.SEQUENCE:
                     const dynamicDisplay: boolean = config.dynamicDisplay != undefined ? config.dynamicDisplay: false;
                     const nonEmptyDisplay: boolean = config.nonEmptyDisplay != undefined ? config.nonEmptyDisplay : false;
-                    out = RcsbFvDisplay.sequenceDisplay(config.boardId, config.displayColor, dynamicDisplay, nonEmptyDisplay);
+                    out = RcsbFvDisplay.sequenceDisplay(config.boardId, config.displayColor as string, dynamicDisplay, nonEmptyDisplay);
                     break;
                 case RcsbFvDisplayTypes.LINE:
                     if(config.displayDomain != undefined)
-                        out = RcsbFvDisplay.lineDisplay(config.boardId, config.displayColor, config.displayDomain, config.interpolationType);
+                        out = RcsbFvDisplay.lineDisplay(config.boardId, config.displayColor as string, config.displayDomain, config.interpolationType);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
@@ -114,10 +115,10 @@ export class RcsbFvDisplay {
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.VARIANT:
-                    out = RcsbFvDisplay.variantDisplay(config.boardId, config.displayColor);
+                    out = RcsbFvDisplay.variantDisplay(config.boardId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.VLINE:
-                    out = RcsbFvDisplay.vlineDisplay(config.boardId, config.displayColor);
+                    out = RcsbFvDisplay.vlineDisplay(config.boardId, config.displayColor as string);
                     break;
                 default:
                     throw "Track type " + config.displayType + " is not supported";
@@ -184,7 +185,7 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private static areaDisplay(boardId: string, color: string, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
+    private static areaDisplay(boardId: string, color: string | RcsbFvColorGradient, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
         const display: RcsbAreaDisplay = new RcsbAreaDisplay(boardId);
         display.setDisplayColor(color);
         display.yDomain(domain);

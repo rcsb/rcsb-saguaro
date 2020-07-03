@@ -16,9 +16,8 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
 
     private _yDomain: [number, number];
     protected yScale: ScaleLinear<number,number> = scaleLinear();
-    private maxPoints: number = 1000;
-    private tick: number;
-    private innerData: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
+    protected maxPoints: number = 1000;
+    protected innerData: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
 
     definedScale: boolean = false;
     line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
@@ -55,7 +54,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         if(typeof this._height === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
             this.yScale
                 .domain(this._yDomain)
-                .range([this._height-1,1]);
+                .range([this._height,0]);
             this.setFunction();
             this.definedScale = true;
         }else{
@@ -76,7 +75,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
 
     updateFunction(): void{
         const self: RcsbLineDisplay = this;
-        this.line.x(function (d: RcsbFvTrackDataElementInterface) {
+        this.line.x((d: RcsbFvTrackDataElementInterface) => {
             return self.xScale(d.begin);
         });
     }
@@ -89,28 +88,23 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         const config: PlotLineInterface = {
             points: this.linePoints,
             line: this.line,
-            color: this._displayColor,
+            color: this._displayColor as string,
             trackG: this.g
         };
         RcsbD3LineManager.plot(config);
     }
 
     move(): void{
-        if(typeof window!== "undefined") {
-            window.clearTimeout(this.tick);
-            this.updateFunction();
-            this.tick = window.setTimeout(() => {
-                const config: MoveLineInterface = {
-                    points: this.linePoints,
-                    line: this.line,
-                    trackG: this.g
-                };
-                RcsbD3LineManager.move(config);
-            }, 300);
-        }
+        this.updateFunction();
+        const config: MoveLineInterface = {
+            points: this.linePoints,
+            line: this.line,
+            trackG: this.g
+        };
+        RcsbD3LineManager.move(config);
     }
 
-    downSampling(points: RcsbFvTrackDataElementInterface[]):RcsbFvTrackDataElementInterface[] {
+    protected downSampling(points: RcsbFvTrackDataElementInterface[]):RcsbFvTrackDataElementInterface[] {
         let out:RcsbFvTrackDataElementInterface[] = [];
         const tmp:RcsbFvTrackDataElementInterface[] = [];
         const thr = this.maxPoints;

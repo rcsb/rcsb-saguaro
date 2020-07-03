@@ -38,7 +38,7 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
             xScale: this.xScale,
             yScale: this.yScale,
             height: this._height,
-            color: this._displayColor,
+            color: this._displayColor as string,
             trackG: this.g
         };
         RcsbD3VariantManager.plot(config);

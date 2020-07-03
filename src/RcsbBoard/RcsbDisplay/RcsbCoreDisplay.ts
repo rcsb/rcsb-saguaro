@@ -2,14 +2,18 @@ import {RcsbTrack} from "../RcsbTrack";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {Selection, BaseType, event, EnterElement} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {
+    RcsbFvColorGradient,
+    RcsbFvTrackData,
+    RcsbFvTrackDataElementInterface
+} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 
 export abstract class RcsbCoreDisplay extends RcsbTrack{
 
-    _displayColor: string = "#FF6666";
+    protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
     elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     includeTooltip: boolean = true;
@@ -45,7 +49,7 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
         this.boardId = name;
     }
 
-    setDisplayColor(color: string): void{
+    setDisplayColor(color: string  | RcsbFvColorGradient): void{
         this._displayColor = color;
     }
 
