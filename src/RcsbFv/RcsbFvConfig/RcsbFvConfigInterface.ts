@@ -1,4 +1,8 @@
-import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {
+    RcsbFvGradientInterface,
+    RcsbFvTrackData,
+    RcsbFvTrackDataElementInterface
+} from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
 
@@ -23,7 +27,7 @@ export interface RcsbFvBoardConfigInterface {
 //TODO Create additionalConfig to encode display type specific configuration
 interface CommonConfigInterface{
     /**Annotation elements color*/
-    displayColor?: string;
+    displayColor?: string | RcsbFvGradientInterface;
     /**Type of data representation*/
     displayType: RcsbFvDisplayTypes;
     /**Type of data representation*/
@@ -89,3 +93,5 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     /**The track must dbe hide*/
     trackVisibility?:boolean;
 }
+
+

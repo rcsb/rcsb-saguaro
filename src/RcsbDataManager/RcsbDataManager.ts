@@ -64,6 +64,20 @@ export interface RcsbFvTrackDataElementInterface {
     provenanceColor?: string;
 }
 
+/**Data structure used to define svg binary gradients*/
+export interface RcsbFvGradientInterface {
+    /**Value where color changes*/
+    threshold: number;
+    /**Range of numerical values*/
+    domain:[number,number];
+    /**Color used above the threshold*/
+    gtColor: string;
+    /**Color used under the threshold*/
+    ltColor: string;
+    /**Color used for thrshols values*/
+    eqColor?: string;
+}
+
 /**Array of annotation elements*/
 export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
 }

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PlotVlineInterface | @bioinsilico/rcsb-saguaro</title>
+	<title>RcsbFvGradientInterface | @bioinsilico/rcsb-saguaro</title>
 	<meta name="description" content="Documentation for @bioinsilico/rcsb-saguaro">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,21 +56,28 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="plotvlineinterface.html">PlotVlineInterface</a>
+					<a href="rcsbfvgradientinterface.html">RcsbFvGradientInterface</a>
 				</li>
 			</ul>
-			<h1>Interface PlotVlineInterface</h1>
+			<h1>Interface RcsbFvGradientInterface</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Data structure used to define svg binary gradients</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PlotVlineInterface</span>
+						<span class="target">RcsbFvGradientInterface</span>
 					</li>
 				</ul>
 			</section>
@@ -81,10 +88,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotvlineinterface.html#color" class="tsd-kind-icon">color</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotvlineinterface.html#elements" class="tsd-kind-icon">elements</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotvlineinterface.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotvlineinterface.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvgradientinterface.html#domain" class="tsd-kind-icon">domain</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvgradientinterface.html#eqcolor" class="tsd-kind-icon">eq<wbr>Color</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvgradientinterface.html#gtcolor" class="tsd-kind-icon">gt<wbr>Color</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvgradientinterface.html#ltcolor" class="tsd-kind-icon">lt<wbr>Color</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvgradientinterface.html#threshold" class="tsd-kind-icon">threshold</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,44 +101,79 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="color" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> color</h3>
-					<div class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="domain" class="tsd-anchor"></a>
+					<h3>domain</h3>
+					<div class="tsd-signature tsd-kind-icon">domain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts#L9">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbDataManager/RcsbDataManager.ts#L72">src/RcsbDataManager/RcsbDataManager.ts:72</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Range of numerical values</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="elements" class="tsd-anchor"></a>
-					<h3>elements</h3>
-					<div class="tsd-signature tsd-kind-icon">elements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGGElement</span><span class="tsd-signature-symbol">, </span><a href="rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">BaseType</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="eqcolor" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> eq<wbr>Color</h3>
+					<div class="tsd-signature tsd-kind-icon">eq<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts#L7">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbDataManager/RcsbDataManager.ts#L78">src/RcsbDataManager/RcsbDataManager.ts:78</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Color used for thrshols values</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="height" class="tsd-anchor"></a>
-					<h3>height</h3>
-					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="gtcolor" class="tsd-anchor"></a>
+					<h3>gt<wbr>Color</h3>
+					<div class="tsd-signature tsd-kind-icon">gt<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts#L10">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbDataManager/RcsbDataManager.ts#L74">src/RcsbDataManager/RcsbDataManager.ts:74</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Color used above the threshold</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="xscale" class="tsd-anchor"></a>
-					<h3>x<wbr>Scale</h3>
-					<div class="tsd-signature tsd-kind-icon">x<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ScaleLinear</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="ltcolor" class="tsd-anchor"></a>
+					<h3>lt<wbr>Color</h3>
+					<div class="tsd-signature tsd-kind-icon">lt<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts#L8">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbDataManager/RcsbDataManager.ts#L76">src/RcsbDataManager/RcsbDataManager.ts:76</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Color used under the threshold</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="threshold" class="tsd-anchor"></a>
+					<h3>threshold</h3>
+					<div class="tsd-signature tsd-kind-icon">threshold<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/b6d3f0c/src/RcsbDataManager/RcsbDataManager.ts#L70">src/RcsbDataManager/RcsbDataManager.ts:70</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Value where color changes</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -147,19 +190,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="plotvlineinterface.html" class="tsd-kind-icon">Plot<wbr>Vline<wbr>Interface</a>
+						<a href="rcsbfvgradientinterface.html" class="tsd-kind-icon">Rcsb<wbr>FvGradient<wbr>Interface</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="plotvlineinterface.html#color" class="tsd-kind-icon">color</a>
+								<a href="rcsbfvgradientinterface.html#domain" class="tsd-kind-icon">domain</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="plotvlineinterface.html#elements" class="tsd-kind-icon">elements</a>
+								<a href="rcsbfvgradientinterface.html#eqcolor" class="tsd-kind-icon">eq<wbr>Color</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="plotvlineinterface.html#height" class="tsd-kind-icon">height</a>
+								<a href="rcsbfvgradientinterface.html#gtcolor" class="tsd-kind-icon">gt<wbr>Color</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="plotvlineinterface.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a>
+								<a href="rcsbfvgradientinterface.html#ltcolor" class="tsd-kind-icon">lt<wbr>Color</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcsbfvgradientinterface.html#threshold" class="tsd-kind-icon">threshold</a>
 							</li>
 						</ul>
 					</li>

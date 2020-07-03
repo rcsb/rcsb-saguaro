@@ -6,7 +6,7 @@ import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {
     RcsbFvTrackData,
     RcsbDataManager,
-    RcsbFvTrackDataMap
+    RcsbFvTrackDataMap, RcsbFvGradientInterface
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {
@@ -45,6 +45,8 @@ export class RcsbFvTrack {
     private readonly xScale: ScaleLinear<number,number>;
     /**Current selection object. This is a common for all board annotation cells*/
     private readonly selection: RcsbSelection;
+
+    private readonly gradientMap: Map<string,RcsbFvGradientInterface> = new Map<string, RcsbFvGradientInterface>();
 
     public constructor(args:RcsbFvRowConfigInterface, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager, updateRowHeight:()=>void) {
         this.contextManager = contextManager;
@@ -102,11 +104,36 @@ export class RcsbFvTrack {
      * @param args Board row configuration object
      * */
     public setConfig(args: RcsbFvRowConfigInterface) : void{
+        this.processGradients(args);
         if(this.rcsbFvConfig == null) {
             this.rcsbFvConfig = new RcsbFvConfig(args);
         }else{
             this.rcsbFvConfig.updateConfig(args);
         }
+    }
+
+    private processGradients(rowConfig: RcsbFvRowConfigInterface): void{
+        if(typeof rowConfig.displayColor === "object"){
+            const gradientId: string = "gradient-"+this.elementId+":"+rowConfig.trackId;
+            this.gradientMap.set(gradientId, rowConfig.displayColor);
+            rowConfig.displayColor = "url(#"+gradientId+")";
+        }
+        if(rowConfig.displayConfig instanceof Array){
+            rowConfig.displayConfig.forEach(display=>{
+                if(typeof display.displayColor === "object"){
+                    const gradientId: string = "gradient-"+this.elementId+":"+rowConfig.trackId+":"+display.displayId;
+                    this.gradientMap.set(gradientId, display.displayColor);
+                    rowConfig.displayColor = "url(#"+gradientId+")";
+                }
+            });
+
+        }
+    }
+
+    private addGradients(): void{
+        this.gradientMap.forEach((gradientObj,gradientId)=>{
+            this.rcsbBoard.addGradient(gradientObj,gradientId);
+        })
     }
 
     /**Sets parameters for the SVG/HTML level object manager*/
@@ -207,6 +234,7 @@ export class RcsbFvTrack {
             this.rcsbBoard.addTrack(track);
         });
         this.rcsbBoard.startBoard();
+        this.addGradients();
     }
 
     /**Subscribe function to handle events and communicate all board track annotations cell panels

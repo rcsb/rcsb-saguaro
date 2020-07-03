@@ -24,9 +24,10 @@ export class RcsbD3AreaManager {
         config.trackG.append(RcsbD3Constants.PATH)
             .datum(config.points)
             .attr(RcsbD3Constants.D, config.area)
-            .style(RcsbD3Constants.STROKE, config.color)
-            .style(RcsbD3Constants.STROKE_WIDTH, 1)
-            .attr(RcsbD3Constants.FILL_OPACITY,"0.25")
+            .attr(RcsbD3Constants.STROKE, config.color)
+            .attr(RcsbD3Constants.STROKE_WIDTH, 1)
+            .attr(RcsbD3Constants.STROKE_OPACITY, 1)
+            .attr(RcsbD3Constants.FILL_OPACITY,0.8)
             .attr(RcsbD3Constants.FILL, config.color);
     }
 

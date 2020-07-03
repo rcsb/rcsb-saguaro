@@ -4,6 +4,7 @@ import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
 import {ScaleLinear} from "d3-scale";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {
+    RcsbFvGradientInterface,
     RcsbFvTrackDataElementGapInterface,
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
@@ -114,6 +115,26 @@ export class RcsbD3Manager {
             });
 
         this._width = config.width;
+    }
+
+    addSvgGradient(gradient: RcsbFvGradientInterface, gradientId: string):void{
+        const thr: string = Math.round((gradient.threshold-gradient.domain[0])/(gradient.domain[1]-gradient.domain[0])*100).toString();
+        const eqColor: string = gradient.eqColor != undefined ? gradient.eqColor : gradient.gtColor;
+        this._svg.append("linearGradient")
+            .attr("id", gradientId)
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", "0%").attr("y1", "100%")
+            .attr("x2", "0%").attr("y2", "0%")
+            .selectAll("stop")
+            .data([
+                {offset: "0%", color: gradient.ltColor},
+                {offset: thr+"%", color: eqColor},
+                {offset: thr+"%", color: eqColor},
+                {offset: "100%", color: gradient.gtColor}
+            ])
+            .enter().append("stop")
+            .attr("offset", function(d) { return d.offset; })
+            .attr("stop-color", function(d) { return d.color; });
     }
 
     addMainG(config: MainGConfInterface): void {

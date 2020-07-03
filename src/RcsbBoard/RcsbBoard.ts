@@ -18,7 +18,7 @@ import {
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
-import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
+import {RcsbFvGradientInterface, RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbSelection} from "./RcsbSelection";
 
@@ -209,7 +209,7 @@ export class RcsbBoard {
         this.startTracks();
     }
 
-    startTracks(): void{
+    private startTracks(): void{
     	this.tracks.forEach(track=>{
             track.init(this._width, this._xScale);
         });
@@ -218,6 +218,10 @@ export class RcsbBoard {
             track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
         });
 
+    }
+
+    addGradient(gradient: RcsbFvGradientInterface, gradientId: string): void{
+        this.d3Manager.addSvgGradient(gradient, gradientId);
     }
 
     updateBoard(): void{
@@ -256,7 +260,7 @@ export class RcsbBoard {
         this.tracks.push(t);
     }
 
-    setBoardHeight(): void{
+    private setBoardHeight(): void{
         let h = 0;
         this.tracks.forEach(track=>{
             h += track.height();
