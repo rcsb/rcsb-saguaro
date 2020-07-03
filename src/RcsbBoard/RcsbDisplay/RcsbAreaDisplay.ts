@@ -38,11 +38,13 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
-        if(!this.definedScale)
+        if(!this.definedScale){
             this.setScale();
+            this.setArea();
+        }
+
         this.linePoints = this.downSampling(elements.data());
         elements.remove();
-        this.setArea();
         const config: PlotAreaInterface = {
             points: this.linePoints,
             color: this._displayColor,
