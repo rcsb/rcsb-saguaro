@@ -155,12 +155,15 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * @param configData Board and track configuration interface
      * */
     private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
-        if(configData.rowConfigData!=null){
+        this.xScale.domain([0,1]);
+        if(configData.rowConfigData!=null && configData.boardConfigData!=null){
+            this.setState({rowConfigData: configData.rowConfigData, boardConfigData: configData.boardConfigData} );
+        }else if(configData.boardConfigData!=null){
+            this.setState({boardConfigData: configData.boardConfigData} );
+        }else if(configData.rowConfigData!=null){
             this.setState({rowConfigData: configData.rowConfigData} );
         }
-        if(configData.boardConfigData!=null){
-            this.setState({boardConfigData: configData.boardConfigData} );
-        }
+        this.setScale();
     }
 
     /**Replace board track rack data
