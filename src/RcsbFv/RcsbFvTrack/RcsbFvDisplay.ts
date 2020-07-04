@@ -110,7 +110,7 @@ export class RcsbFvDisplay {
                     break;
                 case RcsbFvDisplayTypes.AREA:
                     if(config.displayDomain != undefined)
-                        out = RcsbFvDisplay.areaDisplay(config.boardId, config.displayColor, config.displayDomain, config.interpolationType);
+                        out = RcsbFvDisplay.areaDisplay(config.boardId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
@@ -136,6 +136,7 @@ export class RcsbFvDisplay {
                 out.setTooltip(config.includeTooltip);
             }
         }else{
+            console.error(config);
             throw "Single Display failed missing boardId or displayColor";
         }
         return out;

@@ -51,7 +51,7 @@ export class RcsbFvTrack {
         this.updateRowHeight = updateRowHeight;
         this.xScale = xScale;
         this.selection = selection;
-        if (typeof args.elementId === "string" && document.getElementById(args.elementId) !== null) {
+        if (typeof args.elementId === "string" && document.getElementById(args.elementId) != null) {
             this.rcsbBoard = new RcsbBoard(args.elementId, xScale, this.selection, this.contextManager);
         }
         this.buildTrack(args);
@@ -66,7 +66,7 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.elementId === "string"){
             this.init(this.rcsbFvConfig.elementId);
         }
-        if(typeof this.rcsbFvConfig.trackData !== "undefined" && this.rcsbFvConfig.displayType !== RcsbFvDisplayTypes.COMPOSITE ){
+        if(typeof this.rcsbFvConfig.trackData != "undefined" && this.rcsbFvConfig.displayType != RcsbFvDisplayTypes.COMPOSITE ){
             this.load(this.rcsbFvConfig.trackData);
         }else if(this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE){
             const data: Array<RcsbFvTrackData> | null = this.collectCompositeData();
@@ -83,7 +83,7 @@ export class RcsbFvTrack {
      * @param elementId DOM element Id
      * */
     public init(elementId: string) : void{
-        if(document.getElementById(elementId)!== null) {
+        if(document.getElementById(elementId)!= null) {
             this.elementId = elementId;
             if(this.rcsbBoard === null){
                 this.rcsbBoard = new RcsbBoard(this.elementId, this.xScale, this.selection, this.contextManager);
@@ -138,7 +138,7 @@ export class RcsbFvTrack {
         const data: Array<RcsbFvTrackData> = new Array<RcsbFvTrackData>();
         if(this.rcsbFvConfig?.displayConfig!=undefined) {
             for (let displayItem of this.rcsbFvConfig.displayConfig) {
-                if (typeof displayItem.displayData !== "undefined") {
+                if (typeof displayItem.displayData != "undefined") {
                     data.push(displayItem.displayData);
                 }
             }

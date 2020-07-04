@@ -66,9 +66,9 @@ export class RcsbTrack {
     }
 
     load(d?:  RcsbFvTrackData | RcsbFvTrackDataMap): RcsbFvTrackData {
-        if(d!=undefined) {
+        if(d!=null) {
             const e: RcsbFvTrackData = d as RcsbFvTrackData;
-            if (e !== undefined) {
+            if (e != null) {
                 this._data = e;
             }
         }

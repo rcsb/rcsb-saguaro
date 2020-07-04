@@ -57,7 +57,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         if(typeof args.elementId === "string") {
             this.elementId = args.elementId;
         }
-        if(typeof args.trackData  !== "undefined") {
+        if(typeof args.trackData  != "undefined") {
             this.trackData = RcsbDataManager.processData(args.trackData);
         }
         if(args.displayConfig instanceof Array) {
@@ -94,12 +94,12 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if( typeof args.trackColor === "string"){
             this.trackColor = args.trackColor;
-        }else if(typeof this.trackColor !== "string"){
+        }else if(typeof this.trackColor != "string"){
             this.trackColor = RcsbFvDefaultConfigValues.trackColor;
         }
-        if(typeof args.displayColor === "string" || typeof args.displayColor === "object"){
+        if(typeof args.displayColor === "string" || (args.displayColor != null && typeof args.displayColor === "object")){
             this.displayColor = args.displayColor;
-        }else if(this.displayColor !== "string"){
+        }else if(this.displayColor == null){
             this.displayColor = RcsbFvDefaultConfigValues.displayColor;
         }
         if(args.displayDomain instanceof Array){
@@ -109,7 +109,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.interpolationType === "string"){
             this.interpolationType = this.getInterpolationType(args.interpolationType);
-        }else if(this.interpolationType !== "string"){
+        }else if(typeof this.interpolationType != "string"){
             this.interpolationType = RcsbFvDefaultConfigValues.interpolationType;
         }
         if(typeof args.includeTooltip === "boolean"){

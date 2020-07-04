@@ -162,7 +162,7 @@ export class RcsbBoard {
         else if(propFlag === false)
             this.selection.clearSelection();
 
-        if(propFlag!==true) {
+        if(propFlag!=true) {
             this.triggerSelectionEvent({
                 eventType:EventType.SELECTION,
                 eventData:this.domId
@@ -349,7 +349,7 @@ export class RcsbBoard {
     }
 
     private updateWithDelay(): void {
-        if(typeof window!== "undefined") {
+        if(typeof window!= "undefined") {
             window.clearTimeout(this.updateId);
             this.updateId = window.setTimeout(() => {
                 this.updateAllTracks();
@@ -358,7 +358,7 @@ export class RcsbBoard {
     };
 
     public setScale(domId: string){
-        if(domId !== this.domId){
+        if(domId != this.domId){
             this.updateAndMove();
         }
     }

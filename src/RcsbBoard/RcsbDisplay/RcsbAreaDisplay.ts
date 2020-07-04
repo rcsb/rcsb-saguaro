@@ -95,11 +95,13 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
         let title:string | undefined = points[0].title;
         if(points[0].name != null)title = points[0].name;
         for(let n = 1; n<this.xScale.domain()[1]; n++){
+            this.innerData.push({begin:n,value:0,title:title});
             gradient.colors.forEach((c,i)=>{
                 tmp[i].points.push({begin:n,value:0,title:title});
             });
         }
         points.forEach((p) => {
+            this.innerData[p.begin]={begin:p.begin,value:p.value,title:title};
             if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]) {
                 const thrIndex: number = RcsbAreaDisplay.searchClassThreshold(p.value as number, gradient.thresholds);
                 tmp[thrIndex].points[p.begin] = p;
@@ -110,7 +112,6 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
             lineColor.points.forEach((p)=> {
                 if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]){
                     out.push(p);
-                    this.innerData.push(p);
                 }
             });
             if(out.length>thr){

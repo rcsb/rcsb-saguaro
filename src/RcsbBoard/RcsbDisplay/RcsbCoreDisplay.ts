@@ -131,7 +131,7 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
         //TODO this cannot be done in that way!!!!!
         //this.g.selectAll("path").remove();
 
-        if (compKey !== undefined) {
+        if (compKey != undefined) {
             visSel = this.g.selectAll("."+classes.rcsbElement+"_" + compKey);
         } else {
             visSel = this.g.selectAll("."+classes.rcsbElement);

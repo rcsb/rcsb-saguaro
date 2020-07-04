@@ -86,7 +86,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         });
 
         let elemClass = "."+classes.rcsbElement;
-        if (compKey !== undefined) {
+        if (compKey != undefined) {
             elemClass += "_"+compKey;
         }
 

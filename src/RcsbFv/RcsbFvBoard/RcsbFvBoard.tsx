@@ -79,7 +79,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     {rcsbFvRowAxis}
                     {
                         this.state.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
-                            return rowData.trackVisibility;
+                            return rowData.trackVisibility != false;
                         }).map((rowData: RcsbFvRowConfigInterface) =>{
                             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
                             this.rcsbFvRowArrayIds.push(rowId);
@@ -179,6 +179,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
 
     /**Modifies a board track data
      * @param obj Additional track data and target track id
+     * @param flag Replace track data or add data to the current one
      * */
     private changeTrackData(obj: TrackDataInterface, flag: "replace"|"add"): void{
         const rowConfigData: Array<RcsbFvRowConfigInterface> = this.state.rowConfigData;
