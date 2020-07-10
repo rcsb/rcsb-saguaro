@@ -157,9 +157,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
         this.xScale.domain([0,1]);
         if(configData.rowConfigData!=null && configData.boardConfigData!=null){
-            this.setState({rowConfigData: configData.rowConfigData, boardConfigData: configData.boardConfigData} );
+            this.setState({rowConfigData: configData.rowConfigData, boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.boardConfigData!=null){
-            this.setState({boardConfigData: configData.boardConfigData} );
+            this.setState({boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.rowConfigData!=null){
             this.setState({rowConfigData: configData.rowConfigData} );
         }

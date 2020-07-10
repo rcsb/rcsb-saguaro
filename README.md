@@ -7,7 +7,7 @@ The package offers multiple types of data displays and a rich set of options to 
 <!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
-<script type="text/javascript" src="https://pfv-dev.rcsb.org/saguaro/app.js"></script>
+<script type="text/javascript" src="https://wwww.rcsb.org/saguaro/app.js"></script>
 <script type="text/javascript">RcsbFvWebApp.RcsbFvBuilder.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");</script>
 --->
 
@@ -15,7 +15,7 @@ The package offers multiple types of data displays and a rich set of options to 
 `npm install @bioinsilico/rcsb-saguaro`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.3.1/dist/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.3.2/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### JavaScript Examples
 * [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)

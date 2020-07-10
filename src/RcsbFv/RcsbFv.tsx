@@ -9,7 +9,6 @@ import {
     RcsbFvContextManagerInterface, TrackVisibilityInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
-import {scaleLinear, ScaleLinear} from "d3-scale";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface
@@ -160,8 +159,12 @@ export class RcsbFv {
     public updateBoardConfig(newConfig: Partial<RcsbFvBoardFullConfigInterface>){
         const configDataObj:Partial<RcsbFvBoardFullConfigInterface> = {
             rowConfigData: newConfig.rowConfigData,
-            boardConfigData: newConfig.boardConfigData
+            boardConfigData: {...this.boardConfigData,...newConfig.boardConfigData}
         };
+        if(configDataObj.rowConfigData!=null) {
+            this.checkFvTrackConfig(configDataObj.rowConfigData);
+            this.rowConfigData = configDataObj.rowConfigData;
+        }
         this.contextManager.next({
             eventType:EventType.UPDATE_BOARD_CONFIG,
             eventData:configDataObj
