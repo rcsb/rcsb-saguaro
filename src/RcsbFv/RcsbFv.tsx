@@ -159,12 +159,14 @@ export class RcsbFv {
     public updateBoardConfig(newConfig: Partial<RcsbFvBoardFullConfigInterface>){
         const configDataObj:Partial<RcsbFvBoardFullConfigInterface> = {
             rowConfigData: newConfig.rowConfigData,
-            boardConfigData: {...this.boardConfigData,...newConfig.boardConfigData}
+            boardConfigData: newConfig.boardConfigData ? {...this.boardConfigData,...newConfig.boardConfigData}  : undefined
         };
         if(configDataObj.rowConfigData!=null) {
             this.checkFvTrackConfig(configDataObj.rowConfigData);
             this.rowConfigData = configDataObj.rowConfigData;
         }
+        if(configDataObj.boardConfigData!=null)
+            this.boardConfigData = configDataObj.boardConfigData;
         this.contextManager.next({
             eventType:EventType.UPDATE_BOARD_CONFIG,
             eventData:configDataObj

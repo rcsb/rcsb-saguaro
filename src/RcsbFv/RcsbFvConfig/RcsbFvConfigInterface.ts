@@ -9,7 +9,7 @@ import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
     /**Length of the sequence*/
-    length: number;
+    length?: number;
     /**Width of the track title cells*/
     rowTitleWidth?: number;
     /**Width of the track annotation cells*/
