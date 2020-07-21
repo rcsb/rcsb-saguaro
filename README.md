@@ -27,6 +27,9 @@ The package offers multiple types of data displays and a rich set of options to 
 
 The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
 
+### rcsb-saguaro-app
+We also provide a library ([rcsb-saguaro-app](https://rcsb.github.io/rcsb-saguaro-app)) to build preconfigured 1D Protein Feature Views of RCSB PDB and UniProtKB annotations. 
+
 ### Library Documentation
 TypeScript classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/globals.html).
 
