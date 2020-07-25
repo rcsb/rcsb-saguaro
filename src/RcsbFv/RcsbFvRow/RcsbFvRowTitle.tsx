@@ -34,8 +34,8 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div style={{width:titleWidth,height:height,paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px"}}>{this.setTitle()}</div></div>
-                    <div style={{height:height}}><div style={{lineHeight:height+"px"}}>{this.configData.rowPrefix}</div></div>
+                    <div style={{width:titleWidth,height:height,paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.setTitle()}</div></div>
+                    <div style={{height:height}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.configData.rowPrefix}</div></div>
                 </div>
             );
         }else {
@@ -45,7 +45,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div style={{paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px"}}>{this.setTitle()}</div></div>
+                    <div style={{paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.setTitle()}</div></div>
                 </div>
             );
         }

@@ -18,7 +18,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     private intervalRatio: [number,number] = [5,16];
     private hideFlag: boolean = false;
     private currentLocation: LocationViewInterface;
-    private compKey: string;
+    private compKey: string | undefined;
     private nonEmptyDisplay: boolean = false;
 
 
@@ -40,59 +40,22 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
 
     _update(where: LocationViewInterface, compKey?: string) {
         this.currentLocation = where;
-        this.compKey = compKey != undefined ? compKey : "";
+        this.compKey = compKey;
         if(this.hideFlag)
             return;
 
-        let sequence: RcsbFvTrackData = this._data;
-        if (sequence === undefined) {
+        if (this._data === undefined) {
             return;
         }
 
-        const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
-        sequence.forEach(seqRegion=>{
-            if(typeof seqRegion.value === "string") {
-                if(seqRegion.value.length>1) {
-                    seqRegion.value.split("").forEach((s: string, i: number) => {
-                        const e: RcsbFvTrackDataElementInterface = {
-                            begin: (seqRegion.begin + i),
-                            type: "RESIDUE",
-                            title: "RESIDUE",
-                            label: s
-                        };
-                        if(typeof seqRegion.oriBegin === "number")
-                            e.oriBegin = seqRegion.oriBegin + i;
-                        if(typeof seqRegion.sourceId === "string")
-                            e.sourceId = seqRegion.sourceId;
-                        if(typeof seqRegion.source === "string")
-                            e.source = seqRegion.source;
-                        elems.push(e);
-                    });
-                }else{
-                    const e: RcsbFvTrackDataElementInterface = {
-                        ...seqRegion,
-                        begin: seqRegion.begin,
-                        type: "RESIDUE",
-                        title: "RESIDUE",
-                        label: seqRegion.value
-                    };
-                    elems.push(e);
-                }
-            }
-        });
-
-        const dataElems: Array<RcsbFvTrackDataElementInterface> = elems.filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
+        const dataElems: Array<RcsbFvTrackDataElementInterface> = this.getSequenceData().filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
             return (s.begin >= where.from && s.begin <= where.to);
         });
 
-        let elemClass = "."+classes.rcsbElement;
-        if (compKey != undefined) {
-            elemClass += "_"+compKey;
-        }
-
+        const elemClass = compKey != undefined ? "."+classes.rcsbElement+"_"+compKey : "."+classes.rcsbElement;
         this.g.selectAll(elemClass).remove();
 
-        if(this.minRatio()){
+        if(this.minIntervalRatio()){
             this.g.select(RcsbD3Constants.LINE).remove();
             this.g.selectAll(elemClass).data(dataElems)
                 .enter()
@@ -152,13 +115,44 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         }
     }
 
-    private getRatio(): number{
-        const xScale = this.xScale;
-        return (xScale.range()[1]-xScale.range()[0])/(xScale.domain()[1]-xScale.domain()[0]);
+    private minIntervalRatio(): boolean{
+        return (this.getRatio() >= this.intervalRatio[0]);
     }
 
-    private minRatio(): boolean{
-        return (this.getRatio() >= this.intervalRatio[0]);
+    private getSequenceData(): Array<RcsbFvTrackDataElementInterface>{
+        const sequence: RcsbFvTrackData = this._data;
+        const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
+        sequence.forEach(seqRegion=>{
+            if(typeof seqRegion.value === "string") {
+                if(seqRegion.value.length>1) {
+                    seqRegion.value.split("").forEach((s: string, i: number) => {
+                        const e: RcsbFvTrackDataElementInterface = {
+                            begin: (seqRegion.begin + i),
+                            type: "RESIDUE",
+                            title: "RESIDUE",
+                            label: s
+                        };
+                        if(typeof seqRegion.oriBegin === "number")
+                            e.oriBegin = seqRegion.oriBegin + i;
+                        if(typeof seqRegion.sourceId === "string")
+                            e.sourceId = seqRegion.sourceId;
+                        if(typeof seqRegion.source === "string")
+                            e.source = seqRegion.source;
+                        elems.push(e);
+                    });
+                }else{
+                    const e: RcsbFvTrackDataElementInterface = {
+                        ...seqRegion,
+                        begin: seqRegion.begin,
+                        type: "RESIDUE",
+                        title: "RESIDUE",
+                        label: seqRegion.value
+                    };
+                    elems.push(e);
+                }
+            }
+        });
+        return elems;
     }
 
 }

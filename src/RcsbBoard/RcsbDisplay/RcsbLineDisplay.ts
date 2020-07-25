@@ -20,7 +20,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     protected innerData: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
 
     definedScale: boolean = false;
-    line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
+    private line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     linePoints: RcsbFvTrackDataElementInterface[];
 
     mousemoveCallBack: ()=>void = ()=>{
@@ -55,34 +55,33 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             this.yScale
                 .domain(this._yDomain)
                 .range([this._height,0]);
-            this.setFunction();
             this.definedScale = true;
         }else{
             throw "FATAL ERROR: d3 scale unknown format";
         }
     }
 
-    private setFunction(): void{
-        const self: RcsbLineDisplay = this;
+    private setLine(): void{
         this.line
             .x((d:RcsbFvTrackDataElementInterface) => {
-                return self.xScale(d.begin);
+                return this.xScale(d.begin);
             })
-            .y(function (d:RcsbFvTrackDataElementInterface) {
-                return self.yScale(d.value as number);
+            .y((d:RcsbFvTrackDataElementInterface) => {
+                return this.yScale(d.value as number);
             });
     }
 
-    updateFunction(): void{
-        const self: RcsbLineDisplay = this;
+    private updateLine(): void{
         this.line.x((d: RcsbFvTrackDataElementInterface) => {
-            return self.xScale(d.begin);
+            return this.xScale(d.begin);
         });
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
-        if(!this.definedScale)
+        if(!this.definedScale) {
             this.setScale();
+            this.setLine();
+        }
         this.linePoints = this.downSampling(elements.data());
         elements.remove();
         const config: PlotLineInterface = {
@@ -95,7 +94,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     }
 
     move(): void{
-        this.updateFunction();
+        this.updateLine();
         const config: MoveLineInterface = {
             points: this.linePoints,
             line: this.line,
@@ -110,7 +109,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         const thr = this.maxPoints;
         let title:string | undefined = points[0].title;
         if(points[0].name != null)title = points[0].name;
-        for(let n = 1; n<this.xScale.domain()[1]; n++){
+        for(let n = 0; n<this.xScale.domain()[1]; n++){
             tmp.push({begin:n,value:0,title:title});
         }
         points.forEach((p) => {

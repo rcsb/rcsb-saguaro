@@ -1,6 +1,6 @@
 import {RcsbTrack} from "../RcsbTrack";
 import * as classes from "../scss/RcsbBoard.module.scss";
-import {Selection, BaseType, event, EnterElement} from "d3-selection";
+import {Selection, BaseType, event } from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {
     RcsbFvColorGradient,
@@ -20,6 +20,7 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
     updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     private boardId: string;
     protected tooltipManager: RcsbTooltipManager;
+    private minRatio: number = 0;
 
     private performance: boolean = false;
 
@@ -51,6 +52,10 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
 
     setDisplayColor(color: string  | RcsbFvColorGradient): void{
         this._displayColor = color;
+    }
+
+    setMinRatio(ratio: number): void{
+        this.minRatio = ratio;
     }
 
     reset(): void{
@@ -114,53 +119,46 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
 
     _update(where: LocationViewInterface, compKey?: string) {
 
-        let dataElems: RcsbFvTrackData = this._data;
-        if(this.performance) {
-            dataElems = this._data.filter((s: RcsbFvTrackDataElementInterface, i: number) => {
-                if(s.end == null){
-                    return (s.begin >= where.from);
-                }else{
-                    return !(s.begin > where.to || s.end < where.from);
-                }
-            });
+        if(this.minRatio == 0 || this.getRatio()>this.minRatio) {
+            let dataElems: RcsbFvTrackData = this._data;
+            if (this.performance) {
+                dataElems = this._data.filter((s: RcsbFvTrackDataElementInterface, i: number) => {
+                    if (s.end == null) {
+                        return (s.begin >= where.from);
+                    } else {
+                        return !(s.begin > where.to || s.end < where.from);
+                    }
+                });
+            }
+
+            const visElems: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = this.getElements(compKey).data(dataElems);
+
+            visElems.enter()
+                .append("g")
+                .attr("class", classes.rcsbElement)
+                .classed(classes.rcsbElement + "_" + compKey, typeof compKey === "string")
+                .call(this.plot.bind(this));
+
+            visElems.exit().remove();
+        }else{
+            this.getElements().remove();
         }
-
-        let visSel: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
-        let visElems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
-
-        //TODO this cannot be done in that way!!!!!
-        //this.g.selectAll("path").remove();
-
-        if (compKey != undefined) {
-            visSel = this.g.selectAll("."+classes.rcsbElement+"_" + compKey);
-        } else {
-            visSel = this.g.selectAll("."+classes.rcsbElement);
-        }
-
-        visElems = visSel.data(dataElems);
-
-    	const newElem: Selection<EnterElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = visElems.enter();
-
-    	newElem
-    	    .append("g")
-    	    .attr("class", classes.rcsbElement)
-    	    .classed(classes.rcsbElement+"_" + compKey, typeof compKey === "string")
-    	    .call(this.plot.bind(this));
-
-    	visElems.exit().remove();
 
     }
 
     getElements(compKey?: string): Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> {
-    	let elems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     	// TODO: Is selecting the elements to move too slow?
     	// It would be nice to profile
     	if (typeof compKey === "string") {
-    	    elems = this.g.selectAll("."+classes.rcsbElement+"_" + compKey);
+    	    return this.g.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>("."+classes.rcsbElement+"_" + compKey);
     	} else {
-    	    elems = this.g.selectAll("."+classes.rcsbElement);
+    	    return this.g.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>("."+classes.rcsbElement);
     	}
-        return elems;
+    }
+
+    protected getRatio(): number{
+        const xScale = this.xScale;
+        return (xScale.range()[1]-xScale.range()[0])/(xScale.domain()[1]-xScale.domain()[0]);
     }
 
 }

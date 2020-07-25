@@ -42,6 +42,8 @@ interface CommonConfigInterface{
     includeTooltip?: boolean;
     /**Function that will be called to update track displayed data when the board is moved or zoomed*/
     updateDataOnMove?: (d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
+    /**Residue density threshold used to display/hide annotations*/
+    minRatio?:number;
 }
 
 /**Display config object for composite displays*/

@@ -22,7 +22,6 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
     private readonly SUFFIX_ID: string = "area_";
 
     setInterpolationType(type: string): void{
-        super.setInterpolationType(type);
         if(type === InterpolationTypes.CARDINAL)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveCardinal);
         else if(type === InterpolationTypes.STEP)
@@ -35,14 +34,20 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
 
     private setArea(): void{
         this.area
-            .x(this.line.x())
-            .y1(this.line.y())
+            .x((d:RcsbFvTrackDataElementInterface) => {
+                return this.xScale(d.begin);
+            })
+            .y1((d:RcsbFvTrackDataElementInterface) => {
+                return this.yScale(d.value as number);
+            })
             .y0( this.yScale(0));
     }
 
     private updateArea(): void{
-        this.updateFunction();
-        this.area.x(this.line.x());
+        this.area
+            .x((d:RcsbFvTrackDataElementInterface) => {
+                return this.xScale(d.begin);
+            })
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
@@ -82,7 +87,6 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
             };
             RcsbD3AreaManager.move(config);
         });
-
     }
 
     private downSamplingSplit(points: RcsbFvTrackDataElementInterface[], gradient:RcsbFvColorGradient):Array<LineColorInterface> {

@@ -12,6 +12,7 @@ import {RcsbAreaDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAreaDisplay";
 import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay";
 import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
 import {RcsbFvColorGradient} from "../../RcsbDataManager/RcsbDataManager";
+import {combineAll} from "rxjs/operators";
 
 export class RcsbFvDisplay {
 
@@ -68,14 +69,7 @@ export class RcsbFvDisplay {
     }
 
     private static setDisplayConfig(config: RcsbFvRowConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowConfigInterface{
-        const out: RcsbFvRowConfigInterface = Object.assign({},config);
-        if(typeof displayConfig.displayColor === "string"){
-            out.displayColor = displayConfig.displayColor;
-        }
-        if(typeof displayConfig.dynamicDisplay === "boolean"){
-            out.dynamicDisplay = displayConfig.dynamicDisplay;
-        }
-        return out;
+        return {...config,...displayConfig};
     }
 
     private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
@@ -134,6 +128,9 @@ export class RcsbFvDisplay {
             }
             if (out != null && config.includeTooltip) {
                 out.setTooltip(config.includeTooltip);
+            }
+            if(out!=null && typeof config.minRatio === "number"){
+                out.setMinRatio(config.minRatio);
             }
         }else{
             console.error(config);

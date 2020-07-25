@@ -26,6 +26,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void;
     setTooltip: (flag: boolean)=>void;
+    setMinRatio: (ratio: number) => void;
 
     setCompositeHeight(h: number): void{
         this.compositeHeight = h;

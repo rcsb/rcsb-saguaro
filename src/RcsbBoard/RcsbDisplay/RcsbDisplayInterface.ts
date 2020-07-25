@@ -27,4 +27,5 @@ export interface RcsbDisplayInterface {
     setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
     readonly includeTooltip: boolean;
     setTooltip: (flag: boolean)=>void;
+    setMinRatio: (ratio: number) => void;
 }

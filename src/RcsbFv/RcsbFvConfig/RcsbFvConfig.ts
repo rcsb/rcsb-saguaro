@@ -29,6 +29,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     includeTooltip?: boolean;
     updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;
+    minRatio?:number;
 
     constructor(args:RcsbFvRowConfigInterface) {
         this.updateConfig(args);
@@ -80,6 +81,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.trackWidth === "number"){
             this.trackWidth = args.trackWidth;
+        }
+        if(typeof args.minRatio === "number"){
+            this.minRatio = args.minRatio;
         }
 
         //default config available
