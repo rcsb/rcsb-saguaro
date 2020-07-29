@@ -21,7 +21,6 @@ export class RcsbFvContextManager {
     /**Unsubscribe all methods*/
     public unsubscribeAll():void {
         this.subject.unsubscribe();
-        console.warn("unsubscribing all events completed");
     }
 }
 

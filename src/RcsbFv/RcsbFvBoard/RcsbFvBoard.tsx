@@ -221,8 +221,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     componentWillUnmount(): void {
-        console.warn("Component RcsbFvBoard (id: "+this.boardId+") unmount, unsubscribing all events");
         this.props.contextManager.unsubscribeAll();
+        this.rcsbFvRowArrayIds.length = 0;
     }
 
     /**Subscribe class to rxjs events (adding tracks, change scale, update board config)

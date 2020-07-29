@@ -58,7 +58,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
     }
 
     /**This functio will be called once the final height of the track is known*/
-    callbackRcsbFvRowTrack(rcsbRowTrackHeight: number): void {
+    private callbackRcsbFvRowTrack(rcsbRowTrackHeight: number): void {
         this.setState({rowHeight: rcsbRowTrackHeight, mounted:true} as RcsbFvRowState);
     }
 

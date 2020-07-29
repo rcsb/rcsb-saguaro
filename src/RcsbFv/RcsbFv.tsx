@@ -85,6 +85,13 @@ export class RcsbFv {
         }
     }
 
+    /**Unmount the board*/
+    public unmount(){
+        const node: HTMLElement|null = document.getElementById(this.elementId);
+        if(node!=null)
+            ReactDom.unmountComponentAtNode(node)
+    }
+
     /**Method used to check data config properties
      * @param rowConfigData Array of track configurations
      * */
@@ -196,6 +203,9 @@ export class RcsbFv {
         }
     }
 
+    /**Changes track visibility (true/false)
+     * @param obj Track visibility event data
+     * */
     public changeTrackVisibility(obj: TrackVisibilityInterface): void{
         this.contextManager.next({
             eventType:EventType.TRACK_VISIBILITY,

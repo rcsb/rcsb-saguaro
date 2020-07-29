@@ -62,9 +62,9 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     componentWillUnmount(): void {
-        this.rcsbFvTrack.unsubscribe();
-        this.rcsbFvTrack;
-        this.configData;
+        if(this.rcsbFvTrack != null) {
+            this.rcsbFvTrack.unsubscribe();
+        }
     }
 
     /**This method is called when the final track height is known, it updates React Component height State*/
