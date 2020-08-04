@@ -19,7 +19,7 @@ export class RcsbTooltipManager {
         tooltipDiv.innerHTML = "";
         tooltipDiv.removeAttribute("popper-hidden");
 
-        let region: string = "Residues: "+d.begin.toString();
+        let region: string = "Position: "+d.begin.toString();
         if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
         const spanRegion: HTMLSpanElement = document.createElement<"span">("span");
         spanRegion.append(region);

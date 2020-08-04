@@ -4,6 +4,8 @@ export interface RcsbFvTrackDataElementGapInterface {
     begin:number;
     /**End position of the gap*/
     end:number;
+    /**Flag to indicate if annotation regions are connected or not*/
+    isConnected:boolean;
 }
 
 /**Annotation Element Interface*/

@@ -92,26 +92,25 @@ export class RcsbD3BlockManager {
                     return height*0.5;
                 });
         };
-
+        const plotFlag = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, pos:number, classFlag: string)=>{
+            g.append(RcsbD3Constants.CIRCLE)
+                .classed(classFlag,true)
+                .attr(RcsbD3Constants.CX, xScale(pos))
+                .attr(RcsbD3Constants.CY, 0.5*height)
+                .transition()
+                .duration(500)
+                .attr(RcsbD3Constants.R, dy/4)
+                .attr(RcsbD3Constants.FILL, "#ffffff")
+                .attr(RcsbD3Constants.STROKE,(d:RcsbFvTrackDataElementInterface)=> {
+                    if (d.color === undefined) {
+                        return color;
+                    } else {
+                        return d.color;
+                    }
+                })
+                .attr(RcsbD3Constants.STROKE_WIDTH, 2);
+        };
         const plotOpen = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>{
-            const plotFlag = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, pos:number, classFlag: string)=>{
-                g.append(RcsbD3Constants.CIRCLE)
-                    .classed(classFlag,true)
-                    .attr(RcsbD3Constants.CX, xScale(pos))
-                    .attr(RcsbD3Constants.CY, 0.5*height)
-                    .transition()
-                    .duration(500)
-                    .attr(RcsbD3Constants.R, dy/4)
-                    .attr(RcsbD3Constants.FILL, "#ffffff")
-                    .attr(RcsbD3Constants.STROKE,(d:RcsbFvTrackDataElementInterface)=> {
-                        if (d.color === undefined) {
-                            return color;
-                        } else {
-                            return d.color;
-                        }
-                    })
-                    .attr(RcsbD3Constants.STROKE_WIDTH, 2);
-            };
             if(g.datum().openBegin){
                 plotFlag(g,g.datum().begin-dx,"openBegin");
             }
@@ -120,7 +119,6 @@ export class RcsbD3BlockManager {
                 if(end!= undefined) plotFlag(g,end+dx, "openEnd");
             }
         };
-
         const plotCircle = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, pos:number)=>{
             g.append(RcsbD3Constants.CIRCLE)
                 .attr(RcsbD3Constants.CX, xScale(pos+dx))
@@ -151,7 +149,11 @@ export class RcsbD3BlockManager {
                     if(end+1<begin)
                         plotLine(g,end,begin);
                     else if(end+1==begin)
-                        plotCircle(g,end)
+                        plotCircle(g,end);
+                    if(!gap.isConnected){
+                        plotFlag(g,gap.begin+dx,"openGapBegin");
+                        plotFlag(g,gap.end-dx,"openGapEnd");
+                    }
                 });
                 if( d.end!= undefined ) plotBlock(g,begin,d.end);
             }else{
@@ -220,14 +222,20 @@ export class RcsbD3BlockManager {
                     return select(this).classed("openBegin") || select(this).classed("openEnd");
                 }
             );
+            const openGaps: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).filter(
+                function () {
+                    return select(this).classed("openGapBegin") || select(this).classed("openGapEnd");
+                }
+            );
             const circles: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).filter(
                 function () {
-                    return !(select(this).classed("openBegin") || select(this).classed("openEnd"));
+                    return !(select(this).classed("openBegin") || select(this).classed("openEnd") || select(this).classed("openGapBegin") || select(this).classed("openGapEnd"));
                 }
             );
 
             let i: number = 0;
             let j: number = 0;
+            let k: number = 0;
             let begin: number = d.begin;
             let end = d.end;
             if(typeof d.gaps != "undefined" && d.gaps.length > 0){
@@ -244,6 +252,12 @@ export class RcsbD3BlockManager {
                         } else if (end + 1 == begin) {
                             moveCircle(select(circles.nodes()[j]), end);
                             j++;
+                        }
+                        if(!d.gaps[i].isConnected){
+                            moveCircle(select(openGaps.nodes()[k]),d.gaps[i].begin)
+                            k++;
+                            moveCircle(select(openGaps.nodes()[k]),d.gaps[i].end-2*dx)
+                            k++;
                         }
                     }
                     i++;

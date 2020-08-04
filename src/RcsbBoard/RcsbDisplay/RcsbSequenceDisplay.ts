@@ -143,7 +143,6 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
                 }else{
                     const e: RcsbFvTrackDataElementInterface = {
                         ...seqRegion,
-                        begin: seqRegion.begin,
                         type: "RESIDUE",
                         title: "RESIDUE",
                         label: seqRegion.value
