@@ -46,6 +46,7 @@ export class RcsbD3Constants{
     public static readonly MOUSE_LEAVE: string = "mouseleave";
     public static readonly TOUCHMOVE: string = "touchmove";
     public static readonly PATH: string = "path";
+    public static readonly EMPTY: string = "empty";
 }
 
 export enum MOUSE {

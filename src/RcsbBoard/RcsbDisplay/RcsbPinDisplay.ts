@@ -13,6 +13,8 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
     private _yDomain: [number, number];
     private definedScale: boolean = false;
 
+    private rcsbD3PinManager: RcsbD3PinManager =  new RcsbD3PinManager();
+
     yDomain(domain: [number,number]):void {
         this._yDomain = domain;
     }
@@ -42,18 +44,16 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
             height: this._height,
             color: this._displayColor as string
         };
-        RcsbD3PinManager.plot(config);
+        this.rcsbD3PinManager.plot(config);
     }
 
     move(): void{
-        const pins: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = this.getElements();
         const config: MovePinInterface = {
-            elements: pins,
             xScale: this.xScale,
             labelShift: this.labelShift,
             yScale: this.yScale,
             height: this._height,
         };
-        RcsbD3PinManager.move(config);
+        this.rcsbD3PinManager.move(config);
     }
 }

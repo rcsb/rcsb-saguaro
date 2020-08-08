@@ -16,6 +16,8 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
     private radius: number = 5;
     private definedScale: boolean = false;
 
+    private rcsbD3VariantManager = new RcsbD3VariantManager();
+
     private setScale(): void{
         if(typeof this._height === "number") {
             this.yScale
@@ -41,18 +43,17 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
             color: this._displayColor as string,
             trackG: this.g
         };
-        RcsbD3VariantManager.plot(config);
+        this.rcsbD3VariantManager.plot(config);
     }
 
     move(): void{
-        const elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = this.getElements();
         const config: MoveVariantInterface = {
-            elements: elements,
+            elements: this.getElements(),
             xScale: this.xScale,
             yScale: this.yScale,
             height: this._height,
             trackG: this.g
         };
-        RcsbD3VariantManager.move(config);
+        this.rcsbD3VariantManager.move(config);
     }
 }

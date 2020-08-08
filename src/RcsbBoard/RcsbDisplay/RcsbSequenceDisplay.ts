@@ -20,6 +20,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     private currentLocation: LocationViewInterface;
     private compKey: string | undefined;
     private nonEmptyDisplay: boolean = false;
+    private rcsbD3SequenceManager: RcsbD3SequenceManager = new RcsbD3SequenceManager();
 
 
     setDynamicDisplay(){
@@ -44,29 +45,22 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         if(this.hideFlag)
             return;
 
-        if (this._data === undefined) {
+        if (this.getData() == null) {
             return;
         }
 
-        const dataElems: Array<RcsbFvTrackDataElementInterface> = this.getSequenceData().filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
-            return (s.begin >= where.from && s.begin <= where.to);
-        });
-
-        const elemClass = compKey != undefined ? "."+classes.rcsbElement+"_"+compKey : "."+classes.rcsbElement;
-        this.g.selectAll(elemClass).remove();
-
+        this.getElements().remove();
         if(this.minIntervalRatio()){
-            this.g.select(RcsbD3Constants.LINE).remove();
-            this.g.selectAll(elemClass).data(dataElems)
-                .enter()
-                .append("g")
-                .attr("class", classes.rcsbElement)
+            const dataElems: Array<RcsbFvTrackDataElementInterface> = this.getSequenceData().filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
+                return (s.begin >= where.from && s.begin <= where.to);
+            });
+            this.rmSequenceLine();
+            this.selectElements(dataElems,compKey);
+            this.getElements().attr("class", classes.rcsbElement)
                 .classed(classes.rcsbElement+"_" + compKey, typeof compKey === "string")
                 .call(this.plot.bind(this));
-        }else{
-            this.getElements().remove();
-            if(this.nonEmptyDisplay)
-                this.plotSequenceLine();
+        }else if(this.nonEmptyDisplay){
+            this.plotSequenceLine();
         }
         this.checkHideFlag();
     }
@@ -86,11 +80,19 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             height: this._height,
             intervalRatio: this.intervalRatio,
         };
-        RcsbD3SequenceManager.plot(config);
+        this.rcsbD3SequenceManager.plot(config);
         this.checkHideFlag();
     }
 
-    plotSequenceLine(): void{
+    move(){
+        const config: MoveSequenceInterface = {
+            xScale: this.xScale,
+            intervalRatio: this.intervalRatio,
+        };
+        this.rcsbD3SequenceManager.move(config);
+    }
+
+    private plotSequenceLine(): void{
         const config: PlotSequenceLineInterface = {
             xScale: this.xScale,
             yScale: this.yScale,
@@ -100,13 +102,8 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         RcsbD3SequenceManager.plotSequenceLine.call(this,config);
     }
 
-    move(){
-        const config: MoveSequenceInterface = {
-            elements: this.getElements(),
-            xScale: this.xScale,
-            intervalRatio: this.intervalRatio,
-        };
-        RcsbD3SequenceManager.move(config);
+    private rmSequenceLine(): void{
+        this.g.select(RcsbD3Constants.LINE).remove();
     }
 
     private checkHideFlag(): void{
@@ -120,7 +117,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     }
 
     private getSequenceData(): Array<RcsbFvTrackDataElementInterface>{
-        const sequence: RcsbFvTrackData = this._data;
+        const sequence: RcsbFvTrackData = this.getData();
         const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         sequence.forEach(seqRegion=>{
             if(typeof seqRegion.value === "string") {

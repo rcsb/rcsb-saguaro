@@ -228,6 +228,7 @@ export class RcsbFvTrack {
      * */
     public unsubscribe(): void{
         this.subscription.unsubscribe();
+        this.rcsbBoard.removeScrollEvent();
     }
 
     /**Modify d3 x-scale

@@ -15,7 +15,7 @@ The package offers multiple types of data displays and a rich set of options to 
 `npm install @bioinsilico/rcsb-saguaro`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.4.3/dist/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.5.0/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### JavaScript Examples
 * [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)

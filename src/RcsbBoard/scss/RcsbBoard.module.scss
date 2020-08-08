@@ -18,7 +18,7 @@ svg.rcsbSvg {
   visibility: visible;
 }
 
-.rcsbMaterG{
+.rcsbMasterG{
   visibility: visible;
 }
 
@@ -45,6 +45,10 @@ svg.rcsbSvg {
 .rcsbElement{
   visibility: visible;
   cursor: pointer;
+}
+
+.rcsbDecorator{
+  visibility: visible;
 }
 
 .rcsbFixed{

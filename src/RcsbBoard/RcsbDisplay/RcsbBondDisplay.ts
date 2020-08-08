@@ -16,6 +16,8 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private _yDomain: [number, number] = [0,1];
     private definedScale: boolean = false;
 
+    private rcsbD3BondManager: RcsbD3BondManager = new RcsbD3BondManager();
+
     constructor(boardId: string) {
         super(boardId);
         this.elementClickCallBack = (d?:RcsbFvTrackDataElementInterface) => {
@@ -47,17 +49,15 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             height: this._height,
             color: this._displayColor as string
         };
-        RcsbD3BondManager.plot(config);
+        this.rcsbD3BondManager.plot(config);
     }
 
     move(): void{
-        const pins: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = this.getElements();
         const config: MoveBondInterface = {
-            elements: pins,
             xScale: this.xScale,
             yScale: this.yScale,
             height: this._height,
         };
-        RcsbD3BondManager.move(config);
+        this.rcsbD3BondManager.move(config);
     }
 }

@@ -19,13 +19,15 @@ export class RcsbTrack {
     private _bgColor: string = "#FFFFFF";
     _height: number;
     private _width: number;
-    _data: RcsbFvTrackData;
+    private _data: RcsbFvTrackData;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined>;
     private boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
     mousemoveCallBack: ()=>void;
+
+    private newDataLoaded: boolean = false;
 
     height(h?: number): number{
         if(typeof h === "number"){
@@ -70,9 +72,18 @@ export class RcsbTrack {
             const e: RcsbFvTrackData = d as RcsbFvTrackData;
             if (e != null) {
                 this._data = e;
+                this.setDataUpdated(true);
             }
         }
         return this._data;
+    }
+
+    setDataUpdated(flag: boolean){
+        this.newDataLoaded = flag;
+    }
+
+    isDataUpdated(){
+        return this.newDataLoaded;
     }
 
     getData(): RcsbFvTrackData{

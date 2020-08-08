@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TrackDataInterface | @bioinsilico/rcsb-saguaro</title>
+	<title>PlotCircleInterface | @bioinsilico/rcsb-saguaro</title>
 	<meta name="description" content="Documentation for @bioinsilico/rcsb-saguaro">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,28 +56,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="trackdatainterface.html">TrackDataInterface</a>
+					<a href="plotcircleinterface.html">PlotCircleInterface</a>
 				</li>
 			</ul>
-			<h1>Interface TrackDataInterface</h1>
+			<h1>Interface PlotCircleInterface</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Event Data Interface used to reset a board row</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TrackDataInterface</span>
+						<span class="target">PlotCircleInterface</span>
 					</li>
 				</ul>
 			</section>
@@ -88,9 +81,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="trackdatainterface.html#displayid" class="tsd-kind-icon">display<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="trackdatainterface.html#trackdata" class="tsd-kind-icon">track<wbr>Data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="trackdatainterface.html#trackid" class="tsd-kind-icon">track<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotcircleinterface.html#color" class="tsd-kind-icon">color</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotcircleinterface.html#dx" class="tsd-kind-icon">dx</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotcircleinterface.html#dy" class="tsd-kind-icon">dy</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotcircleinterface.html#elements" class="tsd-kind-icon">elements</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotcircleinterface.html#height" class="tsd-kind-icon">height</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="plotcircleinterface.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,32 +95,62 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="displayid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">display<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="color" class="tsd-anchor"></a>
+					<h3>color</h3>
+					<div class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L54">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts#L22">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="trackdata" class="tsd-anchor"></a>
-					<h3>track<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">track<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../classes/rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></div>
+					<a name="dx" class="tsd-anchor"></a>
+					<h3>dx</h3>
+					<div class="tsd-signature tsd-kind-icon">dx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L52">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts#L19">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="trackid" class="tsd-anchor"></a>
-					<h3>track<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">track<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="dy" class="tsd-anchor"></a>
+					<h3>dy</h3>
+					<div class="tsd-signature tsd-kind-icon">dy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L53">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts#L18">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="elements" class="tsd-anchor"></a>
+					<h3>elements</h3>
+					<div class="tsd-signature tsd-kind-icon">elements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGGElement</span><span class="tsd-signature-symbol">, </span><a href="circledecoratorinterface.html" class="tsd-signature-type">CircleDecoratorInterface</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">BaseType</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts#L17">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="height" class="tsd-anchor"></a>
+					<h3>height</h3>
+					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts#L21">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="xscale" class="tsd-anchor"></a>
+					<h3>x<wbr>Scale</h3>
+					<div class="tsd-signature tsd-kind-icon">x<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ScaleLinear</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/5ee08dd/src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts#L20">src/RcsbBoard/RcsbD3/RcsbD3DisplayManager/RcsbD3BlockManager.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,16 +169,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="trackdatainterface.html" class="tsd-kind-icon">Track<wbr>Data<wbr>Interface</a>
+						<a href="plotcircleinterface.html" class="tsd-kind-icon">Plot<wbr>Circle<wbr>Interface</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="trackdatainterface.html#displayid" class="tsd-kind-icon">display<wbr>Id</a>
+								<a href="plotcircleinterface.html#color" class="tsd-kind-icon">color</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="trackdatainterface.html#trackdata" class="tsd-kind-icon">track<wbr>Data</a>
+								<a href="plotcircleinterface.html#dx" class="tsd-kind-icon">dx</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="trackdatainterface.html#trackid" class="tsd-kind-icon">track<wbr>Id</a>
+								<a href="plotcircleinterface.html#dy" class="tsd-kind-icon">dy</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="plotcircleinterface.html#elements" class="tsd-kind-icon">elements</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="plotcircleinterface.html#height" class="tsd-kind-icon">height</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="plotcircleinterface.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a>
 							</li>
 						</ul>
 					</li>

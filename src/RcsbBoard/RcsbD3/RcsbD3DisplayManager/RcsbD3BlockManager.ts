@@ -5,276 +5,191 @@ import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbData
 
 export interface PlotBlockInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
-    dx: number;
     dy: number;
+    dx: number;
     y_o: number;
     xScale: ScaleLinear<number,number>;
     height: number;
-    color?: string;
+    color: string;
 }
 
-export interface MoveBlockInterface {
-    elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
+export interface PlotCircleInterface {
+    elements: Selection<SVGGElement,CircleDecoratorInterface,BaseType,undefined>;
+    dy: number;
     dx: number;
     xScale: ScaleLinear<number,number>;
     height: number;
+    color: string;
+}
+
+export interface PlotLineInterface {
+    elements: Selection<SVGGElement,LineDecoratorInterface,BaseType,undefined>;
+    dy: number;
+    dx: number;
+    y_o: number;
+    xScale: ScaleLinear<number,number>;
+    height: number;
+    color: string;
+}
+
+export interface MoveBlockInterface {
+    dx: number;
+    xScale: ScaleLinear<number,number>;
+    height: number;
+}
+
+export interface CircleDecoratorInterface {
+    position: number;
+    shift: 1|-1;
+    color?: string;
+}
+
+export interface LineDecoratorInterface {
+    begin: number;
+    end: number;
+    color?: string;
 }
 
 export class RcsbD3BlockManager {
 
-    private static minWidth: number = 2;
+    private static readonly minWidth: number = 2;
 
-    static plot(config: PlotBlockInterface): void{
-        const gElements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
-        const dy: number = config.dy;
-        const dx: number = config.dx;
-        const y_o: number = config.y_o;
-        const xScale: ScaleLinear<number,number> = config.xScale;
-        const color: string = config.color ? config.color : "#CCCCCC";
-        const height: number = config.height;
+    private rectElements: Selection<SVGRectElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGRectElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private lineElements: Selection<SVGLineElement, LineDecoratorInterface, BaseType, undefined> = select<SVGLineElement, LineDecoratorInterface>(RcsbD3Constants.EMPTY);
+    private circleElements: Selection<SVGCircleElement, CircleDecoratorInterface, BaseType, undefined> = select<SVGCircleElement, CircleDecoratorInterface>(RcsbD3Constants.EMPTY);
 
-        const minWidth = (begin: number, end: number)=>{
-            let w: number = (xScale(end+dx) - xScale(begin-dx));
-            if(w<RcsbD3BlockManager.minWidth){
-                w=RcsbD3BlockManager.minWidth;
-            }
-            return w;
-        };
-
-        const plotBlock = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, begin: number, end: number)=>{
-            g.append(RcsbD3Constants.RECT)
-                .attr(RcsbD3Constants.X, xScale(begin-dx))
-                .attr(RcsbD3Constants.Y, y_o)
-                .attr(RcsbD3Constants.WIDTH,  minWidth(begin,end))
-                .attr(RcsbD3Constants.HEIGHT, dy)
-                .transition()
-                .duration(500)
-                .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface)=> {
-                    if (d.color === undefined) {
-                        return color;
-                    } else {
-                        return d.color;
-                    }
-                })
-                .attr(RcsbD3Constants.FILL_OPACITY,0.5)
-                .attr(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
-                    if (d.color === undefined) {
-                        return color;
-                    } else {
-                        return d.color;
-                    }
-                })
-                .attr(RcsbD3Constants.STROKE_OPACITY,1)
-                .attr(RcsbD3Constants.STROKE_WIDTH,2);
-        };
-
-        const plotLine = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, begin: number, end: number)=>{
-            g.append(RcsbD3Constants.LINE)
-                .style(RcsbD3Constants.STROKE_WIDTH,2)
-                .style(RcsbD3Constants.STROKE_DASH,4)
-                .style(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
-                    if (d.color === undefined) {
-                        return color;
-                    } else {
-                        return d.color;
-                    }
-                })
-                .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
-                    return xScale(begin+dx);
-                })
-                .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
-                    return height*0.5;
-                })
-                .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
-                    return xScale(end-dx);
-                })
-                .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
-                    return height*0.5;
-                });
-        };
-        const plotFlag = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, pos:number, classFlag: string)=>{
-            g.append(RcsbD3Constants.CIRCLE)
-                .classed(classFlag,true)
-                .attr(RcsbD3Constants.CX, xScale(pos))
-                .attr(RcsbD3Constants.CY, 0.5*height)
-                .transition()
-                .duration(500)
-                .attr(RcsbD3Constants.R, dy/4)
-                .attr(RcsbD3Constants.FILL, "#ffffff")
-                .attr(RcsbD3Constants.STROKE,(d:RcsbFvTrackDataElementInterface)=> {
-                    if (d.color === undefined) {
-                        return color;
-                    } else {
-                        return d.color;
-                    }
-                })
-                .attr(RcsbD3Constants.STROKE_WIDTH, 2);
-        };
-        const plotOpen = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>{
-            if(g.datum().openBegin){
-                plotFlag(g,g.datum().begin-dx,"openBegin");
-            }
-            if(g.datum().openEnd){
-                const end: number | undefined = g.datum().end;
-                if(end!= undefined) plotFlag(g,end+dx, "openEnd");
-            }
-        };
-        const plotCircle = (g:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, pos:number)=>{
-            g.append(RcsbD3Constants.CIRCLE)
-                .attr(RcsbD3Constants.CX, xScale(pos+dx))
-                .attr(RcsbD3Constants.CY, 0.5*height)
-                .transition()
-                .duration(500)
-                .attr(RcsbD3Constants.R, dy/4)
-                .attr(RcsbD3Constants.FILL, "#ffffff")
-                .attr(RcsbD3Constants.STROKE,(d:RcsbFvTrackDataElementInterface)=> {
-                    if (d.color === undefined) {
-                        return color;
-                    } else {
-                        return d.color;
-                    }
-                })
-                .attr(RcsbD3Constants.STROKE_WIDTH, 2);
-        };
-
-        gElements.each(function () {
-            const g: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = select(this);
-            const d:RcsbFvTrackDataElementInterface = g.datum();
-            if(d.gaps!=null && d.gaps.length>0){
-                let begin: number = d.begin;
-                d.gaps.forEach(gap=>{
-                    let end = gap.begin;
-                    plotBlock(g,begin,end);
-                    begin = gap.end;
-                    if(end+1<begin)
-                        plotLine(g,end,begin);
-                    else if(end+1==begin)
-                        plotCircle(g,end);
-                    if(!gap.isConnected){
-                        plotFlag(g,gap.begin+dx,"openGapBegin");
-                        plotFlag(g,gap.end-dx,"openGapEnd");
-                    }
-                });
-                if( d.end!= undefined ) plotBlock(g,begin,d.end);
-            }else{
-                if( d.end!= undefined ) plotBlock(g,d.begin,d.end);
-            }
-            if(d.openBegin || d.openEnd){
-                plotOpen(g);
-            }
-            //g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).raise();
-            g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).each(function(){
-                if(this.parentNode != undefined) this.parentNode.append(this);
-            });
-        });
+    plot(config: PlotBlockInterface): void{
+        this.rectElements = config.elements.append<SVGRectElement>(RcsbD3Constants.RECT);
+        this.rectElements.attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface)=>{
+                const begin: number = d.rectBegin ?? d.begin;
+                return config.xScale(begin-config.dx)
+            })
+            .attr(RcsbD3Constants.Y, config.y_o)
+            .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvTrackDataElementInterface)=>{
+                if(d.end != null) {
+                    const begin: number = d.rectBegin ?? d.begin;
+                    const end: number = d.rectEnd ?? d.end;
+                    return RcsbD3BlockManager.getMinWidth(begin, end, config.xScale, config.dx);
+                }
+                else
+                    return RcsbD3BlockManager.minWidth;
+            })
+            .attr(RcsbD3Constants.HEIGHT, config.dy)
+            .transition()
+            .duration(500)
+            .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface)=> {
+                if (d.color === undefined) {
+                    return config.color;
+                } else {
+                    return d.color;
+                }
+            })
+            .attr(RcsbD3Constants.FILL_OPACITY,0.5)
+            .attr(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
+                if (d.color === undefined) {
+                    return config.color;
+                } else {
+                    return d.color;
+                }
+            })
+            .attr(RcsbD3Constants.STROKE_OPACITY,1)
+            .attr(RcsbD3Constants.STROKE_WIDTH,2);
     }
 
-    static move(config: MoveBlockInterface){
-        var xScale = config.xScale;
-        const dx = config.dx;
-        const gElements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
+    plotDecorators(circles: PlotCircleInterface, lines:PlotLineInterface): void {
+        this.plotLine(lines);
+        this.plotCircles(circles);
+    }
 
-        const minWidth = (begin: number, end: number)=>{
-            let w: number = (xScale(end+dx) - xScale(begin-dx));
-            if(w<RcsbD3BlockManager.minWidth){
-                w=RcsbD3BlockManager.minWidth;
-            }
-            return w;
-        };
+    move(config: MoveBlockInterface){
+        this.moveBlock(config.xScale,config.dx);
+        this.moveLine(config.xScale,config.dx);
+        this.moveCircle(config.xScale,config.dx);
+    }
 
-        const moveBlock = (rect:Selection<SVGRectElement,RcsbFvTrackDataElementInterface,null,undefined>, begin:number, end:number)=>{
-            rect.attr(RcsbD3Constants.X, xScale(begin-dx))
-                .attr(RcsbD3Constants.WIDTH, minWidth(begin,end));
-        };
+    private static getMinWidth(begin: number, end: number, xScale: ScaleLinear<number,number>, dx: number): number{
+        let w: number = (xScale(end+dx) - xScale(begin-dx));
+        if(w<this.minWidth){
+            w=this.minWidth;
+        }
+        return w;
+    }
 
-        const moveLine = (line:Selection<SVGLineElement,RcsbFvTrackDataElementInterface,null,undefined>, begin:number, end:number)=>{
-            line.attr(RcsbD3Constants.X1,xScale(begin+dx))
-                .attr(RcsbD3Constants.X2,xScale(end-dx));
-
-        };
-
-        const moveOpen = (path: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,null,undefined>) => {
-            path.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface)=>{
-                if(path.classed("openBegin")){
-                    return xScale(d.begin-dx);
-                }else if(path.classed("openEnd")){
-                    if(d.end == undefined)
-                        throw "Missing end property";
-                    return xScale(d.end+dx);
-                }else{
-                    throw "Missing openBegin and openEnd properties";
+    private plotCircles (config:PlotCircleInterface): void{
+        this.circleElements = config.elements.append<SVGCircleElement>(RcsbD3Constants.CIRCLE);
+        this.circleElements.attr(RcsbD3Constants.CX, (d: CircleDecoratorInterface)=>{
+                return config.xScale(d.position+d.shift*config.dx)
+            })
+            .attr(RcsbD3Constants.CY, 0.5*config.height)
+            .transition()
+            .duration(500)
+            .attr(RcsbD3Constants.R, config.dy/4)
+            .attr(RcsbD3Constants.FILL, "#ffffff")
+            .attr(RcsbD3Constants.STROKE,(d:CircleDecoratorInterface)=> {
+                if (d.color === undefined) {
+                    return config.color;
+                } else {
+                    return d.color;
                 }
+            })
+            .attr(RcsbD3Constants.STROKE_WIDTH, 2);
+    }
+
+    private plotLine(config:PlotLineInterface): void{
+        this.lineElements = config.elements.append<SVGLineElement>(RcsbD3Constants.LINE);
+        this.lineElements.style(RcsbD3Constants.STROKE_WIDTH,2)
+            .style(RcsbD3Constants.STROKE_DASH,4)
+            .style(RcsbD3Constants.STROKE, (d:LineDecoratorInterface) => {
+                if (d.color === undefined) {
+                    return config.color;
+                } else {
+                    return d.color;
+                }
+            })
+            .attr(RcsbD3Constants.X1, (d: LineDecoratorInterface) => {
+                return config.xScale(d.begin+config.dx);
+            })
+            .attr(RcsbD3Constants.Y1, (d: LineDecoratorInterface) => {
+                return config.height*0.5;
+            })
+            .attr(RcsbD3Constants.X2, (d: LineDecoratorInterface) => {
+                return config.xScale(d.end-config.dx);
+            })
+            .attr(RcsbD3Constants.Y2, (d: LineDecoratorInterface) => {
+                return config.height*0.5;
             });
-        };
+    }
 
-        const moveCircle = (circle: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,null,undefined>, pos: number) =>{
-            circle.attr(RcsbD3Constants.CX, xScale(pos+dx));
-        };
+    private moveBlock(xScale: ScaleLinear<number,number>, dx: number): void{
+        this.rectElements.attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface)=>{
+                const begin: number = d.rectBegin ?? d.begin;
+                return xScale(begin-dx)
+            })
+            .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvTrackDataElementInterface)=>{
+                if(d.end != null) {
+                    const begin: number = d.rectBegin ?? d.begin;
+                    const end: number = d.rectEnd ?? d.end;
+                    return RcsbD3BlockManager.getMinWidth(begin, end, xScale, dx);
+                }else {
+                    return RcsbD3BlockManager.minWidth;
+                }
+            })
+    }
 
-        gElements.each(function () {
-            const g: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = select(this);
-            const d:RcsbFvTrackDataElementInterface = g.datum();
-
-            const rects: Selection<SVGRectElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = g.selectAll(RcsbD3Constants.RECT);
-            const lines: Selection<SVGLineElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = g.selectAll(RcsbD3Constants.LINE);
-            const openFlags: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).filter(
-                function () {
-                    return select(this).classed("openBegin") || select(this).classed("openEnd");
-                }
-            );
-            const openGaps: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).filter(
-                function () {
-                    return select(this).classed("openGapBegin") || select(this).classed("openGapEnd");
-                }
-            );
-            const circles: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,SVGGElement,RcsbFvTrackDataElementInterface> = g.selectAll<SVGCircleElement,RcsbFvTrackDataElementInterface>(RcsbD3Constants.CIRCLE).filter(
-                function () {
-                    return !(select(this).classed("openBegin") || select(this).classed("openEnd") || select(this).classed("openGapBegin") || select(this).classed("openGapEnd"));
-                }
-            );
-
-            let i: number = 0;
-            let j: number = 0;
-            let k: number = 0;
-            let begin: number = d.begin;
-            let end = d.end;
-            if(typeof d.gaps != "undefined" && d.gaps.length > 0){
-                end = d.gaps[i].begin;
-            }
-            rects.each(function() {
-                const rect: Selection<SVGRectElement, RcsbFvTrackDataElementInterface, null, undefined> = select(this);
-                if (end != undefined){
-                    moveBlock(rect, begin, end);
-                    if (typeof d.gaps != "undefined" && i < d.gaps.length) {
-                        begin = d.gaps[i].end;
-                        if (end + 1 < begin) {
-                            moveLine(select(lines.nodes()[i]), end, begin);
-                        } else if (end + 1 == begin) {
-                            moveCircle(select(circles.nodes()[j]), end);
-                            j++;
-                        }
-                        if(!d.gaps[i].isConnected){
-                            moveCircle(select(openGaps.nodes()[k]),d.gaps[i].begin)
-                            k++;
-                            moveCircle(select(openGaps.nodes()[k]),d.gaps[i].end-2*dx)
-                            k++;
-                        }
-                    }
-                    i++;
-                    if (typeof d.gaps != "undefined" && i < d.gaps.length) {
-                        end = d.gaps[i].begin;
-                    } else {
-                        end = d.end;
-                    }
-                }else{
-                    console.warn("Missing rect end property");
-                }
+    private moveLine(xScale: ScaleLinear<number,number>, dx: number ): void{
+        this.lineElements.attr(RcsbD3Constants.X1,(d: LineDecoratorInterface) => {
+                return xScale(d.begin+dx);
+            })
+            .attr(RcsbD3Constants.X2,(d: LineDecoratorInterface) => {
+                return xScale(d.end-dx);
             });
-            openFlags.each(function () {
-                const path: Selection<SVGCircleElement,RcsbFvTrackDataElementInterface,null,undefined> = select(this);
-                moveOpen(path)
+
+    };
+
+    private moveCircle(xScale: ScaleLinear<number,number>, dx: number): void{
+        this.circleElements.attr(RcsbD3Constants.CX, (d: CircleDecoratorInterface)=>{
+                return xScale(d.position+d.shift*dx)
             });
-        });
     }
 
 }

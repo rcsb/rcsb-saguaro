@@ -1,7 +1,8 @@
-import {Selection, BaseType} from "d3-selection";
+import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
+import {LineDecoratorInterface} from "./RcsbD3BlockManager";
 
 export interface PlotBondInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
@@ -13,7 +14,6 @@ export interface PlotBondInterface {
 }
 
 export interface MoveBondInterface {
-    elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     xScale: ScaleLinear<number,number>;
     yScale: ScaleLinear<number,number>;
     height: number;
@@ -22,7 +22,11 @@ export interface MoveBondInterface {
 
 export class RcsbD3BondManager {
 
-    static plot(config: PlotBondInterface): void{
+    private beginCircleElements: Selection<SVGCircleElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGCircleElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private endCircleElements: Selection<SVGCircleElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGCircleElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private lineElements: Selection<SVGLineElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGLineElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+
+    plot(config: PlotBondInterface): void{
         const elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
@@ -30,8 +34,8 @@ export class RcsbD3BondManager {
         const color: string = config.color != undefined ? config.color : "#CCCCCC";
         const radius: number = config.radius;
 
-        elements.append(RcsbD3Constants.LINE)
-            .style(RcsbD3Constants.STROKE_WIDTH,2)
+        this.lineElements = elements.append(RcsbD3Constants.LINE);
+        this.lineElements.style(RcsbD3Constants.STROKE_WIDTH,2)
             .style(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
                 if (d.color === undefined) {
                     return color;
@@ -54,8 +58,8 @@ export class RcsbD3BondManager {
                 return height - yScale(0.5);
             });
 
-        elements.append(RcsbD3Constants.CIRCLE)
-            .classed("bondBegin",true)
+        this.beginCircleElements = elements.append(RcsbD3Constants.CIRCLE);
+        this.beginCircleElements.classed("bondBegin",true)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
@@ -71,8 +75,8 @@ export class RcsbD3BondManager {
                 return color;
             });
 
-        elements.append(RcsbD3Constants.CIRCLE)
-            .classed("bondEnd",true)
+        this.endCircleElements = elements.append(RcsbD3Constants.CIRCLE);
+        this.endCircleElements.classed("bondEnd",true)
             .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.end == undefined)
                     throw "Element end position not found";
@@ -91,14 +95,12 @@ export class RcsbD3BondManager {
             });
     }
 
-    static move(config: MoveBondInterface): void{
-        const pins: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
+    move(config: MoveBondInterface): void{
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
         const height: number = config.height;
 
-        pins.select(RcsbD3Constants.LINE)
-            .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
+        this.lineElements.attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
             .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
@@ -107,16 +109,14 @@ export class RcsbD3BondManager {
                 return xScale(d.end);
             });
 
-        pins.select(RcsbD3Constants.CIRCLE+".bondBegin")
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+        this.beginCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return height - yScale(0.5);
             });
 
-        pins.select(RcsbD3Constants.CIRCLE+".bondEnd")
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+        this.endCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.end == undefined)
                     throw "Missing bond end property";
                 return xScale(d.end);

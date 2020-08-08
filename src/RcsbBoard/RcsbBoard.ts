@@ -70,15 +70,21 @@ export class RcsbBoard {
 
     private readonly contextManager: RcsbFvContextManager;
 
+    private readonly scrollEvent = ()=>{
+        if(!this.upToDate)
+            this.updateAndMove();
+    };
+
     constructor(elementId: string, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
         this.domId = elementId;
         this.contextManager = contextManager;
         this._xScale = xScale;
         this.selection = selection;
-        window.addEventListener("scroll",()=>{
-            if(!this.upToDate)
-                this.updateAndMove();
-        });
+        window.addEventListener("scroll", this.scrollEvent);
+    }
+
+    public removeScrollEvent(){
+        window.removeEventListener("scroll", this.scrollEvent);
     }
 
     private addSVG():void {
@@ -98,7 +104,7 @@ export class RcsbBoard {
 
     private addMainG():void{
         const innerConfig: MainGConfInterface ={
-            masterClass: classes.rcsbMaterG,
+            masterClass: classes.rcsbMasterG,
             innerClass: classes.rcsbInnerG,
             mouseUp:()=>{
                 if(event.which === MOUSE.LEFT) {
@@ -373,8 +379,11 @@ export class RcsbBoard {
 
     private boardInViewport():boolean {
         const boardDiv: HTMLElement | null = document.getElementById(this.domId);
-        if(boardDiv == null)
-            throw "Board DOM element not found";
+        if(boardDiv == null){
+            console.warn("Board DOM ["+this.domId+"] element not found. Removing scroll event handler from window");
+            this.removeScrollEvent();
+            return false;
+        }
         const rect = boardDiv.getBoundingClientRect();
         return (
             rect.top >= -10 &&

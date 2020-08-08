@@ -10,6 +10,7 @@ import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataMan
 
 export class RcsbVlineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
+    private rcsbD3VlineManager: RcsbD3VlineManager = new RcsbD3VlineManager();
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
         super.plot(elements);
@@ -19,16 +20,14 @@ export class RcsbVlineDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
             color: this._displayColor as string,
             height: this._height
         };
-        RcsbD3VlineManager.plot(config);
+        this.rcsbD3VlineManager.plot(config);
     }
 
     move(): void{
-        const elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = this.getElements();
         const config: MoveVlineInterface = {
-            elements: elements,
             xScale: this.xScale,
         };
-        RcsbD3VlineManager.move(config);
+        this.rcsbD3VlineManager.move(config);
     }
 
 }

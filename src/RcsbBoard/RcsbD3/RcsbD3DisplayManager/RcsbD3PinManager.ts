@@ -1,4 +1,4 @@
-import {Selection, BaseType} from "d3-selection";
+import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
@@ -14,7 +14,6 @@ export interface PlotPinInterface {
 }
 
 export interface MovePinInterface {
-    elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     labelShift: number;
     xScale: ScaleLinear<number,number>;
     yScale: ScaleLinear<number,number>;
@@ -24,7 +23,11 @@ export interface MovePinInterface {
 
 export class RcsbD3PinManager {
 
-    static plot(config: PlotPinInterface): void{
+    private textElements: Selection<SVGTextElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGTextElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private lineElements: Selection<SVGLineElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGLineElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private circleElements: Selection<SVGCircleElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGCircleElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+
+    plot(config: PlotPinInterface): void{
         const elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
@@ -33,8 +36,8 @@ export class RcsbD3PinManager {
         const radius: number = config.radius;
         const labelShift: number = config.labelShift;
         if(config.addLine) {
-            elements.append(RcsbD3Constants.LINE)
-                .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
+            this.lineElements = elements.append(RcsbD3Constants.LINE);
+            this.lineElements.attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
                     return xScale(d.begin);
                 })
                 .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
@@ -53,8 +56,8 @@ export class RcsbD3PinManager {
         }
 
 
-        elements.append(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+        this.circleElements = elements.append(RcsbD3Constants.CIRCLE);
+        this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
@@ -73,8 +76,8 @@ export class RcsbD3PinManager {
                 return color;
             });
 
-        elements.append(RcsbD3Constants.TEXT)
-            .attr(RcsbD3Constants.FONT_SIZE, 12)
+        this.textElements = elements.append(RcsbD3Constants.TEXT);
+        this.textElements.attr(RcsbD3Constants.FONT_SIZE, 12)
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin)+2.5*labelShift;
             })
@@ -96,16 +99,14 @@ export class RcsbD3PinManager {
             });
     }
 
-    static move(config: MovePinInterface): void{
-        const pins: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
+    move(config: MovePinInterface): void{
         const xScale: ScaleLinear<number,number> = config.xScale;
         const yScale: ScaleLinear<number,number> = config.yScale;
         const height: number = config.height;
         const labelShift: number = config.labelShift;
 
         if(config.addLine) {
-            pins.select(RcsbD3Constants.LINE)
-                .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
+            this.lineElements.attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
                     return xScale(d.begin);
                 })
                 .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
@@ -123,8 +124,7 @@ export class RcsbD3PinManager {
                 });
         }
 
-        pins.select(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+        this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
@@ -135,8 +135,7 @@ export class RcsbD3PinManager {
                 return height - yScale(y);
             });
 
-        pins.select(RcsbD3Constants.TEXT)
-            .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
+        this.textElements.attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin)+2.5*labelShift;
             })
             .text((d:RcsbFvTrackDataElementInterface) => {

@@ -1,4 +1,4 @@
-import {Selection, BaseType} from "d3-selection";
+import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear, ScalePoint} from "d3-scale";
 import {axisLeft, Axis} from "d3-axis";
 import {RcsbD3Constants} from "../RcsbD3Constants";
@@ -25,9 +25,11 @@ export interface MoveVariantInterface {
 
 export class RcsbD3VariantManager {
 
-    static plot(config: PlotVariantInterface): void{
-        config.elements.append(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+    private circleElements: Selection<SVGCircleElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGCircleElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+
+    plot(config: PlotVariantInterface): void{
+        this.circleElements = config.elements.append(RcsbD3Constants.CIRCLE);
+        this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.begin == undefined )
                     throw "Position element not found";
                 return config.xScale(d.begin);
@@ -54,9 +56,8 @@ export class RcsbD3VariantManager {
         RcsbD3VariantManager.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }
 
-    static move(config: MoveVariantInterface): void{
-        config.elements.select(RcsbD3Constants.CIRCLE)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+    move(config: MoveVariantInterface): void{
+        this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.begin == undefined )
                     throw "Position element not found";
                 return config.xScale(d.begin);

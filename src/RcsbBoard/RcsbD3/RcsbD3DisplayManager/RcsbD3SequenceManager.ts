@@ -1,4 +1,4 @@
-import {Selection, BaseType} from "d3-selection";
+import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
@@ -21,20 +21,19 @@ export interface PlotSequenceLineInterface {
 }
 
 export interface MoveSequenceInterface {
-    elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     xScale: ScaleLinear<number,number>;
     intervalRatio: [number,number];
 }
 
 export class RcsbD3SequenceManager {
+    private textElements: Selection<SVGTextElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGTextElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
 
-    static plot(config: PlotSequenceInterface){
+    plot(config: PlotSequenceInterface){
         const xScale = config.xScale;
         const yScale = config.yScale;
 
-        config.elements
-            .append(RcsbD3Constants.TEXT)
-            .attr(RcsbD3Constants.FONT_SIZE, "10")
+        this.textElements = config.elements.append(RcsbD3Constants.TEXT);
+        this.textElements.attr(RcsbD3Constants.FONT_SIZE, "10")
             .attr(RcsbD3Constants.FONT_FAMILY,"Arial")
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
@@ -70,16 +69,17 @@ export class RcsbD3SequenceManager {
             .attr(RcsbD3Constants.Y2, config.yScale(config.height*0.5));
     }
 
-    static move(config: MoveSequenceInterface){
-        const xScale = config.xScale;
-        config.elements.select(RcsbD3Constants.TEXT)
-            .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
+    move(config: MoveSequenceInterface){
+        setTimeout(()=>{
+            const xScale = config.xScale;
+            this.textElements.attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
-            .text((d:RcsbFvTrackDataElementInterface) => {
-                return d.label || "";
-            })
-            .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
+                .text((d:RcsbFvTrackDataElementInterface) => {
+                    return d.label || "";
+                })
+                .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
+        });
     }
 
     private static opacity (elems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, xScale: ScaleLinear<number,number>, intervalRatio: [number,number]): void {

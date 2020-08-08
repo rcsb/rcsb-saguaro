@@ -64,6 +64,10 @@ export interface RcsbFvTrackDataElementInterface {
     provenanceName?: string;
     /**color associated to the resource that dispatched the data*/
     provenanceColor?: string;
+    /**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
+    rectBegin?: number;
+    /**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
+    rectEnd?: number;
 }
 
 export interface RcsbFvColorGradient {

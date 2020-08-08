@@ -75,11 +75,11 @@ export class RcsbFv {
     /**Renders the board*/
     public init(){
         if(!this.mounted && this.boardConfigData != undefined) {
-            this.mounted = true;
             ReactDom.render(
                 <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager}/>,
                 document.getElementById(this.elementId)
             );
+            this.mounted = true;
         }else{
             throw "FATAL ERROR: RcsvFvBoard is mounted or board configuration was not loaded";
         }
