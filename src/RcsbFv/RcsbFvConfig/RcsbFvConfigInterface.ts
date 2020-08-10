@@ -5,6 +5,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
+import * as React from "react";
 
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
@@ -54,6 +55,13 @@ export interface RcsbFvDisplayConfigInterface extends CommonConfigInterface{
     displayId?: string;
 }
 
+export interface RcsbFvLink {
+    visibleTex: string;
+    url: string;
+    style?:React.CSSProperties;
+    isThirdParty?:boolean;
+}
+
 /**
  * Board track configuration object
  */
@@ -70,10 +78,12 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     trackHeight?: number;
     /**Background color of the track*/
     trackColor?: string;
-    /**Row title text*/
-    rowTitle?: string;
+    /**Row title text or link*/
+    rowTitle?: string|RcsbFvLink;
     /**Row title txt prefix*/
     rowPrefix?: string;
+    /**Compute the title/prefix width based on the relative proportion length*/
+    fitTitleWidth?: boolean;
     /**Color displayed between track title and track annotations*/
     titleFlagColor?: string;
     /**Data structure containing the annotations*/

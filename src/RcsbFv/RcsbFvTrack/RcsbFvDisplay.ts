@@ -12,7 +12,6 @@ import {RcsbAreaDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAreaDisplay";
 import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay";
 import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
 import {RcsbFvColorGradient} from "../../RcsbDataManager/RcsbDataManager";
-import {combineAll} from "rxjs/operators";
 
 export class RcsbFvDisplay {
 
@@ -77,7 +76,7 @@ export class RcsbFvDisplay {
         if(config.boardId != undefined && config.displayColor != undefined) {
             switch (type) {
                 case RcsbFvDisplayTypes.AXIS:
-                    out = RcsbFvDisplay.axisDisplay(config.boardId);
+                    out = RcsbFvDisplay.axisDisplay(config.boardId, config.length);
                     break;
                 case RcsbFvDisplayTypes.BLOCK:
                     out = RcsbFvDisplay.blockDisplay(config.boardId, config.displayColor as string);
@@ -139,8 +138,8 @@ export class RcsbFvDisplay {
         return out;
     }
 
-    private static axisDisplay(boardId:string): RcsbDisplayInterface{
-        return new RcsbAxisDisplay(boardId);
+    private static axisDisplay(boardId:string, length:number|undefined): RcsbDisplayInterface{
+        return new RcsbAxisDisplay(boardId,length);
     }
 
     private static sequenceDisplay(boardId: string, color:string, dynamicDisplayFlag:boolean, nonEmptyDisplayFlag:boolean) : RcsbDisplayInterface{

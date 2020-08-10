@@ -2,6 +2,7 @@ import * as React from "react";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {ReactElement} from "react";
 
 /**Board track title cell React component interface*/
 interface RcsbFvRowTitleInterface {
@@ -24,18 +25,29 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
 
     render(){
         const height: number = (this.configStyle().height as number);
-        const trackTitle: string = this.configData?.rowTitle != undefined ? this.configData.rowTitle : "";
-        if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0){
+        const trackTitle: string = typeof this.configData?.rowTitle === "string" ? this.configData.rowTitle : (typeof this.configData?.rowTitle === "object" ? this.configData.rowTitle.visibleTex : "");
+        if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0 && this.configData.fitTitleWidth){
             const prefixWidth: number = Math.round(((this.configData.rowPrefix.length/this.configData.rowPrefix.concat(trackTitle).length)*(this.configStyle().width as number)));
             const titleWidth: number = (this.configStyle().width as number)-prefixWidth;
+            const style: React.CSSProperties = {width:titleWidth,height:height,paddingRight:this.PADDING_RIGHT};
             return (
                 <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
                     {
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div style={{width:titleWidth,height:height,paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.setTitle()}</div></div>
+                    <div style={style}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.setTitle()}</div></div>
                     <div style={{height:height}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.configData.rowPrefix}</div></div>
+                </div>
+            );
+        }else if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0){
+            return (
+                <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
+                    {
+                        this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
+                                                       className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
+                    }
+                    <div style={{paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.configData.rowPrefix+" "}{this.setTitle()}</div></div>
                 </div>
             );
         }else {
@@ -54,11 +66,14 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
     /**
      * @return Title string defined in the track configuration object
      * */
-    setTitle(): string | null{
+    setTitle(): string | null | ReactElement {
         if(typeof this.configData.rowTitle === "string"){
             return this.configData.rowTitle;
+        }else if(typeof this.configData.rowTitle === "object"){
+            const target: string = this.configData.rowTitle.isThirdParty ? "_blank" : "_self";
+            return (<a href={this.configData.rowTitle.url} target={target} style={this.configData.rowTitle.style}>{this.configData.rowTitle.visibleTex}</a>);
         }
-        return null;
+        return null
     }
 
     /**

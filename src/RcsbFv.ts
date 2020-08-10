@@ -2,7 +2,8 @@ export {RcsbFv, RcsbFvInterface} from './RcsbFv/RcsbFv';
 export {
     RcsbFvBoardConfigInterface,
     RcsbFvDisplayConfigInterface,
-    RcsbFvRowConfigInterface
+    RcsbFvRowConfigInterface,
+    RcsbFvLink
 } from "./RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
 export {RcsbFvTrackData, RcsbFvTrackDataElementInterface, RcsbFvTrackDataElementGapInterface, RcsbFvColorGradient} from "./RcsbDataManager/RcsbDataManager";
 export {RcsbFvDisplayTypes, InterpolationTypes} from "./RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
