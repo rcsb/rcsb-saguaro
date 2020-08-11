@@ -71,7 +71,10 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
             return this.configData.rowTitle;
         }else if(typeof this.configData.rowTitle === "object"){
             const target: string = this.configData.rowTitle.isThirdParty ? "_blank" : "_self";
-            return (<a href={this.configData.rowTitle.url} target={target} style={this.configData.rowTitle.style}>{this.configData.rowTitle.visibleTex}</a>);
+            if(typeof this.configData.rowTitle.url === "string")
+                return (<a href={this.configData.rowTitle.url} target={target} style={this.configData.rowTitle.style}>{this.configData.rowTitle.visibleTex}</a>);
+            else
+                return (<span style={this.configData.rowTitle.style}>{this.configData.rowTitle.visibleTex}</span>);
         }
         return null
     }

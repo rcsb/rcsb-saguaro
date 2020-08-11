@@ -75,16 +75,16 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
     	this.circleDecorators.length = 0;
 		this.lineDecorators.length = 0;
 		features.filter(d => {
-			return (d.openBegin != null || d.openEnd != null || d.gaps);
+			return (d.openBegin || d.openEnd || d.gaps);
 		}).forEach(d => {
-			if (d.openBegin != null) {
+			if (d.openBegin) {
 				this.circleDecorators.push({
 					position: d.begin,
 					shift: -1,
 					color: d.color
 				});
 			}
-			if (d.openEnd != null && d.end != null)
+			if (d.openEnd && d.end != null)
 				this.circleDecorators.push({
 					position: d.end,
 					shift: 1,

@@ -57,7 +57,7 @@ export interface RcsbFvDisplayConfigInterface extends CommonConfigInterface{
 
 export interface RcsbFvLink {
     visibleTex: string;
-    url: string;
+    url?: string;
     style?:React.CSSProperties;
     isThirdParty?:boolean;
 }
