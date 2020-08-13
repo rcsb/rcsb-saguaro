@@ -86,3 +86,28 @@ div.rcsbFvBoard *{
     visibility: hidden;
     pointer-events: none;
 }
+
+.rcsbFvZoomButton {
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    border: 1px solid #DDD;
+    border-radius: 9px;
+    margin-left: 5px;
+    float: right; display: inline-block;
+    text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #666;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.rcsbFvZoomButton:hover {
+    cursor: pointer;
+}

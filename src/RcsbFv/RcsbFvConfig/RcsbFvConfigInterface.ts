@@ -17,6 +17,8 @@ export interface RcsbFvBoardConfigInterface {
     trackWidth?: number;
     /**Include axis track. It will be displayed in the first board track*/
     includeAxis?: boolean;
+    /**Include UI buttons. It will be displayed on the top-right corner*/
+    includeUI?: boolean;
     /**Show tooltip when hovering track annotations*/
     includeTooltip?: boolean;
     /**Function that will be called when a track annotation is clicked*/
@@ -98,8 +100,6 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     rowTitleWidth?: number;
     /**Interpolation type for sequence scalar annotations*/
     interpolationType?: string;
-    /**Identifies the track as type axis*/
-    isAxis?: boolean;
     /**If true, track annotations can overlap*/
     overlap?:boolean;
     /**The track must dbe hide*/

@@ -42,6 +42,7 @@ export interface TrackConfigInterface {
     trackId:string;
 }
 
+/**Event Data Interface used to change track visibility*/
 export interface TrackVisibilityInterface {
     trackId: string;
     visibility: boolean;

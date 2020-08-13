@@ -1,5 +1,5 @@
 import * as React from "react";
-import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRowTitle} from "./RcsbFvRowTitle";
 import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
@@ -46,7 +46,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
 
     render(){
         let classNames:string = classes.rcsbFvRow;
-        if(this.props.rowConfigData.isAxis === true){
+        if(this.props.rowConfigData.displayType === RcsbFvDisplayTypes.AXIS || this.props.rowConfigData.displayType === RcsbFvDisplayTypes.UI){
             classNames += " "+classes.rcsbFvRowAxis;
         }
         return (
@@ -57,7 +57,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         );
     }
 
-    /**This functio will be called once the final height of the track is known*/
+    /**This function will be called once the final height of the track is known*/
     private callbackRcsbFvRowTrack(rcsbRowTrackHeight: number): void {
         this.setState({rowHeight: rcsbRowTrackHeight, mounted:true} as RcsbFvRowState);
     }

@@ -51,7 +51,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private readonly rcsbFvRowArrayIds : Array<string> = new Array<string>();
     /**Subscription to events*/
     private subscription: Subscription;
-    /**Global d3 Xscale object shaed among all board tracks*/
+    /**Global d3 xScale object shared among all board tracks*/
     private readonly xScale: ScaleLinear<number,number> = scaleLinear();
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
@@ -64,19 +64,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     };
 
     render(){
-        let rcsbFvRowAxis = null;
-        if(this.state.boardConfigData.includeAxis === true){
-            const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
-            this.rcsbFvRowArrayIds.push(rowId);
-            const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2), boardId:this.boardId};
-            const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
-            rowConfigData.isAxis = true;
-            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
-        }
         return (
             <div>
+                {this.includeUI()}
                 <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()}>
-                    {rcsbFvRowAxis}
+                    {this.includeAxis()}
                     {
                         this.state.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
                             return rowData.trackVisibility != false;
@@ -84,7 +76,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
                             this.rcsbFvRowArrayIds.push(rowId);
                             const rowConfigData = this.configRow(rowId,rowData);
-                            rowConfigData.isAxis = false;
                             return (<RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>);
                         })
                     }
@@ -271,6 +262,30 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         });
         this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData});
         this.setScale();
+    }
+
+    private includeAxis(): JSX.Element | null{
+        let rcsbFvRowAxis: JSX.Element | null = null;
+        if(this.state.boardConfigData.includeAxis === true){
+            const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
+            this.rcsbFvRowArrayIds.push(rowId);
+            const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2), boardId:this.boardId};
+            const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
+            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
+        }
+        return rcsbFvRowAxis;
+    }
+
+    private includeUI(): JSX.Element | null{
+        let rcsbFvRowUI: JSX.Element | null = null;
+        if(this.state.boardConfigData.includeUI === true){
+            const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
+            this.rcsbFvRowArrayIds.push(rowId);
+            const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.UI, trackId:"axisId_"+Math.random().toString(36).substr(2), boardId:this.boardId};
+            const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
+            rcsbFvRowUI = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
+        }
+        return rcsbFvRowUI;
     }
 
 }

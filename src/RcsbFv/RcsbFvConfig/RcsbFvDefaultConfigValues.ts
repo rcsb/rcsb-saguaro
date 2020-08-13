@@ -34,6 +34,7 @@ export const enum InterpolationTypes {
 
 /**Board track display types*/
 export const enum RcsbFvDisplayTypes {
+    UI = "userInterface",
     BLOCK = "block",
     AXIS = "axis",
     SEQUENCE = "sequence",

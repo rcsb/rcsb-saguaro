@@ -1,11 +1,12 @@
 import * as React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
-import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
+import {RcsbFvRowUI} from "./RcsbFvRowUI";
 
 /**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {
@@ -49,16 +50,26 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     render(){
-        return (
-            <div className={classes.rcsbFvRowTrack} style={this.configStyle()}>
-                <div id={this.props.id} />
-            </div>
-        );
+        if(this.configData.displayType === RcsbFvDisplayTypes.UI) {
+            return (
+                <div className={classes.rcsbFvRowTrack} style={this.configStyle()}>
+                    <RcsbFvRowUI xScale={this.props.xScale} contextManager={this.props.contextManager} length={this.props.rowTrackConfigData.length}/>
+                </div>
+            )
+        } else {
+            return (
+                <div className={classes.rcsbFvRowTrack} style={this.configStyle()}>
+                    <div id={this.props.id}/>
+                </div>
+            );
+        }
     }
 
     componentDidMount(): void{
-        this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager, this.updateHeight.bind(this));
-        this.updateHeight();
+        if(this.configData.displayType !== RcsbFvDisplayTypes.UI) {
+            this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager, this.updateHeight.bind(this));
+            this.updateHeight();
+        }
     }
 
     componentWillUnmount(): void {
