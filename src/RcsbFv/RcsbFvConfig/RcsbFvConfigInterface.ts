@@ -98,8 +98,6 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     rowTitleWidth?: number;
     /**Interpolation type for sequence scalar annotations*/
     interpolationType?: string;
-    /**Identifies the track as type axis*/
-    isAxis?: boolean;
     /**If true, track annotations can overlap*/
     overlap?:boolean;
     /**The track must dbe hide*/

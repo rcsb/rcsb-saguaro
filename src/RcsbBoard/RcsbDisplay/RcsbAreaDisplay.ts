@@ -98,7 +98,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
         const thr = this.maxPoints;
         let title:string | undefined = points[0].title;
         if(points[0].name != null)title = points[0].name;
-        for(let n = 1; n<this.xScale.domain()[1]; n++){
+        for(let n = 0; n<this.xScale.domain()[1]; n++){
             this.innerData.push({begin:n,value:0,title:title});
             gradient.colors.forEach((c,i)=>{
                 tmp[i].points.push({begin:n,value:0,title:title});
