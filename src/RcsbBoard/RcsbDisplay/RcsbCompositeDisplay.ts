@@ -7,6 +7,7 @@ import {
     RcsbFvTrackDataElementInterface,
     RcsbFvTrackDataMap
 } from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;
@@ -27,6 +28,8 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void;
     setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
+    setSelectDataInRange: (flag: boolean) => void;
+    setHideEmptyTrack: (flag:boolean) =>  void;
 
     setCompositeHeight(h: number): void{
         this.compositeHeight = h;
@@ -68,9 +71,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    update(where: LocationViewInterface): void{
+    update(): void{
         this.innerDisplays.forEach(de=>{
-            de.display.update(where, de.id);
+            de.display.update(de.id);
         });
     }
 
@@ -90,9 +93,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         this.innerDisplays.push({id: displayId, display: display} as DisplayElementInterface);
     }
 
-    setD3Manager(d3Manager: RcsbD3Manager){
+    setManagers(d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager){
         this.innerDisplays.forEach(de=>{
-            de.display.setD3Manager(d3Manager);
+            de.display.setManagers(d3Manager, contextManager);
         });
     }
 

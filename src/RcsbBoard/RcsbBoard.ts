@@ -35,7 +35,7 @@ interface RegionLimitsInterface {
 }
 
 export class RcsbBoard {
-    d3Manager: RcsbD3Manager = new RcsbD3Manager();
+    readonly d3Manager: RcsbD3Manager = new RcsbD3Manager();
     private readonly domId: string;
     private _width: number = 920;
     private _bgColor: string = "#FFFFFF";
@@ -221,14 +221,14 @@ export class RcsbBoard {
         });
     	this.setBoardHeight();
         this.tracks.forEach((track)=> {
-            track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
+            track.update();
         });
 
     }
 
     updateBoard(): void{
         this.tracks.forEach((track)=> {
-            track.update({from: this.currentLocationView.from, to: this.currentLocationView.to} as LocationViewInterface);
+            track.update();
         })
     }
 
@@ -248,7 +248,7 @@ export class RcsbBoard {
     }
 
     private addTrackCallBacks(t: RcsbDisplayInterface){
-        t.setD3Manager(this.d3Manager);
+        t.setManagers(this.d3Manager, this.contextManager);
         t.setBoardHighlight(this.highlightRegion.bind(this));
         if(typeof t.mouseoutCallBack === "function"){
             this.mouseoutCallBack.push(t.mouseoutCallBack.bind(t))
@@ -282,10 +282,10 @@ export class RcsbBoard {
     }
 
     updateAllTracks(): void {
-        const location = this._xScale.domain();
+        const location = this.xScale().domain();
     	this.setLocation(~~location[0],~~location[1]);
         this.tracks.forEach(track=> {
-            track.update(this.currentLocationView);
+            track.update();
         });
     }
 
@@ -345,9 +345,9 @@ export class RcsbBoard {
 
     private updateAndMove(): void{
         if(this.boardInViewport()) {
-            this.updateWithDelay();
             this.moveAllTracks();
             this.moveSelection();
+            this.updateWithDelay();
             this.upToDate = true;
         }else{
             this.upToDate = false;
@@ -355,7 +355,7 @@ export class RcsbBoard {
     }
 
     private updateWithDelay(): void {
-        if(typeof window!= "undefined") {
+        if(window != null) {
             window.clearTimeout(this.updateId);
             this.updateId = window.setTimeout(() => {
                 this.updateAllTracks();

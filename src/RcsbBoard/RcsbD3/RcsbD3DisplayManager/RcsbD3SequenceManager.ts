@@ -32,15 +32,18 @@ export class RcsbD3SequenceManager {
         const xScale = config.xScale;
         const yScale = config.yScale;
 
-        this.textElements = config.elements.append(RcsbD3Constants.TEXT);
-        this.textElements.attr(RcsbD3Constants.FONT_SIZE, "10")
-            .attr(RcsbD3Constants.FONT_FAMILY,"Arial")
+        this.textElements = config.elements.select(RcsbD3Constants.TEXT);
+        this.textElements
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
             .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4))
-            .style(RcsbD3Constants.TEXT_ANCHOR, "middle")
-            .style(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
+            .transition()
+            .duration(500)
+            .attr(RcsbD3Constants.FONT_SIZE, "10")
+            .attr(RcsbD3Constants.FONT_FAMILY,"Arial")
+            .attr(RcsbD3Constants.TEXT_ANCHOR, "middle")
+            .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if (typeof d.color === "string"){
                     return d.color;
                 } else if(typeof config.color === "string"){
@@ -49,11 +52,11 @@ export class RcsbD3SequenceManager {
                     console.warn("Config color noy found");
                     return "#CCCCCC";
                 }
-            })
-            .text((d:RcsbFvTrackDataElementInterface) => {
+            }).text((d:RcsbFvTrackDataElementInterface) => {
                 return d.label || "";
+            }).attr(RcsbD3Constants.FILL_OPACITY,()=>{
+                return RcsbD3SequenceManager.opacity(xScale,config.intervalRatio)
             })
-            .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
 
     }
 
@@ -72,28 +75,26 @@ export class RcsbD3SequenceManager {
     move(config: MoveSequenceInterface){
         setTimeout(()=>{
             const xScale = config.xScale;
-            this.textElements.attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
-            })
-                .text((d:RcsbFvTrackDataElementInterface) => {
-                    return d.label || "";
+            this.textElements
+                .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
+                    return xScale(d.begin);
                 })
-                .call(RcsbD3SequenceManager.opacity, xScale, config.intervalRatio);
+                .attr(RcsbD3Constants.FILL_OPACITY,()=>{
+                    return RcsbD3SequenceManager.opacity(xScale,config.intervalRatio)
+                });
         });
     }
 
-    private static opacity (elems: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>, xScale: ScaleLinear<number,number>, intervalRatio: [number,number]): void {
+    private static opacity (xScale: ScaleLinear<number,number>, intervalRatio: [number,number]): number {
         const r = (xScale.range()[1]-xScale.range()[0])/(xScale.domain()[1]-xScale.domain()[0]);
         const o_min = 0.2;
         const a = intervalRatio[0];
         const b = intervalRatio[1];
-        if(r<a) {
-            elems.remove();
-        }else if(r>=a && r<b) {
-            var o = (1-o_min)/(b-a)*(r-a)+o_min;
-            elems.attr("fill-opacity",o);
+        if(r<b) {
+            return (1-o_min)/(b-a)*(r-a)+o_min;
+
         } else {
-            elems.attr("fill-opacity", "1");
+            return 1;
         }
     }
 }

@@ -3,14 +3,15 @@ import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
 import {ScaleLinear} from "d3-scale";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface, RcsbFvTrackDataMap} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 
 export interface RcsbDisplayInterface {
     reset: ()=> void;
     plot?:(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>void;
-    update: (where: LocationViewInterface, compKey?: string) => void;
+    update: (compKey?: string) => void;
     move: ()=> void;
     load: (d: RcsbFvTrackData | RcsbFvTrackDataMap) => RcsbFvTrackData | RcsbFvTrackDataMap;
-    setD3Manager: (d3Manager: RcsbD3Manager) => void;
+    setManagers: (d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager) => void;
     height: (h?: number) => number;
     init: (width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number) => void;
     highlightRegion: (d:RcsbFvTrackDataElementInterface | null) => void;
@@ -28,4 +29,6 @@ export interface RcsbDisplayInterface {
     readonly includeTooltip: boolean;
     setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
+    setSelectDataInRange: (flag: boolean) => void;
+    setHideEmptyTrack: (flag: boolean) => void;
 }

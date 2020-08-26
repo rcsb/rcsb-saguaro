@@ -54,13 +54,14 @@ export class RcsbD3BlockManager {
 
     private static readonly minWidth: number = 2;
 
-    private rectElements: Selection<SVGRectElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGRectElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private rectElements: Selection<SVGRectElement, RcsbFvTrackDataElementInterface,  BaseType, undefined> = select<SVGRectElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
     private lineElements: Selection<SVGLineElement, LineDecoratorInterface, BaseType, undefined> = select<SVGLineElement, LineDecoratorInterface>(RcsbD3Constants.EMPTY);
     private circleElements: Selection<SVGCircleElement, CircleDecoratorInterface, BaseType, undefined> = select<SVGCircleElement, CircleDecoratorInterface>(RcsbD3Constants.EMPTY);
 
     plot(config: PlotBlockInterface): void{
-        this.rectElements = config.elements.append<SVGRectElement>(RcsbD3Constants.RECT);
-        this.rectElements.attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface)=>{
+        this.rectElements = config.elements.select<SVGRectElement>(RcsbD3Constants.RECT);
+        this.rectElements
+            .attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface, i, e)=>{
                 const begin: number = d.rectBegin ?? d.begin;
                 return config.xScale(begin-config.dx)
             })
@@ -116,7 +117,7 @@ export class RcsbD3BlockManager {
     }
 
     private plotCircles (config:PlotCircleInterface): void{
-        this.circleElements = config.elements.append<SVGCircleElement>(RcsbD3Constants.CIRCLE);
+        this.circleElements = config.elements.select<SVGCircleElement>(RcsbD3Constants.CIRCLE);
         this.circleElements.attr(RcsbD3Constants.CX, (d: CircleDecoratorInterface)=>{
                 return config.xScale(d.position+d.shift*config.dx)
             })
@@ -136,16 +137,8 @@ export class RcsbD3BlockManager {
     }
 
     private plotLine(config:PlotLineInterface): void{
-        this.lineElements = config.elements.append<SVGLineElement>(RcsbD3Constants.LINE);
-        this.lineElements.style(RcsbD3Constants.STROKE_WIDTH,2)
-            .style(RcsbD3Constants.STROKE_DASH,4)
-            .style(RcsbD3Constants.STROKE, (d:LineDecoratorInterface) => {
-                if (d.color === undefined) {
-                    return config.color;
-                } else {
-                    return d.color;
-                }
-            })
+        this.lineElements = config.elements.select<SVGLineElement>(RcsbD3Constants.LINE);
+        this.lineElements
             .attr(RcsbD3Constants.X1, (d: LineDecoratorInterface) => {
                 return config.xScale(d.begin+config.dx);
             })
@@ -157,6 +150,17 @@ export class RcsbD3BlockManager {
             })
             .attr(RcsbD3Constants.Y2, (d: LineDecoratorInterface) => {
                 return config.height*0.5;
+            })
+            .transition()
+            .duration(500)
+            .attr(RcsbD3Constants.STROKE_WIDTH,2)
+            .attr(RcsbD3Constants.STROKE_DASH,4)
+            .attr(RcsbD3Constants.STROKE, (d:LineDecoratorInterface) => {
+                if (d.color === undefined) {
+                    return config.color;
+                } else {
+                    return d.color;
+                }
             });
     }
 

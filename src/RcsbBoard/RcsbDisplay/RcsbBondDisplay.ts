@@ -8,6 +8,7 @@ import {
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BondManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -18,8 +19,8 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
 
     private rcsbD3BondManager: RcsbD3BondManager = new RcsbD3BondManager();
 
-    constructor(boardId: string) {
-        super(boardId);
+    constructor(boardId: string, trackId: string) {
+        super(boardId, trackId);
         this.elementClickCallBack = (d?:RcsbFvTrackDataElementInterface) => {
             if(d!=undefined)d.isEmpty = true;
         };
@@ -34,6 +35,12 @@ export class RcsbBondDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         }else{
             throw "FATAL ERROR: d3 scale unknown format";
         }
+    }
+
+    enter(e: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>): void{
+        e.append<SVGLineElement>(RcsbD3Constants.LINE);
+        e.append<SVGCircleElement>(RcsbD3Constants.CIRCLE).classed(RcsbD3Constants.BOND_BEGIN,true);
+        e.append<SVGCircleElement>(RcsbD3Constants.CIRCLE).classed(RcsbD3Constants.BOND_END,true);
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{

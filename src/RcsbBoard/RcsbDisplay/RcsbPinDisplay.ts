@@ -4,6 +4,7 @@ import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3PinManager";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
 
@@ -28,6 +29,12 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
         }else{
             throw "FATAL ERROR: d3 scale unknown format";
         }
+    }
+
+    enter(e: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>){
+        e.append<SVGLineElement>(RcsbD3Constants.LINE);
+        e.append<SVGCircleElement>(RcsbD3Constants.CIRCLE);
+        e.append<SVGTextElement>(RcsbD3Constants.TEXT);
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{

@@ -17,7 +17,6 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     private yScale: ScaleLinear<number,number> = scaleLinear();
     private intervalRatio: [number,number] = [5,16];
     private hideFlag: boolean = false;
-    private currentLocation: LocationViewInterface;
     private compKey: string | undefined;
     private nonEmptyDisplay: boolean = false;
     private rcsbD3SequenceManager: RcsbD3SequenceManager = new RcsbD3SequenceManager();
@@ -31,7 +30,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         };
         this.mouseoverCallBack = () => {
             this.hideFlag = false;
-            this.update(this.currentLocation, this.compKey);
+            this.update(this.compKey);
         };
     }
 
@@ -39,8 +38,11 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         this.nonEmptyDisplay = flag;
     }
 
+    enter(e: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>): void{
+        e.append<SVGTextElement>(RcsbD3Constants.TEXT);
+    }
+
     _update(where: LocationViewInterface, compKey?: string) {
-        this.currentLocation = where;
         this.compKey = compKey;
         if(this.hideFlag)
             return;
@@ -49,7 +51,6 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             return;
         }
 
-        this.getElements().remove();
         if(this.minIntervalRatio()){
             const dataElems: Array<RcsbFvTrackDataElementInterface> = this.getSequenceData().filter((s: RcsbFvTrackDataElementInterface, i: number)=> {
                 return (s.begin >= where.from && s.begin <= where.to);
@@ -60,7 +61,10 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
                 .classed(classes.rcsbElement+"_" + compKey, typeof compKey === "string")
                 .call(this.plot.bind(this));
         }else if(this.nonEmptyDisplay){
+            this.getElements().remove();
             this.plotSequenceLine();
+        }else{
+            this.getElements().remove();
         }
         this.checkHideFlag();
     }

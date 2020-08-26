@@ -51,7 +51,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     render(){
         return (
             <div className={classes.rcsbFvRowTrack} style={this.configStyle()}>
-                <div id={this.props.id} />
+                <div id={this.props.id} style={this.borderStyle()}/>
             </div>
         );
     }
@@ -79,7 +79,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     /**
      * @return CSS style width and height for the cell
      * */
-    private configStyle() : RcsbFvRowTrackStyleInterface {
+    private configStyle() : React.CSSProperties{
         let width : number = RcsbFvDefaultConfigValues.trackWidth;
         if(typeof this.configData.trackWidth === "number"){
             width = this.configData.trackWidth;
@@ -88,6 +88,12 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
             width: width,
             height: this.state.rowTrackHeight
         };
+    }
+
+    private borderStyle(): React.CSSProperties{
+        const style: React.CSSProperties =  {};
+        if(typeof this.props.rowTrackConfigData.borderColor === "string") style.borderColor = this.props.rowTrackConfigData.borderColor;
+        return style;
     }
 
 }

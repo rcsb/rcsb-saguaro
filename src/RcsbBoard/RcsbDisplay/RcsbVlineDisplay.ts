@@ -7,10 +7,15 @@ import {
     RcsbD3VlineManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3VlineManager";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbVlineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
 
     private rcsbD3VlineManager: RcsbD3VlineManager = new RcsbD3VlineManager();
+
+    enter(e: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>): void{
+        e.append<SVGLineElement>(RcsbD3Constants.LINE);
+    }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
         super.plot(elements);

@@ -73,45 +73,45 @@ export class RcsbFvDisplay {
 
     private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
         let out:RcsbDisplayInterface;
-        if(config.boardId != undefined && config.displayColor != undefined) {
+        if(config.boardId != undefined && config.trackId != undefined && config.displayColor != undefined) {
             switch (type) {
                 case RcsbFvDisplayTypes.AXIS:
-                    out = RcsbFvDisplay.axisDisplay(config.boardId, config.length);
+                    out = RcsbFvDisplay.axisDisplay(config.boardId, config.trackId, config.length);
                     break;
                 case RcsbFvDisplayTypes.BLOCK:
-                    out = RcsbFvDisplay.blockDisplay(config.boardId, config.displayColor as string);
+                    out = RcsbFvDisplay.blockDisplay(config.boardId, config.trackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.PIN:
                     if(config.displayDomain != undefined)
-                        out = RcsbFvDisplay.pinDisplay(config.boardId, config.displayColor as string, config.displayDomain);
+                        out = RcsbFvDisplay.pinDisplay(config.boardId, config.trackId, config.displayColor as string, config.displayDomain);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.BOND:
-                    out = RcsbFvDisplay.bondDisplay(config.boardId, config.displayColor as string);
+                    out = RcsbFvDisplay.bondDisplay(config.boardId, config.trackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.SEQUENCE:
                     const dynamicDisplay: boolean = config.dynamicDisplay != undefined ? config.dynamicDisplay: false;
                     const nonEmptyDisplay: boolean = config.nonEmptyDisplay != undefined ? config.nonEmptyDisplay : false;
-                    out = RcsbFvDisplay.sequenceDisplay(config.boardId, config.displayColor as string, dynamicDisplay, nonEmptyDisplay);
+                    out = RcsbFvDisplay.sequenceDisplay(config.boardId, config.trackId, config.displayColor as string, dynamicDisplay, nonEmptyDisplay);
                     break;
                 case RcsbFvDisplayTypes.LINE:
                     if(config.displayDomain != undefined)
-                        out = RcsbFvDisplay.lineDisplay(config.boardId, config.displayColor as string, config.displayDomain, config.interpolationType);
+                        out = RcsbFvDisplay.lineDisplay(config.boardId, config.trackId, config.displayColor as string, config.displayDomain, config.interpolationType);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.AREA:
                     if(config.displayDomain != undefined)
-                        out = RcsbFvDisplay.areaDisplay(config.boardId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType);
+                        out = RcsbFvDisplay.areaDisplay(config.boardId, config.trackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.VARIANT:
-                    out = RcsbFvDisplay.variantDisplay(config.boardId, config.displayColor as string);
+                    out = RcsbFvDisplay.variantDisplay(config.boardId, config.trackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.VLINE:
-                    out = RcsbFvDisplay.vlineDisplay(config.boardId, config.displayColor as string);
+                    out = RcsbFvDisplay.vlineDisplay(config.boardId, config.trackId, config.displayColor as string);
                     break;
                 default:
                     throw "Track type " + config.displayType + " is not supported";
@@ -131,6 +131,12 @@ export class RcsbFvDisplay {
             if(out!=null && typeof config.minRatio === "number"){
                 out.setMinRatio(config.minRatio);
             }
+            if(out!=null && typeof config.selectDataInRangeFlag === "boolean"){
+                out.setSelectDataInRange(config.selectDataInRangeFlag);
+            }
+            if(out!=null && typeof config.hideEmptyTrackFlag === "boolean"){
+                out.setHideEmptyTrack(config.hideEmptyTrackFlag);
+            }
         }else{
             console.error(config);
             throw "Single Display failed missing boardId or displayColor";
@@ -138,12 +144,12 @@ export class RcsbFvDisplay {
         return out;
     }
 
-    private static axisDisplay(boardId:string, length:number|undefined): RcsbDisplayInterface{
-        return new RcsbAxisDisplay(boardId,length);
+    private static axisDisplay(boardId:string, trackId:string, length:number|undefined): RcsbDisplayInterface{
+        return new RcsbAxisDisplay(boardId,trackId,length);
     }
 
-    private static sequenceDisplay(boardId: string, color:string, dynamicDisplayFlag:boolean, nonEmptyDisplayFlag:boolean) : RcsbDisplayInterface{
-        const display: RcsbSequenceDisplay = new RcsbSequenceDisplay(boardId);
+    private static sequenceDisplay(boardId: string, trackId: string, color:string, dynamicDisplayFlag:boolean, nonEmptyDisplayFlag:boolean) : RcsbDisplayInterface{
+        const display: RcsbSequenceDisplay = new RcsbSequenceDisplay(boardId, trackId);
         display.setDisplayColor(color);
         if(dynamicDisplayFlag === true) {
             display.setDynamicDisplay();
@@ -154,36 +160,27 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private static blockDisplay(boardId: string, color:string): RcsbDisplayInterface{
-        const display: RcsbBlockDisplay = new RcsbBlockDisplay(boardId);
+    private static blockDisplay(boardId: string, trackId: string, color:string): RcsbDisplayInterface{
+        const display: RcsbBlockDisplay = new RcsbBlockDisplay(boardId,trackId);
         display.setDisplayColor(color);
         return display;
     }
 
-    private static pinDisplay(boardId: string, color: string, domain:[number,number]): RcsbDisplayInterface{
-        const display: RcsbPinDisplay = new RcsbPinDisplay(boardId);
-        display.setDisplayColor(color);
-        display.yDomain(domain);
-        return display;
-    }
-
-    private static bondDisplay(boardId: string, color: string): RcsbDisplayInterface{
-        const display: RcsbBondDisplay = new RcsbBondDisplay(boardId);
-        display.setDisplayColor(color);
-        return display;
-    }
-
-    private static lineDisplay(boardId: string, color: string, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
-        const display: RcsbLineDisplay = new RcsbLineDisplay(boardId);
+    private static pinDisplay(boardId: string, trackId: string, color: string, domain:[number,number]): RcsbDisplayInterface{
+        const display: RcsbPinDisplay = new RcsbPinDisplay(boardId,trackId);
         display.setDisplayColor(color);
         display.yDomain(domain);
-        if(interpolationType != undefined)
-            display.setInterpolationType(interpolationType);
         return display;
     }
 
-    private static areaDisplay(boardId: string, color: string | RcsbFvColorGradient, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
-        const display: RcsbAreaDisplay = new RcsbAreaDisplay(boardId);
+    private static bondDisplay(boardId: string, trackId: string, color: string): RcsbDisplayInterface{
+        const display: RcsbBondDisplay = new RcsbBondDisplay(boardId, trackId);
+        display.setDisplayColor(color);
+        return display;
+    }
+
+    private static lineDisplay(boardId: string, trackId: string, color: string, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
+        const display: RcsbLineDisplay = new RcsbLineDisplay(boardId,trackId);
         display.setDisplayColor(color);
         display.yDomain(domain);
         if(interpolationType != undefined)
@@ -191,14 +188,23 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private static variantDisplay(boardId: string, color: string) :RcsbDisplayInterface{
-        const display: RcsbVariantDisplay = new RcsbVariantDisplay(boardId);
+    private static areaDisplay(boardId: string, trackId: string, color: string | RcsbFvColorGradient, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
+        const display: RcsbAreaDisplay = new RcsbAreaDisplay(boardId,trackId);
+        display.setDisplayColor(color);
+        display.yDomain(domain);
+        if(interpolationType != undefined)
+            display.setInterpolationType(interpolationType);
+        return display;
+    }
+
+    private static variantDisplay(boardId: string, trackId: string, color: string) :RcsbDisplayInterface{
+        const display: RcsbVariantDisplay = new RcsbVariantDisplay(boardId,trackId);
         display.setDisplayColor(color);
         return display;
     }
 
-    private static vlineDisplay(boardId: string, color:string) : RcsbDisplayInterface{
-        const display: RcsbVlineDisplay = new RcsbVlineDisplay(boardId);
+    private static vlineDisplay(boardId: string, trackId: string, color:string) : RcsbDisplayInterface{
+        const display: RcsbVlineDisplay = new RcsbVlineDisplay(boardId, trackId);
         display.setDisplayColor(color);
         return display;
     }

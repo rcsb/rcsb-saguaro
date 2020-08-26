@@ -42,6 +42,7 @@ export class RcsbTooltipManager {
 
         let title:string | undefined = d.title;
         if(typeof d.name === "string") title = d.name;
+        else if( typeof d.featureId === "string") title = d.featureId;
         if(title != undefined )tooltipDiv.append(title);
         if(typeof d.provenanceName === "string"){
             const spanProvenance: HTMLSpanElement = document.createElement<"span">("span");

@@ -13,9 +13,11 @@ import {
     RcsbFvTrackDataElementInterface,
     RcsbFvTrackDataMap
 } from "../RcsbDataManager/RcsbDataManager";
+import {RcsbFvContextManager} from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 
 export class RcsbTrack {
     d3Manager: RcsbD3Manager;
+    contextManager: RcsbFvContextManager;
     private _bgColor: string = "#FFFFFF";
     _height: number;
     private _width: number;
@@ -27,7 +29,7 @@ export class RcsbTrack {
     mouseoverCallBack: ()=>void;
     mousemoveCallBack: ()=>void;
 
-    private newDataLoaded: boolean = false;
+    private dataUpdatedFlag: boolean = false;
 
     height(h?: number): number{
         if(typeof h === "number"){
@@ -72,18 +74,18 @@ export class RcsbTrack {
             const e: RcsbFvTrackData = d as RcsbFvTrackData;
             if (e != null) {
                 this._data = e;
-                this.setDataUpdated(true);
+                this.setDataUpdated(false);
             }
         }
         return this._data;
     }
 
     setDataUpdated(flag: boolean){
-        this.newDataLoaded = flag;
+        this.dataUpdatedFlag = flag;
     }
 
     isDataUpdated(){
-        return this.newDataLoaded;
+        return this.dataUpdatedFlag;
     }
 
     getData(): RcsbFvTrackData{
@@ -98,8 +100,9 @@ export class RcsbTrack {
         return this.boardHighlight;
     }
 
-    setD3Manager(d3Manager: RcsbD3Manager){
-        this.d3Manager= d3Manager;
+    setManagers(d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager){
+        this.d3Manager = d3Manager;
+        this.contextManager = contextManager;
     }
 
     highlightRegion(d:RcsbFvTrackDataElementInterface): void {

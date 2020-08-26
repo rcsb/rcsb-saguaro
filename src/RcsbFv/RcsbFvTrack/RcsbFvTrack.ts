@@ -19,7 +19,7 @@ import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDis
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
-/**This class provides  an abstraction layer to build and manage a particular board annotation cell*/
+/**This className provides  an abstraction layer to build and manage a particular board annotation cell*/
 export class RcsbFvTrack {
     /**SVG/HTML level object manager*/
     private rcsbBoard: RcsbBoard;

@@ -34,9 +34,9 @@ export class RcsbD3BondManager {
         const color: string = config.color != undefined ? config.color : "#CCCCCC";
         const radius: number = config.radius;
 
-        this.lineElements = elements.append(RcsbD3Constants.LINE);
-        this.lineElements.style(RcsbD3Constants.STROKE_WIDTH,2)
-            .style(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
+        this.lineElements = elements.select(RcsbD3Constants.LINE);
+        this.lineElements.attr(RcsbD3Constants.STROKE_WIDTH,2)
+            .attr(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
                 if (d.color === undefined) {
                     return color;
                 } else {
@@ -58,9 +58,8 @@ export class RcsbD3BondManager {
                 return height - yScale(0.5);
             });
 
-        this.beginCircleElements = elements.append(RcsbD3Constants.CIRCLE);
-        this.beginCircleElements.classed("bondBegin",true)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+        this.beginCircleElements = elements.select(RcsbD3Constants.CIRCLE+"."+RcsbD3Constants.BOND_BEGIN);
+        this.beginCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 return xScale(d.begin);
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
@@ -75,9 +74,8 @@ export class RcsbD3BondManager {
                 return color;
             });
 
-        this.endCircleElements = elements.append(RcsbD3Constants.CIRCLE);
-        this.endCircleElements.classed("bondEnd",true)
-            .attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
+        this.endCircleElements = elements.select(RcsbD3Constants.CIRCLE+"."+RcsbD3Constants.BOND_END);
+        this.endCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.end == undefined)
                     throw "Element end position not found";
                 return xScale(d.end);

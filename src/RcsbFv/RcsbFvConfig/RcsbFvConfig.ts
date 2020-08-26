@@ -7,7 +7,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
-/**Board track configuration manager class*/
+/**Board track configuration manager className*/
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     trackId: string;
     boardId: string;
@@ -30,6 +30,8 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;
     minRatio?:number;
+    selectDataInRangeFlag?: boolean;
+    hideEmptyTrackFlag?: boolean;
 
     constructor(args:RcsbFvRowConfigInterface) {
         this.updateConfig(args);
@@ -84,6 +86,12 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.minRatio === "number"){
             this.minRatio = args.minRatio;
+        }
+        if(typeof args.selectDataInRangeFlag === "boolean"){
+            this.selectDataInRangeFlag = args.selectDataInRangeFlag;
+        }
+        if(typeof args.hideEmptyTrackFlag === "boolean"){
+            this.hideEmptyTrackFlag = args.hideEmptyTrackFlag;
         }
 
         //default config available

@@ -23,6 +23,8 @@ export interface RcsbFvBoardConfigInterface {
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     /**Function that will be called when hovering a track annotation*/
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    /**Feature cells border color*/
+    borderColor?: string;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
@@ -45,6 +47,10 @@ interface CommonConfigInterface{
     updateDataOnMove?: (d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     /**Residue density threshold used to display/hide annotations*/
     minRatio?:number;
+    /**Only data that fall in the current feature viewer range in rendered*/
+    selectDataInRangeFlag?: boolean;
+    /**Hide tracks with no visible data*/
+    hideEmptyTrackFlag?: boolean;
 }
 
 /**Display config object for composite displays*/
@@ -102,4 +108,6 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     overlap?:boolean;
     /**The track must dbe hide*/
     trackVisibility?:boolean;
+    /**Sequence feature cell Border color*/
+    borderColor?:string;
 }

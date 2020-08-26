@@ -42,7 +42,7 @@ interface RcsbFvBoardStyleInterface{
 }
 
 
-/**Board React Component class*/
+/**Board React Component className*/
 export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBoardState > {
 
     /**Inner div board DOM element id*/
@@ -136,6 +136,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(typeof this.state.boardConfigData.elementEnterCallBack === "function"){
             out.elementEnterCallBack = this.state.boardConfigData.elementEnterCallBack;
         }
+        if(typeof this.state.boardConfigData.borderColor === "string"){
+            out.borderColor = this.state.boardConfigData.borderColor;
+        }
         return out;
     }
 
@@ -223,7 +226,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         this.rcsbFvRowArrayIds.length = 0;
     }
 
-    /**Subscribe class to rxjs events (adding tracks, change scale, update board config)
+    /**Subscribe className to rxjs events (adding tracks, change scale, update board config)
      * @return rxjs Subscription object
      * */
     private subscribe(): Subscription{
@@ -242,7 +245,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         });
     }
 
-    /**Unsubscribe class to rxjs events. Useful if many panels are created an destroyed.*/
+    /**Unsubscribe className to rxjs events. Useful if many panels are created an destroyed.*/
     private unsubscribe(): void{
         this.subscription.unsubscribe();
     }

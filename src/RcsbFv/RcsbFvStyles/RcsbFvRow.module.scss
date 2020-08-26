@@ -13,11 +13,11 @@ div.rcsbFvBoard *{
 .rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTitle > .rcsbFvRowTitleProvenanceFlag{
     background-color: $color-rcsbFvBorder;
     width: 1px;
-    border-top: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    border-top: $border-rcsbFvRowTrack solid;
 }
 
 .rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTitle > .rcsbFvRowTitleProvenanceFlag {
-    border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    border-bottom: $border-rcsbFvRowTrack solid;
 }
 
 .rcsbFvRowTitle div{
@@ -39,6 +39,33 @@ div.rcsbFvBoard *{
     margin-top: $border-rcsbFvRowTrack;
 }
 
+.rcsbFvRow-enter{
+    opacity: 0;
+}
+
+.rcsbFvRow-enter-active{
+    opacity: 1;
+    transition: opacity 500ms;
+}
+
+.rcsbFvRow-enter-done{
+    opacity: 1;
+}
+
+.rcsbFvRow-exit{
+    opacity: 1;
+}
+
+.rcsbFvRow-exit-active{
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+.rcsbFvRow-exit-done{
+    position: absolute;
+    opacity: 0;
+}
+
 .rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
     border-left: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
     border-right: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
@@ -46,6 +73,10 @@ div.rcsbFvBoard *{
 }
 
 .rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
+    border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+}
+
+.rcsbFvRow:last-child:not(.hideRcsbFvRow) > .rcsbFvRowTrack div{
     border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
 

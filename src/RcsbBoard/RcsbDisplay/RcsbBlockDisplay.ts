@@ -1,5 +1,5 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
-import {Selection, BaseType, select} from "d3-selection";
+import {Selection, BaseType, select, EnterElement} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
 	CircleDecoratorInterface, LineDecoratorInterface,
@@ -26,20 +26,27 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 
 	private rcsbD3BlockManager: RcsbD3BlockManager = new RcsbD3BlockManager();
 
+	enter(e: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>): void{
+		e.append<SVGRectElement>(RcsbD3Constants.RECT);
+	}
+
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
-        super.plot(elements);
-        const config: PlotBlockInterface = {
-        	elements: elements,
-        	dy: this._height*(2/3),
+		super.plot(elements);
+		const config: PlotBlockInterface = {
+			elements: this.getElements(),
+			dy: this._height * (2 / 3),
 			dx: this.dx,
-			y_o: this._height*(1/6),
+			y_o: this._height * (1 / 6),
 			xScale: this.xScale,
 			color: this._displayColor as string,
-			height:this._height
+			height: this._height
 		};
-        this.rcsbD3BlockManager.plot(config);
-		this.plotDecorators(elements.data());
-    }
+		this.rcsbD3BlockManager.plot(config);
+		if (this.minRatio == 0 || this.getRatio() > this.minRatio)
+			this.plotDecorators(elements.data());
+		else
+			this.removeDecorators();
+	}
 
     move(): void{
 		const config: MoveBlockInterface = {
@@ -52,91 +59,101 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 
     processData(dataElems: RcsbFvTrackData): RcsbFvTrackData{
         this.loadDecorators(dataElems);
-		const out: RcsbFvTrackData = new RcsbFvTrackData();
-		dataElems.forEach(d=>{
-			if(d.gaps!=null && d.gaps.length > 0){
-				const G: Array<RcsbFvTrackDataElementGapInterface> = d.gaps;
-				out.push({...d,rectBegin:d.begin,rectEnd:G[0].begin});
-				d.gaps.forEach((g,n)=>{
-					if(n+1<G.length){
-						out.push({...d,rectBegin:g.end,rectEnd:G[n+1].begin});
-					}else{
-						out.push({...d,rectBegin:g.end,rectEnd:d.end});
-					}
-				});
-			}else{
-				out.push(d);
-			}
-		});
-		return out;
+		if( this.minRatio == 0 || this.getRatio()>this.minRatio) {
+			const out: RcsbFvTrackData = new RcsbFvTrackData();
+			dataElems.forEach(d => {
+				if (d.gaps != null && d.gaps.length > 0) {
+					const G: Array<RcsbFvTrackDataElementGapInterface> = d.gaps;
+					out.push({...d, rectBegin: d.begin, rectEnd: G[0].begin});
+					d.gaps.forEach((g, n) => {
+						if (n + 1 < G.length) {
+							out.push({...d, rectBegin: g.end, rectEnd: G[n + 1].begin});
+						} else {
+							out.push({...d, rectBegin: g.end, rectEnd: d.end});
+						}
+					});
+				} else {
+					out.push(d);
+				}
+			});
+			return out;
+		}
+		return dataElems
 	}
 
 	private loadDecorators(features:Array<RcsbFvTrackDataElementInterface>) {
     	this.circleDecorators.length = 0;
 		this.lineDecorators.length = 0;
-		features.filter(d => {
-			return (d.openBegin || d.openEnd || d.gaps);
-		}).forEach(d => {
-			if (d.openBegin) {
-				this.circleDecorators.push({
-					position: d.begin,
-					shift: -1,
-					color: d.color
-				});
-			}
-			if (d.openEnd && d.end != null)
-				this.circleDecorators.push({
-					position: d.end,
-					shift: 1,
-					color: d.color
-
-				});
-			if (d.gaps != null)
-				d.gaps.forEach(g => {
-					if (g.begin == g.end + 1)
-						this.circleDecorators.push({
-							position: g.begin,
-							shift: 1,
-							color: d.color
-						})
-					this.lineDecorators.push({
-						begin: g.begin,
-						end: g.end,
+		if( this.minRatio == 0 || this.getRatio()>this.minRatio) {
+			features.filter(d => {
+				return (d.openBegin || d.openEnd || d.gaps);
+			}).forEach(d => {
+				if (d.openBegin) {
+					this.circleDecorators.push({
+						position: d.begin,
+						shift: -1,
 						color: d.color
 					});
-					if (!g.isConnected) {
-						this.circleDecorators.push({
-							position: g.begin,
-							shift: 1,
+				}
+				if (d.openEnd && d.end != null)
+					this.circleDecorators.push({
+						position: d.end,
+						shift: 1,
+						color: d.color
+
+					});
+				if (d.gaps != null)
+					d.gaps.forEach(g => {
+						if (g.begin == g.end + 1)
+							this.circleDecorators.push({
+								position: g.begin,
+								shift: 1,
+								color: d.color
+							})
+						this.lineDecorators.push({
+							begin: g.begin,
+							end: g.end,
 							color: d.color
 						});
-						this.circleDecorators.push({
-							position: g.end,
-							shift: -1,
-							color: d.color
-						});
-					}
-				});
-		});
+						if (!g.isConnected) {
+							this.circleDecorators.push({
+								position: g.begin,
+								shift: 1,
+								color: d.color
+							});
+							this.circleDecorators.push({
+								position: g.end,
+								shift: -1,
+								color: d.color
+							});
+						}
+					});
+			});
+		}
 	}
 
-	private plotDecorators(features:Array<RcsbFvTrackDataElementInterface>){
-		this.lines = this.g.selectAll<SVGGElement,LineDecoratorInterface>("."+classes.rcsbDecorator+"_line")
-			.data(this.lineDecorators)
-			.enter()
-			.append("g");
-		this.lines.attr("class", classes.rcsbDecorator)
+	private plotDecorators(features:Array<RcsbFvTrackDataElementInterface>): void{
+		const lines: Selection<SVGGElement, LineDecoratorInterface, BaseType, undefined> = this.g.selectAll<SVGGElement,LineDecoratorInterface>("."+classes.rcsbDecorator+"_line")
+			.data(this.lineDecorators, (l: LineDecoratorInterface)=>{
+				return l.begin+":"+l.end;
+			});
+		const newLines: Selection<SVGGElement, LineDecoratorInterface, BaseType, undefined> = lines.enter()
+			.append("g").attr("class", classes.rcsbDecorator)
 			.classed(classes.rcsbDecorator+"_line", true);
+		newLines.append(RcsbD3Constants.LINE);
+		lines.exit().remove();
+		this.lines = lines.merge(newLines);
 
-		this.circles = this.g.selectAll<SVGGElement,CircleDecoratorInterface>("."+classes.rcsbDecorator+"_circle")
-			.data(this.circleDecorators)
-			.enter()
-			.append("g");
-		this.circles.attr("class", classes.rcsbDecorator)
+		const circles:Selection<SVGGElement, CircleDecoratorInterface, BaseType, undefined> = this.g.selectAll<SVGGElement,CircleDecoratorInterface>("."+classes.rcsbDecorator+"_circle")
+			.data(this.circleDecorators, (c: CircleDecoratorInterface)=>{
+				return c.position.toString();
+			});
+		const newCircles:Selection<SVGGElement, CircleDecoratorInterface, BaseType, undefined> = circles.enter()
+			.append("g")
 			.classed(classes.rcsbDecorator+"_circle", true);
-
-		this.lines.exit().remove();
-		this.circles.exit().remove();
+		newCircles.append(RcsbD3Constants.CIRCLE);
+		circles.exit().remove();
+		this.circles = circles.merge(newCircles);
 
 		const circleConfig: PlotCircleInterface = {
 			elements: this.circles,
@@ -156,5 +173,10 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 			height:this._height
 		}
 		this.rcsbD3BlockManager.plotDecorators(circleConfig, lineConfig);
+	}
+
+	private removeDecorators(): void{
+		this.lines.remove();
+		this.circles.remove();
 	}
 }

@@ -33,6 +33,7 @@ export enum EventType {
     RESET = "eventTypeReset",
     TRACK_VISIBILITY = "eventTypeVisibility",
     ADD_TRACK = "addTrack",
+    TRACK_HIDE = "eventTypeHide",
     UPDATE_BOARD_CONFIG = "updateBoardConfig"
 }
 

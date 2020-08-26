@@ -19,7 +19,7 @@ export class RcsbD3VlineManager {
     private lineElements: Selection<SVGLineElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGLineElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
 
     plot(config: PlotVlineInterface){
-        this.lineElements = config.elements.append(RcsbD3Constants.LINE);
+        this.lineElements = config.elements.select(RcsbD3Constants.LINE);
         this.lineElements.attr(RcsbD3Constants.X1, (d:RcsbFvTrackDataElementInterface) => {
                 return config.xScale(d.begin);
             })

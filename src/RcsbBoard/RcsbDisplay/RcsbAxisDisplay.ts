@@ -10,8 +10,8 @@ export class RcsbAxisDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private xAxis: Axis<AxisDomain>;
     private readonly length: number|undefined;
 
-    constructor(boardId: string, length?:number) {
-        super(boardId);
+    constructor(boardId: string, trackId:string, length?:number) {
+        super(boardId, trackId);
         this.length = length;
     }
 

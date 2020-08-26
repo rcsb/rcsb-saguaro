@@ -1,6 +1,6 @@
 import {RcsbTrack} from "../RcsbTrack";
 import * as classes from "../scss/RcsbBoard.module.scss";
-import {Selection, BaseType, event, select } from "d3-selection";
+import {Selection, BaseType, event, select, EnterElement } from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {
     RcsbFvColorGradient,
@@ -10,6 +10,7 @@ import {
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
+import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 
 export abstract class RcsbCoreDisplay extends RcsbTrack{
 
@@ -18,17 +19,20 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
     elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     includeTooltip: boolean = true;
     updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
-    private boardId: string;
+    private readonly boardId: string;
+    private readonly trackId: string;
     protected tooltipManager: RcsbTooltipManager;
     protected minRatio: number = 0;
+    private selectDataInRangeFlag: boolean = false;
+    private hideEmptyTracksFlag: boolean = false;
+    private hidden = false;
 
-    private performance: boolean = false;
+    private elementSelection: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGGElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
 
-    protected elementSelection: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGGElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
-
-    constructor(boardId: string) {
+    constructor(boardId: string, trackId: string) {
         super();
         this.boardId = boardId;
+        this.trackId = trackId;
         this.tooltipManager = new RcsbTooltipManager(boardId);
     }
 
@@ -48,10 +52,6 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
        this.updateDataOnMove = f;
     }
 
-    setBoardId(name: string): void{
-        this.boardId = name;
-    }
-
     setDisplayColor(color: string  | RcsbFvColorGradient): void{
         this._displayColor = color;
     }
@@ -62,6 +62,14 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
 
     setMinRatio(ratio: number): void{
         this.minRatio = ratio;
+    }
+
+    setSelectDataInRange(flag: boolean): void{
+        this.selectDataInRangeFlag = flag;
+    }
+
+    setHideEmptyTrack(flag:boolean): void {
+        this.hideEmptyTracksFlag = flag;
     }
 
     reset(): void{
@@ -105,9 +113,10 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
         });
     }
 
-    update(where: LocationViewInterface, compKey?: string) {
+    update(compKey?: string) {
+        const where: LocationViewInterface = {from:this.xScale.domain()[0],to:this.xScale.domain()[1]}
         if(typeof this.updateDataOnMove === "function"){
-            this.updateDataOnMove(where).then(result=>{
+            this.updateDataOnMove(where).then((result:RcsbFvTrackData)=>{
                 this.load(result);
                 if(this.getData() != null) {
                     this._update(where, compKey);
@@ -124,46 +133,75 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
     }
 
     _update(where: LocationViewInterface, compKey?: string):void {
-
-        if( (this.minRatio == 0 || this.getRatio()>this.minRatio) && this.isDataUpdated() ){
-            let dataElems: RcsbFvTrackData = this.processData(this.getData());
-            if (this.performance) {
-                dataElems = this.getData().filter((s: RcsbFvTrackDataElementInterface, i: number) => {
-                    if (s.end == null) {
-                        return (s.begin >= where.from);
-                    } else {
-                        return !(s.begin > where.to || s.end < where.from);
-                    }
-                });
+        if (this.selectDataInRangeFlag) {
+            let dataElems: RcsbFvTrackData = this.processData(this.getData().filter((s: RcsbFvTrackDataElementInterface, i: number) => {
+                if (s.end == null) {
+                    return (s.begin >= where.from && s.begin <= where.to);
+                } else {
+                    return !(s.begin > where.to || s.end < where.from);
+                }
+            }));
+            if(this.hideEmptyTracksFlag) {
+                if (dataElems.length == 0 && !this.hidden) {
+                    this.contextManager.next({
+                        eventType: EventType.TRACK_HIDE,
+                        eventData: {trackId: this.trackId, visibility: false}
+                    });
+                    this.hidden = true;
+                } else if (dataElems.length > 0 && this.hidden) {
+                    this.contextManager.next({
+                        eventType: EventType.TRACK_HIDE,
+                        eventData: {trackId: this.trackId, visibility: true}
+                    });
+                    this.hidden = false;
+                }
             }
-
-            this.selectElements(dataElems,compKey);
-            this.getElements().attr("class", classes.rcsbElement)
+            this.selectElements(dataElems,compKey)
+                .attr("class", classes.rcsbElement)
                 .classed(classes.rcsbElement + "_" + compKey, typeof compKey === "string")
                 .call(this.plot.bind(this));
-            this.getElements().exit().remove();
-            this.setDataUpdated(false);
+        }else if( (this.minRatio == 0 || this.getRatio()>this.minRatio) && !this.isDataUpdated() ){
+            let dataElems: RcsbFvTrackData = this.processData(this.getData());
+            this.selectElements(dataElems,compKey)
+                .attr("class", classes.rcsbElement)
+                .classed(classes.rcsbElement + "_" + compKey, typeof compKey === "string")
+                .call(this.plot.bind(this));
+            this.setDataUpdated(true);
+
         }else if(this.minRatio > 0 && this.getRatio()<=this.minRatio){
             this.getElements().remove();
-            this.setDataUpdated(true);
+            this.setDataUpdated(false);
         }
-
     }
 
     processData(dataElems: RcsbFvTrackData): RcsbFvTrackData{
        return dataElems;
     }
 
-    protected selectElements(dataElems: RcsbFvTrackData, compKey?: string): void {
-    	if (typeof compKey === "string") {
-            this.elementSelection = this.g.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>("."+classes.rcsbElement+"_" + compKey).data(dataElems).enter().append("g");
-    	} else {
-            this.elementSelection = this.g.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>("."+classes.rcsbElement).data(dataElems).enter().append("g");
-    	}
+    protected selectElements(dataElems: RcsbFvTrackData, compKey?: string): Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> {
+        const className:string  = typeof compKey === "string" ? "."+classes.rcsbElement+"_" + compKey : "."+classes.rcsbElement;
+        const elements:Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = this.g.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>(className).data(dataElems, RcsbCoreDisplay.dataKey);
+        const newElems:Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = elements.enter()
+            .append<SVGGElement>(RcsbD3Constants.G)
+            .attr("class", classes.rcsbElement)
+            .classed(classes.rcsbElement + "_" + compKey, typeof compKey === "string");
+        newElems.call(this.enter);
+        elements.exit().remove();
+        this.elementSelection = elements.merge(newElems);
+        return this.elementSelection;
+    }
+
+    enter(e: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>): void{
     }
 
     getElements(): Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>{
         return this.elementSelection;
+    }
+
+    protected static dataKey(d:RcsbFvTrackDataElementInterface): string{
+        if(d.rectBegin && d.rectEnd)
+            return d.rectBegin+":"+d.rectEnd;
+        return d.begin+":"+d.end;
     }
 
     protected getRatio(): number{
