@@ -114,7 +114,7 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
     }
 
     update(compKey?: string) {
-        const where: LocationViewInterface = {from:this.xScale.domain()[0],to:this.xScale.domain()[1]}
+        const where: LocationViewInterface = {from:Math.floor(this.xScale.domain()[0]),to:Math.ceil(this.xScale.domain()[1])}
         if(typeof this.updateDataOnMove === "function"){
             this.updateDataOnMove(where).then((result:RcsbFvTrackData)=>{
                 this.load(result);

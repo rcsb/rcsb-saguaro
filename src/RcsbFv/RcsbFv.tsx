@@ -72,6 +72,13 @@ export class RcsbFv {
         this.boardConfigData = config;
     }
 
+    /**
+     * @return board configuration
+     */
+    public getBoardConfig(): RcsbFvBoardConfigInterface{
+        return this.boardConfigData;
+    }
+
     /**Renders the board*/
     public init(){
         if(!this.mounted && this.boardConfigData != undefined) {

@@ -64,6 +64,7 @@ div.rcsbFvBoard *{
 .rcsbFvRow-exit-done{
     position: absolute;
     opacity: 0;
+    z-index: -1;
 }
 
 .rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
