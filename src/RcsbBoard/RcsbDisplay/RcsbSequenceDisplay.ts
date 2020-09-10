@@ -60,13 +60,17 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             this.getElements().attr("class", classes.rcsbElement)
                 .classed(classes.rcsbElement+"_" + compKey, typeof compKey === "string")
                 .call(this.plot.bind(this));
-        }else if(this.nonEmptyDisplay){
-            this.getElements().remove();
-            this.plotSequenceLine();
         }else{
             this.getElements().remove();
+            this.displayEmpty();
         }
         this.checkHideFlag();
+    }
+
+    displayEmpty(): void {
+        if(this.nonEmptyDisplay) {
+            this.plotSequenceLine();
+        }
     }
 
     plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>){

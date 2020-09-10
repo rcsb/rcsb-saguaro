@@ -9,6 +9,7 @@ import {
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 import {
+    DomainViewInterface,
     EventType,
     RcsbFvContextManager,
     RcsbFvContextManagerInterface,
@@ -241,6 +242,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.addTrackData(obj.eventData as TrackDataInterface);
             }else if(obj.eventType===EventType.UPDATE_TRACK_DATA){
                 this.updateTrackData(obj.eventData as TrackDataInterface);
+            }else if(obj.eventType===EventType.DOMAIN_VIEW){
+                this.setDomain(obj.eventData as DomainViewInterface);
             }
         });
     }
@@ -271,6 +274,14 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             }
         });
         this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData});
+        this.setScale();
+    }
+
+    /**Update d3 xScale domain
+     * @param domainData new xScale domain
+     * */
+    private setDomain(domainData: DomainViewInterface): void {
+        this.xScale.domain(domainData.domain);
         this.setScale();
     }
 

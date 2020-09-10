@@ -219,5 +219,15 @@ export class RcsbFv {
             eventData:obj
         } as RcsbFvContextManagerInterface);
     }
+
+    /**Change board view range
+     * @param domain new xScale domain
+     * */
+    public setDomain(domain:[number,number]): void {
+        this.contextManager.next({
+            eventType:EventType.DOMAIN_VIEW,
+            eventData:{domain:domain}
+        });
+    }
 }
 

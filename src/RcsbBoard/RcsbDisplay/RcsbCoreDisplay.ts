@@ -113,23 +113,29 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
         });
     }
 
-    update(compKey?: string) {
+    update(compKey?: string): void {
         const where: LocationViewInterface = {from:Math.floor(this.xScale.domain()[0]),to:Math.ceil(this.xScale.domain()[1])}
         if(typeof this.updateDataOnMove === "function"){
             this.updateDataOnMove(where).then((result:RcsbFvTrackData)=>{
                 this.load(result);
                 if(this.getData() != null) {
                     this._update(where, compKey);
+                }else{
+                    this.displayEmpty()
                 }
             }).catch((error)=>{
                 console.error(error);
             });
         }else{
             if (this.getData() == null) {
+                this.displayEmpty();
                 return;
             }
             this._update(where, compKey);
         }
+    }
+
+    displayEmpty(): void {
     }
 
     _update(where: LocationViewInterface, compKey?: string):void {

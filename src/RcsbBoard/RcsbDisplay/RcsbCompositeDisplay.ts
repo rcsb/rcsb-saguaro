@@ -77,6 +77,12 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
+    displayEmpty(): void {
+        this.innerDisplays.forEach(de=>{
+            de.display.displayEmpty();
+        });
+    }
+
     move(): void{
         this.innerDisplays.forEach(de=>{
             de.display.move();

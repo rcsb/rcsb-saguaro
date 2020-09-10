@@ -9,6 +9,7 @@ export interface RcsbDisplayInterface {
     reset: ()=> void;
     plot?:(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>void;
     update: (compKey?: string) => void;
+    displayEmpty: () => void;
     move: ()=> void;
     load: (d: RcsbFvTrackData | RcsbFvTrackDataMap) => RcsbFvTrackData | RcsbFvTrackDataMap;
     setManagers: (d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager) => void;

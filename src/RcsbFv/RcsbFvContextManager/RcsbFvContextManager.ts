@@ -34,7 +34,8 @@ export enum EventType {
     TRACK_VISIBILITY = "eventTypeVisibility",
     ADD_TRACK = "addTrack",
     TRACK_HIDE = "eventTypeHide",
-    UPDATE_BOARD_CONFIG = "updateBoardConfig"
+    UPDATE_BOARD_CONFIG = "updateBoardConfig",
+    DOMAIN_VIEW = "domainView"
 }
 
 /**Event Data Interface used to update row configuration*/
@@ -43,6 +44,7 @@ export interface TrackConfigInterface {
     trackId:string;
 }
 
+/**Event Data Interface used to change visibility for a particular track*/
 export interface TrackVisibilityInterface {
     trackId: string;
     visibility: boolean;
@@ -55,9 +57,14 @@ export interface TrackDataInterface {
     displayId?:string;
 }
 
+/**Event Data Interface used to change the board view range*/
+export interface DomainViewInterface {
+    domain: [number,number];
+}
+
 /**Main Event Data Object Interface*/
-export interface RcsbFvContextManagerInterface{
+export interface RcsbFvContextManagerInterface {
     eventType: string;
-    eventData: string|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface;
+    eventData: string|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface;
 }
 
