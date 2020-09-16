@@ -58,19 +58,21 @@ export class RcsbD3BlockManager {
     private lineElements: Selection<SVGLineElement, LineDecoratorInterface, BaseType, undefined> = select<SVGLineElement, LineDecoratorInterface>(RcsbD3Constants.EMPTY);
     private circleElements: Selection<SVGCircleElement, CircleDecoratorInterface, BaseType, undefined> = select<SVGCircleElement, CircleDecoratorInterface>(RcsbD3Constants.EMPTY);
 
+    private readonly STROKE_WIDTH: number = 1;
+
     plot(config: PlotBlockInterface): void{
         this.rectElements = config.elements.select<SVGRectElement>(RcsbD3Constants.RECT);
         this.rectElements
             .attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface, i, e)=>{
                 const begin: number = d.rectBegin ?? d.begin;
-                return config.xScale(begin-config.dx)
+                return config.xScale(begin-config.dx)+this.STROKE_WIDTH
             })
             .attr(RcsbD3Constants.Y, config.y_o)
             .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvTrackDataElementInterface)=>{
                 if(d.end != null) {
                     const begin: number = d.rectBegin ?? d.begin;
                     const end: number = d.rectEnd ?? d.end;
-                    return RcsbD3BlockManager.getMinWidth(begin, end, config.xScale, config.dx);
+                    return (RcsbD3BlockManager.getMinWidth(begin, end, config.xScale, config.dx)-this.STROKE_WIDTH);
                 }
                 else
                     return RcsbD3BlockManager.minWidth;
@@ -94,7 +96,7 @@ export class RcsbD3BlockManager {
                 }
             })
             .attr(RcsbD3Constants.STROKE_OPACITY,1)
-            .attr(RcsbD3Constants.STROKE_WIDTH,2);
+            .attr(RcsbD3Constants.STROKE_WIDTH, this.STROKE_WIDTH);
     }
 
     plotDecorators(circles: PlotCircleInterface, lines:PlotLineInterface): void {
@@ -133,7 +135,7 @@ export class RcsbD3BlockManager {
                     return d.color;
                 }
             })
-            .attr(RcsbD3Constants.STROKE_WIDTH, 2);
+            .attr(RcsbD3Constants.STROKE_WIDTH, this.STROKE_WIDTH);
     }
 
     private plotLine(config:PlotLineInterface): void{
@@ -153,7 +155,7 @@ export class RcsbD3BlockManager {
             })
             .transition()
             .duration(500)
-            .attr(RcsbD3Constants.STROKE_WIDTH,2)
+            .attr(RcsbD3Constants.STROKE_WIDTH,this.STROKE_WIDTH)
             .attr(RcsbD3Constants.STROKE_DASH,4)
             .attr(RcsbD3Constants.STROKE, (d:LineDecoratorInterface) => {
                 if (d.color === undefined) {
@@ -167,13 +169,13 @@ export class RcsbD3BlockManager {
     private moveBlock(xScale: ScaleLinear<number,number>, dx: number): void{
         this.rectElements.attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface)=>{
                 const begin: number = d.rectBegin ?? d.begin;
-                return xScale(begin-dx)
+                return xScale(begin-dx)+this.STROKE_WIDTH
             })
             .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvTrackDataElementInterface)=>{
                 if(d.end != null) {
                     const begin: number = d.rectBegin ?? d.begin;
                     const end: number = d.rectEnd ?? d.end;
-                    return RcsbD3BlockManager.getMinWidth(begin, end, xScale, dx);
+                    return (RcsbD3BlockManager.getMinWidth(begin, end, xScale, dx)-this.STROKE_WIDTH);
                 }else {
                     return RcsbD3BlockManager.minWidth;
                 }
