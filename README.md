@@ -7,7 +7,7 @@ The package offers multiple types of data displays and a rich set of options to 
 <!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro-app@0.6.2/build/dist/app.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro-app@0.7.0/build/dist/app.js"></script>
 <script type="text/javascript">RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");</script>
 --->
 
