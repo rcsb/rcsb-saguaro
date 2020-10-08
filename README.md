@@ -15,7 +15,7 @@ The package offers multiple types of data displays and a rich set of options to 
 `npm install @bioinsilico/rcsb-saguaro`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.6.2/dist/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.7.0/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### JavaScript Examples
 * [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)
@@ -80,7 +80,7 @@ Main Row Configuration properties are:
   - **end**: End position of the feature (optional value)
   - **value**: Numerical or string value of the feature in this range (optional value)
   - **gaps**: List of empty regions in the feature
-    - Attributes: begin and end
+    - Attributes: begin, end
  
 #### Track Configuration Examples
 - Sequence Track
@@ -123,6 +123,8 @@ const blockTrack= {
     }]
 }
 ```
+
+See these examples online [here](https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html)
 
 License
 ---
