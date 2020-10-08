@@ -72,10 +72,6 @@ Main Row Configuration properties are:
 #### Track Configuration Examples
 - Sequence Track
 
-The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
-
-
-
 ```javascript
 const sequence = "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQ"+
                  "EEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAA"+
@@ -138,6 +134,9 @@ See this example online [here](https://rcsb.github.io/rcsb-saguaro/examples/boar
 * [Track Visibility](https://rcsb.github.io/rcsb-saguaro/examples/change_track_visibility.html)
 * [Update Track Data](https://rcsb.github.io/rcsb-saguaro/examples/update_track_data.html)
 * [Click Callback](https://rcsb.github.io/rcsb-saguaro/examples/click_callback.html)
+
+The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
+
 
 ### rcsb-saguaro-app
 We also provide a library ([rcsb-saguaro-app](https://rcsb.github.io/rcsb-saguaro-app)) to build preconfigured 1D Protein Feature Views of RCSB PDB and UniProtKB annotations. 
