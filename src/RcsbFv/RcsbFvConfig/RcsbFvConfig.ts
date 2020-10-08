@@ -13,6 +13,10 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     boardId: string;
     displayType: RcsbFvDisplayTypes;
     length: number;
+    range: {
+        min: number;
+        max:number;
+    };
     elementId?: string;
     trackData?: RcsbFvTrackData;
     displayConfig?: Array<RcsbFvDisplayConfigInterface>;
@@ -51,6 +55,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.length === "number"){
             this.length = args.length;
+        }
+        if(typeof args.range === "object" && typeof args.range.min === "number" && typeof args.range.max === "number"){
+            this.range = args.range;
         }
         if(typeof args.displayType === "string" ){
             this.displayType = args.displayType;
@@ -136,7 +143,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
      * @return boolean
      * */
     configCheck() : boolean{
-        return (typeof this.length === "number" && typeof this.elementId === "string")
+        return ( (typeof this.length === "number" || typeof this.range === "object") && typeof this.elementId === "string")
     }
 
     getInterpolationType(type: string): string{

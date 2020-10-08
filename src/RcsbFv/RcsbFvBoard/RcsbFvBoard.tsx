@@ -125,6 +125,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(typeof this.state.boardConfigData.length === "number"){
             out.length = this.state.boardConfigData.length;
         }
+        if(typeof this.state.boardConfigData.range === "object"){
+            out.range = this.state.boardConfigData.range;
+        }
         if(typeof this.state.boardConfigData.rowTitleWidth === "number"){
             out.rowTitleWidth = this.state.boardConfigData.rowTitleWidth;
         }

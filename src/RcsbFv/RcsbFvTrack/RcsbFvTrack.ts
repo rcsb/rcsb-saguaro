@@ -116,7 +116,10 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.trackWidth === "number")
             this.rcsbBoard.setBoardWidth(this.rcsbFvConfig.trackWidth);
 
-        this.rcsbBoard.setRange(1-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
+        if(typeof this.rcsbFvConfig.length === "number")
+            this.rcsbBoard.setRange(1-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
+        else if(typeof this.rcsbFvConfig.range === "object")
+            this.rcsbBoard.setRange(this.rcsbFvConfig.range.min-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.range.max+RcsbFvDefaultConfigValues.increasedView);
     }
 
     /**Build an inner track within a board track annotation cell

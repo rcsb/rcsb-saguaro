@@ -9,8 +9,13 @@ import * as React from "react";
 
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
-    /**Length of the sequence*/
-    length?: number;
+    /**Length of the board. If <length> is provided the board track coordinates will range from 1 to <length>*/
+    length? : number;
+    /**Range of the board. If <range> is provided the board track coordinates will range from <min> to <max>*/
+    range?:{
+        min:number;
+        max:number;
+    };
     /**Width of the track title cells*/
     rowTitleWidth?: number;
     /**Width of the track annotation cells*/
@@ -76,8 +81,13 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     boardId?: string;
     /**Id used to identify the board track*/
     trackId: string;
-    /**Length of the sequence*/
+    /**Length of the track. If <length> is provided the track coordinates will range from 1 to <length>*/
     length? : number;
+    /**Range of the track. If <range> is provided the track coordinates will range from <min> to <max>*/
+    range?:{
+        min:number;
+        max:number;
+    };
     /**DOM element Id where the board track is displayed*/
     elementId?:string;
     /**Full length of the track*/

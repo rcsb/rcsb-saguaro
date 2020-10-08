@@ -49,4 +49,102 @@ are displayed (color, shape, overlap flag) and also different track attributes (
 Interface that defines properties of an specific annotation object. It includes the location where the annotation will be displayed 
 (begin, end) and additional properties to change the final representation and click-event behaviour 
 
+ Board and Track Configuration
+---
+#### Board Configuration
+Main feature viewer board object configuration defines the coordinate range, track and title width and axis display. 
+The full set of attributes is defined in [RcsbFvBoardConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvboardconfiginterface.html)
+interface.
+```javascript
+const boardConfig = {
+    range: {
+        min: 20,
+        max: 110
+    },
+    trackWidth: 940,
+    rowTitleWidth: 260,
+    includeAxis: true
+};
+```
+#### Track Configuration
+Row configuration object defines format and content of feature viewer rows. The full set of board row configuration attributes is defined in [RcsbFvRowConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvrowconfiginterface.html).
+                                                                             
+Main Row Configuration properties are:
+- **trackHeight**: Defines the board row height
+- **trackColor**: Color in which row data will be displayed 
+- **rowTitle**: Board track title, text displayed next to the board row
+- **displayedType**: Enumerated value used to define how the data is displayed
+  - Values: sequence, block, pin, line, area, bond, vline
+- **trackData**: List of data displayed in the board row. The full set o data attributes are defined in [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvtrackdataelementinterface.html). Most important data elements attributes are 
+  - **begin**: Start position of the feature
+  - **end**: End position of the feature (optional value)
+  - **value**: Numerical or string value of the feature in this range (optional value)
+  - **gaps**: List of empty regions in the feature
+    - Attributes: begin and end
+ 
+#### Track Configuration Examples
+- Sequence Track
+```javascript
+const sequence = "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQ"+
+                 "EEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAA"+
+                 "RTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQHKLRKLNPPDESGPGCMS"
 
+const sequenceTrack = {
+    trackHeight: 20,
+    trackColor: "#F9F9F9",
+    displayType: "sequence",
+    rowTitle: "SEQUENCE",
+    trackData: [{
+        begin: 1,
+        value: sequence
+    }]
+}
+```
+- Block Track
+```javascript
+const blockTrack= {
+    trackId: "blockTrack",
+    trackHeight: 20,
+    trackColor: "#F9F9F9",
+    displayType: "block",
+    displayColor: "#FF0000",
+    rowTitle: "BLOCK",
+    trackData: [{
+        begin: 30,
+        end: 60,
+        gaps:[{
+            begin:40,
+            end:50
+        }]
+    },{
+        begin: 80,
+        end: 90,
+        openEnd: true
+    }]
+}
+```
+
+License
+---
+
+The MIT License
+
+    Copyright (c) 2019 - now, RCSB PDB and contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
