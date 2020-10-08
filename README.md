@@ -128,7 +128,17 @@ const blockTrack= {
 }
 ```
 
-See these examples online [here](https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html)
+#### Feature View Constructor
+
+```javascript
+const pfv = new RcsbFv.Create({
+    boardConfigData: boardConfig,
+    rowConfigData: [sequenceTrack, blockTrack],
+    elementId: "htmlElementId"
+});
+```
+
+See this example online [here](https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html)
 
 License
 ---
