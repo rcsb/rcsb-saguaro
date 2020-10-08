@@ -42,6 +42,15 @@ General Board and Track Configuration
 Main feature viewer board object configuration defines the coordinate range, track and title width and axis display. 
 The full set of attributes is defined in [RcsbFvBoardConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvboardconfiginterface.html)
 interface.
+
+Main Board Configuration properties are:
+- **range**: Defines the 1D domain coordinates segment
+    - **min**: Numerical value that defines the coordinates start position
+    - **max**: Numerical value that defines the coordinates end position
+- **trackWidth**: Numerical value that defines the width of the board cells that contains the feature
+- **rowTitleWidth**: Numerical value that defines the width of the row title cells
+- **includeAxis**: Boolean flag used to include a 1D horizontal axis on the top part of the board
+
 ```javascript
 const boardConfig = {
     range: {
@@ -64,9 +73,9 @@ Main Row Configuration properties are:
   - Values: sequence, block, pin, line, area, bond, vline
 - **trackData**: List of data displayed in the board row. The full set o data attributes are defined in [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvtrackdataelementinterface.html). Most important data elements attributes are 
   - **begin**: Start position of the feature
-  - **end**: End position of the feature (optional value)
+  - **end**: End position of the feature (optional value). When no end value is available the feature is located on a single position defined by *begin*
   - **value**: Numerical or string value of the feature in this range (optional value)
-  - **gaps**: List of empty regions in the feature
+  - **gaps**: List of empty regions in the feature. These regions are displayed with a dashed line
     - Attributes: begin, end
  
 #### Track Configuration Examples
@@ -125,7 +134,7 @@ const pfv = new RcsbFv.Create({
 });
 ```
 
-See this example online [here](https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html)
+See this expanded example online [here](https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html)
 
 ### More Examples
 * [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)
@@ -135,7 +144,7 @@ See this example online [here](https://rcsb.github.io/rcsb-saguaro/examples/boar
 * [Update Track Data](https://rcsb.github.io/rcsb-saguaro/examples/update_track_data.html)
 * [Click Callback](https://rcsb.github.io/rcsb-saguaro/examples/click_callback.html)
 
-The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
+The full collection of examples can be edited and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
 
 
 ### rcsb-saguaro-app
