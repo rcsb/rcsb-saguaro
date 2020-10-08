@@ -84,12 +84,12 @@ Main Row Configuration properties are:
  
 #### Track Configuration Examples
 - Sequence Track
+
 ```javascript
 const sequence = "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQ"+
                  "EEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAA"+
                  "RTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQHKLRKLNPPDESGPGCMS"
 ```
-
 ```javascript
 const sequenceTrack = {
     trackHeight: 20,
@@ -104,6 +104,7 @@ const sequenceTrack = {
 ```
 
 - Block Track
+
 ```javascript
 const blockTrack= {
     trackId: "blockTrack",
