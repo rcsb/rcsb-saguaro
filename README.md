@@ -17,23 +17,10 @@ The package offers multiple types of data displays and a rich set of options to 
 ### CDN JavaScript
 `<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.7.0/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
-### JavaScript Examples
-* [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)
-* [Composite Track](https://rcsb.github.io/rcsb-saguaro/examples/composite_track.html)
-* [Dynamic Tracks](https://rcsb.github.io/rcsb-saguaro/examples/dynamic_track_loading.html)
-* [Track Visibility](https://rcsb.github.io/rcsb-saguaro/examples/change_track_visibility.html)
-* [Update Track Data](https://rcsb.github.io/rcsb-saguaro/examples/update_track_data.html)
-* [Click Callback](https://rcsb.github.io/rcsb-saguaro/examples/click_callback.html)
-
-The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
-
-### rcsb-saguaro-app
-We also provide a library ([rcsb-saguaro-app](https://rcsb.github.io/rcsb-saguaro-app)) to build preconfigured 1D Protein Feature Views of RCSB PDB and UniProtKB annotations. 
-
 ### Library Documentation
-TypeScript classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/globals.html).
+TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/globals.html).
 
-### Main Class and Interfaces
+### Main Classes and Interfaces
 These are the most important elements if you are only interested in using RCSB Saguaro to visualise protein annotations
 
 - [RcsbFv](https://rcsb.github.io/rcsb-saguaro/classes/rcsbfv.html): 
@@ -49,7 +36,7 @@ are displayed (color, shape, overlap flag) and also different track attributes (
 Interface that defines properties of an specific annotation object. It includes the location where the annotation will be displayed 
 (begin, end) and additional properties to change the final representation and click-event behaviour 
 
- Board and Track Configuration
+General Board and Track Configuration
 ---
 #### Board Configuration
 Main feature viewer board object configuration defines the coordinate range, track and title width and axis display. 
@@ -84,6 +71,19 @@ Main Row Configuration properties are:
  
 #### Track Configuration Examples
 - Sequence Track
+
+### JavaScript Examples
+* [Single Tracks](https://rcsb.github.io/rcsb-saguaro/examples/simple_tracks.html)
+* [Composite Track](https://rcsb.github.io/rcsb-saguaro/examples/composite_track.html)
+* [Dynamic Tracks](https://rcsb.github.io/rcsb-saguaro/examples/dynamic_track_loading.html)
+* [Track Visibility](https://rcsb.github.io/rcsb-saguaro/examples/change_track_visibility.html)
+* [Update Track Data](https://rcsb.github.io/rcsb-saguaro/examples/update_track_data.html)
+* [Click Callback](https://rcsb.github.io/rcsb-saguaro/examples/click_callback.html)
+
+The full collection of examples can be edit and modified at [CODEPEN](https://codepen.io/collection/njrBOR?grid_type=list)
+
+### rcsb-saguaro-app
+We also provide a library ([rcsb-saguaro-app](https://rcsb.github.io/rcsb-saguaro-app)) to build preconfigured 1D Protein Feature Views of RCSB PDB and UniProtKB annotations. 
 
 ```javascript
 const sequence = "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQ"+
