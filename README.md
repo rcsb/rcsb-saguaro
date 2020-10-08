@@ -88,7 +88,9 @@ Main Row Configuration properties are:
 const sequence = "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQ"+
                  "EEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAA"+
                  "RTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQHKLRKLNPPDESGPGCMS"
+```
 
+```javascript
 const sequenceTrack = {
     trackHeight: 20,
     trackColor: "#F9F9F9",
@@ -100,6 +102,7 @@ const sequenceTrack = {
     }]
 }
 ```
+
 - Block Track
 ```javascript
 const blockTrack= {

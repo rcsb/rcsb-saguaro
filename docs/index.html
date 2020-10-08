@@ -70,10 +70,12 @@
 				<p>RCSB Saguaro 1D Feature Viewer is an open-source TypeScript library used to display protein and genomic sequence annotations over the web.
 					The project is developed and maintained at <a href="https://rcsb.org">RCSB PDB</a> and it is currently used to display protein features on its web site.
 				The package offers multiple types of data displays and a rich set of options to customize feature visualization.</p>
+				<!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro-app@0.7.0/build/dist/app.js"></script>
 <script type="text/javascript">RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");</script>
+--->
 				<a href="#node-module-instalation" id="node-module-instalation" style="color: inherit; text-decoration: none;">
 					<h3>Node Module Instalation</h3>
 				</a>
@@ -171,42 +173,43 @@
 				<ul>
 					<li>Sequence Track<pre><code class="language-javascript"><span class="hljs-keyword">const</span> sequence = <span class="hljs-string">&quot;MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQ&quot;</span>+
                <span class="hljs-string">&quot;EEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAA&quot;</span>+
-               <span class="hljs-string">&quot;RTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQHKLRKLNPPDESGPGCMS&quot;</span>
-</code></pre>
+               <span class="hljs-string">&quot;RTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQHKLRKLNPPDESGPGCMS&quot;</span></code></pre>
 					</li>
 				</ul>
-				<p>const sequenceTrack = {
-					trackHeight: 20,
-					trackColor: &quot;#F9F9F9&quot;,
-					displayType: &quot;sequence&quot;,
-					rowTitle: &quot;SEQUENCE&quot;,
-					trackData: [{
-					begin: 1,
-					value: sequence
-					}]
-				}</p>
-				<pre><code>- Block Track
-```javascript
-const blockTrack= {
-<span class="hljs-symbol">    trackId:</span> <span class="hljs-string">&quot;blockTrack&quot;</span>,
-<span class="hljs-symbol">    trackHeight:</span> <span class="hljs-number">20</span>,
-<span class="hljs-symbol">    trackColor:</span> <span class="hljs-string">&quot;#F9F9F9&quot;</span>,
-<span class="hljs-symbol">    displayType:</span> <span class="hljs-string">&quot;block&quot;</span>,
-<span class="hljs-symbol">    displayColor:</span> <span class="hljs-string">&quot;#FF0000&quot;</span>,
-<span class="hljs-symbol">    rowTitle:</span> <span class="hljs-string">&quot;BLOCK&quot;</span>,
-<span class="hljs-symbol">    trackData:</span> [{
-<span class="hljs-symbol">        begin:</span> <span class="hljs-number">30</span>,
-<span class="hljs-symbol">        end:</span> <span class="hljs-number">60</span>,
-<span class="hljs-symbol">        gaps:</span>[{
-<span class="hljs-symbol">            begin:</span><span class="hljs-number">40</span>,
-<span class="hljs-symbol">            end:</span><span class="hljs-number">50</span>
-        }]
-    },{
-<span class="hljs-symbol">        begin:</span> <span class="hljs-number">80</span>,
-<span class="hljs-symbol">        end:</span> <span class="hljs-number">90</span>,
-<span class="hljs-symbol">        openEnd:</span> true
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> sequenceTrack = {
+    <span class="hljs-attr">trackHeight</span>: <span class="hljs-number">20</span>,
+    <span class="hljs-attr">trackColor</span>: <span class="hljs-string">&quot;#F9F9F9&quot;</span>,
+    <span class="hljs-attr">displayType</span>: <span class="hljs-string">&quot;sequence&quot;</span>,
+    <span class="hljs-attr">rowTitle</span>: <span class="hljs-string">&quot;SEQUENCE&quot;</span>,
+    <span class="hljs-attr">trackData</span>: [{
+        <span class="hljs-attr">begin</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">value</span>: sequence
     }]
-}</code></pre><p>See these examples online <a href="https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html">here</a></p>
+}</code></pre>
+				<ul>
+					<li>Block Track<pre><code class="language-javascript"><span class="hljs-keyword">const</span> blockTrack= {
+  <span class="hljs-attr">trackId</span>: <span class="hljs-string">&quot;blockTrack&quot;</span>,
+  <span class="hljs-attr">trackHeight</span>: <span class="hljs-number">20</span>,
+  <span class="hljs-attr">trackColor</span>: <span class="hljs-string">&quot;#F9F9F9&quot;</span>,
+  <span class="hljs-attr">displayType</span>: <span class="hljs-string">&quot;block&quot;</span>,
+  <span class="hljs-attr">displayColor</span>: <span class="hljs-string">&quot;#FF0000&quot;</span>,
+  <span class="hljs-attr">rowTitle</span>: <span class="hljs-string">&quot;BLOCK&quot;</span>,
+  <span class="hljs-attr">trackData</span>: [{
+      <span class="hljs-attr">begin</span>: <span class="hljs-number">30</span>,
+      <span class="hljs-attr">end</span>: <span class="hljs-number">60</span>,
+      <span class="hljs-attr">gaps</span>:[{
+          <span class="hljs-attr">begin</span>:<span class="hljs-number">40</span>,
+          <span class="hljs-attr">end</span>:<span class="hljs-number">50</span>
+      }]
+  },{
+      <span class="hljs-attr">begin</span>: <span class="hljs-number">80</span>,
+      <span class="hljs-attr">end</span>: <span class="hljs-number">90</span>,
+      <span class="hljs-attr">openEnd</span>: <span class="hljs-literal">true</span>
+  }]
+}</code></pre>
+					</li>
+				</ul>
+				<p>See these examples online <a href="https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html">here</a></p>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
