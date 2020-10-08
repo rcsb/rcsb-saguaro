@@ -70,12 +70,12 @@
 				<p>RCSB Saguaro 1D Feature Viewer is an open-source TypeScript library used to display protein and genomic sequence annotations over the web.
 					The project is developed and maintained at <a href="https://rcsb.org">RCSB PDB</a> and it is currently used to display protein features on its web site.
 				The package offers multiple types of data displays and a rich set of options to customize feature visualization.</p>
-
+				<!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro-app@0.7.0/build/dist/app.js"></script>
 <script type="text/javascript">RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");</script>
-
+--->
 				<a href="#node-module-instalation" id="node-module-instalation" style="color: inherit; text-decoration: none;">
 					<h3>Node Module Instalation</h3>
 				</a>
@@ -209,7 +209,15 @@
         <span class="hljs-attr">openEnd</span>: <span class="hljs-literal">true</span>
     }]
 }</code></pre>
-				<p>See these examples online <a href="https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html">here</a></p>
+				<a href="#feature-view-constructor" id="feature-view-constructor" style="color: inherit; text-decoration: none;">
+					<h4>Feature View Constructor</h4>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> pfv = <span class="hljs-keyword">new</span> RcsbFv.Create({
+    <span class="hljs-attr">boardConfigData</span>: boardConfig,
+    <span class="hljs-attr">rowConfigData</span>: [sequenceTrack, blockTrack],
+    <span class="hljs-attr">elementId</span>: <span class="hljs-string">&quot;htmlElementId&quot;</span>
+});</code></pre>
+				<p>See this example online <a href="https://rcsb.github.io/rcsb-saguaro/examples/board_track_configuration.html">here</a></p>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
