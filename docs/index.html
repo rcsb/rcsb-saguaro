@@ -115,7 +115,7 @@
 				interface.</p>
 				<p>Main Board Configuration properties are:</p>
 				<ul>
-					<li><strong>range</strong>: Defines the 1D domain coordinates segment<ul>
+					<li><strong>range</strong>: Object that defines the 1D domain coordinates segment as a range of sequential integer values<ul>
 							<li><strong>min</strong>: Numerical value that defines the coordinates start position</li>
 							<li><strong>max</strong>: Numerical value that defines the coordinates end position</li>
 						</ul>
@@ -142,7 +142,7 @@
 					<li><strong>trackHeight</strong>: Defines the board row height</li>
 					<li><strong>trackColor</strong>: Color in which row data will be displayed </li>
 					<li><strong>rowTitle</strong>: Board track title, text displayed next to the board row</li>
-					<li><strong>displayedType</strong>: Enumerated value used to define how the data is displayed<ul>
+					<li><strong>displayType</strong>: Enumerated value used to define how the data is displayed<ul>
 							<li>Values: sequence, block, pin, line, area, bond, vline</li>
 						</ul>
 					</li>
@@ -150,7 +150,7 @@
 							<li><strong>begin</strong>: Start position of the feature</li>
 							<li><strong>end</strong>: End position of the feature (optional value). When no end value is available the feature is located on a single position defined by <em>begin</em></li>
 							<li><strong>value</strong>: Numerical or string value of the feature in this range (optional value)</li>
-							<li><strong>gaps</strong>: List of empty regions in the feature. These regions are displayed with a dashed line<ul>
+							<li><strong>gaps</strong>: List of empty regions in the feature. These regions are displayed as a dashed line between blocks. This attribute is only available when displayType is &quot;block&quot;<ul>
 									<li>Attributes: begin, end</li>
 								</ul>
 							</li>

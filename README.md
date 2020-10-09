@@ -44,7 +44,7 @@ The full set of attributes is defined in [RcsbFvBoardConfigInterface](https://rc
 interface.
 
 Main Board Configuration properties are:
-- **range**: Defines the 1D domain coordinates segment
+- **range**: Object that defines the 1D domain coordinates segment as a range of sequential integer values
     - **min**: Numerical value that defines the coordinates start position
     - **max**: Numerical value that defines the coordinates end position
 - **trackWidth**: Numerical value that defines the width of the board cells that contains the feature
@@ -69,13 +69,13 @@ Main Row Configuration properties are:
 - **trackHeight**: Defines the board row height
 - **trackColor**: Color in which row data will be displayed 
 - **rowTitle**: Board track title, text displayed next to the board row
-- **displayedType**: Enumerated value used to define how the data is displayed
+- **displayType**: Enumerated value used to define how the data is displayed
   - Values: sequence, block, pin, line, area, bond, vline
 - **trackData**: List of data displayed in the board row. The full set o data attributes are defined in [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvtrackdataelementinterface.html). Most important data elements attributes are 
   - **begin**: Start position of the feature
   - **end**: End position of the feature (optional value). When no end value is available the feature is located on a single position defined by *begin*
   - **value**: Numerical or string value of the feature in this range (optional value)
-  - **gaps**: List of empty regions in the feature. These regions are displayed with a dashed line
+  - **gaps**: List of empty regions in the feature. These regions are displayed as a dashed line between blocks. This attribute is only available when displayType is "block"
     - Attributes: begin, end
  
 #### Track Configuration Examples
