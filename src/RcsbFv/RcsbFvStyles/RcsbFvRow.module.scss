@@ -91,6 +91,7 @@ div.rcsbFvBoard *{
     vertical-align: middle;
     position: absolute;
     z-index: 2147483647;
+    line-height: 25px;
 }
 
 .rcsbFvTooltipDescription {
@@ -108,6 +109,8 @@ div.rcsbFvBoard *{
 .rcsbFvTooltipDescription div {
     vertical-align: middle;
     text-align: right;
+    max-width: 640px;
+    line-height: 25px;
 }
 
 .rcsbFvTooltipDescription div:not(:last-child) {

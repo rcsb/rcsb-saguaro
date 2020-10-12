@@ -67,8 +67,6 @@ export class RcsbTooltipManager {
             tooltipDiv.append(RcsbTooltipManager.bNode());
         }
         tooltipDiv.append(spanRegion);
-        tooltipDiv.style.height = this.divHeight.toString()+"px";
-        tooltipDiv.style.lineHeight = this.divHeight.toString()+"px";
         createPopper(refDiv, tooltipDiv, {
             placement:'top-end',
             modifiers:[{
@@ -82,7 +80,7 @@ export class RcsbTooltipManager {
                     fallbackPlacements: ['bottom-end', 'right', 'auto'],
                 },
             }]
-        });
+        }).forceUpdate();
     }
 
     private static buildIndexNames(beginName:string, endName:string|undefined, name: string): HTMLSpanElement{
@@ -104,12 +102,9 @@ export class RcsbTooltipManager {
             throw "Tooltip DOM element not found";
         tooltipDiv.innerHTML = "";
         tooltipDiv.removeAttribute("popper-hidden");
-        tooltipDiv.style.height = (this.divHeight*d.description.length).toString()+"px";
         d.description.forEach(des=>{
             const desDiv = document.createElement<"div">("div");
             desDiv.append(des);
-            desDiv.style.height = this.divHeight.toString()+"px";
-            desDiv.style.lineHeight = this.divHeight.toString()+"px";
             tooltipDiv.append(desDiv);
         });
 
@@ -123,7 +118,7 @@ export class RcsbTooltipManager {
             },{
                 name: 'flip',
                 options: {
-                    fallbackPlacements: ['bottom-end', 'right', 'auto'],
+                    fallbackPlacements: ['bottom-end', 'right-start', 'right', 'auto'],
                 },
             },{
                 name: 'offset',
@@ -131,7 +126,7 @@ export class RcsbTooltipManager {
                     offset: [0,30]
                 }
             }]
-        });
+        }).forceUpdate();
     }
 
     hideTooltip(){

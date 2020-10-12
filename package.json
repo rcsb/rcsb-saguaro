@@ -1,6 +1,6 @@
 {
   "name": "@bioinsilico/rcsb-saguaro",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "RCSB 1D Feature Viewer",
   "main": "dist/RcsbFv.js",
   "files": [
@@ -15,7 +15,7 @@
     "build": "webpack --config ./webpack.config.js",
     "buildApp": "npm run build",
     "buildAll": "npm run buildApp && npm run buildAllDoc",
-    "buildDoc": "npx typedoc --mode file --out docs src --theme ./typedoc_theme",
+    "buildDoc": "npx typedoc --mode file --out docs src",
     "cpExamples": "ncp examples docs/examples",
     "buildAllDoc": "npm run buildDoc && npm run cpExamples",
     "test": "echo \"Error: no test specified\" && exit 1"

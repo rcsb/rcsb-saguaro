@@ -545,7 +545,7 @@ ul.tsd-descriptions > li > :last-child > :last-child > :last-child,
 }
 
 .container {
-  max-width: 1550px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
 }
@@ -604,7 +604,7 @@ ul.tsd-descriptions > li > :last-child > :last-child > :last-child,
 }
 
 .col-4 {
-  width: 25%;
+  width: 33.3333333333%;
 }
 
 .offset-4 {
@@ -636,7 +636,7 @@ ul.tsd-descriptions > li > :last-child > :last-child > :last-child,
 }
 
 .col-8 {
-  width: 75%;
+  width: 66.6666666667%;
 }
 
 .offset-8 {
