@@ -10,7 +10,8 @@ The package offers multiple types of data displays and a rich set of options to 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro-app@0.7.4/build/dist/app.js"></script>
 <script type="text/javascript">
 RcsbFvWebApp.setBoardConfig({
-    trackWidth:640
+    trackWidth:540,
+    rowTitleWidth:170
 });
 RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");
 </script>
