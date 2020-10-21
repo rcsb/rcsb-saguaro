@@ -57,8 +57,10 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     componentDidMount(): void{
-        this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager, this.updateHeight.bind(this));
-        this.updateHeight();
+        setTimeout(()=>{
+            this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager, this.updateHeight.bind(this));
+            this.updateHeight();
+        });
     }
 
     componentWillUnmount(): void {

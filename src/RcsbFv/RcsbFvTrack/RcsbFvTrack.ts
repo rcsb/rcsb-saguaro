@@ -116,10 +116,10 @@ export class RcsbFvTrack {
         if(typeof this.rcsbFvConfig.trackWidth === "number")
             this.rcsbBoard.setBoardWidth(this.rcsbFvConfig.trackWidth);
 
-        if(typeof this.rcsbFvConfig.length === "number")
-            this.rcsbBoard.setRange(1-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
-        else if(typeof this.rcsbFvConfig.range === "object")
+        if(typeof this.rcsbFvConfig.range === "object")
             this.rcsbBoard.setRange(this.rcsbFvConfig.range.min-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.range.max+RcsbFvDefaultConfigValues.increasedView);
+        else if(typeof this.rcsbFvConfig.length === "number")
+            this.rcsbBoard.setRange(1-RcsbFvDefaultConfigValues.increasedView, this.rcsbFvConfig.length+RcsbFvDefaultConfigValues.increasedView);
     }
 
     /**Build an inner track within a board track annotation cell
@@ -237,14 +237,14 @@ export class RcsbFvTrack {
     /**Modify d3 x-scale
      * @param boardId Id of the SVG/HTML manager that triggered the event
      * */
-    public setScale(boardId: string) : void {
+    private setScale(boardId: string) : void {
         this.rcsbBoard.setScale(boardId);
     }
 
     /**Highlights the region(s) defined by the attribute selection
      * @param boardId Id of the SVG/HTML manager that triggered the event
      * */
-    public setSelection(boardId: string) : void {
+    private setSelection(boardId: string) : void {
         this.rcsbBoard.setSelection(boardId);
     }
 

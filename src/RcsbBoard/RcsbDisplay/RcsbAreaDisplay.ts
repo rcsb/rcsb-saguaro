@@ -87,26 +87,34 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
             };
             RcsbD3AreaManager.move(config);
         });
+        this.setDataUpdated(false);
     }
 
     private downSamplingSplit(points: RcsbFvTrackDataElementInterface[], gradient:RcsbFvColorGradient):Array<LineColorInterface> {
         const tmp:Array<LineColorInterface> = new Array<LineColorInterface>();
         const lineColorArray:Array<LineColorInterface> = new Array<LineColorInterface>();
+        const domain: {min:number;max:number;} = {min:Number.MAX_SAFE_INTEGER,max:Number.MIN_SAFE_INTEGER};
+        points.forEach(p=>{
+            if(p.begin<domain.min)domain.min = p.begin-0.5;
+            if(p.begin>domain.max)domain.max = p.begin+0.5;
+        });
+        domain.min = Math.max(domain.min,this.xScale.domain()[0]);
+        domain.max = Math.min(domain.max,this.xScale.domain()[1]);
         gradient.colors.forEach((c,i)=>{
             tmp[i] = {points:new Array<RcsbFvTrackDataElementInterface>(),color:c};
         });
         const thr = this.maxPoints;
         let title:string | undefined = points[0].title;
         if(points[0].name != null)title = points[0].name;
-        for(let n = 0; n<this.xScale.domain()[1]; n++){
-            this.innerData.push({begin:n,value:0,title:title});
+        for(let n = Math.ceil(domain.min); n<domain.max; n++){
+            this.innerData.push(null);
             gradient.colors.forEach((c,i)=>{
-                tmp[i].points.push({begin:n,value:0,title:title});
+                tmp[i].points[n] = {begin:n,value:0,title:title};
             });
         }
         points.forEach((p) => {
             this.innerData[p.begin]={begin:p.begin,value:p.value,title:title};
-            if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]) {
+            if(p.begin>domain.min && p.begin<domain.max) {
                 const thrIndex: number = RcsbAreaDisplay.searchClassThreshold(p.value as number, gradient.thresholds);
                 tmp[thrIndex].points[p.begin] = p;
             }
@@ -114,7 +122,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
         tmp.forEach((lineColor)=>{
             let out:RcsbFvTrackDataElementInterface[] = [];
             lineColor.points.forEach((p)=> {
-                if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]){
+                if(p!= null && p.begin>domain.min && p.begin<domain.max){
                     out.push(p);
                 }
             });

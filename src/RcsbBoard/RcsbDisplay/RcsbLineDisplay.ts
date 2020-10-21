@@ -17,7 +17,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private _yDomain: [number, number];
     protected yScale: ScaleLinear<number,number> = scaleLinear();
     protected maxPoints: number = 1000;
-    protected innerData: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
+    protected innerData: Array<RcsbFvTrackDataElementInterface|null> = new Array<RcsbFvTrackDataElementInterface|null>();
 
     definedScale: boolean = false;
     private line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
@@ -27,7 +27,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         const index: number = Math.round(this.xScale.invert(mouse(this.d3Manager.getPane())[0]));
         if(this.includeTooltip){
             if(this.innerData[index] !=null)
-                this.tooltipManager.showTooltip(this.innerData[index]);
+                this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
         }
     };
 
@@ -101,26 +101,35 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             trackG: this.g
         };
         RcsbD3LineManager.move(config);
+        this.setDataUpdated(false);
     }
 
     protected downSampling(points: RcsbFvTrackDataElementInterface[]):RcsbFvTrackDataElementInterface[] {
         let out:RcsbFvTrackDataElementInterface[] = [];
         const tmp:RcsbFvTrackDataElementInterface[] = [];
+        const domain: {min:number;max:number;} = {min:Number.MAX_SAFE_INTEGER,max:Number.MIN_SAFE_INTEGER};
+        points.forEach(p=>{
+            if(p.begin<domain.min)domain.min = p.begin-0.5;
+            if(p.begin>domain.max)domain.max = p.begin+0.5;
+        });
+        domain.min = Math.max(domain.min,this.xScale.domain()[0]);
+        domain.max = Math.min(domain.max,this.xScale.domain()[1]);
         const thr = this.maxPoints;
         let title:string | undefined = points[0].title;
         if(points[0].name != null)title = points[0].name;
-        for(let n = 0; n<this.xScale.domain()[1]; n++){
-            tmp.push({begin:n,value:0,title:title});
+
+        for(let n = Math.ceil(domain.min);n<domain.max; n++){
+            tmp[n] = {begin:n,value:0,title:title};
         }
         points.forEach((p) => {
-            if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]) {
+            if(p.begin>domain.min && p.begin<domain.max) {
                 tmp[p.begin] = p;
             }
         });
         tmp.forEach((p)=> {
-            if(p.begin>this.xScale.domain()[0] && p.begin<this.xScale.domain()[1]){
+            if(p.begin>domain.min && p.begin<domain.max){
                 out.push(p);
-                this.innerData.push(p);
+                this.innerData[p.begin]={begin:p.begin,value:p.value,title:title};
             }
         });
         if(out.length>thr){

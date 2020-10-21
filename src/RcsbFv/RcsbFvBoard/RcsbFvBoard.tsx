@@ -168,7 +168,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }else if(configData.rowConfigData!=null){
             this.setState({rowConfigData: configData.rowConfigData} );
         }
-        this.setScale();
     }
 
     /**Replace board track rack data
