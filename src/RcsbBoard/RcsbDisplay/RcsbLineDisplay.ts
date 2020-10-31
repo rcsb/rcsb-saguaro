@@ -28,6 +28,8 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         if(this.includeTooltip){
             if(this.innerData[index] !=null)
                 this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
+            else
+                this.tooltipManager.hideTooltip();
         }
     };
 
@@ -132,6 +134,10 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
                 this.innerData[p.begin]={begin:p.begin,value:p.value,title:title};
             }
         });
+        out.unshift({begin:domain.min,value:0});
+        out.unshift({begin:this.xScale.domain()[0],value:0});
+        out.push({begin:domain.max,value:0});
+        out.push({begin:this.xScale.domain()[1],value:0});
         if(out.length>thr){
             const bucketSize = out.length/thr ;
             const sampler = largestTriangleOneBucket();

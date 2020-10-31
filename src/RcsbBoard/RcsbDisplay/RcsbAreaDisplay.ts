@@ -126,6 +126,10 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
                     out.push(p);
                 }
             });
+            out.unshift({begin:domain.min,value:0});
+            out.unshift({begin:this.xScale.domain()[0],value:0});
+            out.push({begin:domain.max,value:0});
+            out.push({begin:this.xScale.domain()[1],value:0});
             if(out.length>thr){
                 const bucketSize = out.length/thr ;
                 const sampler = largestTriangleOneBucket();
