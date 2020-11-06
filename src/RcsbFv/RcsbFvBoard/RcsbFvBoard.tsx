@@ -19,6 +19,8 @@ import {
 import {Subscription} from "rxjs";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
+import {FaSearch} from 'react-icons/fa';
+import {createPopper} from "@popperjs/core";
 
 /**Board React component configuration interface*/
 export interface RcsbFvBoardFullConfigInterface {
@@ -56,6 +58,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private readonly xScale: ScaleLinear<number,number> = scaleLinear();
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
+    /**Flag to activate Glow. Helps solving the repeating Glow bug*/
+    private activateGlowFlag: boolean = true;
 
     readonly state : RcsbFvBoardState = {
         /**Array of configurations for each board track*/
@@ -74,7 +78,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
         }
         return (
-            <div>
+            <div onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
                 <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()}>
                     {rcsbFvRowAxis}
                     {
@@ -88,8 +92,19 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                         })
                     }
                 </div>
-                <div id={this.boardId+"_tooltip"} className={classes.rcsbFvTooltip} />
-                <div id={this.boardId+"_tooltipDescription"} className={classes.rcsbFvTooltipDescription} />
+                <div id={this.boardId+"_tooltip"} className={classes.rcsbFvTooltip} popper-hidden={""} />
+                <div id={this.boardId+"_tooltipDescription"} className={classes.rcsbFvTooltipDescription} popper-hidden={""} />
+                <div id={this.boardId+"_glow"} >
+                    <div />
+                </div>
+                <div id={this.boardId+"_zoomIcon"} className={classes.rcsbZoomIcon+" "+classes.rcsbSmoothDivHide} onMouseOver={this.displayZoomHelp.bind(this)} onMouseLeave={this.hideZoomHelp.bind(this)}>
+                    <FaSearch/>
+                </div>
+                <div id={this.boardId+"_zoomHelp"} className={classes.rcsbZoomHelp+" "+classes.rcsbSmoothDivHide}>
+                    <div><b>ZOOM</b></div>
+                    <div style={{marginTop:5}}><b>Mouse</b>: scroll the wheel up to zoom in (scroll down to zoom out)</div>
+                    <div style={{marginTop:5}}><b>Trackpad</b>: scroll gesture (macOS: place two fingers on your trackpad and move them down or up to zoom in or out)</div>
+                </div>
             </div>
         );
     }
@@ -215,13 +230,132 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
 
     componentDidMount(): void {
         this.subscription = this.subscribe();
-        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+"_tooltip");
-        if(tooltipDiv != null)
-            tooltipDiv.setAttribute("popper-hidden","");
+    }
 
-        const tooltipDescriptionDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+"_tooltipDescription");
-        if(tooltipDescriptionDiv != null)
-            tooltipDescriptionDiv.setAttribute("popper-hidden","");
+    private setMouseOverCallback(): (()=>void)|undefined{
+        if(this.props.boardConfigData.hideTrackFrameGlow)
+            return undefined;
+        else
+            return this.glow.bind(this);
+    }
+
+    private setMouseLeaveCallback(): (()=>void)|undefined{
+        if(this.props.boardConfigData.hideTrackFrameGlow)
+            return undefined;
+        else
+            return this.removeGlow.bind(this);
+    }
+
+    private glow(): void{
+        if(this.activateGlowFlag) {
+            this.activateGlowFlag = false;
+            const mainDiv: HTMLElement | null = document.getElementById(this.boardId);
+            if (mainDiv != null) {
+                const mainDivSize: DOMRect = mainDiv.getBoundingClientRect();
+                const axisDivSize: number = document.getElementsByClassName(classes.rcsbFvRowAxis)[0]?.getBoundingClientRect().height ?? 0;
+                const height: number = mainDivSize.height - axisDivSize;
+                const glowDiv: HTMLElement | null = document.getElementById(this.boardId + "_glow");
+                if (glowDiv != null) {
+                    const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
+                    glowDiv.style.top = "-" + (height - 1) + "px";
+                    const trackWidth: number = this.props.boardConfigData.trackWidth ?? 0;
+                    const titleWidth: number = mainDivSize.width - trackWidth;
+                    glowDiv.style.marginLeft = titleWidth + "px";
+                    innerGlowDiv.style.height = (height + 1) + "px";
+                    innerGlowDiv.style.width = (trackWidth+2) + "px";
+                    glowDiv.className = classes.rcsbGlow;
+                }
+            }
+            this.displayZoomIcon();
+        }
+    }
+
+    private removeGlow(): void{
+        this.hideZoomIcon();
+        const glowDiv: HTMLElement|null = document.getElementById(this.boardId+"_glow");
+        if(glowDiv!=null){
+            glowDiv.className = classes.rcsbNoGlow;
+            setTimeout(()=>{
+                const innerGlowDiv: HTMLElement|undefined = glowDiv.getElementsByTagName("div")[0];
+                glowDiv.style.top = "0px";
+                glowDiv.style.marginLeft = "0px";
+                innerGlowDiv.style.height = "0px";
+                innerGlowDiv.style.width = "0px";
+                this.activateGlow();
+            },300);
+        }
+    }
+
+    private activateGlow(): void{
+        this.activateGlowFlag = true;
+    }
+
+    private displayZoomIcon(): void{
+        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
+        if(refDiv == null)
+            return;
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomIcon");
+        if(tooltipDiv == null)
+            return;
+
+        createPopper(refDiv, tooltipDiv, {
+            placement:'right-start',
+            modifiers: [{
+                name: 'flip',
+                options: {
+                    fallbackPlacements: ['right', 'auto'],
+                },
+            },{
+                name: 'offset',
+                options: {
+                    offset: [0,0]
+                }
+            }]
+        }).forceUpdate();
+        tooltipDiv.classList.remove(classes.rcsbSmoothDivHide);
+        tooltipDiv.classList.add(classes.rcsbSmoothDivDisplay);
+    }
+
+    private displayZoomHelp(): void{
+        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId+"_zoomIcon");
+        if(refDiv == null)
+            return;
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomHelp");
+        if(tooltipDiv == null)
+            return;
+
+        createPopper(refDiv, tooltipDiv, {
+            placement:'right-start',
+            modifiers: [{
+                name: 'flip',
+                options: {
+                    fallbackPlacements: ['right', 'auto'],
+                },
+            },{
+                name: 'offset',
+                options: {
+                    offset: [0,10]
+                }
+            }]
+        }).forceUpdate();
+        tooltipDiv.classList.remove(classes.rcsbSmoothDivHide);
+        tooltipDiv.classList.add(classes.rcsbSmoothDivDisplay);
+    }
+
+    private hideZoomIcon(): void{
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomIcon");
+        if(tooltipDiv == null)
+            return;
+        tooltipDiv.classList.remove(classes.rcsbSmoothDivDisplay);
+        tooltipDiv.classList.add(classes.rcsbSmoothDivHide);
+    }
+
+    private hideZoomHelp(): void{
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomHelp");
+        if(tooltipDiv == null)
+            return;
+        tooltipDiv.classList.remove(classes.rcsbSmoothDivDisplay);
+        tooltipDiv.classList.add(classes.rcsbSmoothDivHide);
     }
 
     componentWillUnmount(): void {

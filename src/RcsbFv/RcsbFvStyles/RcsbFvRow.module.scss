@@ -117,7 +117,67 @@ div.rcsbFvBoard *{
     border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
 
+.rcsbGlow {
+    pointer-events: none;
+    position: relative;
+}
+
+.rcsbNoGlow {
+    pointer-events: none;
+    position: relative;
+}
+
+.rcsbGlow div {
+    pointer-events: none;
+    position: absolute;
+    transition: box-shadow 0.3s;
+    box-shadow: 0px 0px 8px #c8c8c8;
+}
+
+.rcsbNoGlow div {
+    pointer-events: none;
+    position: absolute;
+    transition: box-shadow 0.3s;
+    box-shadow: none;
+    width: 100%;
+}
+
+div.rcsbZoomIcon {
+    position: absolute;
+    cursor: help;
+    z-index: 2147483646;
+}
+
+div.rcsbZoomHelp {
+    position: absolute;
+    pointer-events: none;
+    max-width: 250px;
+    font-size: 12px;
+    border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    background-color: #FCFCFC;
+    padding: 10px 5px 10px 5px;
+    z-index: 2147483646;
+}
+
+div.rcsbZoomHelp div:not(:first-child){
+    padding: 0 10px 0 10px;
+}
+
+div.rcsbSmoothDivHide {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+div.rcsbSmoothDivDisplay {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+}
+
 [popper-hidden] {
     visibility: hidden;
     pointer-events: none;
 }
+
+

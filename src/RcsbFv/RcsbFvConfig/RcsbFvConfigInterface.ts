@@ -30,6 +30,8 @@ export interface RcsbFvBoardConfigInterface {
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     /**Feature cells border color*/
     borderColor?: string;
+    /**Hide PFV tracks main frame border glow*/
+    hideTrackFrameGlow?: boolean;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
