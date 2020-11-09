@@ -2,7 +2,7 @@ import * as React from "react";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
-import {FaCaretDown} from 'react-icons/fa';
+import {FaBars} from 'react-icons/fa';
 
 export interface RcsbFvUIConfigInterface {
     boardId: string;
@@ -33,7 +33,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
                         timeout={300}
                         classNames={classes.rcsbCollapseUI}>
                         <div style={{position:"absolute"}} className={classes.rcsbCollapsedUIDiv+" "+classes.rcsbCollapseUI} onMouseEnter={this.changeState.bind(this,{collapse: false})}>
-                           <FaCaretDown style={{lineHeight:"inherit"}}/>
+                           <FaBars className={classes.rcsbCollapsedIcon}/>
                         </div>
                     </CSSTransition>
                     <CSSTransition

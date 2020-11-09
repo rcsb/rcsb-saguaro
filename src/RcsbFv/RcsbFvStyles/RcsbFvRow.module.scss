@@ -200,15 +200,16 @@ div.rcsbFvBoard *{
 }
 
 .rcsbCollapsedUIDiv{
+    z-index: 2147483646;
+}
+
+.rcsbCollapsedIcon {
     width: 20px;
     height: 20px;
+    padding: 4px 5px 4px 5px;
     border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
     background-color: #FCFCFC;
-    border-radius: 100%;
-    z-index: 2147483646;
-    text-align:center;
-    vertical-align:middle;
-    line-height: 20px;
+    border-radius: 50%;
     color: #999;
 }
 
