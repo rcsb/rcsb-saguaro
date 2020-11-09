@@ -142,13 +142,141 @@ div.rcsbFvBoard *{
     width: 100%;
 }
 
-div.rcsbZoomIcon {
+.rcsbUI {
     position: absolute;
-    cursor: help;
     z-index: 2147483646;
+    padding-left: 10px;
 }
 
-div.rcsbZoomHelp {
+.rcsbUIButton {
+    height: 30px;
+}
+
+.rcsbTopUI {
+    width: 20px;
+    height: 12px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #FCFCFC;
+    border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+}
+
+.rcsbBottomUI {
+    width: 20px;
+    height: 12px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #FCFCFC;
+    border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    border-top: none;
+}
+
+.rcsbIcon {
+    padding: 2px 3px 2px 3px;
+    border-right: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    border-left: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    width: 20px;
+    height: 30px;
+    background-color: #FCFCFC;
+    cursor: pointer;
+    color: #999;
+}
+
+.rcsbIcon:hover {
+    color:#333;
+}
+
+.rcsbSmoothDivHide {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+.rcsbSmoothDivDisplay {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+.rcsbCollapsedUIDiv{
+    width: 20px;
+    height: 20px;
+    border: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    background-color: #FCFCFC;
+    border-radius: 50%;
+    z-index: 2147483646;
+    text-align:center;
+    color: #999;
+}
+
+.rcsbCollapseUI {
+    opacity: 1;
+}
+
+.rcsbCollapseUI-enter{
+    opacity: 0;
+}
+
+.rcsbCollapseUI-enter-active{
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+.rcsbCollapseUI-enter-done{
+    opacity: 1;
+}
+
+.rcsbCollapseUI-exit{
+    opacity: 1;
+    z-index: -1;
+}
+
+.rcsbCollapseUI-exit-active{
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 300ms;
+}
+
+.rcsbCollapseUI-exit-done{
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rcsbExpandUI {
+    opacity: 0;
+}
+
+.rcsbExpandUI-enter{
+    opacity: 0;
+}
+
+.rcsbExpandUI-enter-active{
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+.rcsbExpandUI-enter-done{
+    opacity: 1;
+}
+
+.rcsbExpandUI-exit{
+    opacity: 1;
+}
+
+.rcsbExpandUI-exit-active{
+    opacity: 0;
+    transition: opacity 300ms;
+}
+
+.rcsbExpandUI-exit-done{
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.rcsbZoomHelp {
     position: absolute;
     pointer-events: none;
     max-width: 250px;
@@ -159,20 +287,8 @@ div.rcsbZoomHelp {
     z-index: 2147483646;
 }
 
-div.rcsbZoomHelp div:not(:first-child){
+.rcsbZoomHelp div:not(:first-child){
     padding: 0 10px 0 10px;
-}
-
-div.rcsbSmoothDivHide {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s linear 300ms, opacity 300ms;
-}
-
-div.rcsbSmoothDivDisplay {
-    visibility: visible;
-    opacity: 1;
-    transition: visibility 0s linear 0s, opacity 300ms;
 }
 
 [popper-hidden] {

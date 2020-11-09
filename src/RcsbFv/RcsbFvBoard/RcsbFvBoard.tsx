@@ -19,8 +19,10 @@ import {
 import {Subscription} from "rxjs";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
-import {FaSearch} from 'react-icons/fa';
+import {FaSearchMinus, FaSearchPlus} from 'react-icons/fa';
 import {createPopper} from "@popperjs/core";
+import {RcsbFvUI, RcsbFvUIButtonInterface} from "../RcsbFvUI/RcsbFvUI";
+import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 
 /**Board React component configuration interface*/
 export interface RcsbFvBoardFullConfigInterface {
@@ -60,6 +62,16 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private readonly selection:RcsbSelection = new RcsbSelection();
     /**Flag to activate Glow. Helps solving the repeating Glow bug*/
     private activateGlowFlag: boolean = true;
+    /**Mouse Leave Callback process Id*/
+    private mouseLeaveCallbackId: number = 0;
+    /**UI config Object*/
+    private readonly rcsbFvUIConfig: Array<RcsbFvUIButtonInterface> = [{
+        icon: <FaSearchPlus/>,
+        callback: this.zoomIn.bind(this)
+    },{
+        icon: <FaSearchMinus/>,
+        callback: this.zoomOut.bind(this)
+    }];
 
     readonly state : RcsbFvBoardState = {
         /**Array of configurations for each board track*/
@@ -68,7 +80,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         boardConfigData: this.props.boardConfigData
     };
 
-    render(){
+    render(): JSX.Element{
         let rcsbFvRowAxis = null;
         if(this.state.boardConfigData.includeAxis === true){
             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
@@ -94,17 +106,10 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 </div>
                 <div id={this.boardId+"_tooltip"} className={classes.rcsbFvTooltip} popper-hidden={""} />
                 <div id={this.boardId+"_tooltipDescription"} className={classes.rcsbFvTooltipDescription} popper-hidden={""} />
-                <div id={this.boardId+"_glow"} >
+                <div id={this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX} >
                     <div />
                 </div>
-                <div id={this.boardId+"_zoomIcon"} className={classes.rcsbZoomIcon+" "+classes.rcsbSmoothDivHide} onMouseOver={this.displayZoomHelp.bind(this)} onMouseLeave={this.hideZoomHelp.bind(this)}>
-                    <FaSearch/>
-                </div>
-                <div id={this.boardId+"_zoomHelp"} className={classes.rcsbZoomHelp+" "+classes.rcsbSmoothDivHide}>
-                    <div><b>ZOOM</b></div>
-                    <div style={{marginTop:5}}><b>Mouse</b>: scroll the wheel up to zoom in (scroll down to zoom out)</div>
-                    <div style={{marginTop:5}}><b>Trackpad</b>: scroll gesture (macOS: place two fingers on your trackpad and move them down or up to zoom in or out)</div>
-                </div>
+                <RcsbFvUI boardId={this.boardId} config={this.rcsbFvUIConfig}/>
             </div>
         );
     }
@@ -236,25 +241,26 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(this.props.boardConfigData.hideTrackFrameGlow)
             return undefined;
         else
-            return this.glow.bind(this);
+            return this.onMouseover.bind(this);
     }
 
     private setMouseLeaveCallback(): (()=>void)|undefined{
         if(this.props.boardConfigData.hideTrackFrameGlow)
             return undefined;
         else
-            return this.removeGlow.bind(this);
+            return this.onMouseLeave.bind(this);
     }
 
-    private glow(): void{
+    private onMouseover(): void{
         if(this.activateGlowFlag) {
+            window?.clearTimeout(this.mouseLeaveCallbackId);
             this.activateGlowFlag = false;
             const mainDiv: HTMLElement | null = document.getElementById(this.boardId);
             if (mainDiv != null) {
                 const mainDivSize: DOMRect = mainDiv.getBoundingClientRect();
                 const axisDivSize: number = document.getElementsByClassName(classes.rcsbFvRowAxis)[0]?.getBoundingClientRect().height ?? 0;
                 const height: number = mainDivSize.height - axisDivSize;
-                const glowDiv: HTMLElement | null = document.getElementById(this.boardId + "_glow");
+                const glowDiv: HTMLElement | null = document.getElementById(this.boardId + RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
                 if (glowDiv != null) {
                     const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
                     glowDiv.style.top = "-" + (height - 1) + "px";
@@ -266,49 +272,44 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     glowDiv.className = classes.rcsbGlow;
                 }
             }
-            this.displayZoomIcon();
+            this.displayUI();
+        }else{
+            window?.clearTimeout(this.mouseLeaveCallbackId);
         }
     }
 
-    private removeGlow(): void{
-        this.hideZoomIcon();
-        const glowDiv: HTMLElement|null = document.getElementById(this.boardId+"_glow");
-        if(glowDiv!=null){
-            glowDiv.className = classes.rcsbNoGlow;
-            setTimeout(()=>{
-                const innerGlowDiv: HTMLElement|undefined = glowDiv.getElementsByTagName("div")[0];
-                glowDiv.style.top = "0px";
-                glowDiv.style.marginLeft = "0px";
-                innerGlowDiv.style.height = "0px";
-                innerGlowDiv.style.width = "0px";
-                this.activateGlow();
-            },300);
-        }
+    private onMouseLeave(): void{
+        this.mouseLeaveCallbackId = window?.setTimeout(()=>{
+            this.hideUI();
+            const glowDiv: HTMLElement|null = document.getElementById(this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
+            if(glowDiv!=null){
+                glowDiv.className = classes.rcsbNoGlow;
+                this.activateGlowFlag = true;
+                this.mouseLeaveCallbackId = window.setTimeout(()=>{
+                    const innerGlowDiv: HTMLElement|undefined = glowDiv.getElementsByTagName("div")[0];
+                    glowDiv.style.top = "0px";
+                    glowDiv.style.marginLeft = "0px";
+                    innerGlowDiv.style.height = "0px";
+                    innerGlowDiv.style.width = "0px";
+                },300);
+            }
+        },500)
     }
 
-    private activateGlow(): void{
-        this.activateGlowFlag = true;
-    }
-
-    private displayZoomIcon(): void{
+    private displayUI(): void{
         const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
         if(refDiv == null)
             return;
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomIcon");
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             return;
-
+        const offsetHeight: number = this.state.boardConfigData.includeAxis === true ? RcsbFvDefaultConfigValues.trackAxisHeight + 2 : 0;
         createPopper(refDiv, tooltipDiv, {
             placement:'right-start',
             modifiers: [{
-                name: 'flip',
-                options: {
-                    fallbackPlacements: ['right', 'auto'],
-                },
-            },{
                 name: 'offset',
                 options: {
-                    offset: [0,0]
+                    offset: [offsetHeight,0]
                 }
             }]
         }).forceUpdate();
@@ -316,42 +317,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         tooltipDiv.classList.add(classes.rcsbSmoothDivDisplay);
     }
 
-    private displayZoomHelp(): void{
-        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId+"_zoomIcon");
-        if(refDiv == null)
-            return;
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomHelp");
-        if(tooltipDiv == null)
-            return;
-
-        createPopper(refDiv, tooltipDiv, {
-            placement:'right-start',
-            modifiers: [{
-                name: 'flip',
-                options: {
-                    fallbackPlacements: ['right', 'auto'],
-                },
-            },{
-                name: 'offset',
-                options: {
-                    offset: [0,10]
-                }
-            }]
-        }).forceUpdate();
-        tooltipDiv.classList.remove(classes.rcsbSmoothDivHide);
-        tooltipDiv.classList.add(classes.rcsbSmoothDivDisplay);
-    }
-
-    private hideZoomIcon(): void{
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomIcon");
-        if(tooltipDiv == null)
-            return;
-        tooltipDiv.classList.remove(classes.rcsbSmoothDivDisplay);
-        tooltipDiv.classList.add(classes.rcsbSmoothDivHide);
-    }
-
-    private hideZoomHelp(): void{
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_zoomHelp");
+    private hideUI(): void{
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             return;
         tooltipDiv.classList.remove(classes.rcsbSmoothDivDisplay);
@@ -419,6 +386,38 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private setDomain(domainData: DomainViewInterface): void {
         this.xScale.domain(domainData.domain);
         this.setScale();
+    }
+    /***************
+    ** UI methods **
+    ****************/
+    private zoomIn(): void {
+        const max: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.max : this.state.boardConfigData.length;
+        const min: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.min : 1;
+        if(max == null)
+            return;
+
+        const currentDomain: Array<number> = this.xScale.domain();
+        const deltaZoom: number = Math.floor((currentDomain[1]-currentDomain[0])*0.1);
+        const x: number = currentDomain[0]+deltaZoom;
+        const y: number = currentDomain[1]-deltaZoom;
+        if( (y-x)>20)
+            this.setDomain({domain:[x,y]});
+    }
+
+    private zoomOut(): void {
+        const max: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.max : this.state.boardConfigData.length;
+        const min: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.min : 1;
+        if(max == null)
+            return;
+
+        const currentDomain: Array<number> = this.xScale.domain();
+        const deltaZoom: number = Math.floor((currentDomain[1]-currentDomain[0])*0.1);
+        const x: number = currentDomain[0]-deltaZoom > (min-RcsbFvDefaultConfigValues.increasedView) ? currentDomain[0]-deltaZoom : (min-RcsbFvDefaultConfigValues.increasedView);
+        const y: number = currentDomain[1]+deltaZoom < max+RcsbFvDefaultConfigValues.increasedView ? currentDomain[1]+deltaZoom : max+RcsbFvDefaultConfigValues.increasedView;
+        if( (y-x) < (max+RcsbFvDefaultConfigValues.increasedView))
+            this.setDomain({domain:[x,y]});
+        else
+            this.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
     }
 
 }
