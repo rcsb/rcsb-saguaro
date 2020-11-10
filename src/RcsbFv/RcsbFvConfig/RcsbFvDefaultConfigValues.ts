@@ -9,6 +9,7 @@ interface RcsbFvDefaultConfigValuesInterface  {
     readonly rowTitleWidth: number;
     readonly displayDomain: [number,number];
     readonly interpolationType: string;
+    readonly rowHideTransitionTimeout: number;
 }
 
 /**Default board configuration values*/
@@ -21,7 +22,8 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     trackWidth: 920,
     rowTitleWidth: 160,
     displayDomain: [0,1],
-    interpolationType: InterpolationTypes.STEP
+    interpolationType: InterpolationTypes.STEP,
+    rowHideTransitionTimeout: 500
 };
 
 /**Interpolation types for line and area displays*/

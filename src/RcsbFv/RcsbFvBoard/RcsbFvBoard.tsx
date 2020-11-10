@@ -96,8 +96,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                         })
                     }
                 </div>
-                <div id={this.boardId+"_tooltip"} className={classes.rcsbFvTooltip} popper-hidden={""} />
-                <div id={this.boardId+"_tooltipDescription"} className={classes.rcsbFvTooltipDescription} popper-hidden={""} />
+                <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX} className={classes.rcsbFvTooltip} popper-hidden={""} />
+                <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX} className={classes.rcsbFvTooltipDescription} popper-hidden={""} />
                 <div id={this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX} >
                     <div />
                 </div>
@@ -288,6 +288,21 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         },500)
     }
 
+    private updateGlow(): void{
+        const mainDiv: HTMLElement | null = document.getElementById(this.boardId);
+        if (mainDiv != null) {
+            const mainDivSize: DOMRect = mainDiv.getBoundingClientRect();
+            const axisDivSize: number = document.getElementsByClassName(classes.rcsbFvRowAxis)[0]?.getBoundingClientRect().height ?? 0;
+            const height: number = mainDivSize.height - axisDivSize;
+            const glowDiv: HTMLElement | null = document.getElementById(this.boardId + RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
+            if (glowDiv != null) {
+                const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
+                glowDiv.style.top = "-" + (height - 1) + "px";
+                innerGlowDiv.style.height = (height + 1) + "px";
+            }
+        }
+    }
+
     private displayUI(): void{
         const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
         if(refDiv == null)
@@ -339,6 +354,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.updateTrackData(obj.eventData as TrackDataInterface);
             }else if(obj.eventType===EventType.DOMAIN_VIEW){
                 this.setDomain(obj.eventData as DomainViewInterface);
+            }else if(obj.eventType===EventType.UPDATE_GLOW){
+                this.updateGlow();
             }
         });
     }

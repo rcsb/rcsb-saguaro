@@ -58,9 +58,14 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         return (
             <CSSTransition
                 in={this.state.display}
-                timeout={500}
+                timeout={RcsbFvDefaultConfigValues.rowHideTransitionTimeout}
                 classNames={classes.rcsbFvRow}
-            >
+                onEntering={()=>{
+                    this.props.contextManager.next({eventType: EventType.UPDATE_GLOW, eventData:""});
+                }}
+                onExited={()=>{
+                    this.props.contextManager.next({eventType: EventType.UPDATE_GLOW, eventData:""});
+                }}>
                 <div className={classNames} style={this.configStyle()}>
                     <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} />
                     <RcsbFvRowTrack id={this.props.id} rowTrackConfigData={this.props.rowConfigData} xScale={this.props.xScale} selection={this.props.selection} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>

@@ -1,6 +1,7 @@
 import {createPopper} from "@popperjs/core";
 
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv";
+import {RcsbFvDOMConstants} from "../../RcsbFv/RcsbFvConfig/RcsbFvDOMConstants";
 
 export class RcsbTooltipManager {
     private readonly boardId: string;
@@ -13,7 +14,7 @@ export class RcsbTooltipManager {
         const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
         if(refDiv == null)
             throw "Main board DOM element not found";
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+"_tooltip");
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             throw "Tooltip DOM element not found";
         tooltipDiv.innerHTML = "";
@@ -97,7 +98,7 @@ export class RcsbTooltipManager {
         const refDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId);
         if(refDiv == null)
             throw "Main board DOM element not found";
-        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+"_tooltipDescription");
+        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             throw "Tooltip DOM element not found";
         tooltipDiv.innerHTML = "";
@@ -130,8 +131,8 @@ export class RcsbTooltipManager {
     }
 
     hideTooltip(){
-        RcsbTooltipManager._hideTooltip(this.boardId+"_tooltip");
-        RcsbTooltipManager._hideTooltip(this.boardId+"_tooltipDescription");
+        RcsbTooltipManager._hideTooltip(this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX);
+        RcsbTooltipManager._hideTooltip(this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX);
     }
 
     private static _hideTooltip(name: string){

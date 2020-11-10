@@ -2,7 +2,7 @@ import * as React from "react";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
-import {FaBars, FaSearchMinus, FaSearchPlus, FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft} from 'react-icons/fa';
+import {FaBars as menu, FaSearchMinus as zoomOut, FaSearchPlus as zoomIn, FaRegArrowAltCircleRight as moveRight, FaRegArrowAltCircleLeft as moveLeft} from 'react-icons/fa';
 import {RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {ScaleLinear} from "d3-scale";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
@@ -28,16 +28,16 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     /**UI config Object*/
     private readonly config: Array<RcsbFvUIButtonInterface> = [{
-        icon: <FaSearchPlus/>,
+        icon: zoomIn({}),
         callback: this.zoomIn.bind(this)
     },{
-        icon: <FaSearchMinus/>,
+        icon: zoomOut({}),
         callback: this.zoomOut.bind(this)
     },{
-        icon: <FaRegArrowAltCircleRight/>,
+        icon: moveRight({}),
         callback: this.move.bind(this,1)
     },{
-        icon: <FaRegArrowAltCircleLeft/>,
+        icon: moveLeft({}),
         callback: this.move.bind(this,-1)
     }];
 
@@ -54,7 +54,9 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
                         timeout={300}
                         classNames={classes.rcsbCollapseUI}>
                         <div style={{position:"absolute"}} className={classes.rcsbCollapsedUIDiv+" "+classes.rcsbCollapseUI} onMouseEnter={this.changeState.bind(this,{collapse: false})}>
-                           <FaBars className={classes.rcsbCollapsedIcon}/>
+                            {
+                                menu({className:classes.rcsbCollapsedIcon})
+                            }
                         </div>
                     </CSSTransition>
                     <CSSTransition

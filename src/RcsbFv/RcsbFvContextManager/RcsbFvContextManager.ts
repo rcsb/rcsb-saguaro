@@ -35,7 +35,8 @@ export enum EventType {
     ADD_TRACK = "addTrack",
     TRACK_HIDE = "eventTypeHide",
     UPDATE_BOARD_CONFIG = "updateBoardConfig",
-    DOMAIN_VIEW = "domainView"
+    DOMAIN_VIEW = "domainView",
+    UPDATE_GLOW = "updateGlow"
 }
 
 /**Event Data Interface used to update row configuration*/
