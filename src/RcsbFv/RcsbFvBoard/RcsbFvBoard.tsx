@@ -19,9 +19,8 @@ import {
 import {Subscription} from "rxjs";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
-import {FaSearchMinus, FaSearchPlus} from 'react-icons/fa';
 import {createPopper} from "@popperjs/core";
-import {RcsbFvUI, RcsbFvUIButtonInterface} from "../RcsbFvUI/RcsbFvUI";
+import {RcsbFvUI} from "../RcsbFvUI/RcsbFvUI";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 
 /**Board React component configuration interface*/
@@ -64,14 +63,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private activateGlowFlag: boolean = true;
     /**Mouse Leave Callback process Id*/
     private mouseLeaveCallbackId: number = 0;
-    /**UI config Object*/
-    private readonly rcsbFvUIConfig: Array<RcsbFvUIButtonInterface> = [{
-        icon: <FaSearchPlus/>,
-        callback: this.zoomIn.bind(this)
-    },{
-        icon: <FaSearchMinus/>,
-        callback: this.zoomOut.bind(this)
-    }];
+
 
     readonly state : RcsbFvBoardState = {
         /**Array of configurations for each board track*/
@@ -109,7 +101,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 <div id={this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX} >
                     <div />
                 </div>
-                <RcsbFvUI boardId={this.boardId} config={this.rcsbFvUIConfig}/>
+                <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} xScale={this.xScale} setDomain={this.setDomain.bind(this)}/>
             </div>
         );
     }
@@ -386,38 +378,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private setDomain(domainData: DomainViewInterface): void {
         this.xScale.domain(domainData.domain);
         this.setScale();
-    }
-    /***************
-    ** UI methods **
-    ****************/
-    private zoomIn(): void {
-        const max: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.max : this.state.boardConfigData.length;
-        const min: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.min : 1;
-        if(max == null)
-            return;
-
-        const currentDomain: Array<number> = this.xScale.domain();
-        const deltaZoom: number = Math.floor((currentDomain[1]-currentDomain[0])*0.1);
-        const x: number = currentDomain[0]+deltaZoom;
-        const y: number = currentDomain[1]-deltaZoom;
-        if( (y-x)>20)
-            this.setDomain({domain:[x,y]});
-    }
-
-    private zoomOut(): void {
-        const max: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.max : this.state.boardConfigData.length;
-        const min: number | undefined = this.state.boardConfigData.range != null ? this.state.boardConfigData.range.min : 1;
-        if(max == null)
-            return;
-
-        const currentDomain: Array<number> = this.xScale.domain();
-        const deltaZoom: number = Math.floor((currentDomain[1]-currentDomain[0])*0.1);
-        const x: number = currentDomain[0]-deltaZoom > (min-RcsbFvDefaultConfigValues.increasedView) ? currentDomain[0]-deltaZoom : (min-RcsbFvDefaultConfigValues.increasedView);
-        const y: number = currentDomain[1]+deltaZoom < max+RcsbFvDefaultConfigValues.increasedView ? currentDomain[1]+deltaZoom : max+RcsbFvDefaultConfigValues.increasedView;
-        if( (y-x) < (max+RcsbFvDefaultConfigValues.increasedView))
-            this.setDomain({domain:[x,y]});
-        else
-            this.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
     }
 
 }

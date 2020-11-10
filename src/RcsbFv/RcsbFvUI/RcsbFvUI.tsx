@@ -2,11 +2,17 @@ import * as React from "react";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
-import {FaBars} from 'react-icons/fa';
+import {FaBars, FaSearchMinus, FaSearchPlus, FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft} from 'react-icons/fa';
+import {RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {ScaleLinear} from "d3-scale";
+import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {DomainViewInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 export interface RcsbFvUIConfigInterface {
-    boardId: string;
-    config: Array<RcsbFvUIButtonInterface>;
+    readonly boardId: string;
+    readonly boardConfigData: RcsbFvBoardConfigInterface;
+    readonly xScale: ScaleLinear<number,number>;
+    readonly setDomain: (domainData: DomainViewInterface) => void;
 }
 
 export interface RcsbFvUIStateInterface {
@@ -19,6 +25,21 @@ export interface RcsbFvUIButtonInterface {
 }
 
 export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIStateInterface> {
+
+    /**UI config Object*/
+    private readonly config: Array<RcsbFvUIButtonInterface> = [{
+        icon: <FaSearchPlus/>,
+        callback: this.zoomIn.bind(this)
+    },{
+        icon: <FaSearchMinus/>,
+        callback: this.zoomOut.bind(this)
+    },{
+        icon: <FaRegArrowAltCircleRight/>,
+        callback: this.move.bind(this,1)
+    },{
+        icon: <FaRegArrowAltCircleLeft/>,
+        callback: this.move.bind(this,-1)
+    }];
 
     readonly state: RcsbFvUIStateInterface = {
         collapse: true
@@ -43,7 +64,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
                         <div style={{position:"absolute"}} className={classes.rcsbExpandUI} onMouseLeave={this.changeState.bind(this,{collapse: true})}>
                             <div className={classes.rcsbTopUI}/>
                             {
-                                this.props.config.map(button=>{
+                                this.config.map(button=>{
                                     return this.buildButton(button);
                                 })
                             }
@@ -67,6 +88,60 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     private changeState(state: RcsbFvUIStateInterface): void{
         this.setState(state);
+    }
+
+    /***************
+     ** UI methods **
+     ****************/
+    private zoomIn(): void {
+        const max: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.max : this.props.boardConfigData.length;
+        const min: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.min : 1;
+        if(max == null)
+            return;
+
+        const currentDomain: Array<number> = this.props.xScale.domain();
+        const deltaZoom: number = Math.floor((currentDomain[1]-currentDomain[0])*0.1);
+        const x: number = currentDomain[0]+deltaZoom;
+        const y: number = currentDomain[1]-deltaZoom;
+        if( (y-x)>20)
+            this.props.setDomain({domain:[x,y]});
+    }
+
+    private zoomOut(): void {
+        const max: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.max : this.props.boardConfigData.length;
+        const min: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.min : 1;
+        if(max == null)
+            return;
+
+        const currentDomain: Array<number> = this.props.xScale.domain();
+        const deltaZoom: number = Math.floor((currentDomain[1]-currentDomain[0])*0.1);
+        const x: number = currentDomain[0]-deltaZoom > (min-RcsbFvDefaultConfigValues.increasedView) ? currentDomain[0]-deltaZoom : (min-RcsbFvDefaultConfigValues.increasedView);
+        const y: number = currentDomain[1]+deltaZoom < max+RcsbFvDefaultConfigValues.increasedView ? currentDomain[1]+deltaZoom : max+RcsbFvDefaultConfigValues.increasedView;
+        if( (y-x) < (max+RcsbFvDefaultConfigValues.increasedView))
+            this.props.setDomain({domain:[x,y]});
+        else
+            this.props.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
+    }
+
+    private move(direction:1|-1): void {
+        const max: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.max : this.props.boardConfigData.length;
+        const min: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.min : 1;
+        if(max == null)
+            return;
+
+        const currentDomain: Array<number> = this.props.xScale.domain();
+        let deltaZoom: number = Math.floor((currentDomain[1]-currentDomain[0])*0.1);
+        if(currentDomain[0]+direction*deltaZoom < (min-RcsbFvDefaultConfigValues.increasedView))
+            deltaZoom = currentDomain[0] - (min-RcsbFvDefaultConfigValues.increasedView);
+        else if(currentDomain[1]+direction*deltaZoom > (max+RcsbFvDefaultConfigValues.increasedView))
+            deltaZoom = max+RcsbFvDefaultConfigValues.increasedView - currentDomain[1];
+
+        const x: number = currentDomain[0]+direction*deltaZoom;
+        const y: number = currentDomain[1]+direction*deltaZoom;
+        if( (y-x) < (max+RcsbFvDefaultConfigValues.increasedView))
+            this.props.setDomain({domain:[x,y]});
+        else
+            this.props.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
     }
 
 }

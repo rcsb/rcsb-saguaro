@@ -81,8 +81,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvuiconfiginterface.html#boardconfigdata" class="tsd-kind-icon">board<wbr>Config<wbr>Data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvuiconfiginterface.html#boardid" class="tsd-kind-icon">board<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvuiconfiginterface.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvuiconfiginterface.html#setdomain" class="tsd-kind-icon">set<wbr>Domain</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvuiconfiginterface.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,22 +93,63 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="boardid" class="tsd-anchor"></a>
-					<h3>board<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">board<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="boardconfigdata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> board<wbr>Config<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">board<wbr>Config<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="rcsbfvboardconfiginterface.html" class="tsd-signature-type">RcsbFvBoardConfigInterface</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/05da511/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L8">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:8</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L13">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="config" class="tsd-anchor"></a>
-					<h3>config</h3>
-					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../classes/rcsbfvtrackdata.html#array" class="tsd-signature-type">Array</a><span class="tsd-signature-symbol">&lt;</span><a href="rcsbfvuibuttoninterface.html" class="tsd-signature-type">RcsbFvUIButtonInterface</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="boardid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> board<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">board<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/05da511/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L9">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:9</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L12">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="setdomain" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> set<wbr>Domain</h3>
+					<div class="tsd-signature tsd-kind-icon">set<wbr>Domain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>domainData<span class="tsd-signature-symbol">: </span><a href="domainviewinterface.html" class="tsd-signature-type">DomainViewInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L15">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:15</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>domainData<span class="tsd-signature-symbol">: </span><a href="domainviewinterface.html" class="tsd-signature-type">DomainViewInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>domainData: <a href="domainviewinterface.html" class="tsd-signature-type">DomainViewInterface</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="xscale" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> x<wbr>Scale</h3>
+					<div class="tsd-signature tsd-kind-icon">x<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ScaleLinear</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L14">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -128,10 +171,16 @@
 						<a href="rcsbfvuiconfiginterface.html" class="tsd-kind-icon">Rcsb<wbr>FvUIConfig<wbr>Interface</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcsbfvuiconfiginterface.html#boardconfigdata" class="tsd-kind-icon">board<wbr>Config<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="rcsbfvuiconfiginterface.html#boardid" class="tsd-kind-icon">board<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="rcsbfvuiconfiginterface.html#config" class="tsd-kind-icon">config</a>
+								<a href="rcsbfvuiconfiginterface.html#setdomain" class="tsd-kind-icon">set<wbr>Domain</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcsbfvuiconfiginterface.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a>
 							</li>
 						</ul>
 					</li>

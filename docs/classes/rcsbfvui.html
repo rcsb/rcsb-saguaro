@@ -97,9 +97,10 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbfvui.html#config" class="tsd-kind-icon">config</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#context" class="tsd-kind-icon">context</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#props" class="tsd-kind-icon">props</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#refs" class="tsd-kind-icon">refs</a></li>
@@ -123,9 +124,12 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#componentwillupdate" class="tsd-kind-icon">component<wbr>Will<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#forceupdate" class="tsd-kind-icon">force<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#getsnapshotbeforeupdate" class="tsd-kind-icon">get<wbr>Snapshot<wbr>Before<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvui.html#move" class="tsd-kind-icon">move</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="rcsbfvui.html#render" class="tsd-kind-icon">render</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="rcsbfvui.html#setstate" class="tsd-kind-icon">set<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvui.html#shouldcomponentupdate" class="tsd-kind-icon">should<wbr>Component<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvui.html#zoomin" class="tsd-kind-icon">zoom<wbr>In</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvui.html#zoomout" class="tsd-kind-icon">zoom<wbr>Out</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -201,8 +205,23 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="config" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> config</h3>
+					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="rcsbfvtrackdata.html#array" class="tsd-signature-type">Array</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/rcsbfvuibuttoninterface.html" class="tsd-signature-type">RcsbFvUIButtonInterface</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = [{icon: &lt;FaSearchPlus/&gt;,callback: this.zoomIn.bind(this)},{icon: &lt;FaSearchMinus/&gt;,callback: this.zoomOut.bind(this)},{icon: &lt;FaRegArrowAltCircleRight/&gt;,callback: this.move.bind(this,1)},{icon: &lt;FaRegArrowAltCircleLeft/&gt;,callback: this.move.bind(this,-1)}]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L30">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:30</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>UI config Object</p>
+						</div>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="context" class="tsd-anchor"></a>
 					<h3>context</h3>
@@ -450,7 +469,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/05da511/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L58">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:58</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L79">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -473,7 +492,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/05da511/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L68">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:68</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L89">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -796,6 +815,29 @@ class Foo extends React.Component {
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="move" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> move</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">move<span class="tsd-signature-symbol">(</span>direction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">-1</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L126">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:126</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>direction: <span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">-1</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="render" class="tsd-anchor"></a>
 					<h3>render</h3>
@@ -807,7 +849,7 @@ class Foo extends React.Component {
 							<aside class="tsd-sources">
 								<p>Overrides Component.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/05da511/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L27">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:27</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L48">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
@@ -887,6 +929,47 @@ class Foo extends React.Component {
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="zoomin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> zoom<wbr>In</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">zoom<wbr>In<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L96">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:96</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<ul>
+										<li>UI methods **</li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="zoomout" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> zoom<wbr>Out</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">zoom<wbr>Out<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L110">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:110</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Object literals</h2>
@@ -897,7 +980,7 @@ class Foo extends React.Component {
 					<aside class="tsd-sources">
 						<p>Overrides <a href="rcsbfvrowtitle.html">RcsbFvRowTitle</a>.<a href="rcsbfvrowtitle.html#state">state</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/05da511/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L23">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:23</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L44">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:44</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -906,7 +989,7 @@ class Foo extends React.Component {
 						<div class="tsd-signature tsd-kind-icon">collapse<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/05da511/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L24">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:24</a></li>
+								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/1812509/src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx#L45">src/RcsbFv/RcsbFvUI/RcsbFvUI.tsx:45</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -930,6 +1013,9 @@ class Foo extends React.Component {
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 								<a href="rcsbfvui.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="rcsbfvui.html#config" class="tsd-kind-icon">config</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="rcsbfvui.html#context" class="tsd-kind-icon">context</a>
@@ -985,6 +1071,9 @@ class Foo extends React.Component {
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="rcsbfvui.html#getsnapshotbeforeupdate" class="tsd-kind-icon">get<wbr>Snapshot<wbr>Before<wbr>Update</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="rcsbfvui.html#move" class="tsd-kind-icon">move</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="rcsbfvui.html#render" class="tsd-kind-icon">render</a>
 							</li>
@@ -993,6 +1082,12 @@ class Foo extends React.Component {
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="rcsbfvui.html#shouldcomponentupdate" class="tsd-kind-icon">should<wbr>Component<wbr>Update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="rcsbfvui.html#zoomin" class="tsd-kind-icon">zoom<wbr>In</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="rcsbfvui.html#zoomout" class="tsd-kind-icon">zoom<wbr>Out</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite">
 								<a href="rcsbfvui.html#state" class="tsd-kind-icon">state</a>
