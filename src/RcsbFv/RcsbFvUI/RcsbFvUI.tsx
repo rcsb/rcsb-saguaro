@@ -42,7 +42,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
     }];
 
     readonly state: RcsbFvUIStateInterface = {
-        collapse: true
+        collapse: false
     }
 
     render(): JSX.Element{

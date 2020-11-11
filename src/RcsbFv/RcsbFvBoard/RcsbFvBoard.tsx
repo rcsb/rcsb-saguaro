@@ -38,6 +38,7 @@ interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
 interface RcsbFvBoardState {
     readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
     readonly boardConfigData: RcsbFvBoardConfigInterface;
+    readonly progressStatus: number;
 }
 
 /**Board React component style interface*/
@@ -63,23 +64,30 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private activateGlowFlag: boolean = true;
     /**Mouse Leave Callback process Id*/
     private mouseLeaveCallbackId: number = 0;
+    /**Row Track Board Status. True when the board content has been rendered*/
+    private readonly rowBoardReadyStatus: Map<string,boolean> = new Map<string, boolean>();
 
 
     readonly state : RcsbFvBoardState = {
         /**Array of configurations for each board track*/
         rowConfigData: this.props.rowConfigData,
         /**Board global configuration*/
-        boardConfigData: this.props.boardConfigData
+        boardConfigData: this.props.boardConfigData,
+        /**Row Track Board rendered status (%)*/
+        progressStatus: 0
     };
 
     render(): JSX.Element{
         let rcsbFvRowAxis = null;
+        let rowIndexShift = 0;
         if(this.state.boardConfigData.includeAxis === true){
             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
             this.rcsbFvRowArrayIds.push(rowId);
             const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2), boardId:this.boardId};
             const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
-            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
+            this.rowBoardReadyStatus.set(rowId,false);
+            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowNumber={0} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
+            rowIndexShift = 1;
         }
         return (
             <div onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
@@ -88,20 +96,22 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     {
                         this.state.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
                             return rowData.trackVisibility != false;
-                        }).map((rowData: RcsbFvRowConfigInterface) =>{
+                        }).map((rowData: RcsbFvRowConfigInterface, n) =>{
                             const rowId: string = "RcsbFvRow_"+Math.random().toString(36).substr(2);
                             this.rcsbFvRowArrayIds.push(rowId);
                             const rowConfigData = this.configRow(rowId,rowData);
-                            return (<RcsbFvRow key={rowId} id={rowId} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>);
+                            this.rowBoardReadyStatus.set(rowId,false);
+                            return (<RcsbFvRow key={rowId} id={rowId} rowNumber={n+rowIndexShift} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>);
                         })
                     }
                 </div>
-                <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX} className={classes.rcsbFvTooltip} popper-hidden={""} />
-                <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX} className={classes.rcsbFvTooltipDescription} popper-hidden={""} />
+                <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX} className={classes.rcsbFvTooltip} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} />
+                <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX} className={classes.rcsbFvTooltipDescription} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} />
                 <div id={this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX} >
                     <div />
                 </div>
                 <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} xScale={this.xScale} setDomain={this.setDomain.bind(this)}/>
+                <div id={this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} className={classes.rowTrackBoardSatus} />
             </div>
         );
     }
@@ -174,12 +184,20 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
         this.xScale.domain([0,1]);
         if(configData.rowConfigData!=null && configData.boardConfigData!=null){
+            this.updateRowConfig();
             this.setState({rowConfigData: configData.rowConfigData, boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.boardConfigData!=null){
             this.setState({boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.rowConfigData!=null){
+            this.updateRowConfig();
             this.setState({rowConfigData: configData.rowConfigData} );
         }
+    }
+
+    private updateRowConfig(): void{
+        this.onMouseLeaveCallback();
+        this.activeMouseOver(false);
+        this.rowBoardReadyStatus.clear();
     }
 
     /**Replace board track rack data
@@ -233,7 +251,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(this.props.boardConfigData.hideTrackFrameGlow)
             return undefined;
         else
-            return this.onMouseover.bind(this);
+            return this.onMouseOver.bind(this);
     }
 
     private setMouseLeaveCallback(): (()=>void)|undefined{
@@ -243,7 +261,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             return this.onMouseLeave.bind(this);
     }
 
-    private onMouseover(): void{
+    private onMouseOver (): void{
+        this.onMouseOverAttribute.call(this);
+    }
+    private onMouseOverAttribute: ()=>void = ()=>{};
+    private onMouseOverCallback(): void{
         if(this.activateGlowFlag) {
             window?.clearTimeout(this.mouseLeaveCallbackId);
             this.activateGlowFlag = false;
@@ -270,7 +292,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
     }
 
-    private onMouseLeave(): void{
+    private onMouseLeave (): void{
+        this.onMouseLeaveAttribute.call(this);
+    }
+    private onMouseLeaveAttribute: ()=>void = ()=>{}
+    private onMouseLeaveCallback(): void{
         this.mouseLeaveCallbackId = window?.setTimeout(()=>{
             this.hideUI();
             const glowDiv: HTMLElement|null = document.getElementById(this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
@@ -356,6 +382,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.setDomain(obj.eventData as DomainViewInterface);
             }else if(obj.eventType===EventType.UPDATE_GLOW){
                 this.updateGlow();
+            }else if(obj.eventType===EventType.BOARD_READY){
+                this.boardReady(obj.eventData as string);
             }
         });
     }
@@ -395,6 +423,66 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private setDomain(domainData: DomainViewInterface): void {
         this.xScale.domain(domainData.domain);
         this.setScale();
+    }
+
+    /**Row Track Board Ready Event
+     * @param rowId
+     * */
+    private boardReady(rowId:string):void{
+       this.rowBoardReadyStatus.set(rowId,true);
+       const N: number = Array.from(this.rowBoardReadyStatus.values()).filter(a=>a).length;
+       if( N == this.rowBoardReadyStatus.size){
+           this.hideStatus();
+           this.activeMouseOver(true);
+       }else{
+           if(N==1)
+               this.showStatus();
+           const statusDiv : HTMLElement | null = document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
+           if(statusDiv != null)
+               statusDiv.innerHTML = Math.ceil(N/this.rowBoardReadyStatus.size*100).toString()+"%";
+       }
+    }
+
+    private activeMouseOver(flag: boolean): void{
+        if(flag) {
+            this.onMouseLeaveAttribute = () => {
+                this.onMouseLeaveCallback();
+            }
+            this.onMouseOverAttribute = () => {
+                this.onMouseOverCallback()
+            };
+        }else{
+            this.onMouseLeaveAttribute = () => {}
+            this.onMouseOverAttribute = () => {};
+        }
+    }
+
+    private showStatus(): void{
+        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
+        if(refDiv == null)
+            return;
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
+        if(tooltipDiv == null)
+            return;
+        const offsetHeight: number = this.state.boardConfigData.includeAxis === true ? RcsbFvDefaultConfigValues.trackAxisHeight + 2 : 0;
+        createPopper(refDiv, tooltipDiv, {
+            placement:'right-start',
+            modifiers: [{
+                name: 'offset',
+                options: {
+                    offset: [offsetHeight,25]
+                }
+            }]
+        }).forceUpdate();
+        tooltipDiv.removeAttribute(RcsbFvDOMConstants.POPPER_HIDDEN);
+    }
+
+    private hideStatus(){
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
+        if(tooltipDiv == null)
+            return;
+        tooltipDiv.innerHTML = "";
+        tooltipDiv.setAttribute(RcsbFvDOMConstants.POPPER_HIDDEN,"");
     }
 
 }

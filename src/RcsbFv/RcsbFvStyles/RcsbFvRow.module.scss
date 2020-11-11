@@ -148,41 +148,53 @@ div.rcsbFvBoard *{
     padding-left: 10px;
 }
 
+$border-rcsbFvIcon: 2px;
+$width-rcsbFvUI: 25px;
+$height-rcsbFvUI: 38px;
+
 .rcsbUIButton {
-    height: 30px;
+    height: $height-rcsbFvUI;
 }
 
-$border-rcsbFvIcon: 2px;
-
 .rcsbTopUI {
-    width: 20px;
+    width: $width-rcsbFvUI;
     height: 12px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
     background-color: #FCFCFC;
     border: $border-rcsbFvIcon solid $color-rcsbFvBorder;
     border-bottom: none;
 }
 
 .rcsbBottomUI {
-    width: 20px;
+    width: $width-rcsbFvUI;
     height: 12px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
     background-color: #FCFCFC;
     border: $border-rcsbFvIcon solid $color-rcsbFvBorder;
     border-top: none;
 }
 
 .rcsbIcon {
-    padding: 2px 1px 2px 1px;
+    padding: 3px 2px 3px 2px;
     border-right: $border-rcsbFvIcon solid $color-rcsbFvBorder;
     border-left: $border-rcsbFvIcon solid $color-rcsbFvBorder;
-    width: 20px;
-    height: 30px;
+    width: $width-rcsbFvUI;
+    height: $height-rcsbFvUI;
     background-color: #FCFCFC;
     cursor: pointer;
     color: #999;
+}
+
+.rcsbCollapsedIcon {
+    width: $width-rcsbFvUI;
+    height: $width-rcsbFvUI;
+    padding: 3px 3px 3px 3px;
+    border: $border-rcsbFvIcon solid $color-rcsbFvBorder;
+    background-color: #FCFCFC;
+    border-radius: 50%;
+    color: #333;
 }
 
 .rcsbIcon:hover {
@@ -205,18 +217,8 @@ $border-rcsbFvIcon: 2px;
     z-index: 2147483646;
 }
 
-.rcsbCollapsedIcon {
-    width: 20px;
-    height: 20px;
-    padding: 3px 3px 3px 3px;
-    border: $border-rcsbFvIcon solid $color-rcsbFvBorder;
-    background-color: #FCFCFC;
-    border-radius: 50%;
-    color: #999;
-}
-
 .rcsbCollapseUI {
-    opacity: 1;
+    opacity: 0;
 }
 
 .rcsbCollapseUI-enter{
@@ -250,7 +252,7 @@ $border-rcsbFvIcon: 2px;
 }
 
 .rcsbExpandUI {
-    opacity: 0;
+    opacity: 1;
 }
 
 .rcsbExpandUI-enter{
@@ -294,6 +296,13 @@ $border-rcsbFvIcon: 2px;
 
 .rcsbZoomHelp div:not(:first-child){
     padding: 0 10px 0 10px;
+}
+
+.rowTrackBoardSatus {
+    font-size: 16px;
+    color: #999;
+    font-weight: bold;
+    position: absolute;
 }
 
 [popper-hidden] {

@@ -18,7 +18,7 @@ export class RcsbTooltipManager {
         if(tooltipDiv == null)
             throw "Tooltip DOM element not found";
         tooltipDiv.innerHTML = "";
-        tooltipDiv.removeAttribute("popper-hidden");
+        tooltipDiv.removeAttribute(RcsbFvDOMConstants.POPPER_HIDDEN);
 
         let region: string = "Position: "+d.begin.toString();
         if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
@@ -102,7 +102,7 @@ export class RcsbTooltipManager {
         if(tooltipDiv == null)
             throw "Tooltip DOM element not found";
         tooltipDiv.innerHTML = "";
-        tooltipDiv.removeAttribute("popper-hidden");
+        tooltipDiv.removeAttribute(RcsbFvDOMConstants.POPPER_HIDDEN);
         d.description.forEach(des=>{
             const desDiv = document.createElement<"div">("div");
             desDiv.append(des);
@@ -140,7 +140,7 @@ export class RcsbTooltipManager {
         if(tooltipDiv == null)
             throw "Tooltip DOM element not found";
         tooltipDiv.innerHTML = "";
-        tooltipDiv.setAttribute("popper-hidden","");
+        tooltipDiv.setAttribute(RcsbFvDOMConstants.POPPER_HIDDEN,"");
     }
 
     private static capitalizeFirstLetter(string: string): string {

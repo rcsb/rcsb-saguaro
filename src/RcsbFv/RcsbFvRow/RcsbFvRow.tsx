@@ -18,6 +18,7 @@ import {CSSTransition} from 'react-transition-group';
 /**Board track React component interface*/
 interface RcsbFvRowInterface {
     readonly id: string;
+    readonly rowNumber: number;
     readonly rowConfigData: RcsbFvRowConfigInterface;
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: ScaleLinear<number,number>;
@@ -68,7 +69,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 }}>
                 <div className={classNames} style={this.configStyle()}>
                     <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} />
-                    <RcsbFvRowTrack id={this.props.id} rowTrackConfigData={this.props.rowConfigData} xScale={this.props.xScale} selection={this.props.selection} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
+                    <RcsbFvRowTrack id={this.props.id} rowNumber={this.props.rowNumber} rowTrackConfigData={this.props.rowConfigData} xScale={this.props.xScale} selection={this.props.selection} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
                 </div>
             </CSSTransition>
         );

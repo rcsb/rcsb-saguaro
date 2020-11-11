@@ -384,7 +384,7 @@ export class RcsbBoard {
             this.removeScrollEvent();
             return false;
         }
-        const rect = boardDiv.getBoundingClientRect();
+        const rect:DOMRect = boardDiv.getBoundingClientRect();
         return (
             rect.top >= -10 &&
             rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight)+10)

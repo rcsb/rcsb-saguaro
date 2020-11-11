@@ -3,7 +3,7 @@ import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
-import {RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {EventType, RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
@@ -14,7 +14,8 @@ interface RcsbFvRowTrackInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: ScaleLinear<number,number>;
     readonly selection: RcsbSelection;
-    callbackRcsbFvRow(height: number): void;
+    readonly callbackRcsbFvRow: (height: number)=>void;
+    readonly rowNumber: number;
 }
 
 /**Board track  annotations cell React component style*/
@@ -34,9 +35,11 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
 
     /**Board track configuration object*/
     private readonly configData : RcsbFvRowConfigInterface;
-
     /**Track Protein Feature Viewer object*/
     private rcsbFvTrack : RcsbFvTrack;
+    /**Timeout to render*/
+    private readonly  renderTimeout: number = 32;
+
     readonly state : RcsbFvRowTrackState = {
         rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
         rowTrackConfigData: this.props.rowTrackConfigData,
@@ -60,7 +63,8 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
         setTimeout(()=>{
             this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager, this.updateHeight.bind(this));
             this.updateHeight();
-        });
+            this.props.contextManager.next({eventType:EventType.BOARD_READY, eventData:this.props.id});
+        },this.props.rowNumber*this.renderTimeout);
     }
 
     componentWillUnmount(): void {
