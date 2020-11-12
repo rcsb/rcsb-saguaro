@@ -149,7 +149,7 @@ div.rcsbFvBoard *{
 }
 
 $border-rcsbFvIcon: 2px;
-$width-rcsbFvUI: 25px;
+$width-rcsbFvUI: 24px;
 $height-rcsbFvUI: 38px;
 
 .rcsbUIButton {
@@ -159,21 +159,27 @@ $height-rcsbFvUI: 38px;
 .rcsbTopUI {
     width: $width-rcsbFvUI;
     height: 12px;
-    border-top-left-radius: 13px;
-    border-top-right-radius: 13px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     background-color: #FCFCFC;
     border: $border-rcsbFvIcon solid $color-rcsbFvBorder;
     border-bottom: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .rcsbBottomUI {
     width: $width-rcsbFvUI;
     height: 12px;
-    border-bottom-left-radius: 13px;
-    border-bottom-right-radius: 13px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     background-color: #FCFCFC;
     border: $border-rcsbFvIcon solid $color-rcsbFvBorder;
     border-top: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .rcsbIcon {
@@ -299,10 +305,14 @@ $height-rcsbFvUI: 38px;
 }
 
 .rowTrackBoardSatus {
-    font-size: 16px;
-    color: #999;
-    font-weight: bold;
+    font-size: 14px;
+    color: #CCC;
     position: absolute;
+}
+
+.rowTrackBoardSatus > span {
+    font-weight: bold;
+    color: #666;
 }
 
 [popper-hidden] {

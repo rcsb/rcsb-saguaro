@@ -111,7 +111,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     <div />
                 </div>
                 <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} xScale={this.xScale} setDomain={this.setDomain.bind(this)}/>
-                <div id={this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} className={classes.rowTrackBoardSatus} />
+                <div id={this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} className={classes.rowTrackBoardSatus} >LOADING <span/></div>
             </div>
         );
     }
@@ -447,7 +447,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
        }else{
            if(N==1)
                this.showStatus();
-           const statusDiv : HTMLElement | null = document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
+           const statusDiv : HTMLElement | null = document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX+" > span");
            if(statusDiv != null)
                statusDiv.innerHTML = Math.ceil(N/this.rowBoardReadyStatus.size*100).toString()+"%";
        }
@@ -471,7 +471,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
         if(refDiv == null)
             return;
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
+        const tooltipDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             return;
         const offsetHeight: number = this.state.boardConfigData.includeAxis === true ? RcsbFvDefaultConfigValues.trackAxisHeight + 2 : 0;
@@ -480,7 +480,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             modifiers: [{
                 name: 'offset',
                 options: {
-                    offset: [offsetHeight,25]
+                    offset: [offsetHeight,10]
                 }
             }]
         }).forceUpdate();
@@ -488,10 +488,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private hideStatus(){
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
+        const tooltipDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             return;
-        tooltipDiv.innerHTML = "";
         tooltipDiv.setAttribute(RcsbFvDOMConstants.POPPER_HIDDEN,"");
     }
 
