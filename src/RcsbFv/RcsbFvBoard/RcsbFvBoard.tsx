@@ -184,19 +184,29 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
         this.xScale.domain([0,1]);
         if(configData.rowConfigData!=null && configData.boardConfigData!=null){
-            this.updateRowConfig();
+            this.inactivateHover();
             this.setState({rowConfigData: configData.rowConfigData, boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.boardConfigData!=null){
             this.setState({boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.rowConfigData!=null){
-            this.updateRowConfig();
+            this.inactivateHover();
             this.setState({rowConfigData: configData.rowConfigData} );
         }
     }
 
-    private updateRowConfig(): void{
-        this.onMouseLeaveCallback();
+    private inactivateHover(): void{
         this.activeMouseOver(false);
+        this.hideUI();
+        const glowDiv: HTMLElement|null = document.getElementById(this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
+        if(glowDiv!=null){
+            glowDiv.className = classes.rcsbNoGlow;
+            this.activateGlowFlag = true;
+            const innerGlowDiv: HTMLElement|undefined = glowDiv.getElementsByTagName("div")[0];
+            glowDiv.style.top = "0px";
+            glowDiv.style.marginLeft = "0px";
+            innerGlowDiv.style.height = "0px";
+            innerGlowDiv.style.width = "0px";
+        }
         this.rowBoardReadyStatus.clear();
     }
 
