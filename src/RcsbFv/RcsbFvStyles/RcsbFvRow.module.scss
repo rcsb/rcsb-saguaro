@@ -148,6 +148,10 @@ div.rcsbFvBoard *{
     padding-left: 10px;
 }
 
+.rcsbUI * {
+    box-sizing: border-box;
+}
+
 $border-rcsbFvIcon: 2px;
 $width-rcsbFvUI: 24px;
 $height-rcsbFvUI: 38px;
