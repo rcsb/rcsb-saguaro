@@ -183,13 +183,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * */
     private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
         this.xScale.domain([0,1]);
+        this.inactivateHover();
         if(configData.rowConfigData!=null && configData.boardConfigData!=null){
-            this.inactivateHover();
             this.setState({rowConfigData: configData.rowConfigData, boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.boardConfigData!=null){
             this.setState({boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.rowConfigData!=null){
-            this.inactivateHover();
             this.setState({rowConfigData: configData.rowConfigData} );
         }
     }
@@ -288,7 +287,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 if (glowDiv != null) {
                     const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
                     glowDiv.style.top = "-" + (height - 1) + "px";
-                    const trackWidth: number = this.props.boardConfigData.trackWidth ?? 0;
+                    const trackWidth: number = this.state.boardConfigData.trackWidth ?? 0;
                     const titleWidth: number = mainDivSize.width - trackWidth;
                     glowDiv.style.marginLeft = titleWidth + "px";
                     innerGlowDiv.style.height = (height + 1) + "px";
@@ -459,7 +458,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.onMouseLeaveCallback();
             }
             this.onMouseOverAttribute = () => {
-                this.onMouseOverCallback()
+                this.onMouseOverCallback();
             };
         }else{
             this.onMouseLeaveAttribute = () => {}
@@ -482,6 +481,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 options: {
                     offset: [offsetHeight,10]
                 }
+            },{
+                name: 'flip',
+                options: {
+                    fallbackPlacements: ['bottom-end', 'auto'],
+                },
             }]
         }).forceUpdate();
         tooltipDiv.removeAttribute(RcsbFvDOMConstants.POPPER_HIDDEN);
