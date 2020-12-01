@@ -7,7 +7,7 @@ The package offers multiple types of data displays and a rich set of options to 
 <!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro-app@0.9.13/dist/build/app.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro-app@1.0.0/dist/build/app.js" type="text/javascript"></script>
 <script type="text/javascript">
 RcsbFvWebApp.setBoardConfig({
     trackWidth:540,
@@ -18,10 +18,10 @@ RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");
 --->
 
 ### Node Module Instalation
-`npm install @bioinsilico/rcsb-saguaro`
+`npm install @rcsb/rcsb-saguaro`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@bioinsilico/rcsb-saguaro@0.9.10/dist/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro@1.0.0/dist/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### Library Documentation
 TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/globals.html).
