@@ -484,7 +484,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             },{
                 name: 'flip',
                 options: {
-                    fallbackPlacements: ['bottom-end', 'auto'],
+                    fallbackPlacements: ['top-end', 'auto'],
                 },
             }]
         }).forceUpdate();
