@@ -39,7 +39,7 @@ module.exports = {
         library: 'RcsbFv',
         libraryTarget: 'umd',
         umdNamedDefine: true,
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'build')
     },
     devtool: 'source-map'
 };

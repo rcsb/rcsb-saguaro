@@ -1,15 +1,15 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RCSB 1D Feature Viewer",
-  "main": "dist/RcsbFv.js",
+  "main": "build/RcsbFv.js",
   "files": [
-    "dist/RcsbFv.js",
-    "dist/*ts",
-    "dist/**/*ts",
-    "dist/**/**/*ts",
-    "dist/**/**/**/*ts",
-    "dist/rcsb-saguaro.js"
+    "build/RcsbFv.js",
+    "build/*ts",
+    "build/**/*ts",
+    "build/**/**/*ts",
+    "build/**/**/**/*ts",
+    "build/rcsb-saguaro.js"
   ],
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
