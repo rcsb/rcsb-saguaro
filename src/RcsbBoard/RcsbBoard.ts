@@ -177,7 +177,7 @@ export class RcsbBoard {
 
         if(this.selection.getSelected().length > 0) {
             this.tracks.forEach((track) => {
-                track.highlightRegion(this.selection.getSelected()[0].rcsbFvTrackDataElement);
+                track.highlightRegion(this.selection.getSelected().map(d=>d.rcsbFvTrackDataElement));
             });
         }else{
             this.tracks.forEach((track) => {

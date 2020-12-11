@@ -105,29 +105,20 @@ export class RcsbTrack {
         this.contextManager = contextManager;
     }
 
-    highlightRegion(d:RcsbFvTrackDataElementInterface): void {
+    highlightRegion(d:Array<RcsbFvTrackDataElementInterface>): void {
 
         this.g.selectAll("."+classes.rcsbSelectRect).remove();
 
         const height: number = this._height;
         const xScale: ScaleLinear<number,number> = this.xScale;
 
-        if(typeof(height)==="number" && (d!= null && typeof(d.begin)==="number") ) {
-            let _end: number = d.begin;
-            if(typeof(d.end)==="number")
-                _end = d.end;
-            let _isEmpty:boolean = false;
-            if(d.isEmpty)
-                _isEmpty=true;
+        if(typeof(height)==="number" && d!= null ) {
             const highlightRegConfig: HighlightRegionInterface = {
                 trackG: this.g,
                 height: height,
-                begin: d.begin,
-                end: _end,
                 xScale: xScale,
-                isEmpty: _isEmpty,
                 rectClass: classes.rcsbSelectRect,
-                gaps: d.gaps != undefined ? d.gaps : new Array<RcsbFvTrackDataElementGapInterface>()
+                elements: d
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
         }

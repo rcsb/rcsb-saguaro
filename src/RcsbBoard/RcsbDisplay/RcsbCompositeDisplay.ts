@@ -144,7 +144,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         return this._data;
     }
 
-    highlightRegion(d:RcsbFvTrackDataElementInterface): void {
+    highlightRegion(d:Array<RcsbFvTrackDataElementInterface>): void {
         if(this.innerDisplays.length > 0 ){
             this.innerDisplays[0].display.highlightRegion(d);
         }

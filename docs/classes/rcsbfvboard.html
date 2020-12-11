@@ -155,10 +155,12 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#onmouseoverattribute" class="tsd-kind-icon">on<wbr>Mouse<wbr>Over<wbr>Attribute</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#onmouseovercallback" class="tsd-kind-icon">on<wbr>Mouse<wbr>Over<wbr>Callback</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="rcsbfvboard.html#render" class="tsd-kind-icon">render</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#select" class="tsd-kind-icon">select</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#setdomain" class="tsd-kind-icon">set<wbr>Domain</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#setmouseleavecallback" class="tsd-kind-icon">set<wbr>Mouse<wbr>Leave<wbr>Callback</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#setmouseovercallback" class="tsd-kind-icon">set<wbr>Mouse<wbr>Over<wbr>Callback</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#setscale" class="tsd-kind-icon">set<wbr>Scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#setselection" class="tsd-kind-icon">set<wbr>Selection</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="rcsbfvboard.html#setstate" class="tsd-kind-icon">set<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbfvboard.html#shouldcomponentupdate" class="tsd-kind-icon">should<wbr>Component<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="rcsbfvboard.html#showstatus" class="tsd-kind-icon">show<wbr>Status</a></li>
@@ -250,7 +252,7 @@
 					<div class="tsd-signature tsd-kind-icon">activate<wbr>Glow<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L64">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:64</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L64">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:64</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -265,7 +267,7 @@
 					<div class="tsd-signature tsd-kind-icon">board<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;RcsbFvBoard_&quot;+Math.random().toString(36).substr(2)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L54">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:54</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L54">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -308,7 +310,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">mouse<wbr>Leave<wbr>Callback<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L66">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:66</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L66">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -334,7 +336,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">rcsb<wbr>FvRow<wbr>Array<wbr>Ids<span class="tsd-signature-symbol">:</span> <a href="rcsbfvtrackdata.html#array" class="tsd-signature-type">Array</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Array&lt;string&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L56">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:56</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L56">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -375,7 +377,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">row<wbr>Board<wbr>Ready<wbr>Status<span class="tsd-signature-symbol">:</span> <a href="rcsbfvtrackdatamap.html#map" class="tsd-signature-type">Map</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Map&lt;string, boolean&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L68">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:68</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L68">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:68</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -390,7 +392,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">selection<span class="tsd-signature-symbol">:</span> <a href="rcsbselection.html" class="tsd-signature-type">RcsbSelection</a><span class="tsd-signature-symbol"> = new RcsbSelection()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L62">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:62</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L62">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -405,7 +407,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">subscription<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Subscription</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L58">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:58</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L58">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -420,7 +422,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">x<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ScaleLinear</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = scaleLinear()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L60">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:60</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L60">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -611,7 +613,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L455">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:455</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L489">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:489</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -634,7 +636,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L174">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:174</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L174">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:174</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -665,7 +667,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L222">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:222</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L222">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:222</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -696,7 +698,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L440">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:440</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L474">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:474</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -726,7 +728,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L230">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:230</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L230">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:230</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -763,7 +765,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L418">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:418</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L420">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:420</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -828,7 +830,7 @@ class Foo extends React.Component {
 							<aside class="tsd-sources">
 								<p>Overrides <a href="rcsbfvrowtitle.html">RcsbFvRowTitle</a>.<a href="rcsbfvrowtitle.html#componentdidmount">componentDidMount</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L255">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:255</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L255">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:255</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -967,7 +969,7 @@ class Foo extends React.Component {
 							<aside class="tsd-sources">
 								<p>Overrides <a href="rcsbfvrowtitle.html">RcsbFvRowTitle</a>.<a href="rcsbfvrowtitle.html#componentwillunmount">componentWillUnmount</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L370">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:370</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L370">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:370</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1033,7 +1035,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L143">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:143</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L143">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1071,7 +1073,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L122">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:122</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L122">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1094,7 +1096,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L341">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:341</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L341">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:341</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1171,7 +1173,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L494">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:494</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L528">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:528</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1188,7 +1190,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L362">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:362</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L362">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:362</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1205,7 +1207,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L196">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:196</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L196">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:196</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1222,7 +1224,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L304">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:304</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L304">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:304</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1239,7 +1241,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L307">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:307</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L307">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:307</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1256,7 +1258,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L308">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:308</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L308">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:308</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1273,7 +1275,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L273">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:273</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L273">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:273</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1290,7 +1292,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L276">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:276</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L276">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:276</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1307,7 +1309,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L277">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:277</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L277">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:277</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1325,10 +1327,32 @@ class Foo extends React.Component {
 							<aside class="tsd-sources">
 								<p>Overrides Component.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L80">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:80</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L80">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:80</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="select" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> select</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">select<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L464">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:464</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Force current selection in all tracks.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1342,7 +1366,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L432">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:432</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L434">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:434</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1373,7 +1397,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L266">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:266</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L266">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:266</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
@@ -1390,7 +1414,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L259">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:259</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L259">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:259</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
@@ -1407,7 +1431,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L406">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:406</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L408">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:408</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1415,6 +1439,37 @@ class Foo extends React.Component {
 									<p>Force all board track annotation cells to set xScale. Called when a new track has been added</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="setselection" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>Selection</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Selection<span class="tsd-signature-symbol">(</span>newSelection<span class="tsd-signature-symbol">: </span><a href="../globals.html#setselectioninterface" class="tsd-signature-type">SetSelectionInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L442">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:442</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update selection object</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newSelection: <a href="../globals.html#setselectioninterface" class="tsd-signature-type">SetSelectionInterface</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>new selection object</p>
+									</div>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1502,7 +1557,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L469">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:469</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L503">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:503</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1519,7 +1574,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L378">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:378</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L378">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:378</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1542,7 +1597,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L401">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:401</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L403">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:403</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1564,7 +1619,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L184">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:184</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L184">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:184</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1595,7 +1650,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L326">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:326</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L326">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:326</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1612,7 +1667,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L215">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:215</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L215">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:215</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1643,7 +1698,7 @@ class Foo extends React.Component {
 					<aside class="tsd-sources">
 						<p>Overrides <a href="rcsbfvrowtitle.html">RcsbFvRowTitle</a>.<a href="rcsbfvrowtitle.html#state">state</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L71">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:71</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L71">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:71</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1652,7 +1707,7 @@ class Foo extends React.Component {
 						<div class="tsd-signature tsd-kind-icon">board<wbr>Config<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/rcsbfvboardconfiginterface.html" class="tsd-signature-type">RcsbFvBoardConfigInterface</a><span class="tsd-signature-symbol"> = this.props.boardConfigData</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L75">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:75</a></li>
+								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L75">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:75</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1667,7 +1722,7 @@ class Foo extends React.Component {
 						<div class="tsd-signature tsd-kind-icon">progress<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L77">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:77</a></li>
+								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L77">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:77</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1682,7 +1737,7 @@ class Foo extends React.Component {
 						<div class="tsd-signature tsd-kind-icon">row<wbr>Config<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/rcsbfvrowconfiginterface.html" class="tsd-signature-type">RcsbFvRowConfigInterface</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = this.props.rowConfigData</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/50a7dee/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L73">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:73</a></li>
+								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/28bdb82/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L73">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:73</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1842,6 +1897,9 @@ class Foo extends React.Component {
 								<a href="rcsbfvboard.html#render" class="tsd-kind-icon">render</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="rcsbfvboard.html#select" class="tsd-kind-icon">select</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="rcsbfvboard.html#setdomain" class="tsd-kind-icon">set<wbr>Domain</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -1852,6 +1910,9 @@ class Foo extends React.Component {
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="rcsbfvboard.html#setscale" class="tsd-kind-icon">set<wbr>Scale</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="rcsbfvboard.html#setselection" class="tsd-kind-icon">set<wbr>Selection</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a href="rcsbfvboard.html#setstate" class="tsd-kind-icon">set<wbr>State</a>

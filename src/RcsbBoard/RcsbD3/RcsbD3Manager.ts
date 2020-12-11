@@ -48,12 +48,9 @@ export interface ZoomConfigInterface {
 export interface HighlightRegionInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
     height: number;
-    begin: number;
-    end: number;
-    isEmpty:boolean;
     xScale: ScaleLinear<number,number>;
     rectClass: string;
-    gaps: Array<RcsbFvTrackDataElementGapInterface>;
+    elements:Array<RcsbFvTrackDataElementInterface>;
 }
 
 export interface MoveSelectedRegionInterface {
@@ -172,47 +169,50 @@ export class RcsbD3Manager {
         ).on(RcsbD3Constants.DBLCLIK_ZOOM, null);
     }
 
-    highlightRegion(config: HighlightRegionInterface): void {
+    highlightRegion(hlConfig: HighlightRegionInterface): void {
 
         const elementsToSelect: Array<SelectedElementInterface> = new Array<SelectedElementInterface>();
         const hlRegion:(b:number,e:number)=>SelectedElementInterface = (begin:number,end:number) => {
             return {begin:begin, end:end};
         };
         const minWidth = (begin:number, end:number)=>{
-            let w: number = config.xScale(end + 0.5) - config.xScale(begin - 0.5);
+            let w: number = hlConfig.xScale(end + 0.5) - hlConfig.xScale(begin - 0.5);
             if(w<2)w=2;
             return w;
         };
 
-        if(config.isEmpty) {
-            elementsToSelect.push(hlRegion(config.begin, config.begin));
-            elementsToSelect.push(hlRegion(config.end, config.end));
-        }else if(config.gaps!=null && config.gaps.length>0){
-            let begin:number = config.begin;
-            config.gaps.forEach(gap=>{
-                let end: number = gap.begin;
+        hlConfig.elements.forEach(e=>{
+            const end = e.end ?? e.begin;
+            if(e.isEmpty) {
+                elementsToSelect.push(hlRegion(e.begin, e.begin));
+                elementsToSelect.push(hlRegion(end, end));
+            }else if(e.gaps!=null && e.gaps.length>0){
+                let begin:number = e.begin;
+                e.gaps.forEach(gap=>{
+                    let end: number = gap.begin;
+                    elementsToSelect.push(hlRegion(begin,end));
+                    begin = gap.end;
+                });
                 elementsToSelect.push(hlRegion(begin,end));
-                begin = gap.end;
-            });
-            elementsToSelect.push(hlRegion(begin,config.end));
-        }else{
-            elementsToSelect.push(hlRegion(config.begin, config.end));
-        }
+            }else{
+                elementsToSelect.push(hlRegion(e.begin,end));
+            }
+        });
 
-        const visSel:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = config.trackG.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
+        const visSel:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = hlConfig.trackG.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
         const visElems:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = visSel.data(elementsToSelect);
         const newElem:Selection<EnterElement,SelectedElementInterface,SVGElement,any> = visElems.enter();
 
         newElem.append<SVGRectElement>(RcsbD3Constants.RECT)
             .attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
-                return config.xScale(d.begin - 0.5)})
+                return hlConfig.xScale(d.begin - 0.5)})
             .attr(RcsbD3Constants.Y, 0)
             .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
                 return minWidth(d.begin,d.end)})
-            .attr(RcsbD3Constants.HEIGHT, config.height)
+            .attr(RcsbD3Constants.HEIGHT, hlConfig.height)
             .attr(RcsbD3Constants.FILL, "#faf3c0")
             .attr(RcsbD3Constants.FILL_OPACITY, 0.75)
-            .attr(RcsbD3Constants.CLASS, config.rectClass)
+            .attr(RcsbD3Constants.CLASS, hlConfig.rectClass)
             .lower();
         visElems.exit().remove();
     }

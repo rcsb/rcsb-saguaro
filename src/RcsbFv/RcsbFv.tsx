@@ -6,7 +6,7 @@ import {
     EventType,
     TrackDataInterface,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, TrackVisibilityInterface
+    RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 
@@ -212,7 +212,7 @@ export class RcsbFv {
 
     /**Changes track visibility (true/false)
      * @param obj Track visibility event data
-     * */
+     **/
     public changeTrackVisibility(obj: TrackVisibilityInterface): void{
         this.contextManager.next({
             eventType:EventType.TRACK_VISIBILITY,
@@ -222,11 +222,31 @@ export class RcsbFv {
 
     /**Change board view range
      * @param domain new xScale domain
-     * */
+     **/
     public setDomain(domain:[number,number]): void {
         this.contextManager.next({
             eventType:EventType.DOMAIN_VIEW,
             eventData:{domain:domain}
+        });
+    }
+
+    /**Select board range
+     * @param selection new xScale domain
+     **/
+    public setSelection(selection: SetSelectionInterface): void {
+        this.contextManager.next({
+            eventType:EventType.SET_SELECTION,
+            eventData:selection
+        });
+    }
+
+    /**
+     * Clear Selection
+     **/
+    public clearSelection(): void {
+        this.contextManager.next({
+            eventType:EventType.SET_SELECTION,
+            eventData: null
         });
     }
 }

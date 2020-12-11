@@ -12,7 +12,7 @@ import {
     DomainViewInterface,
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface,
+    RcsbFvContextManagerInterface, SetSelectionInterface,
     TrackDataInterface,
     TrackVisibilityInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
@@ -393,6 +393,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.updateGlow();
             }else if(obj.eventType===EventType.BOARD_READY){
                 this.boardReady(obj.eventData as string);
+            }else if(obj.eventType===EventType.SET_SELECTION){
+                this.setSelection(obj.eventData as SetSelectionInterface);
             }
         });
     }
@@ -432,6 +434,38 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private setDomain(domainData: DomainViewInterface): void {
         this.xScale.domain(domainData.domain);
         this.setScale();
+    }
+
+    /**Update selection object
+     * @param newSelection new selection object
+     * */
+    private setSelection(newSelection: SetSelectionInterface): void {
+        if(newSelection != null) {
+            const list: SetSelectionInterface = newSelection instanceof Array ? newSelection : [newSelection];
+            this.selection.setSelected(list.map((x) => {
+                    return {
+                        domId: this.boardId,
+                        rcsbFvTrackDataElement: {
+                            begin: x.begin,
+                            end: x.end,
+                            nonSpecific: true
+                        }
+                    };
+                })
+            );
+            this.select();
+        }else{
+            this.selection.clearSelection();
+            this.select();
+        }
+    }
+
+    /**Force current selection in all tracks.*/
+    private select(): void{
+        this.props.contextManager.next({
+            eventType: EventType.SELECTION,
+            eventData: this.boardId
+        } as RcsbFvContextManagerInterface);
     }
 
     /**Row Track Board Ready Event

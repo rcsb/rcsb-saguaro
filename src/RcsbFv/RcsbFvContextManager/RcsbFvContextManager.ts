@@ -37,7 +37,8 @@ export enum EventType {
     UPDATE_BOARD_CONFIG = "updateBoardConfig",
     DOMAIN_VIEW = "domainView",
     UPDATE_GLOW = "updateGlow",
-    BOARD_READY = "boardReady"
+    BOARD_READY = "boardReady",
+    SET_SELECTION = "eventTypeSetSelection"
 }
 
 /**Event Data Interface used to update row configuration*/
@@ -64,9 +65,11 @@ export interface DomainViewInterface {
     domain: [number,number];
 }
 
+export type SetSelectionInterface = Array<{begin:number; end?:number;}>|{begin:number; end?:number;};
+
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface {
     eventType: string;
-    eventData: string|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface;
+    eventData: string|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
 }
 
