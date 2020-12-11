@@ -156,6 +156,10 @@ The full collection of examples can be edited and modified at [CODEPEN](https://
 ### rcsb-saguaro-app
 We also provide a library ([rcsb-saguaro-app](https://rcsb.github.io/rcsb-saguaro-app)) to build preconfigured 1D Protein Feature Views of RCSB PDB and UniProtKB annotations. 
 
+Contributing
+---
+All contributions are welcome. Please, make a pull request or open an issue.
+
 License
 ---
 
