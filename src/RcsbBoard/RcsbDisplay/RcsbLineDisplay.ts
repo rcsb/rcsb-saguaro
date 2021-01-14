@@ -65,16 +65,16 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private setLine(): void{
         this.line
             .x((d:RcsbFvTrackDataElementInterface) => {
-                return this.xScale(d.begin);
+                return this.xScale(d.begin) ?? 0;
             })
             .y((d:RcsbFvTrackDataElementInterface) => {
-                return this.yScale(d.value as number);
+                return this.yScale(d.value as number) ?? 0;
             });
     }
 
     private updateLine(): void{
         this.line.x((d: RcsbFvTrackDataElementInterface) => {
-            return this.xScale(d.begin);
+            return this.xScale(d.begin) ?? 0;
         });
     }
 

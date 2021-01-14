@@ -35,18 +35,18 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
     private setArea(): void{
         this.area
             .x((d:RcsbFvTrackDataElementInterface) => {
-                return this.xScale(d.begin);
+                return this.xScale(d.begin) ?? 0;
             })
             .y1((d:RcsbFvTrackDataElementInterface) => {
-                return this.yScale(d.value as number);
+                return this.yScale(d.value as number) ?? 0;
             })
-            .y0( this.yScale(0));
+            .y0( this.yScale(0) ?? 0);
     }
 
     private updateArea(): void{
         this.area
             .x((d:RcsbFvTrackDataElementInterface) => {
-                return this.xScale(d.begin);
+                return this.xScale(d.begin) ?? 0;
             })
     }
 

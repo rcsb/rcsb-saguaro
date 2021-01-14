@@ -35,9 +35,9 @@ export class RcsbD3SequenceManager {
         this.textElements = config.elements.select(RcsbD3Constants.TEXT);
         this.textElements
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
-            .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4))
+            .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4) ?? 0)
             .transition()
             .duration(500)
             .attr(RcsbD3Constants.FONT_SIZE, "10")
@@ -67,9 +67,9 @@ export class RcsbD3SequenceManager {
             .style(RcsbD3Constants.STROKE, "#DDDDDD")
             .attr(RcsbD3Constants.STROKE_DASH,"2")
             .attr(RcsbD3Constants.X1, config.xScale.range()[0])
-            .attr(RcsbD3Constants.Y1, config.yScale(config.height*0.5))
+            .attr(RcsbD3Constants.Y1, config.yScale(config.height*0.5) ?? 0)
             .attr(RcsbD3Constants.X2, config.xScale.range()[1])
-            .attr(RcsbD3Constants.Y2, config.yScale(config.height*0.5));
+            .attr(RcsbD3Constants.Y2, config.yScale(config.height*0.5) ?? 0);
     }
 
     move(config: MoveSequenceInterface){
@@ -77,7 +77,7 @@ export class RcsbD3SequenceManager {
             const xScale = config.xScale;
             this.textElements
                 .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                    return xScale(d.begin);
+                    return xScale(d.begin) ?? 0;
                 })
                 .attr(RcsbD3Constants.FILL_OPACITY,()=>{
                     return RcsbD3SequenceManager.opacity(xScale,config.intervalRatio)

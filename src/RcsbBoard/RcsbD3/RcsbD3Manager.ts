@@ -178,7 +178,7 @@ export class RcsbD3Manager {
             return {begin:begin, end:end};
         };
         const minWidth = (begin:number, end:number)=>{
-            let w: number = hlConfig.xScale(end + 0.5) - hlConfig.xScale(begin - 0.5);
+            let w: number = (hlConfig.xScale(end + 0.5) ?? 0)  - (hlConfig.xScale(begin - 0.5) ?? 0);
             if(w<2)w=2;
             return w;
         };
@@ -211,7 +211,7 @@ export class RcsbD3Manager {
             .call((e)=>{
               e.append<SVGRectElement>(RcsbD3Constants.RECT)
                   .attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
-                      return hlConfig.xScale(d.begin - 0.5)})
+                      return hlConfig.xScale(d.begin - 0.5) ?? 0})
                   .attr(RcsbD3Constants.Y, 0)
                   .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
                       return minWidth(d.begin,d.end)})
@@ -225,13 +225,13 @@ export class RcsbD3Manager {
 
     moveSelection(config: MoveSelectedRegionInterface): void{
         const minWidth = (begin:number, end:number)=>{
-            let w: number = config.xScale(end + 0.5) - config.xScale(begin - 0.5);
+            let w: number = (config.xScale(end + 0.5) ?? 0) - (config.xScale(begin - 0.5) ?? 0);
             if(w<2)w=2;
             return w;
         };
         const selectRect:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = config.trackG.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
         selectRect.attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
-            return config.xScale(d.begin - 0.5)})
+            return config.xScale(d.begin - 0.5) ?? 0})
             .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
                 return minWidth(d.begin,d.end)});
 

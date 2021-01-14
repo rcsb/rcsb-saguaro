@@ -32,7 +32,7 @@ export class RcsbD3VariantManager {
         this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.begin == undefined )
                     throw "Position element not found";
-                return config.xScale(d.begin);
+                return config.xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.value == undefined)
@@ -60,7 +60,7 @@ export class RcsbD3VariantManager {
         this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.begin == undefined )
                     throw "Position element not found";
-                return config.xScale(d.begin);
+                return config.xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.value == undefined)

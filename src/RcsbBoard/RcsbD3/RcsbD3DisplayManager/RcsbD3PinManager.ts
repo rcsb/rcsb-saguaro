@@ -43,14 +43,14 @@ export class RcsbD3PinManager {
         this.circleElements = elements.select(RcsbD3Constants.CIRCLE);
 
         this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 let y = 0.5;
                 if(typeof d.value === "number") {
                     y = d.value;
                 }
-                return height - yScale(y);
+                return height - (yScale(y) ?? 0);
             })
             .transition()
             .duration(500)
@@ -63,20 +63,20 @@ export class RcsbD3PinManager {
 
         if(config.addLine) {
             this.lineElements.attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
                 .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
                     return height;
                 })
                 .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
-                    return xScale(d.begin);
+                    return xScale(d.begin) ?? 0;
                 })
                 .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
                     let y = 0.5;
                     if (typeof d.value === "number") {
                         y = d.value;
                     }
-                    return height - yScale(y);
+                    return height - (yScale(y) ?? 0);
                 });
         }else{
             this.lineElements.remove();
@@ -85,14 +85,14 @@ export class RcsbD3PinManager {
         if(config.addText){
             this.textElements.attr(RcsbD3Constants.FONT_SIZE, 12)
                 .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                    return xScale(d.begin)+2.5*labelShift;
+                    return (xScale(d.begin) ?? 0)+2.5*labelShift;
                 })
                 .attr(RcsbD3Constants.Y, (d:RcsbFvTrackDataElementInterface) => {
                     var y = 0.5;
                     if(typeof d.value === "number") {
                         y = d.value;
                     }
-                    return height - yScale(y) + 0.5*labelShift;
+                    return height - (yScale(y) ?? 0) + 0.5*labelShift;
                 })
                 .attr(RcsbD3Constants.TEXT_ANCHOR, "middle")
                 .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
@@ -116,36 +116,36 @@ export class RcsbD3PinManager {
 
         if(config.addLine) {
             this.lineElements.attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
-                    return xScale(d.begin);
+                    return xScale(d.begin) ?? 0;
                 })
                 .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
                     return height;
                 })
                 .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
-                    return xScale(d.begin);
+                    return xScale(d.begin) ?? 0;
                 })
                 .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
                     var y = 0.5;
                     if (typeof d.value === "number") {
                         y = d.value;
                     }
-                    return height - yScale(y);
+                    return height - (yScale(y) ?? 0);
                 });
         }
 
         this.circleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 var y = 0.5;
                 if(typeof d.value === "number") {
                     y = d.value;
                 }
-                return height - yScale(y);
+                return height - (yScale(y) ?? 0);
             });
 
         this.textElements.attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin)+2.5*labelShift;
+                return (xScale(d.begin) ?? 0)+2.5*labelShift;
             })
             .text((d:RcsbFvTrackDataElementInterface) => {
                 return d.label || "";

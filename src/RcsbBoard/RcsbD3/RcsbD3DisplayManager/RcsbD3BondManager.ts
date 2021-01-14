@@ -44,26 +44,26 @@ export class RcsbD3BondManager {
                 }
             })
             .attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.Y1, (d: RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
+                return height - (yScale(0.5) ?? 0);
             })
             .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
                 if(d.end == undefined)
                     throw "Element end position not found";
-                return xScale(d.end);
+                return xScale(d.end) ?? 0;
             })
             .attr(RcsbD3Constants.Y2, (d: RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
+                return height - (yScale(0.5) ?? 0);
             });
 
         this.beginCircleElements = elements.select(RcsbD3Constants.CIRCLE+"."+RcsbD3Constants.BOND_BEGIN);
         this.beginCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
+                return height - (yScale(0.5) ?? 0);
             })
             .transition()
             .duration(500)
@@ -78,10 +78,10 @@ export class RcsbD3BondManager {
         this.endCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.end == undefined)
                     throw "Element end position not found";
-                return xScale(d.end);
+                return xScale(d.end) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
+                return height - (yScale(0.5) ?? 0);
             })
             .transition()
             .duration(500)
@@ -99,28 +99,28 @@ export class RcsbD3BondManager {
         const height: number = config.height;
 
         this.lineElements.attr(RcsbD3Constants.X1, (d: RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.X2, (d: RcsbFvTrackDataElementInterface) => {
                 if(d.end == undefined)
                     throw "Missing bond end property";
-                return xScale(d.end);
+                return xScale(d.end) ?? 0;
             });
 
         this.beginCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin);
+                return xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
+                return height - (yScale(0.5) ?? 0);
             });
 
         this.endCircleElements.attr(RcsbD3Constants.CX, (d:RcsbFvTrackDataElementInterface) => {
                 if(d.end == undefined)
                     throw "Missing bond end property";
-                return xScale(d.end);
+                return xScale(d.end) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                return height - yScale(0.5);
+                return height - (yScale(0.5) ?? 0);
             });
     }
 }

@@ -121,7 +121,10 @@ export class RcsbTrack {
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
         }else{
-            this.g.selectAll("."+options?.rectClass ?? classes.rcsbSelectRect).remove();
+            if(options?.rectClass != null)
+                this.g.selectAll("."+options.rectClass ).remove();
+            else
+                this.g.selectAll("."+(options?.rectClass ?? classes.rcsbSelectRect)).remove();
         }
 
     }
