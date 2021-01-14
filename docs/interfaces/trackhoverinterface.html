@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RcsbFvBoardStyleInterface | @rcsb/rcsb-saguaro</title>
+	<title>TrackHoverInterface | @rcsb/rcsb-saguaro</title>
 	<meta name="description" content="Documentation for @rcsb/rcsb-saguaro">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="rcsbfvboardstyleinterface.html">RcsbFvBoardStyleInterface</a>
+					<a href="trackhoverinterface.html">TrackHoverInterface</a>
 				</li>
 			</ul>
-			<h1>Interface RcsbFvBoardStyleInterface</h1>
+			<h1>Interface TrackHoverInterface</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Board React component style interface</p>
+						<p>Event Data Interface used to highlight mouse hover position inside the board</p>
 					</div>
 				</div>
 			</section>
@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RcsbFvBoardStyleInterface</span>
+						<span class="target">TrackHoverInterface</span>
 					</li>
 				</ul>
 			</section>
@@ -88,7 +88,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvboardstyleinterface.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="trackhoverinterface.html#position" class="tsd-kind-icon">position</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="trackhoverinterface.html#trackid" class="tsd-kind-icon">track<wbr>Id</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,12 +98,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="width" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> width</h3>
-					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="position" class="tsd-anchor"></a>
+					<h3>position</h3>
+					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/195fb4d/src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx#L46">src/RcsbFv/RcsbFvBoard/RcsbFvBoard.tsx:46</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/195fb4d/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L72">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:72</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="trackid" class="tsd-anchor"></a>
+					<h3>track<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">track<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/195fb4d/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L71">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:71</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,10 +132,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="rcsbfvboardstyleinterface.html" class="tsd-kind-icon">Rcsb<wbr>FvBoard<wbr>Style<wbr>Interface</a>
+						<a href="trackhoverinterface.html" class="tsd-kind-icon">Track<wbr>Hover<wbr>Interface</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="rcsbfvboardstyleinterface.html#width" class="tsd-kind-icon">width</a>
+								<a href="trackhoverinterface.html#position" class="tsd-kind-icon">position</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="trackhoverinterface.html#trackid" class="tsd-kind-icon">track<wbr>Id</a>
 							</li>
 						</ul>
 					</li>

@@ -16,12 +16,13 @@ export interface RcsbDisplayInterface {
     height: (h?: number) => number;
     init: (width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number) => void;
     highlightRegion: (d:Array<RcsbFvTrackDataElementInterface> | null) => void;
+    highlightHover: (position:number)=>void;
     moveSelection: ()=> void;
     setBoardHighlight: (f:(d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void) => void;
     trackColor: (c?: string) => string;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
-    mousemoveCallBack: ()=>void;
+    mousemoveCallBack: (n:number)=>void;
     readonly elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     readonly elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;

@@ -32,6 +32,10 @@ export interface RcsbFvBoardConfigInterface {
     borderColor?: string;
     /**Hide PFV tracks main frame border glow*/
     hideTrackFrameGlow?: boolean;
+    /**Set highlight hover position*/
+    highlightHoverPosition?:boolean;
+    /**Function call on hover event*/
+    highlightHoverCallback?:(n:number)=>void;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
@@ -122,4 +126,8 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     trackVisibility?:boolean;
     /**Sequence feature cell Border color*/
     borderColor?:string;
+    /**Set highlight hover position*/
+    highlightHoverPosition?:boolean;
+    /**Function call on hover event*/
+    highlightHoverCallback?:(n:number)=>void;
 }

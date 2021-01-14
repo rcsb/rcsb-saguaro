@@ -27,6 +27,7 @@ export class RcsbFvContextManager {
 /**Event types*/
 export enum EventType {
     SELECTION = "eventTypeSelection",
+    HOVER = "eventTypeHover",
     SCALE = "eventTypeScale",
     ADD_TRACK_DATA = "eventTypeAddData",
     UPDATE_TRACK_DATA = "eventTypeUpdateData",
@@ -65,11 +66,17 @@ export interface DomainViewInterface {
     domain: [number,number];
 }
 
+/**Event Data Interface used to highlight mouse hover position inside the board*/
+export interface TrackHoverInterface {
+    trackId: string;
+    position: number;
+}
+
 export type SetSelectionInterface = Array<{begin:number; end?:number;}>|{begin:number; end?:number;};
 
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface {
     eventType: string;
-    eventData: string|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
+    eventData: string|TrackHoverInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
 }
 

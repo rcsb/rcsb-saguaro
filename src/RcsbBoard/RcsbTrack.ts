@@ -4,7 +4,7 @@ import {
     RcsbD3Manager,
     TrackConfInterface
 } from "./RcsbD3/RcsbD3Manager";
-import {Selection} from "d3-selection";
+import {mouse, Selection} from "d3-selection";
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {
@@ -27,7 +27,7 @@ export class RcsbTrack {
     private boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
-    mousemoveCallBack: ()=>void;
+    mousemoveCallBack: (n:number)=>void;
 
     private dataUpdatedFlag: boolean = false;
 
@@ -105,9 +105,7 @@ export class RcsbTrack {
         this.contextManager = contextManager;
     }
 
-    highlightRegion(d:Array<RcsbFvTrackDataElementInterface>): void {
-
-        this.g.selectAll("."+classes.rcsbSelectRect).remove();
+    highlightRegion(d:Array<RcsbFvTrackDataElementInterface>|null, options?:{color?:string, rectClass?: string;}): void {
 
         const height: number = this._height;
         const xScale: ScaleLinear<number,number> = this.xScale;
@@ -117,13 +115,20 @@ export class RcsbTrack {
                 trackG: this.g,
                 height: height,
                 xScale: xScale,
-                rectClass: classes.rcsbSelectRect,
+                rectClass: options?.rectClass ?? classes.rcsbSelectRect,
+                color: options?.color,
                 elements: d
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
+        }else{
+            this.g.selectAll("."+options?.rectClass ?? classes.rcsbSelectRect).remove();
         }
 
     }
+
+    highlightHover(position:number): void {
+        this.highlightRegion(position > 0 ? [{begin:position}] : null, {color:"#FFCCCC", rectClass:classes.rcsbHoverRect})
+    };
 
     moveSelection(): void{
 

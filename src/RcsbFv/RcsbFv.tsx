@@ -6,7 +6,7 @@ import {
     EventType,
     TrackDataInterface,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface
+    RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface, TrackHoverInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 
@@ -237,6 +237,19 @@ export class RcsbFv {
         this.contextManager.next({
             eventType:EventType.SET_SELECTION,
             eventData:selection
+        });
+    }
+
+    /**Highlight board position (mouse hover effect)
+     * @param position sequence index
+     **/
+    public setHoverHighlight(position:number): void{
+        this.contextManager.next({
+            eventType:EventType.HOVER,
+            eventData:{
+                trackId:"RcsbFv",
+                position:position
+            }
         });
     }
 

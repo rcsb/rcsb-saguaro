@@ -12,7 +12,7 @@ import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInter
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface
+    RcsbFvContextManagerInterface, TrackHoverInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
@@ -113,6 +113,14 @@ export class RcsbFvTrack {
     private initRcsbBoard(): void{
         if(typeof this.rcsbFvConfig.elementClickCallBack === "function")
             this.rcsbBoard.setHighLightCallBack(this.rcsbFvConfig.elementClickCallBack);
+
+        if(this.rcsbFvConfig.highlightHoverPosition === true) {
+            this.rcsbBoard.setHoverCallBack();
+        }
+        if(typeof this.rcsbFvConfig.highlightHoverCallback === "function"){
+            this.rcsbBoard.addHoverCallBack(this.rcsbFvConfig.highlightHoverCallback);
+        }
+
         if(typeof this.rcsbFvConfig.trackWidth === "number")
             this.rcsbBoard.setBoardWidth(this.rcsbFvConfig.trackWidth);
 
@@ -221,6 +229,8 @@ export class RcsbFvTrack {
                 this.setScale(obj.eventData as string);
             }else if(obj.eventType===EventType.SELECTION){
                 this.setSelection(obj.eventData as string);
+            }else if(obj.eventType===EventType.HOVER){
+                this.setHover(obj.eventData as TrackHoverInterface);
             }else if(obj.eventType===EventType.RESET){
                 this.reset(obj.eventData as string);
             }
@@ -246,6 +256,13 @@ export class RcsbFvTrack {
      * */
     private setSelection(boardId: string) : void {
         this.rcsbBoard.setSelection(boardId);
+    }
+
+    /**Highlights the region(s) defined by the attribute selection
+     * @param hoverData hover information of the track that triggered the event
+     * */
+    private setHover(hoverData: TrackHoverInterface) : void {
+        this.rcsbBoard.setHover(hoverData.trackId, hoverData.position);
     }
 
     /**Reset the cell content

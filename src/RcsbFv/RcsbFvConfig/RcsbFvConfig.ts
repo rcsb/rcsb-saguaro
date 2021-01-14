@@ -36,6 +36,8 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     minRatio?:number;
     selectDataInRangeFlag?: boolean;
     hideEmptyTrackFlag?: boolean;
+    highlightHoverPosition?:boolean;
+    highlightHoverCallback?:(n:number)=>void;
 
     constructor(args:RcsbFvRowConfigInterface) {
         this.updateConfig(args);
@@ -99,6 +101,12 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.hideEmptyTrackFlag === "boolean"){
             this.hideEmptyTrackFlag = args.hideEmptyTrackFlag;
+        }
+        if(typeof args.highlightHoverPosition === "boolean"){
+            this.highlightHoverPosition = args.highlightHoverPosition;
+        }
+        if(typeof args.highlightHoverCallback === "function"){
+            this.highlightHoverCallback = args.highlightHoverCallback;
         }
 
         //default config available

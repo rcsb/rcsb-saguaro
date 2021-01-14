@@ -21,6 +21,7 @@ import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbSelection} from "./RcsbSelection";
+import {Simulate} from "react-dom/test-utils";
 
 export interface LocationViewInterface {
     from: number;
@@ -66,7 +67,7 @@ export class RcsbBoard {
 
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
     private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
-    private mousemoveCallBack: Array<()=>void> = new Array<()=> void>();
+    private mousemoveCallBack: Array<(n:number)=>void> = new Array<(n:number)=> void>();
 
     private readonly contextManager: RcsbFvContextManager;
 
@@ -96,7 +97,8 @@ export class RcsbBoard {
             pointerEvents: "all",
             mouseoutCallBack: this.mouseoutCallBack,
             mouseoverCallBack: this.mouseoverCallBack,
-            mousemoveCallBack: this.mousemoveCallBack
+            mousemoveCallBack: this.mousemoveCallBack,
+            xScale: this._xScale
         };
         this.d3Manager.buildSvgNode(svgConfig);
         this.addMainG();
@@ -138,6 +140,14 @@ export class RcsbBoard {
        this.onHighLightCallBack = f;
     }
 
+    public setHoverCallBack(){
+        this.mousemoveCallBack.push(this.highlightHover.bind(this));
+    }
+
+    public addHoverCallBack(f:(n:number)=>void){
+        this.mousemoveCallBack.push(f);
+    }
+
     public setRange(from: number, to: number): void{
         this.currentLocationView.from = from;
         this.currentLocationView.to = to;
@@ -162,7 +172,7 @@ export class RcsbBoard {
             this.highlightRegion(null,true);
     }
 
-    highlightRegion(d:RcsbFvTrackDataElementInterface | null, propFlag?: boolean): void{
+    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, propFlag?: boolean): void{
         if(d!=null)
             this.selection.setSelected({rcsbFvTrackDataElement:d,domId:this.domId});
         else if(propFlag === false)
@@ -186,7 +196,24 @@ export class RcsbBoard {
         }
     }
 
-    moveSelection(): void{
+    public setHover(boardId: string, position: number): void{
+        if(this.domId != boardId)
+            this.highlightHover(position, true);
+    }
+
+    public highlightHover(position: number, propFlag?: boolean){
+        this.tracks.forEach((track) => {
+            track.highlightHover(position);
+        });
+        if(propFlag != true) {
+            this.triggerSelectionEvent({
+                eventType:EventType.HOVER,
+                eventData:{trackId:this.domId,position:position}
+            });
+        }
+    }
+
+    private moveSelection(): void{
         if(this.selection.getSelected().length > 0) {
             this.tracks.forEach((track) => {
                 track.moveSelection();
@@ -194,7 +221,7 @@ export class RcsbBoard {
         }
     }
 
-    startBoard(): void {
+    public startBoard(): void {
 
         if ((this.currentLocationView.to - this.currentLocationView.from) < this.limits.minZoom) {
             this.currentLocationView.to = this.currentLocationView.from + this.limits.minZoom;
@@ -215,7 +242,7 @@ export class RcsbBoard {
         this.startTracks();
     }
 
-    startTracks(): void{
+    private startTracks(): void{
     	this.tracks.forEach(track=>{
             track.init(this._width, this._xScale);
         });
@@ -226,13 +253,13 @@ export class RcsbBoard {
 
     }
 
-    updateBoard(): void{
+    private updateBoard(): void{
         this.tracks.forEach((track)=> {
             track.update();
         })
     }
 
-    reset(): void{
+    public reset(): void{
         this.tracks = new Array<RcsbDisplayInterface>();
         this.d3Manager.resetAllTracks();
     }
@@ -262,7 +289,7 @@ export class RcsbBoard {
         this.tracks.push(t);
     }
 
-    setBoardHeight(): void{
+    private setBoardHeight(): void{
         let h = 0;
         this.tracks.forEach(track=>{
             h += track.height();
@@ -270,7 +297,7 @@ export class RcsbBoard {
         this.d3Manager.setBoardHeight(h);
     }
 
-    setBoardWidth(w: number): void{
+    public setBoardWidth(w: number): void{
         this._width = w;
     }
 
@@ -281,7 +308,7 @@ export class RcsbBoard {
         };
     }
 
-    updateAllTracks(): void {
+    private updateAllTracks(): void {
         const location = this.xScale().domain();
     	this.setLocation(~~location[0],~~location[1]);
         this.tracks.forEach(track=> {
@@ -295,7 +322,7 @@ export class RcsbBoard {
         });
     }
 
-    xScale(): ScaleLinear<number,number>{
+    public xScale(): ScaleLinear<number,number>{
         return this._xScale;
     }
 

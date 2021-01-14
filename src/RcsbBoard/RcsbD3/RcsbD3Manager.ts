@@ -1,5 +1,5 @@
 import {RcsbD3Constants} from "./RcsbD3Constants";
-import {Selection, select, event, BaseType, EnterElement} from "d3-selection";
+import {Selection, select, event, BaseType, EnterElement, mouse} from "d3-selection";
 import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
 import {ScaleLinear} from "d3-scale";
 import * as classes from "../scss/RcsbBoard.module.scss";
@@ -16,7 +16,8 @@ export interface SVGConfInterface  {
     pointerEvents: string;
     mouseoutCallBack: Array<()=>void>;
     mouseoverCallBack: Array<()=>void>;
-    mousemoveCallBack: Array<()=>void>;
+    mousemoveCallBack: Array<(n:number)=>void>;
+    xScale: ScaleLinear<number,number>;
 }
 
 export interface MainGConfInterface  {
@@ -51,6 +52,7 @@ export interface HighlightRegionInterface {
     xScale: ScaleLinear<number,number>;
     rectClass: string;
     elements:Array<RcsbFvTrackDataElementInterface>;
+    color?: string;
 }
 
 export interface MoveSelectedRegionInterface {
@@ -105,11 +107,11 @@ export class RcsbD3Manager {
                     f();
                 })
             }).on(RcsbD3Constants.MOUSE_MOVE,()=>{
+                const index: number = config.mousemoveCallBack.length > 0 ? Math.round(config.xScale.invert(mouse(this.getPane())[0])) : -1;
                 config.mousemoveCallBack.forEach(f=>{
-                    f();
+                    f(index);
                 })
             });
-
         this._width = config.width;
     }
 
@@ -199,22 +201,26 @@ export class RcsbD3Manager {
             }
         });
 
-        const visSel:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = hlConfig.trackG.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
-        const visElems:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = visSel.data(elementsToSelect);
-        const newElem:Selection<EnterElement,SelectedElementInterface,SVGElement,any> = visElems.enter();
+        const elements:Selection<SVGGElement,SelectedElementInterface,BaseType,undefined> = hlConfig.trackG
+            .selectAll<SVGGElement,SelectedElementInterface>("."+hlConfig.rectClass)
+            .data(elementsToSelect, (d)=>{return d.begin+":"+d.end});
 
-        newElem.append<SVGRectElement>(RcsbD3Constants.RECT)
-            .attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
-                return hlConfig.xScale(d.begin - 0.5)})
-            .attr(RcsbD3Constants.Y, 0)
-            .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
-                return minWidth(d.begin,d.end)})
-            .attr(RcsbD3Constants.HEIGHT, hlConfig.height)
-            .attr(RcsbD3Constants.FILL, "#faf3c0")
-            .attr(RcsbD3Constants.FILL_OPACITY, 0.75)
+        elements.enter()
+            .append<SVGGElement>(RcsbD3Constants.G)
             .attr(RcsbD3Constants.CLASS, hlConfig.rectClass)
+            .call((e)=>{
+              e.append<SVGRectElement>(RcsbD3Constants.RECT)
+                  .attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
+                      return hlConfig.xScale(d.begin - 0.5)})
+                  .attr(RcsbD3Constants.Y, 0)
+                  .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
+                      return minWidth(d.begin,d.end)})
+                  .attr(RcsbD3Constants.HEIGHT, hlConfig.height)
+                  .attr(RcsbD3Constants.FILL, hlConfig.color ?? "#faf3c0")
+                  .attr(RcsbD3Constants.FILL_OPACITY, 0.75)
+            })
             .lower();
-        visElems.exit().remove();
+        elements.exit().remove();
     }
 
     moveSelection(config: MoveSelectedRegionInterface): void{

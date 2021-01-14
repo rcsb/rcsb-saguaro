@@ -51,10 +51,10 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    mousemoveCallBack(): void{
+    mousemoveCallBack(n:number): void{
         this.innerDisplays.forEach(id=>{
             if(typeof id.display.mousemoveCallBack === "function") {
-                id.display.mousemoveCallBack();
+                id.display.mousemoveCallBack(n);
             }
         });
     }
@@ -147,6 +147,12 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     highlightRegion(d:Array<RcsbFvTrackDataElementInterface>): void {
         if(this.innerDisplays.length > 0 ){
             this.innerDisplays[0].display.highlightRegion(d);
+        }
+    }
+
+    highlightHover(position:number):void{
+        if(this.innerDisplays.length > 0 ){
+           this.innerDisplays[0].display.highlightHover(position);
         }
     }
 }

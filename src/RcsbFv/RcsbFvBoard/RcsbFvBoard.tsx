@@ -91,7 +91,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
         return (
             <div onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
-                <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()}>
+                <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                     {rcsbFvRowAxis}
                     {
                         this.state.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
@@ -164,6 +164,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
         if(typeof this.state.boardConfigData.borderColor === "string"){
             out.borderColor = this.state.boardConfigData.borderColor;
+        }
+        if(typeof this.state.boardConfigData.highlightHoverPosition === "boolean"){
+            out.highlightHoverPosition = this.state.boardConfigData.highlightHoverPosition;
+        }
+        if(typeof this.state.boardConfigData.highlightHoverCallback === "function"){
+            out.highlightHoverCallback = this.state.boardConfigData.highlightHoverCallback;
         }
         return out;
     }
@@ -268,6 +274,26 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             return undefined;
         else
             return this.onMouseLeave.bind(this);
+    }
+
+    private setMouseLeaveBoardCallback(): (()=>void)|undefined{
+        if(this.props.boardConfigData.highlightHoverPosition === true || typeof this.props.boardConfigData.highlightHoverCallback === "function")
+            return this.mouseLeaveBoardCallback.bind(this);
+        else
+            return undefined;
+    }
+
+    private mouseLeaveBoardCallback(): void{
+        if(this.props.boardConfigData.highlightHoverPosition === true)
+            this.props.contextManager.next({
+                eventType:EventType.HOVER,
+                eventData:{
+                    trackId:"RcsbFvBoard",
+                    position:0
+                }
+            });
+        if(this.props.boardConfigData.highlightHoverCallback)
+            this.props.boardConfigData.highlightHoverCallback(0);
     }
 
     private onMouseOver (): void{

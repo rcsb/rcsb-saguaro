@@ -23,8 +23,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     private line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     linePoints: RcsbFvTrackDataElementInterface[];
 
-    mousemoveCallBack: ()=>void = ()=>{
-        const index: number = Math.round(this.xScale.invert(mouse(this.d3Manager.getPane())[0]));
+    mousemoveCallBack: (n: number)=>void = (index:number)=>{
         if(this.includeTooltip){
             if(this.innerData[index] !=null)
                 this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
