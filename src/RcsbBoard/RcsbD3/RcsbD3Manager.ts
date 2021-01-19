@@ -229,11 +229,14 @@ export class RcsbD3Manager {
             if(w<2)w=2;
             return w;
         };
-        const selectRect:Selection<SVGRectElement,SelectedElementInterface,SVGElement,any> = config.trackG.selectAll<SVGRectElement,any>("."+classes.rcsbSelectRect);
-        selectRect.attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
-            return config.xScale(d.begin - 0.5) ?? 0})
+        const selectRect:Selection<SVGGElement,SelectedElementInterface,SVGElement,any> = config.trackG.selectAll<SVGGElement,any>("."+config.rectClass);
+        selectRect.select(RcsbD3Constants.RECT)
+            .attr(RcsbD3Constants.X, (d:SelectedElementInterface)=>{
+                return config.xScale(d.begin - 0.5) ?? 0
+            })
             .attr(RcsbD3Constants.WIDTH, (d:SelectedElementInterface)=>{
-                return minWidth(d.begin,d.end)});
+                return minWidth(d.begin,d.end)
+            });
 
     }
 }

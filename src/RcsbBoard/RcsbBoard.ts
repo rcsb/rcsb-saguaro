@@ -21,7 +21,7 @@ import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbSelection} from "./RcsbSelection";
-import {Simulate} from "react-dom/test-utils";
+import {Subject} from "rxjs";
 
 export interface LocationViewInterface {
     from: number;
@@ -68,6 +68,7 @@ export class RcsbBoard {
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
     private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
     private mousemoveCallBack: Array<(n:number)=>void> = new Array<(n:number)=> void>();
+    private readonly mouseHoverCallBack: Subject<Array<RcsbFvTrackDataElementInterface>> = new Subject<Array<RcsbFvTrackDataElementInterface>>();
 
     private readonly contextManager: RcsbFvContextManager;
 
@@ -121,7 +122,7 @@ export class RcsbBoard {
                 RcsbD3EventDispatcher.boardMousedown(this);
             },
             dblClick:()=>{
-                this.highlightRegion(null,false);
+                this.highlightRegion(null,'select', false);
                 if(typeof this.onHighLightCallBack === "function")
                     this.onHighLightCallBack();
             }
@@ -140,12 +141,14 @@ export class RcsbBoard {
        this.onHighLightCallBack = f;
     }
 
-    public setHoverCallBack(){
-        this.mousemoveCallBack.push(this.highlightHover.bind(this));
+    public setMousemoveCallBack(){
+        this.mousemoveCallBack.push((n:number)=>{
+            this.highlightRegion({begin:n,nonSpecific:true},'hover')
+        });
     }
 
-    public addHoverCallBack(f:(n:number)=>void){
-        this.mousemoveCallBack.push(f);
+    public addHoverCallBack(f:(n:Array<RcsbFvTrackDataElementInterface>)=>void){
+        this.mouseHoverCallBack.asObservable().subscribe(f);
     }
 
     public setRange(from: number, to: number): void{
@@ -167,56 +170,52 @@ export class RcsbBoard {
         }
     }
 
-    public setSelection(boardId: string): void{
+    public setSelection(boardId: string, mode:'select'|'hover'): void{
         if(this.domId != boardId)
-            this.highlightRegion(null,true);
+            this.highlightRegion(null,mode, true);
     }
 
-    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, propFlag?: boolean): void{
+    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, mode:'select'|'hover', propFlag?: boolean): void{
         if(d!=null)
-            this.selection.setSelected({rcsbFvTrackDataElement:d,domId:this.domId});
+            this.selection.setSelected({rcsbFvTrackDataElement:d,domId:this.domId}, mode);
         else if(propFlag === false)
-            this.selection.clearSelection();
+            this.selection.clearSelection(mode);
 
         if(propFlag!=true) {
             this.triggerSelectionEvent({
                 eventType:EventType.SELECTION,
-                eventData:this.domId
+                eventData:{
+                    trackId:this.domId,
+                    mode: mode
+                }
             });
+            if(mode === 'hover')
+                this.mouseHoverCallBack.next(this.selection.getSelected('hover').map(r=>r.rcsbFvTrackDataElement))
         }
 
-        if(this.selection.getSelected().length > 0) {
+        if(this.selection.getSelected(mode).length > 0) {
             this.tracks.forEach((track) => {
-                track.highlightRegion(this.selection.getSelected().map(d=>d.rcsbFvTrackDataElement));
+                track.highlightRegion(
+                    this.selection.getSelected(mode).map(d=>d.rcsbFvTrackDataElement),
+                    mode === 'hover' ? {color:"#FFCCCC", rectClass:classes.rcsbHoverRect} : undefined
+                    );
             });
         }else{
             this.tracks.forEach((track) => {
-                track.highlightRegion(null);
-            });
-        }
-    }
-
-    public setHover(boardId: string, position: number): void{
-        if(this.domId != boardId)
-            this.highlightHover(position, true);
-    }
-
-    public highlightHover(position: number, propFlag?: boolean){
-        this.tracks.forEach((track) => {
-            track.highlightHover(position);
-        });
-        if(propFlag != true) {
-            this.triggerSelectionEvent({
-                eventType:EventType.HOVER,
-                eventData:{trackId:this.domId,position:position}
+                track.highlightRegion(null, mode === 'hover' ? {color:"#FFCCCC", rectClass:classes.rcsbHoverRect} : undefined);
             });
         }
     }
 
     private moveSelection(): void{
-        if(this.selection.getSelected().length > 0) {
+        if(this.selection.getSelected('select').length > 0) {
             this.tracks.forEach((track) => {
-                track.moveSelection();
+                track.moveSelection('select');
+            });
+        }
+        if(this.selection.getSelected('hover').length > 0) {
+            this.tracks.forEach((track) => {
+                track.moveSelection('hover');
             });
         }
     }
@@ -344,17 +343,16 @@ export class RcsbBoard {
         let newDomain:number[] = transform.rescaleX(this._xScale).domain();
         let length: number = newDomain[1] - newDomain[0];
 
-        if(length > this.limits.maxZoom){
-            length = this.limits.maxZoom;
-        }else if(length < this.limits.minZoom){
+        if(length < this.limits.minZoom){
             this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
             return;
         }
 
         if(newDomain[0] < this.limits.min){
-            newDomain = [this.limits.min , this.limits.min + length];
-        }else if(newDomain[1] > this.limits.max){
-            newDomain = [this.limits.max - length , this.limits.max];
+            newDomain[0] = this.limits.min;
+        }
+        if(newDomain[1] > this.limits.max){
+            newDomain[1] = this.limits.max;
         }
 
         this._xScale.domain(newDomain);

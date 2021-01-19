@@ -89,9 +89,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    moveSelection(): void{
+    moveSelection(mode:'select'|'hover'): void{
         this.innerDisplays.forEach(de=>{
-            de.display.moveSelection();
+            de.display.moveSelection(mode);
         });
     }
 
@@ -105,7 +105,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void){
+    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, mode:'select'|'hover', propFlag?: boolean) => void){
         this.innerDisplays.forEach(de=>{
             de.display.setBoardHighlight(f);
         });
@@ -144,15 +144,10 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         return this._data;
     }
 
-    highlightRegion(d:Array<RcsbFvTrackDataElementInterface>): void {
+    highlightRegion(d:Array<RcsbFvTrackDataElementInterface>, options?:{color?:string, rectClass?: string;}): void {
         if(this.innerDisplays.length > 0 ){
-            this.innerDisplays[0].display.highlightRegion(d);
+            this.innerDisplays[0].display.highlightRegion(d,options);
         }
     }
 
-    highlightHover(position:number):void{
-        if(this.innerDisplays.length > 0 ){
-           this.innerDisplays[0].display.highlightHover(position);
-        }
-    }
 }

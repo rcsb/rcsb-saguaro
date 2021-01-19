@@ -6,6 +6,7 @@ import {
     RcsbFvTrackDataElementInterface, RcsbFvColorGradient
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
+import {SelectionInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 /**Board track configuration manager className*/
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
@@ -37,7 +38,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     selectDataInRangeFlag?: boolean;
     hideEmptyTrackFlag?: boolean;
     highlightHoverPosition?:boolean;
-    highlightHoverCallback?:(n:number)=>void;
+    highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
 
     constructor(args:RcsbFvRowConfigInterface) {
         this.updateConfig(args);

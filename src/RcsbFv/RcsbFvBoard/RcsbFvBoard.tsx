@@ -12,7 +12,8 @@ import {
     DomainViewInterface,
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, SetSelectionInterface,
+    RcsbFvContextManagerInterface,
+    SetSelectionInterface,
     TrackDataInterface,
     TrackVisibilityInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
@@ -284,16 +285,15 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private mouseLeaveBoardCallback(): void{
-        if(this.props.boardConfigData.highlightHoverPosition === true)
-            this.props.contextManager.next({
-                eventType:EventType.HOVER,
-                eventData:{
-                    trackId:"RcsbFvBoard",
-                    position:0
-                }
+        if(this.props.boardConfigData.highlightHoverPosition === true){
+            this.setSelection({
+                elements:null,
+                mode:'hover'
             });
-        if(this.props.boardConfigData.highlightHoverCallback)
-            this.props.boardConfigData.highlightHoverCallback(0);
+        }
+        if(this.props.boardConfigData.highlightHoverCallback){
+            this.props.boardConfigData.highlightHoverCallback(this.selection.getSelected('hover').map(r=>r.rcsbFvTrackDataElement));
+        }
     }
 
     private onMouseOver (): void{
@@ -466,8 +466,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * @param newSelection new selection object
      * */
     private setSelection(newSelection: SetSelectionInterface): void {
-        if(newSelection != null) {
-            const list: SetSelectionInterface = newSelection instanceof Array ? newSelection : [newSelection];
+        if(newSelection?.elements != null){
+            const list: Array<{begin:number; end?:number;}> = newSelection.elements instanceof Array ? newSelection.elements : [newSelection.elements];
             this.selection.setSelected(list.map((x) => {
                     return {
                         domId: this.boardId,
@@ -477,20 +477,23 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                             nonSpecific: true
                         }
                     };
-                })
+                }),
+                newSelection.mode
             );
-            this.select();
         }else{
-            this.selection.clearSelection();
-            this.select();
+            this.selection.clearSelection(newSelection?.mode);
         }
+        this.select(newSelection?.mode ?? 'select');
     }
 
     /**Force current selection in all tracks.*/
-    private select(): void{
+    private select(mode:'select'|'hover'): void{
         this.props.contextManager.next({
             eventType: EventType.SELECTION,
-            eventData: this.boardId
+            eventData: {
+                trackId: this.boardId,
+                mode:mode
+            }
         } as RcsbFvContextManagerInterface);
     }
 

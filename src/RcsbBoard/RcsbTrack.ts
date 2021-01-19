@@ -24,7 +24,7 @@ export class RcsbTrack {
     private _data: RcsbFvTrackData;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined>;
-    private boardHighlight: (d: RcsbFvTrackDataElementInterface, propFlag?: boolean) => void;
+    private boardHighlight: (d: RcsbFvTrackDataElementInterface, mode:'select'|'hover', propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
     mousemoveCallBack: (n:number)=>void;
@@ -92,11 +92,11 @@ export class RcsbTrack {
         return this._data;
     }
 
-    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void){
+    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, mode:'select'|'hover', propFlag?: boolean) => void){
         this.boardHighlight = f;
     }
 
-    getBoardHighlight(): (d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void {
+    getBoardHighlight(): (d:RcsbFvTrackDataElementInterface, mode:'select'|'hover', propFlag?: boolean) => void {
         return this.boardHighlight;
     }
 
@@ -129,17 +129,17 @@ export class RcsbTrack {
 
     }
 
-    highlightHover(position:number): void {
-        this.highlightRegion(position > 0 ? [{begin:position}] : null, {color:"#FFCCCC", rectClass:classes.rcsbHoverRect})
+    highlightHover(d:Array<RcsbFvTrackDataElementInterface>|null): void {
+        this.highlightRegion(d, {color:"#FFCCCC", rectClass:classes.rcsbHoverRect})
     };
 
-    moveSelection(): void{
+    moveSelection(mode:'select'|'hover'): void{
 
         const xScale: ScaleLinear<number,number> = this.xScale;
         const moveSelectionConfig: MoveSelectedRegionInterface = {
             trackG: this.g,
             xScale: xScale,
-            rectClass: classes.rcsbSelectRect
+            rectClass: mode === 'select' ? classes.rcsbSelectRect : classes.rcsbHoverRect
         };
 
         this.d3Manager.moveSelection(moveSelectionConfig);

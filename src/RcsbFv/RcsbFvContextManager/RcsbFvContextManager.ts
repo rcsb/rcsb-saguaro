@@ -5,7 +5,7 @@ import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
 
 /**rxjs Event Handler Object. It allows objects to subscribe methods and then, get(send) events to(from) other objects*/
 export class RcsbFvContextManager {
-    private readonly subject: any = new Subject();
+    private readonly subject: Subject<RcsbFvContextManagerInterface> = new Subject<RcsbFvContextManagerInterface>();
     /**Call other subscribed methods
      * @param obj Event Data Structure Interface
      * */
@@ -27,7 +27,6 @@ export class RcsbFvContextManager {
 /**Event types*/
 export enum EventType {
     SELECTION = "eventTypeSelection",
-    HOVER = "eventTypeHover",
     SCALE = "eventTypeScale",
     ADD_TRACK_DATA = "eventTypeAddData",
     UPDATE_TRACK_DATA = "eventTypeUpdateData",
@@ -66,17 +65,19 @@ export interface DomainViewInterface {
     domain: [number,number];
 }
 
-/**Event Data Interface used to highlight mouse hover position inside the board*/
-export interface TrackHoverInterface {
-    trackId: string;
-    position: number;
+export interface SetSelectionInterface {
+    elements: Array<{begin:number; end?:number;}>|{begin:number; end?:number;}|null;
+    mode:'select'|'hover';
 }
 
-export type SetSelectionInterface = Array<{begin:number; end?:number;}>|{begin:number; end?:number;};
+export interface SelectionInterface {
+    trackId: string;
+    mode:'select'|'hover';
+}
 
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface {
     eventType: string;
-    eventData: string|TrackHoverInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
+    eventData: string|SelectionInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
 }
 

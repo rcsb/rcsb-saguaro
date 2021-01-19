@@ -15,10 +15,9 @@ export interface RcsbDisplayInterface {
     setManagers: (d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager) => void;
     height: (h?: number) => number;
     init: (width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number) => void;
-    highlightRegion: (d:Array<RcsbFvTrackDataElementInterface> | null) => void;
-    highlightHover: (position:number)=>void;
-    moveSelection: ()=> void;
-    setBoardHighlight: (f:(d:RcsbFvTrackDataElementInterface, propFlag?: boolean) => void) => void;
+    highlightRegion: (d:Array<RcsbFvTrackDataElementInterface> | null, options?:{color?:string, rectClass?: string;}) => void;
+    moveSelection: (mode:'select'|'hover')=> void;
+    setBoardHighlight: (f:(d:RcsbFvTrackDataElementInterface, mode:'select'|'hover', propFlag?: boolean) => void) => void;
     trackColor: (c?: string) => string;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;

@@ -6,7 +6,7 @@ import {
     EventType,
     TrackDataInterface,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface, TrackHoverInterface
+    RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 
@@ -231,7 +231,7 @@ export class RcsbFv {
     }
 
     /**Select board range
-     * @param selection new xScale domain
+     * @param selection region/elements
      **/
     public setSelection(selection: SetSelectionInterface): void {
         this.contextManager.next({
@@ -240,27 +240,18 @@ export class RcsbFv {
         });
     }
 
-    /**Highlight board position (mouse hover effect)
-     * @param position sequence index
+    /**
+     * Clear Selection
      **/
-    public setHoverHighlight(position:number): void{
+    public clearSelection(mode?:'select'|'hover'): void {
         this.contextManager.next({
-            eventType:EventType.HOVER,
-            eventData:{
-                trackId:"RcsbFv",
-                position:position
+            eventType:EventType.SET_SELECTION,
+            eventData: {
+                elements:null,
+                mode:mode ?? 'select'
             }
         });
     }
 
-    /**
-     * Clear Selection
-     **/
-    public clearSelection(): void {
-        this.contextManager.next({
-            eventType:EventType.SET_SELECTION,
-            eventData: null
-        });
-    }
 }
 

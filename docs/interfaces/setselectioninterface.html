@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TrackHoverInterface | @rcsb/rcsb-saguaro</title>
+	<title>SetSelectionInterface | @rcsb/rcsb-saguaro</title>
 	<meta name="description" content="Documentation for @rcsb/rcsb-saguaro">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,28 +56,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="trackhoverinterface.html">TrackHoverInterface</a>
+					<a href="setselectioninterface.html">SetSelectionInterface</a>
 				</li>
 			</ul>
-			<h1>Interface TrackHoverInterface</h1>
+			<h1>Interface SetSelectionInterface</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Event Data Interface used to highlight mouse hover position inside the board</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TrackHoverInterface</span>
+						<span class="target">SetSelectionInterface</span>
 					</li>
 				</ul>
 			</section>
@@ -88,8 +81,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="trackhoverinterface.html#position" class="tsd-kind-icon">position</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="trackhoverinterface.html#trackid" class="tsd-kind-icon">track<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="setselectioninterface.html#elements" class="tsd-kind-icon">elements</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="setselectioninterface.html#mode" class="tsd-kind-icon">mode</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,22 +91,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="position" class="tsd-anchor"></a>
-					<h3>position</h3>
-					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="elements" class="tsd-anchor"></a>
+					<h3>elements</h3>
+					<div class="tsd-signature tsd-kind-icon">elements<span class="tsd-signature-symbol">:</span> <a href="../classes/rcsbfvtrackdata.html#array" class="tsd-signature-type">Array</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>begin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>end<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>begin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>end<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/d78478d/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L72">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/48b36d9/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L69">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:69</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="trackid" class="tsd-anchor"></a>
-					<h3>track<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">track<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="mode" class="tsd-anchor"></a>
+					<h3>mode</h3>
+					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/d78478d/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L71">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/48b36d9/src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts#L70">src/RcsbFv/RcsbFvContextManager/RcsbFvContextManager.ts:70</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -132,13 +125,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="trackhoverinterface.html" class="tsd-kind-icon">Track<wbr>Hover<wbr>Interface</a>
+						<a href="setselectioninterface.html" class="tsd-kind-icon">Set<wbr>Selection<wbr>Interface</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="trackhoverinterface.html#position" class="tsd-kind-icon">position</a>
+								<a href="setselectioninterface.html#elements" class="tsd-kind-icon">elements</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="trackhoverinterface.html#trackid" class="tsd-kind-icon">track<wbr>Id</a>
+								<a href="setselectioninterface.html#mode" class="tsd-kind-icon">mode</a>
 							</li>
 						</ul>
 					</li>

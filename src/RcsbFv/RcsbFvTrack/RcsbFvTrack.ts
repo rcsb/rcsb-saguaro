@@ -12,7 +12,7 @@ import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInter
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, TrackHoverInterface
+    RcsbFvContextManagerInterface, SelectionInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
@@ -115,7 +115,7 @@ export class RcsbFvTrack {
             this.rcsbBoard.setHighLightCallBack(this.rcsbFvConfig.elementClickCallBack);
 
         if(this.rcsbFvConfig.highlightHoverPosition === true) {
-            this.rcsbBoard.setHoverCallBack();
+            this.rcsbBoard.setMousemoveCallBack();
         }
         if(typeof this.rcsbFvConfig.highlightHoverCallback === "function"){
             this.rcsbBoard.addHoverCallBack(this.rcsbFvConfig.highlightHoverCallback);
@@ -228,9 +228,7 @@ export class RcsbFvTrack {
             if(obj.eventType===EventType.SCALE) {
                 this.setScale(obj.eventData as string);
             }else if(obj.eventType===EventType.SELECTION){
-                this.setSelection(obj.eventData as string);
-            }else if(obj.eventType===EventType.HOVER){
-                this.setHover(obj.eventData as TrackHoverInterface);
+                this.setSelection(obj.eventData as SelectionInterface);
             }else if(obj.eventType===EventType.RESET){
                 this.reset(obj.eventData as string);
             }
@@ -252,17 +250,10 @@ export class RcsbFvTrack {
     }
 
     /**Highlights the region(s) defined by the attribute selection
-     * @param boardId Id of the SVG/HTML manager that triggered the event
+     * @param selection object describing sequence regions
      * */
-    private setSelection(boardId: string) : void {
-        this.rcsbBoard.setSelection(boardId);
-    }
-
-    /**Highlights the region(s) defined by the attribute selection
-     * @param hoverData hover information of the track that triggered the event
-     * */
-    private setHover(hoverData: TrackHoverInterface) : void {
-        this.rcsbBoard.setHover(hoverData.trackId, hoverData.position);
+    private setSelection(selection:SelectionInterface) : void {
+        this.rcsbBoard.setSelection(selection.trackId, selection.mode);
     }
 
     /**Reset the cell content

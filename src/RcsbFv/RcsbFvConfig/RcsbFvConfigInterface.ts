@@ -6,6 +6,7 @@ import {
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
 import * as React from "react";
+import {SelectionInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
@@ -35,7 +36,7 @@ export interface RcsbFvBoardConfigInterface {
     /**Set highlight hover position*/
     highlightHoverPosition?:boolean;
     /**Function call on hover event*/
-    highlightHoverCallback?:(n:number)=>void;
+    highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
@@ -129,5 +130,5 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     /**Set highlight hover position*/
     highlightHoverPosition?:boolean;
     /**Function call on hover event*/
-    highlightHoverCallback?:(n:number)=>void;
+    highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
 }
