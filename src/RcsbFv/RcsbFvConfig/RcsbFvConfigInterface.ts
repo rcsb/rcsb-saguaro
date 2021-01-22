@@ -29,6 +29,8 @@ export interface RcsbFvBoardConfigInterface {
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     /**Function that will be called when hovering a track annotation*/
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    /**Function that will be called when mouse-leaving a track annotation*/
+    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     /**Feature cells border color*/
     borderColor?: string;
     /**Hide PFV tracks main frame border glow*/
@@ -53,6 +55,8 @@ interface CommonConfigInterface{
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     /**Function that will be called when clicking annotations in this track*/
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    /**Function that will be called when mouse-leaving a track annotation*/
+    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     /**Show tooltip when hovering annotations in this specific track*/
     includeTooltip?: boolean;
     /**Function that will be called to update track displayed data when the board is moved or zoomed*/

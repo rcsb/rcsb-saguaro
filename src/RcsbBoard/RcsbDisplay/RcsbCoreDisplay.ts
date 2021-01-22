@@ -1,4 +1,4 @@
-import {RcsbTrack} from "../RcsbTrack";
+import {RcsbAbstractTrack} from "./RcsbAbstractTrack";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {Selection, BaseType, event, select, EnterElement } from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
@@ -12,11 +12,12 @@ import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 
-export abstract class RcsbCoreDisplay extends RcsbTrack{
+export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
 
     protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
     elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    elementLeaveCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     includeTooltip: boolean = true;
     updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     private readonly boardId: string;
@@ -42,6 +43,10 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
 
     setElementEnterCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
         this.elementEnterCallBack = f;
+    }
+
+    setElementLeaveCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
+        this.elementLeaveCallBack = f;
     }
 
     setTooltip(flag: boolean): void{
@@ -109,6 +114,9 @@ export abstract class RcsbCoreDisplay extends RcsbTrack{
         element.on(RcsbD3Constants.MOUSE_LEAVE, (d, i) => {
             if (event.defaultPrevented) {
                 return;
+            }
+            if(typeof this.elementLeaveCallBack === "function") {
+                this.elementLeaveCallBack(d);
             }
             if(this.includeTooltip){
                 this.tooltipManager.hideTooltip();

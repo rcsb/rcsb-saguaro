@@ -122,6 +122,9 @@ export class RcsbFvDisplay {
             if (out != null && typeof config.elementEnterCallBack === "function") {
                 out.setElementEnterCallBack(config.elementEnterCallBack);
             }
+            if (out != null && typeof config.elementLeaveCallBack === "function") {
+                out.setElementLeaveCallBack(config.elementLeaveCallBack);
+            }
             if (out != null && typeof config.updateDataOnMove === "function") {
                 out.setUpdateDataOnMove(config.updateDataOnMove);
             }

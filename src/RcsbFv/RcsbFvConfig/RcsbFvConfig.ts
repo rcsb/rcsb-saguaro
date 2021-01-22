@@ -31,6 +31,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     nonEmptyDisplay?: boolean;
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     includeTooltip?: boolean;
     updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;
@@ -81,6 +82,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.elementEnterCallBack === "function"){
             this.elementEnterCallBack = args.elementEnterCallBack;
+        }
+        if(typeof args.elementLeaveCallBack === "function"){
+            this.elementLeaveCallBack = args.elementLeaveCallBack;
         }
         if(typeof args.updateDataOnMove === "function"){
             this.updateDataOnMove = args.updateDataOnMove;

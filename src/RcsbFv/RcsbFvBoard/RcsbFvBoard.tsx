@@ -163,6 +163,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(typeof this.state.boardConfigData.elementEnterCallBack === "function"){
             out.elementEnterCallBack = this.state.boardConfigData.elementEnterCallBack;
         }
+        if(typeof this.state.boardConfigData.elementLeaveCallBack === "function"){
+            out.elementLeaveCallBack = this.state.boardConfigData.elementLeaveCallBack;
+        }
         if(typeof this.state.boardConfigData.borderColor === "string"){
             out.borderColor = this.state.boardConfigData.borderColor;
         }

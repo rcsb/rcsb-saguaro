@@ -26,6 +26,7 @@ export interface RcsbDisplayInterface {
     readonly elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setElementLeaveCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
     readonly includeTooltip: boolean;
     setTooltip: (flag: boolean)=>void;
