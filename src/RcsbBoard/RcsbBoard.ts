@@ -279,6 +279,7 @@ export class RcsbBoard {
                 this.highlightRegion(d,'hover');
             },
             (d:RcsbFvTrackDataElementInterface)=>{
+                this.highlightRegion(null, 'hover', false);
                 this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, false);
             }
         );

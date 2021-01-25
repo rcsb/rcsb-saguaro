@@ -23,7 +23,6 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementLeaveCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
-    setHighlightHoverElement: (f: (d?:RcsbFvTrackDataElementInterface)=>void, g: (d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void;
     setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
@@ -108,6 +107,12 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         this.innerDisplays.forEach(de=>{
             de.display.setBoardHighlight(f);
         });
+    }
+
+    setHighlightHoverElement(f: (d?:RcsbFvTrackDataElementInterface)=>void, g: (d?:RcsbFvTrackDataElementInterface)=>void): void{
+        this.innerDisplays.forEach(de=>{
+            de.display.setHighlightHoverElement(f,g);
+        })
     }
 
     height(h?: number){
