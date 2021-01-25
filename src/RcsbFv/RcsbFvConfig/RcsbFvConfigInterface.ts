@@ -37,6 +37,8 @@ export interface RcsbFvBoardConfigInterface {
     hideTrackFrameGlow?: boolean;
     /**Set highlight hover position*/
     highlightHoverPosition?:boolean;
+    /**Set highlight hover track elements*/
+    highlightHoverElement?:boolean;
     /**Function call on hover event*/
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
 }
@@ -133,6 +135,8 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     borderColor?:string;
     /**Set highlight hover position*/
     highlightHoverPosition?:boolean;
+    /**Set highlight hover track elements*/
+    highlightHoverElement?:boolean;
     /**Function call on hover event*/
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
 }

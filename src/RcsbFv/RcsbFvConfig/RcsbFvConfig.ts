@@ -39,6 +39,7 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     selectDataInRangeFlag?: boolean;
     hideEmptyTrackFlag?: boolean;
     highlightHoverPosition?:boolean;
+    highlightHoverElement?:boolean;
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
 
     constructor(args:RcsbFvRowConfigInterface) {
@@ -109,6 +110,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         }
         if(typeof args.highlightHoverPosition === "boolean"){
             this.highlightHoverPosition = args.highlightHoverPosition;
+        }
+        if(typeof args.highlightHoverElement === "boolean"){
+            this.highlightHoverElement = args.highlightHoverElement;
         }
         if(typeof args.highlightHoverCallback === "function"){
             this.highlightHoverCallback = args.highlightHoverCallback;

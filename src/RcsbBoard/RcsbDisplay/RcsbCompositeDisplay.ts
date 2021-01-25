@@ -19,13 +19,11 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     private _data: RcsbFvTrackDataMap;
     private _bgColor: string;
     private compositeHeight: number;
-    elementClickCallBack: ()=>void;
-    elementEnterCallBack: ()=>void;
-    includeTooltip: boolean;
 
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementLeaveCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setHighlightHoverElement: (f: (d?:RcsbFvTrackDataElementInterface)=>void, g: (d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void;
     setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;

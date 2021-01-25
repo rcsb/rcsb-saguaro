@@ -1,17 +1,19 @@
 import {event} from "d3-selection";
 import {ScaleLinear, scaleLinear} from "d3-scale";
-import {zoom, ZoomBehavior, ZoomedElementBaseType, ZoomTransform, zoomIdentity} from "d3-zoom";
+import {zoom, ZoomBehavior, ZoomedElementBaseType, zoomIdentity, ZoomTransform} from "d3-zoom";
 
 import {
     MainGConfInterface,
     PaneConfInterface,
     RcsbD3Manager,
-    SVGConfInterface, ZoomConfigInterface
+    SVGConfInterface,
+    ZoomConfigInterface
 } from "./RcsbD3/RcsbD3Manager";
 
 import * as classes from "./scss/RcsbBoard.module.scss";
 import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
+    CONDITIONAL_FLAG,
     EventType,
     RcsbFvContextManager,
     RcsbFvContextManagerInterface
@@ -43,6 +45,7 @@ export class RcsbBoard {
     private _innerPadding: number = 10;
     private tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
     onHighLightCallBack:(d?:RcsbFvTrackDataElementInterface) => void;
+    private highlightHoverElementFlag: boolean = false;
 
     private readonly _xScale: ScaleLinear<number,number> = scaleLinear();
     private readonly selection: RcsbSelection;
@@ -141,8 +144,10 @@ export class RcsbBoard {
        this.onHighLightCallBack = f;
     }
 
-    public setMousemoveCallBack(){
+    public setHighlightHoverPosition(){
         this.mousemoveCallBack.push((n:number)=>{
+            if(this.contextManager.getCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT))
+                return;
             this.highlightRegion({begin:n,nonSpecific:true},'hover')
         });
     }
@@ -263,7 +268,23 @@ export class RcsbBoard {
         this.d3Manager.resetAllTracks();
     }
 
-    public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>): void{
+    public setHighlightHoverElement(flag: boolean): void{
+        this.highlightHoverElementFlag = flag;
+    }
+
+    private addHighlightHoverElement(t: RcsbDisplayInterface){
+        t.setHighlightHoverElement(
+            (d: RcsbFvTrackDataElementInterface)=>{
+                this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, true);
+                this.highlightRegion(d,'hover');
+            },
+            (d:RcsbFvTrackDataElementInterface)=>{
+                this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, false);
+            }
+        );
+    }
+
+    public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>, options?:{}): void{
         if (track instanceof Array) {
             track.forEach((t) => {
                 this.addTrackCallBacks(t);
@@ -276,6 +297,8 @@ export class RcsbBoard {
     private addTrackCallBacks(t: RcsbDisplayInterface){
         t.setManagers(this.d3Manager, this.contextManager);
         t.setBoardHighlight(this.highlightRegion.bind(this));
+        if(this.highlightHoverElementFlag)
+            this.addHighlightHoverElement(t);
         if(typeof t.mouseoutCallBack === "function"){
             this.mouseoutCallBack.push(t.mouseoutCallBack.bind(t))
         }

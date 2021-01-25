@@ -22,13 +22,11 @@ export interface RcsbDisplayInterface {
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
     mousemoveCallBack: (n:number)=>void;
-    readonly elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
-    readonly elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
     setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setElementLeaveCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setHighlightHoverElement: (f: (d?:RcsbFvTrackDataElementInterface)=>void, g: (d?:RcsbFvTrackDataElementInterface)=>void)=>void;
     setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
-    readonly includeTooltip: boolean;
     setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
     setSelectDataInRange: (flag: boolean) => void;

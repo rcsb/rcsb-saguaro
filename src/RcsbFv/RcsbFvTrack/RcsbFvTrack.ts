@@ -115,7 +115,10 @@ export class RcsbFvTrack {
             this.rcsbBoard.setHighLightCallBack(this.rcsbFvConfig.elementClickCallBack);
 
         if(this.rcsbFvConfig.highlightHoverPosition === true) {
-            this.rcsbBoard.setMousemoveCallBack();
+            this.rcsbBoard.setHighlightHoverPosition();
+        }
+        if(this.rcsbFvConfig.highlightHoverElement === true) {
+            this.rcsbBoard.setHighlightHoverElement(true);
         }
         if(typeof this.rcsbFvConfig.highlightHoverCallback === "function"){
             this.rcsbBoard.addHoverCallBack(this.rcsbFvConfig.highlightHoverCallback);

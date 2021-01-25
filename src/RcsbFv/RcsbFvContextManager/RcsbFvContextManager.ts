@@ -5,6 +5,7 @@ import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
 
 /**rxjs Event Handler Object. It allows objects to subscribe methods and then, get(send) events to(from) other objects*/
 export class RcsbFvContextManager {
+    private readonly conditionalFlag: Map<CONDITIONAL_FLAG,boolean> = new Map<CONDITIONAL_FLAG, boolean>();
     private readonly subject: Subject<RcsbFvContextManagerInterface> = new Subject<RcsbFvContextManagerInterface>();
     /**Call other subscribed methods
      * @param obj Event Data Structure Interface
@@ -22,6 +23,18 @@ export class RcsbFvContextManager {
     public unsubscribeAll():void {
         this.subject.unsubscribe();
     }
+
+    public getCondition(flag: CONDITIONAL_FLAG): boolean{
+        return this.conditionalFlag.get(flag) ?? false;
+    }
+
+    public setCondition(flag: CONDITIONAL_FLAG, value?: boolean): void{
+        this.conditionalFlag.set(flag, value ?? true);
+    }
+}
+
+export enum CONDITIONAL_FLAG {
+    STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT
 }
 
 /**Event types*/

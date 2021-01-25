@@ -172,6 +172,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(typeof this.state.boardConfigData.highlightHoverPosition === "boolean"){
             out.highlightHoverPosition = this.state.boardConfigData.highlightHoverPosition;
         }
+        if(typeof this.state.boardConfigData.highlightHoverElement === "boolean"){
+            out.highlightHoverElement = this.state.boardConfigData.highlightHoverElement;
+        }
         if(typeof this.state.boardConfigData.highlightHoverCallback === "function"){
             out.highlightHoverCallback = this.state.boardConfigData.highlightHoverCallback;
         }

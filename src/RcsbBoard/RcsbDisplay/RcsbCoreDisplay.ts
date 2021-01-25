@@ -15,11 +15,13 @@ import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager"
 export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
 
     protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
-    elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
-    elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
-    elementLeaveCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
-    includeTooltip: boolean = true;
-    updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
+    private elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    private elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    private elementLeaveCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    private highlightEnterElement: (d?:RcsbFvTrackDataElementInterface)=>void;
+    private highlightLeaveElement: (d?:RcsbFvTrackDataElementInterface)=>void;
+    protected includeTooltip: boolean = true;
+    private updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     private readonly boardId: string;
     private readonly trackId: string;
     protected tooltipManager: RcsbTooltipManager;
@@ -81,6 +83,11 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         this.g.selectAll("."+classes.rcsbElement).remove();
     }
 
+    public setHighlightHoverElement(enter: (d?:RcsbFvTrackDataElementInterface)=>void, leave: (d?:RcsbFvTrackDataElementInterface)=>void){
+        this.highlightEnterElement = enter;
+        this.highlightLeaveElement = leave;
+    }
+
     plot(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{
         element.on(RcsbD3Constants.CLICK, (d)=> {
             if (event.defaultPrevented) {
@@ -105,6 +112,9 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
                 this.tooltipManager.showTooltip(d);
                 this.tooltipManager.showTooltipDescription(d);
             }
+            if(typeof this.highlightEnterElement === "function"){
+                this.highlightEnterElement(d);
+            }
         });
         element.on(RcsbD3Constants.DBL_CLICK, (d, i) => {
             if (event.defaultPrevented) {
@@ -120,6 +130,9 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
             }
             if(this.includeTooltip){
                 this.tooltipManager.hideTooltip();
+            }
+            if(typeof this.highlightLeaveElement === "function"){
+                this.highlightLeaveElement(d);
             }
         });
     }
