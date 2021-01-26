@@ -267,6 +267,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
 
     componentDidMount(): void {
         this.subscription = this.subscribe();
+        if( typeof this.state.boardConfigData.selectionChangeCallBack === "function")
+            this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallBack);
     }
 
     private setMouseOverCallback(): (()=>void)|undefined{

@@ -1,6 +1,6 @@
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 
-interface SelectionInterface {
+export interface SelectionInterface {
     rcsbFvTrackDataElement: RcsbFvTrackDataElementInterface;
     domId: string;
 }
@@ -8,6 +8,11 @@ interface SelectionInterface {
 export class RcsbSelection {
     private selectedElements: Array<SelectionInterface> = new Array<SelectionInterface>();
     private hoverHighlightElements: Array<SelectionInterface> = new Array<SelectionInterface>();
+    private selectionChangeCallback: (selection: Array<SelectionInterface>)=>void;
+
+    public setSelectionChangeCallback(f: (selection: Array<SelectionInterface>)=>void): void{
+        this.selectionChangeCallback = f;
+    }
 
     public getSelected(mode:'select'|'hover'):Array<SelectionInterface>{
         if(mode == null || mode === 'select')
@@ -22,6 +27,9 @@ export class RcsbSelection {
                 this.selectedElements = elements;
             } else {
                 this.selectedElements = [elements];
+            }
+            if(typeof this.selectionChangeCallback === "function"){
+                this.selectionChangeCallback(this.selectedElements);
             }
         }else{
             if (elements instanceof Array) {
@@ -39,6 +47,9 @@ export class RcsbSelection {
                 this.selectedElements = this.selectedElements.concat(elements);
             } else {
                 this.selectedElements.push(elements);
+            }
+            if(typeof this.selectionChangeCallback === "function"){
+                this.selectionChangeCallback(this.selectedElements);
             }
         }else {
             if (elements instanceof Array) {

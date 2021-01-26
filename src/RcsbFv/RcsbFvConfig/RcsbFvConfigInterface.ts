@@ -6,7 +6,7 @@ import {
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
 import * as React from "react";
-import {SelectionInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {SelectionInterface} from "../../RcsbBoard/RcsbSelection";
 
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
@@ -31,6 +31,8 @@ export interface RcsbFvBoardConfigInterface {
     elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
     /**Function that will be called when mouse-leaving a track annotation*/
     elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    /**Function that will be called when selection changes*/
+    selectionChangeCallBack?:(selection: Array<SelectionInterface>)=>void;
     /**Feature cells border color*/
     borderColor?: string;
     /**Hide PFV tracks main frame border glow*/

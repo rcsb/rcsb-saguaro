@@ -44,7 +44,7 @@ export class RcsbBoard {
     private _bgColor: string = "#FFFFFF";
     private _innerPadding: number = 10;
     private tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
-    onHighLightCallBack:(d?:RcsbFvTrackDataElementInterface) => void;
+    elementClickCallBack:(d?:RcsbFvTrackDataElementInterface) => void;
     private highlightHoverElementFlag: boolean = false;
 
     private readonly _xScale: ScaleLinear<number,number> = scaleLinear();
@@ -125,9 +125,9 @@ export class RcsbBoard {
                 RcsbD3EventDispatcher.boardMousedown(this);
             },
             dblClick:()=>{
-                this.highlightRegion(null,'select', false);
-                if(typeof this.onHighLightCallBack === "function")
-                    this.onHighLightCallBack();
+                this.highlightRegion(null, 'select','select', false);
+                if(typeof this.elementClickCallBack === "function")
+                    this.elementClickCallBack();
             }
         };
         this.d3Manager.addMainG(innerConfig);
@@ -140,15 +140,15 @@ export class RcsbBoard {
         this.d3Manager.addPane(paneConfig);
     }
 
-    public setHighLightCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void){
-       this.onHighLightCallBack = f;
+    public setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void){
+       this.elementClickCallBack = f;
     }
 
     public setHighlightHoverPosition(){
         this.mousemoveCallBack.push((n:number)=>{
             if(this.contextManager.getCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT))
                 return;
-            this.highlightRegion({begin:n,nonSpecific:true},'hover')
+            this.highlightRegion({begin:n,nonSpecific:true},'select','hover')
         });
     }
 
@@ -177,14 +177,18 @@ export class RcsbBoard {
 
     public setSelection(boardId: string, mode:'select'|'hover'): void{
         if(this.domId != boardId)
-            this.highlightRegion(null,mode, true);
+            this.highlightRegion(null, 'select', mode, true);
     }
 
-    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, mode:'select'|'hover', propFlag?: boolean): void{
-        if(d!=null)
-            this.selection.setSelected({rcsbFvTrackDataElement:d,domId:this.domId}, mode);
-        else if(propFlag === false)
+    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, operation: 'select'|'add', mode:'select'|'hover', propFlag?: boolean): void{
+        if(d!=null) {
+            if(operation === 'select')
+                this.selection.setSelected({rcsbFvTrackDataElement: d, domId: this.domId}, mode);
+            else if(operation === 'add')
+                this.selection.addSelected({rcsbFvTrackDataElement: d, domId: this.domId}, mode)
+        } else if(propFlag === false) {
             this.selection.clearSelection(mode);
+        }
 
         if(propFlag!=true) {
             this.triggerSelectionEvent({
@@ -276,10 +280,10 @@ export class RcsbBoard {
         t.setHighlightHoverElement(
             (d: RcsbFvTrackDataElementInterface)=>{
                 this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, true);
-                this.highlightRegion(d,'hover');
+                this.highlightRegion(d,'select', 'hover');
             },
             (d:RcsbFvTrackDataElementInterface)=>{
-                this.highlightRegion(null, 'hover', false);
+                this.highlightRegion(null, 'select', 'hover', false);
                 this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, false);
             }
         );
@@ -367,16 +371,17 @@ export class RcsbBoard {
         let newDomain:number[] = transform.rescaleX(this._xScale).domain();
         let length: number = newDomain[1] - newDomain[0];
 
-        if(length < this.limits.minZoom){
+        if( length < this.limits.minZoom ){
             this.d3Manager.zoomG().call(this.zoomEventHandler.transform, zoomIdentity);
             return;
         }
 
-        if(newDomain[0] < this.limits.min){
-            newDomain[0] = this.limits.min;
-        }
-        if(newDomain[1] > this.limits.max){
-            newDomain[1] = this.limits.max;
+        if(length > this.limits.maxZoom){
+            newDomain = [this.limits.min, this.limits.max]
+        }else if(newDomain[0] < this.limits.min){
+            newDomain = [this.limits.min, this.limits.min+length];
+        }else if(newDomain[1] > this.limits.max){
+            newDomain = [this.limits.max-length, this.limits.max];
         }
 
         this._xScale.domain(newDomain);
@@ -416,6 +421,10 @@ export class RcsbBoard {
         if(domId != this.domId){
             this.updateAndMove();
         }
+    }
+
+    public getSelection(): RcsbSelection {
+        return this.selection;
     }
 
     private triggerScaleEvent(geoTrans: RcsbFvContextManagerInterface){

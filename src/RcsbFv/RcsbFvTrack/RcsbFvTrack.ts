@@ -112,7 +112,7 @@ export class RcsbFvTrack {
     /**Sets parameters for the SVG/HTML level object manager*/
     private initRcsbBoard(): void{
         if(typeof this.rcsbFvConfig.elementClickCallBack === "function")
-            this.rcsbBoard.setHighLightCallBack(this.rcsbFvConfig.elementClickCallBack);
+            this.rcsbBoard.setElementClickCallBack(this.rcsbFvConfig.elementClickCallBack);
 
         if(this.rcsbFvConfig.highlightHoverPosition === true) {
             this.rcsbBoard.setHighlightHoverPosition();

@@ -7,8 +7,11 @@ export class RcsbD3EventDispatcher {
 
     static selectionBegin: number;
 
-    static elementClick(callback:(d:RcsbFvTrackDataElementInterface, mode:'select'|'hover', f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
-        callback(d, 'select', false);
+    static elementClick(callback:(d:RcsbFvTrackDataElementInterface, operation:'select'|'add', mode:'select'|'hover', f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
+        if(event.shiftKey)
+            callback(d, 'add', 'select', false);
+        else
+            callback(d, 'select', 'select', false);
     }
 
     static boardMousedown(board: RcsbBoard){
@@ -36,7 +39,7 @@ export class RcsbD3EventDispatcher {
                 _end = aux;
             }
             const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end};
-            board.highlightRegion(region, 'select', false);
+            board.highlightRegion(region, 'select', 'select', false);
             return region;
         }else{
             throw "Board main G element not found";
@@ -45,12 +48,11 @@ export class RcsbD3EventDispatcher {
 
     static boardMouseup(board: RcsbBoard){
         if(event.which === 3){
-            board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, function(){
-            });
+            board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, null);
             const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(board);
-            if(typeof board.onHighLightCallBack === "function"){
+            if(typeof board.elementClickCallBack === "function"){
                 region.nonSpecific = true;
-                board.onHighLightCallBack(region);
+                board.elementClickCallBack(region);
             }
         }
     }
