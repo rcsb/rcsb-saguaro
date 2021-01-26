@@ -63,6 +63,9 @@ export class RcsbSelection {
     public clearSelection(mode:'select'|'hover'):void {
         if(mode == null || mode === 'select') {
             this.selectedElements = new Array<SelectionInterface>();
+            if(typeof this.selectionChangeCallback === "function"){
+                this.selectionChangeCallback(this.selectedElements);
+            }
         }else{
             this.hoverHighlightElements = new Array<SelectionInterface>();
         }
