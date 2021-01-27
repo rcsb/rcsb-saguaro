@@ -475,13 +475,14 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * */
     private setSelection(newSelection: SetSelectionInterface): void {
         if(newSelection?.elements != null){
-            const list: Array<{begin:number; end?:number;}> = newSelection.elements instanceof Array ? newSelection.elements : [newSelection.elements];
+            const list: Array<{begin:number; end?:number; isEmpty?:boolean;}> = newSelection.elements instanceof Array ? newSelection.elements : [newSelection.elements];
             this.selection.setSelected(list.map((x) => {
                     return {
                         domId: this.boardId,
                         rcsbFvTrackDataElement: {
                             begin: x.begin,
                             end: x.end,
+                            isEmpty: x.isEmpty,
                             nonSpecific: true
                         }
                     };

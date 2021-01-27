@@ -79,7 +79,7 @@ export interface DomainViewInterface {
 }
 
 export interface SetSelectionInterface {
-    elements: Array<{begin:number; end?:number;}>|{begin:number; end?:number;}|null;
+    elements: Array<{begin:number; end?:number; isEmpty?:boolean;}>|{begin:number; end?:number; isEmpty?:boolean;}|null;
     mode:'select'|'hover';
 }
 
