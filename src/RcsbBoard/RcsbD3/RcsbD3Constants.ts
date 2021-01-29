@@ -52,6 +52,6 @@ export class RcsbD3Constants{
 }
 
 export enum MOUSE {
-    LEFT = 3,
-    RIGHT = 1
+    LEFT = 0,
+    RIGHT = 2
 }

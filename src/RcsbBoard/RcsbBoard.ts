@@ -113,21 +113,33 @@ export class RcsbBoard {
             masterClass: classes.rcsbMasterG,
             innerClass: classes.rcsbInnerG,
             mouseUp:()=>{
-                if(event.which === MOUSE.LEFT) {
-                    event.stopImmediatePropagation();
+                if((event as MouseEvent).button === MOUSE.RIGHT) {
+                    (event as MouseEvent).preventDefault();
+                    (event as MouseEvent).stopImmediatePropagation();
+                    RcsbD3EventDispatcher.boardMouseup(this);
                 }
-                RcsbD3EventDispatcher.boardMouseup(this);
             },
             mouseDown:()=>{
-                if(event.which === MOUSE.LEFT) {
-                    event.stopImmediatePropagation();
+                if((event as MouseEvent).button === MOUSE.RIGHT) {
+                    (event as MouseEvent).preventDefault();
+                    (event as MouseEvent).stopImmediatePropagation();
+                    RcsbD3EventDispatcher.boardMousedown(this);
                 }
-                RcsbD3EventDispatcher.boardMousedown(this);
             },
             dblClick:()=>{
                 this.highlightRegion(null, 'set','select', false);
                 if(typeof this.elementClickCallBack === "function")
                     this.elementClickCallBack();
+            },
+            mouseEnter:()=>{
+                if(RcsbD3EventDispatcher.keepSelectingFlag) {
+                    RcsbD3EventDispatcher.changeTrack(this);
+                }
+            },
+            mouseLeave:()=>{
+                if(RcsbD3EventDispatcher.keepSelectingFlag) {
+                    RcsbD3EventDispatcher.leavingTrack(this);
+                }
             }
         };
         this.d3Manager.addMainG(innerConfig);

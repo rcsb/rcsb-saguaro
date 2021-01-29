@@ -26,6 +26,8 @@ export interface MainGConfInterface  {
     dblClick: () => void;
     mouseDown: () => void;
     mouseUp: () => void;
+    mouseEnter: () => void;
+    mouseLeave: () => void;
 }
 
 export interface PaneConfInterface {
@@ -122,7 +124,9 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.CLASS, config.innerClass)
             .on(RcsbD3Constants.DBL_CLICK, config.dblClick)
             .on(RcsbD3Constants.MOUSE_DOWN, config.mouseDown)
-            .on(RcsbD3Constants.MOUSE_UP, config.mouseUp);
+            .on(RcsbD3Constants.MOUSE_UP, config.mouseUp)
+            .on(RcsbD3Constants.MOUSE_ENTER, config.mouseEnter)
+            .on(RcsbD3Constants.MOUSE_LEAVE, config.mouseLeave);
     }
 
     addPane(config: PaneConfInterface): void {

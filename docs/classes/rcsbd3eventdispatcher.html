@@ -81,7 +81,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="rcsbd3eventdispatcher.html#selectionbegin" class="tsd-kind-icon">selection<wbr>Begin</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="rcsbd3eventdispatcher.html#changetrackflag" class="tsd-kind-icon">change<wbr>Track<wbr>Flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="rcsbd3eventdispatcher.html#keepselectingflag" class="tsd-kind-icon">keep<wbr>Selecting<wbr>Flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="rcsbd3eventdispatcher.html#operation" class="tsd-kind-icon">operation</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="rcsbd3eventdispatcher.html#selectionbegin" class="tsd-kind-icon">selection<wbr>Begin</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="rcsbd3eventdispatcher.html#selectionend" class="tsd-kind-icon">selection<wbr>End</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -90,7 +94,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="rcsbd3eventdispatcher.html#boardmousedown" class="tsd-kind-icon">board<wbr>Mousedown</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="rcsbd3eventdispatcher.html#boardmousemove" class="tsd-kind-icon">board<wbr>Mousemove</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="rcsbd3eventdispatcher.html#boardmouseup" class="tsd-kind-icon">board<wbr>Mouseup</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="rcsbd3eventdispatcher.html#changetrack" class="tsd-kind-icon">change<wbr>Track</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="rcsbd3eventdispatcher.html#elementclick" class="tsd-kind-icon">element<wbr>Click</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="rcsbd3eventdispatcher.html#leavingtrack" class="tsd-kind-icon">leaving<wbr>Track</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,13 +104,53 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="changetrackflag" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> change<wbr>Track<wbr>Flag</h3>
+					<div class="tsd-signature tsd-kind-icon">change<wbr>Track<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L11">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="keepselectingflag" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> keep<wbr>Selecting<wbr>Flag</h3>
+					<div class="tsd-signature tsd-kind-icon">keep<wbr>Selecting<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L10">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="operation" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> operation</h3>
+					<div class="tsd-signature tsd-kind-icon">operation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"add"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"set"</span><span class="tsd-signature-symbol"> = &quot;set&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L12">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 					<a name="selectionbegin" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> selection<wbr>Begin</h3>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> selection<wbr>Begin</h3>
 					<div class="tsd-signature tsd-kind-icon">selection<wbr>Begin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/6018eae/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L8">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L8">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="selectionend" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> selection<wbr>End</h3>
+					<div class="tsd-signature tsd-kind-icon">selection<wbr>End<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L9">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/6018eae/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L17">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L21">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -144,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/6018eae/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L30">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L34">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -167,7 +213,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/6018eae/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L49">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L54">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:54</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>board: <a href="rcsbboard.html" class="tsd-signature-type">RcsbBoard</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="changetrack" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> change<wbr>Track</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Track<span class="tsd-signature-symbol">(</span>board<span class="tsd-signature-symbol">: </span><a href="rcsbboard.html" class="tsd-signature-type">RcsbBoard</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L89">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -184,23 +253,23 @@
 					<a name="elementclick" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> element<wbr>Click</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">element<wbr>Click<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">element<wbr>Click<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"set"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/6018eae/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L10">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L14">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<h5>callback: <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"set"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"set"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
@@ -210,7 +279,7 @@
 															<h5>d: <a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a></h5>
 														</li>
 														<li>
-															<h5>operation: <span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span></h5>
+															<h5>operation: <span class="tsd-signature-type">"set"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span></h5>
 														</li>
 														<li>
 															<h5>mode: <span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span></h5>
@@ -227,6 +296,29 @@
 								</li>
 								<li>
 									<h5>d: <a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="leavingtrack" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> leaving<wbr>Track</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">leaving<wbr>Track<span class="tsd-signature-symbol">(</span>board<span class="tsd-signature-symbol">: </span><a href="rcsbboard.html" class="tsd-signature-type">RcsbBoard</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/38805fe/src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts#L66">src/RcsbBoard/RcsbD3/RcsbD3EventDispatcher.ts:66</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>board: <a href="rcsbboard.html" class="tsd-signature-type">RcsbBoard</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -250,8 +342,20 @@
 					<li class="current tsd-kind-class">
 						<a href="rcsbd3eventdispatcher.html" class="tsd-kind-icon">Rcsb<wbr>D3Event<wbr>Dispatcher</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="rcsbd3eventdispatcher.html#changetrackflag" class="tsd-kind-icon">change<wbr>Track<wbr>Flag</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="rcsbd3eventdispatcher.html#keepselectingflag" class="tsd-kind-icon">keep<wbr>Selecting<wbr>Flag</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="rcsbd3eventdispatcher.html#operation" class="tsd-kind-icon">operation</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="rcsbd3eventdispatcher.html#selectionbegin" class="tsd-kind-icon">selection<wbr>Begin</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="rcsbd3eventdispatcher.html#selectionend" class="tsd-kind-icon">selection<wbr>End</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="rcsbd3eventdispatcher.html#boardmousedown" class="tsd-kind-icon">board<wbr>Mousedown</a>
@@ -263,7 +367,13 @@
 								<a href="rcsbd3eventdispatcher.html#boardmouseup" class="tsd-kind-icon">board<wbr>Mouseup</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="rcsbd3eventdispatcher.html#changetrack" class="tsd-kind-icon">change<wbr>Track</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="rcsbd3eventdispatcher.html#elementclick" class="tsd-kind-icon">element<wbr>Click</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="rcsbd3eventdispatcher.html#leavingtrack" class="tsd-kind-icon">leaving<wbr>Track</a>
 							</li>
 						</ul>
 					</li>
