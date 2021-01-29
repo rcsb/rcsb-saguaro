@@ -125,7 +125,7 @@ export class RcsbBoard {
                 RcsbD3EventDispatcher.boardMousedown(this);
             },
             dblClick:()=>{
-                this.highlightRegion(null, 'select','select', false);
+                this.highlightRegion(null, 'set','select', false);
                 if(typeof this.elementClickCallBack === "function")
                     this.elementClickCallBack();
             }
@@ -148,7 +148,7 @@ export class RcsbBoard {
         this.mousemoveCallBack.push((n:number)=>{
             if(this.contextManager.getCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT))
                 return;
-            this.highlightRegion({begin:n,nonSpecific:true},'select','hover')
+            this.highlightRegion({begin:n,nonSpecific:true},'set','hover')
         });
     }
 
@@ -177,12 +177,12 @@ export class RcsbBoard {
 
     public setSelection(boardId: string, mode:'select'|'hover'): void{
         if(this.domId != boardId)
-            this.highlightRegion(null, 'select', mode, true);
+            this.highlightRegion(null, 'set', mode, true);
     }
 
-    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, operation: 'select'|'add', mode:'select'|'hover', propFlag?: boolean): void{
+    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, operation: 'set'|'add', mode:'select'|'hover', propFlag?: boolean): void{
         if(d!=null) {
-            if(operation === 'select')
+            if(operation === 'set')
                 this.selection.setSelected({rcsbFvTrackDataElement: d, domId: this.domId}, mode);
             else if(operation === 'add')
                 this.selection.addSelected({rcsbFvTrackDataElement: d, domId: this.domId}, mode)
@@ -280,10 +280,10 @@ export class RcsbBoard {
         t.setHighlightHoverElement(
             (d: RcsbFvTrackDataElementInterface)=>{
                 this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, true);
-                this.highlightRegion(d,'select', 'hover');
+                this.highlightRegion(d,'set', 'hover');
             },
             (d:RcsbFvTrackDataElementInterface)=>{
-                this.highlightRegion(null, 'select', 'hover', false);
+                this.highlightRegion(null, 'set', 'hover', false);
                 this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, false);
             }
         );

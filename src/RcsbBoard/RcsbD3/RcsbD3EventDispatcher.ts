@@ -7,11 +7,11 @@ export class RcsbD3EventDispatcher {
 
     static selectionBegin: number;
 
-    static elementClick(callback:(d:RcsbFvTrackDataElementInterface, operation:'select'|'add', mode:'select'|'hover', f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
+    static elementClick(callback:(d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
         if(event.shiftKey)
             callback(d, 'add', 'select', false);
         else
-            callback(d, 'select', 'select', false);
+            callback(d, 'set', 'select', false);
     }
 
     static boardMousedown(board: RcsbBoard){
@@ -39,7 +39,7 @@ export class RcsbD3EventDispatcher {
                 _end = aux;
             }
             const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end};
-            board.highlightRegion(region, 'select', 'select', false);
+            board.highlightRegion(region, 'set', 'select', false);
             return region;
         }else{
             throw "Board main G element not found";

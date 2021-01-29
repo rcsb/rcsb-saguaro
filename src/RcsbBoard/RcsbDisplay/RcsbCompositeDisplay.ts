@@ -103,7 +103,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, operation:'select'|'add', mode:'select'|'hover', propFlag?: boolean) => void){
+    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void){
         this.innerDisplays.forEach(de=>{
             de.display.setBoardHighlight(f);
         });

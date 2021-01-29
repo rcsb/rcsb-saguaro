@@ -24,7 +24,7 @@ export abstract class RcsbAbstractTrack {
     private _data: RcsbFvTrackData;
     xScale: ScaleLinear<number,number> = scaleLinear();
     g: Selection<SVGGElement,any,null,undefined>;
-    private boardHighlight: (d: RcsbFvTrackDataElementInterface, operation: 'select'|'add', mode:'select'|'hover', propFlag?: boolean) => void;
+    private boardHighlight: (d: RcsbFvTrackDataElementInterface, operation: 'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
     mousemoveCallBack: (n:number)=>void;
@@ -92,11 +92,11 @@ export abstract class RcsbAbstractTrack {
         return this._data;
     }
 
-    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, operation:'select'|'add', mode:'select'|'hover', propFlag?: boolean) => void){
+    setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void){
         this.boardHighlight = f;
     }
 
-    getBoardHighlight(): (d:RcsbFvTrackDataElementInterface, operation:'select'|'add', mode:'select'|'hover', propFlag?: boolean) => void {
+    getBoardHighlight(): (d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void {
         return this.boardHighlight;
     }
 
