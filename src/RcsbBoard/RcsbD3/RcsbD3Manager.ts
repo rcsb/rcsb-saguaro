@@ -99,6 +99,9 @@ export class RcsbD3Manager {
             .on(RcsbD3Constants.CONTEXT_MENU, ()=>{
                 event.preventDefault();
             })
+            .on(RcsbD3Constants.MOUSE_WHEEL, ()=>{
+                event.preventDefault();
+            })
             .on(RcsbD3Constants.MOUSE_ENTER,()=>{
                 config.mouseoverCallBack.forEach(f=>{
                     f();

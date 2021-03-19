@@ -36,8 +36,8 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div style={style}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.setTitle()}</div></div>
-                    <div style={{height:height}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.configData.rowPrefix}</div></div>
+                    <div style={{...style, float:"right", display:"inline-block"}}><div className={classes.rcsbFvRowTitleText} style={{lineHeight:height+"px"}}>{this.setTitle()}</div></div>
+                    <div style={{height:height, float:"right", display:"inline-block"}}><div className={classes.rcsbFvRowTitleText}  style={{lineHeight:height+"px"}}>{this.configData.rowPrefix}</div></div>
                 </div>
             );
         }else if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0){
@@ -47,7 +47,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div style={{paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.configData.rowPrefix+" "}{this.setTitle()}</div></div>
+                    <div className={classes.rcsbFvRowTitleText} style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}>{this.configData.rowPrefix+" "}{this.setTitle()}</div>
                 </div>
             );
         }else {
@@ -57,7 +57,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, {}
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div style={{paddingRight:this.PADDING_RIGHT}}><div style={{lineHeight:height+"px", whiteSpace:"nowrap"}}>{this.setTitle()}</div></div>
+                    <div className={classes.rcsbFvRowTitleText} style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}>{this.setTitle()}</div>
                 </div>
             );
         }

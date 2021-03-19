@@ -4,6 +4,7 @@ export class RcsbD3Constants{
     public static readonly WIDTH: string = 'width';
     public static readonly HEIGHT: string = 'height';
     public static readonly CONTEXT_MENU: string = 'contextmenu';
+    public static readonly MOUSE_WHEEL: string = 'mousewheel';
     public static readonly POINTER_EVENTS: string = 'pointer-events';
     public static readonly DBL_CLICK: string = 'dblclick';
     public static readonly MOUSE_DOWN: string = 'mousedown';

@@ -20,15 +20,13 @@ div.rcsbFvBoard *{
     border-bottom: $border-rcsbFvRowTrack solid;
 }
 
-.rcsbFvRowTitle div{
+.rcsbFvRowTitleText {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
     text-align: right;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    display: inline-block;
-    float: right;
 }
 
 .rcsbFvRowTrack{
