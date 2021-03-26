@@ -1,5 +1,5 @@
 import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
-import {Selection, BaseType, mouse} from "d3-selection";
+import {Selection, BaseType, mouse, event, ContainerElement} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
     MoveLineInterface,
@@ -34,6 +34,16 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
 
     mouseoutCallBack: ()=>void = ()=>{
         this.tooltipManager.hideTooltip();
+    };
+
+    protected clickCallBack: ()=>void = ()=>{
+        const svgNode:ContainerElement | null  = this.g.node();
+        if(svgNode != null) {
+            const x = mouse(svgNode)[0];
+            const position = Math.round(this.xScale.invert(x));
+            const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
+            this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);
+        }
     };
 
     setInterpolationType(type: string): void{

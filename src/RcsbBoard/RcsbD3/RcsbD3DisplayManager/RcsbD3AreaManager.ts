@@ -2,6 +2,7 @@ import {Selection} from "d3-selection";
 import {Area} from "d3-shape";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
+import * as classes from "../../scss/RcsbBoard.module.scss";
 
 export interface ClearAreaInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
@@ -13,6 +14,7 @@ export interface PlotAreaInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
     area:Area<RcsbFvTrackDataElementInterface>;
     id:string;
+    clickCallBack: ()=>void;
 }
 
 export interface MoveAreaInterface {
@@ -37,7 +39,11 @@ export class RcsbD3AreaManager {
             .style(RcsbD3Constants.STROKE, config.color)
             .style(RcsbD3Constants.STROKE_WIDTH, 0.5)
             .style(RcsbD3Constants.FILL_OPACITY,"0.25")
-            .style(RcsbD3Constants.FILL, config.color);
+            .style(RcsbD3Constants.FILL, config.color)
+            .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
+            .on(RcsbD3Constants.CLICK, ()=>{
+                config.clickCallBack();
+            });
     }
 
     static move(config:MoveAreaInterface){

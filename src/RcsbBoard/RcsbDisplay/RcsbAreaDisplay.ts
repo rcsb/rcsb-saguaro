@@ -70,7 +70,8 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
                 color: e.color,
                 trackG: this.g,
                 area: this.area,
-                id:this.SUFFIX_ID+index
+                id:this.SUFFIX_ID+index,
+                clickCallBack:this.clickCallBack
             };
             RcsbD3AreaManager.plot(config);
         });
