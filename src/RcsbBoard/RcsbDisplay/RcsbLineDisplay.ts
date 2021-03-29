@@ -43,6 +43,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             const position = Math.round(this.xScale.invert(x));
             const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
             this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);
+            if(typeof this.getElementClickCallBack() === "function") this.getElementClickCallBack()(region);
         }
     };
 

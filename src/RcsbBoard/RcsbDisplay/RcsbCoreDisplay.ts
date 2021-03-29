@@ -43,6 +43,10 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         this.elementClickCallBack = f;
     }
 
+    getElementClickCallBack(): (d?:RcsbFvTrackDataElementInterface)=>void{
+        return this.elementClickCallBack;
+    }
+
     setElementEnterCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
         this.elementEnterCallBack = f;
     }
