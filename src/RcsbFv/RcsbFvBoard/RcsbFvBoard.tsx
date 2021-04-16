@@ -102,7 +102,16 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                             this.rcsbFvRowArrayIds.push(rowId);
                             const rowConfigData = this.configRow(rowId,rowData);
                             this.rowBoardReadyStatus.set(rowId,false);
-                            return (<RcsbFvRow key={rowId} id={rowId} rowNumber={n+rowIndexShift} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>);
+                            return (<RcsbFvRow
+                                key={rowId}
+                                id={rowId}
+                                rowNumber={n+rowIndexShift}
+                                rowConfigData={rowConfigData}
+                                xScale={this.xScale}
+                                selection={this.selection}
+                                contextManager={this.props.contextManager}
+                                firstOrLastRow={ n==0 || n == (this.state.rowConfigData.length-1)}
+                            />);
                         })
                     }
                 </div>
@@ -320,13 +329,13 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 const glowDiv: HTMLElement | null = document.getElementById(this.boardId + RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
                 if (glowDiv != null) {
                     const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
-                    glowDiv.style.top = "-" + (height - 1) + "px";
-                    const trackWidth: number = this.state.boardConfigData.trackWidth ?? 0;
+                    const trackWidth: number = (this.state.boardConfigData.trackWidth ?? 0) + 2*RcsbFvDefaultConfigValues.trackMarginWidth;
                     const titleWidth: number = mainDivSize.width - trackWidth;
-                    glowDiv.style.marginLeft = titleWidth + "px";
-                    innerGlowDiv.style.height = (height + 1) + "px";
-                    innerGlowDiv.style.width = (trackWidth+2) + "px";
+                    glowDiv.style.top = "-" + height + "px";
+                    glowDiv.style.marginLeft = titleWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace + "px";
                     glowDiv.className = classes.rcsbGlow;
+                    innerGlowDiv.style.height = (height) + "px";
+                    innerGlowDiv.style.width = trackWidth + "px";
                 }
             }
             this.displayUI();
@@ -366,8 +375,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             const glowDiv: HTMLElement | null = document.getElementById(this.boardId + RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
             if (glowDiv != null) {
                 const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
-                glowDiv.style.top = "-" + (height - 1) + "px";
-                innerGlowDiv.style.height = (height + 1) + "px";
+                glowDiv.style.top = "-" + height+ "px";
+                innerGlowDiv.style.height = height + "px";
             }
         }
     }
@@ -429,6 +438,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 this.boardReady(obj.eventData as string);
             }else if(obj.eventType===EventType.SET_SELECTION){
                 this.setSelection(obj.eventData as SetSelectionInterface);
+            }else if(obj.eventType===EventType.ADD_SELECTION){
+                this.addSelection(obj.eventData as SetSelectionInterface);
             }
         });
     }
@@ -493,6 +504,29 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             this.selection.clearSelection(newSelection?.mode);
         }
         this.select(newSelection?.mode ?? 'select');
+    }
+
+    /**Add elements to selection object
+     * @param newSelection new selection elements to be added
+     * */
+    private addSelection(newSelection: SetSelectionInterface): void {
+        if(newSelection?.elements != null){
+            const list: Array<{begin:number; end?:number; isEmpty?:boolean;}> = newSelection.elements instanceof Array ? newSelection.elements : [newSelection.elements];
+            this.selection.addSelected(list.map((x) => {
+                    return {
+                        domId: this.boardId,
+                        rcsbFvTrackDataElement: {
+                            begin: x.begin,
+                            end: x.end,
+                            isEmpty: x.isEmpty,
+                            nonSpecific: true
+                        }
+                    };
+                }),
+                newSelection.mode
+            );
+            this.select(newSelection?.mode ?? 'select');
+        }
     }
 
     /**Force current selection in all tracks.*/

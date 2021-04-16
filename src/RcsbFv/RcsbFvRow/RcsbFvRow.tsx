@@ -23,6 +23,7 @@ interface RcsbFvRowInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: ScaleLinear<number,number>;
     readonly selection: RcsbSelection;
+    readonly firstOrLastRow?: boolean;
 }
 
 /**Board track React state interface*/
@@ -31,6 +32,7 @@ interface RcsbFvRowState {
     readonly mounted: boolean;
     readonly rowConfigData: RcsbFvRowConfigInterface;
     readonly display: boolean;
+    readonly titleGlow: boolean;
 }
 
 
@@ -41,7 +43,8 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         rowHeight:RcsbFvDefaultConfigValues.trackHeight,
         display: true,
         mounted: false,
-        rowConfigData: this.props.rowConfigData
+        rowConfigData: this.props.rowConfigData,
+        titleGlow:false
     };
 
     /**Subscription to events*/
@@ -52,10 +55,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
     }
 
     render(){
-        let classNames:string = classes.rcsbFvRow;
-        if(this.props.rowConfigData.displayType === RcsbFvDisplayTypes.AXIS){
-            classNames += " "+classes.rcsbFvRowAxis;
-        }
+        const classNames:string = this.props.rowConfigData.displayType === RcsbFvDisplayTypes.AXIS ? classes.rcsbFvRow+" "+classes.rcsbFvRowAxis : classes.rcsbFvRow;
         return (
             <CSSTransition
                 in={this.state.display}
@@ -67,9 +67,20 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 onExited={()=>{
                     this.props.contextManager.next({eventType: EventType.UPDATE_GLOW, eventData:""});
                 }}>
-                <div className={classNames} style={this.configStyle()}>
+                <div onMouseEnter={()=>{this.hoverRow(true)}} onMouseLeave={()=>{this.hoverRow(false)}}
+                     className={classNames+(this.state.titleGlow ? " "+classes.rcsbFvGlowTitle : "")}
+                     style={this.configStyle()}>
                     <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} />
-                    <RcsbFvRowTrack id={this.props.id} rowNumber={this.props.rowNumber} rowTrackConfigData={this.props.rowConfigData} xScale={this.props.xScale} selection={this.props.selection} contextManager={this.props.contextManager} callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}/>
+                    <RcsbFvRowTrack
+                        id={this.props.id}
+                        rowNumber={this.props.rowNumber}
+                        rowTrackConfigData={this.props.rowConfigData}
+                        xScale={this.props.xScale}
+                        selection={this.props.selection}
+                        contextManager={this.props.contextManager}
+                        callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}
+                        firstOrLastRow={this.props.firstOrLastRow}
+                    />
                 </div>
             </CSSTransition>
         );
@@ -85,6 +96,20 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         }
     }
 
+    private hoverRow(flag: boolean): void {
+        this.setState(()=>({titleGlow:flag}));
+        this.props.contextManager.next({
+            eventType: EventType.HOVER_ROW,
+            eventData: this.props.id
+        } as RcsbFvContextManagerInterface)
+    }
+
+    private checkHoveredRow(trackId: string){
+        if(trackId != this.props.id && this.state.titleGlow){
+            this.setState(()=>({titleGlow:false}));
+        }
+    }
+
     /**Subscribe className to rxjs events (adding tracks, change scale, update board config)
      * @return rxjs Subscription object
      * */
@@ -95,6 +120,9 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 if(vis.trackId === this.props.rowConfigData.trackId){
                    this.changeClass(vis.visibility);
                 }
+            }else if(obj.eventType === EventType.HOVER_ROW){
+                const trackId: string = obj.eventData as string;
+                this.checkHoveredRow(trackId);
             }
         });
     }
@@ -118,10 +146,10 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         }
         let trackWidth : number = RcsbFvDefaultConfigValues.trackWidth;
         if(typeof this.props.rowConfigData.trackWidth === "number"){
-            trackWidth = this.props.rowConfigData.trackWidth;
+            trackWidth = this.props.rowConfigData.trackWidth + 2 * RcsbFvDefaultConfigValues.trackMarginWidth;
         }
         return {
-            width: (titleWidth + trackWidth + 2),
+            width: (titleWidth + trackWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace),
             height: this.state.rowHeight,
         };
     }

@@ -2,7 +2,16 @@
 
 [Semantic Versioning](https://semver.org/)
 
-## [1.2.1] - 2021-03-19
+## [1.3.0] - 2021-04-15
+### General
+- Removed board row borders
+- Row hover title marker 
+- Improved row dimension calculation and propagation
+ 
+### Main RcsbFv class
+- New method to add selected regions: <b>addSelection</b>
+
+## [1.2.1] - 2021-03-30
 ### Line/Area Display
 - Track callback method call if defined
 

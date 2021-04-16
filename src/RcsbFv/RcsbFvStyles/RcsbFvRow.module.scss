@@ -10,14 +10,17 @@ div.rcsbFvBoard *{
   float:left;
 }
 
+.rcsbFvGlowTitle:not(.rcsbFvRowAxis) .rcsbFvRowMark > div {
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid #666;
+}
+
 .rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTitle > .rcsbFvRowTitleProvenanceFlag{
     background-color: $color-rcsbFvBorder;
     width: 1px;
-    border-top: $border-rcsbFvRowTrack solid;
-}
-
-.rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTitle > .rcsbFvRowTitleProvenanceFlag {
-    border-bottom: $border-rcsbFvRowTrack solid;
 }
 
 .rcsbFvRowTitleText {
@@ -29,12 +32,14 @@ div.rcsbFvBoard *{
     white-space: nowrap;
 }
 
-.rcsbFvRowTrack{
-    float:right;
+.rcsbFvRowTitleTextExpand {
+    position: absolute;
+    background-color: #FFF;
+    z-index: 10;
 }
 
-.rcsbFvRow{
-    margin-top: $border-rcsbFvRowTrack;
+.rcsbFvRowTrack{
+    float:right;
 }
 
 .rcsbFvRow-enter{
@@ -65,17 +70,16 @@ div.rcsbFvBoard *{
     z-index: -1;
 }
 
-.rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
-    border-left: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
-    border-right: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+.rcsbFvRow:nth-child(2) > .rcsbFvRowTrack div{
     border-top: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
 
-.rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
-    border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+.rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
+    border-left: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
+    border-right: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
 
-.rcsbFvRow:last-child:not(.hideRcsbFvRow) > .rcsbFvRowTrack div{
+.rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
     border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
 }
 
@@ -150,7 +154,7 @@ div.rcsbFvBoard *{
     box-sizing: border-box;
 }
 
-$border-rcsbFvIcon: 2px;
+$border-rcsbFvIcon: 1px;
 $width-rcsbFvUI: 24px;
 $height-rcsbFvUI: 38px;
 

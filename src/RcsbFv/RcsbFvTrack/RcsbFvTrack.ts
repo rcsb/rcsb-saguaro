@@ -35,8 +35,6 @@ export class RcsbFvTrack {
     private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>;
     /**Annotation loaded data flag*/
     private loadedData: boolean;
-    /**Callback function to update row height*/
-    private readonly updateRowHeight: ()=>void;
     /**Event handler subscription*/
     private subscription: Subscription;
     /**Event Handler Manager. This is a common object for all board annotation cells*/
@@ -46,9 +44,8 @@ export class RcsbFvTrack {
     /**Current selection object. This is a common for all board annotation cells*/
     private readonly selection: RcsbSelection;
 
-    public constructor(args:RcsbFvRowConfigInterface, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager, updateRowHeight:()=>void) {
+    public constructor(args:RcsbFvRowConfigInterface, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
         this.contextManager = contextManager;
-        this.updateRowHeight = updateRowHeight;
         this.xScale = xScale;
         this.selection = selection;
         if (typeof args.elementId === "string" && document.getElementById(args.elementId) != null) {

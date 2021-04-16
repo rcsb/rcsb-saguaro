@@ -240,6 +240,16 @@ export class RcsbFv {
         });
     }
 
+    /**Add selection to board
+     * @param selection region/elements
+     **/
+    public addSelection(selection: SetSelectionInterface): void {
+        this.contextManager.next({
+            eventType:EventType.ADD_SELECTION,
+            eventData:selection
+        });
+    }
+
     /**
      * Clear Selection
      **/

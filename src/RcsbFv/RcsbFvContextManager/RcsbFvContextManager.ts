@@ -51,7 +51,9 @@ export enum EventType {
     DOMAIN_VIEW = "domainView",
     UPDATE_GLOW = "updateGlow",
     BOARD_READY = "boardReady",
-    SET_SELECTION = "eventTypeSetSelection"
+    SET_SELECTION = "eventTypeSetSelection",
+    ADD_SELECTION = "eventTypeAddSelection",
+    HOVER_ROW = "hoverRow"
 }
 
 /**Event Data Interface used to update row configuration*/

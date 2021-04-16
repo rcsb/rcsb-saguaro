@@ -16,6 +16,7 @@ interface RcsbFvRowTrackInterface {
     readonly selection: RcsbSelection;
     readonly callbackRcsbFvRow: (height: number)=>void;
     readonly rowNumber: number;
+    readonly firstOrLastRow?: boolean;
 }
 
 /**Board track  annotations cell React component style*/
@@ -26,9 +27,9 @@ interface RcsbFvRowTrackStyleInterface {
 
 /**Board track  annotations cell React component state*/
 interface RcsbFvRowTrackState {
-    rowTrackConfigData: RcsbFvRowConfigInterface;
-    rowTrackHeight: number;
-    mounted: boolean;
+    readonly rowTrackConfigData: RcsbFvRowConfigInterface;
+    readonly rowTrackHeight: number;
+    readonly mounted: boolean;
 }
 
 export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, RcsbFvRowTrackState> {
@@ -41,7 +42,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private readonly  renderTimeout: number = 32;
 
     readonly state : RcsbFvRowTrackState = {
-        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
+        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight + (this.props.firstOrLastRow ? RcsbFvDefaultConfigValues.trackMarginWidth : 0),
         rowTrackConfigData: this.props.rowTrackConfigData,
         mounted: false
     };
@@ -61,7 +62,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
 
     componentDidMount(): void{
         setTimeout(()=>{
-            this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager, this.updateHeight.bind(this));
+            this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager);
             this.updateHeight();
             this.props.contextManager.next({eventType:EventType.BOARD_READY, eventData:this.props.id});
         },this.props.rowNumber*this.renderTimeout);
@@ -77,8 +78,9 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private updateHeight(): void{
         const height: number | null = this.rcsbFvTrack.getTrackHeight();
         if(height != null) {
-            this.setState({rowTrackHeight: height, mounted: true} as RcsbFvRowTrackState);
-            this.props.callbackRcsbFvRow(height);
+            this.setState({rowTrackHeight: height + (this.props.firstOrLastRow ? RcsbFvDefaultConfigValues.trackMarginWidth : 0), mounted: true} as RcsbFvRowTrackState, ()=>{
+                this.props.callbackRcsbFvRow(this.state.rowTrackHeight);
+            });
         }
     }
 
@@ -88,7 +90,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private configStyle() : React.CSSProperties{
         let width : number = RcsbFvDefaultConfigValues.trackWidth;
         if(typeof this.configData.trackWidth === "number"){
-            width = this.configData.trackWidth;
+            width = this.configData.trackWidth + 2*RcsbFvDefaultConfigValues.trackMarginWidth;
         }
         return {
             width: width,
