@@ -87,7 +87,18 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             const rowData:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:"axisId_"+Math.random().toString(36).substr(2), boardId:this.boardId};
             const rowConfigData: RcsbFvRowConfigInterface = this.configRow(rowId,rowData);
             this.rowBoardReadyStatus.set(rowId,false);
-            rcsbFvRowAxis = <RcsbFvRow key={rowId} id={rowId} rowNumber={0} rowConfigData={rowConfigData} xScale={this.xScale} selection={this.selection} contextManager={this.props.contextManager}/>;
+            rcsbFvRowAxis = <RcsbFvRow
+                key={rowId}
+                id={rowId}
+                rowNumber={0}
+                rowConfigData={rowConfigData}
+                xScale={this.xScale}
+                selection={this.selection}
+                contextManager={this.props.contextManager}
+                firstRow={false}
+                lastRow={false}
+                addBorderBottom={false}
+            />;
             rowIndexShift = 1;
         }
         return (
@@ -110,7 +121,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                                 xScale={this.xScale}
                                 selection={this.selection}
                                 contextManager={this.props.contextManager}
-                                firstOrLastRow={ n==0 || n == (this.state.rowConfigData.length-1)}
+                                firstRow={ n==0 }
+                                lastRow={ n == (this.state.rowConfigData.length-1) }
+                                addBorderBottom={!(this.state.boardConfigData.hideInnerBorder ?? RcsbFvDefaultConfigValues.hideInnerBorder)}
                             />);
                         })
                     }
@@ -141,7 +154,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
 
         return {
-            width: (titleWidth+trackWidth+2)
+            width: (titleWidth+trackWidth+(this.state.boardConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth)*2+RcsbFvDefaultConfigValues.titleAndTrackSpace)
         };
     }
 
@@ -175,17 +188,20 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(typeof this.state.boardConfigData.elementLeaveCallBack === "function"){
             out.elementLeaveCallBack = this.state.boardConfigData.elementLeaveCallBack;
         }
-        if(typeof this.state.boardConfigData.borderColor === "string"){
-            out.borderColor = this.state.boardConfigData.borderColor;
-        }
         if(typeof this.state.boardConfigData.highlightHoverPosition === "boolean"){
             out.highlightHoverPosition = this.state.boardConfigData.highlightHoverPosition;
         }
         if(typeof this.state.boardConfigData.highlightHoverElement === "boolean"){
             out.highlightHoverElement = this.state.boardConfigData.highlightHoverElement;
         }
-        if(typeof this.state.boardConfigData.highlightHoverCallback === "function"){
+        if(typeof this.state.boardConfigData.highlightHoverCallback === "function") {
             out.highlightHoverCallback = this.state.boardConfigData.highlightHoverCallback;
+        }
+        if(typeof this.state.boardConfigData.borderWidth === "number"){
+            out.borderWidth = this.state.boardConfigData.borderWidth;
+        }
+        if(typeof this.state.boardConfigData.borderColor === "string"){
+            out.borderColor = this.state.boardConfigData.borderColor;
         }
         return out;
     }
@@ -329,8 +345,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 const glowDiv: HTMLElement | null = document.getElementById(this.boardId + RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
                 if (glowDiv != null) {
                     const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
-                    const trackWidth: number = (this.state.boardConfigData.trackWidth ?? 0) + 2*RcsbFvDefaultConfigValues.trackMarginWidth;
-                    const titleWidth: number = mainDivSize.width - trackWidth;
+                    const trackWidth: number = (this.state.boardConfigData.trackWidth ?? 0) + 2*(this.state.boardConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth);
+                    const titleWidth: number = (this.state.boardConfigData.rowTitleWidth ?? RcsbFvDefaultConfigValues.rowTitleWidth);
                     glowDiv.style.top = "-" + height + "px";
                     glowDiv.style.marginLeft = titleWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace + "px";
                     glowDiv.className = classes.rcsbGlow;

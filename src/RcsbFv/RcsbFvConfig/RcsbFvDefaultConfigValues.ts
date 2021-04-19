@@ -11,7 +11,9 @@ interface RcsbFvDefaultConfigValuesInterface  {
     readonly interpolationType: string;
     readonly rowHideTransitionTimeout: number;
     readonly titleAndTrackSpace: number;
-    readonly trackMarginWidth: number;
+    readonly borderWidth: number;
+    readonly borderColor: string;
+    readonly hideInnerBorder: boolean;
 }
 
 /**Default board configuration values*/
@@ -27,7 +29,9 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     interpolationType: InterpolationTypes.STEP,
     rowHideTransitionTimeout: 500,
     titleAndTrackSpace: 2,
-    trackMarginWidth: 1
+    borderWidth: 1,
+    borderColor: "#CCC",
+    hideInnerBorder: true
 };
 
 /**Interpolation types for line and area displays*/

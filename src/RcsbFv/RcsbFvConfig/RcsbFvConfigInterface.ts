@@ -35,6 +35,10 @@ export interface RcsbFvBoardConfigInterface {
     selectionChangeCallBack?:(selection: Array<SelectionInterface>)=>void;
     /**Feature cells border color*/
     borderColor?: string;
+    /**Feature cells border width*/
+    borderWidth?: number;
+    /**Hide all row bottom border except for the last one*/
+    hideInnerBorder?:boolean;
     /**Hide PFV tracks main frame border glow*/
     hideTrackFrameGlow?: boolean;
     /**Set highlight hover position*/
@@ -135,6 +139,8 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     trackVisibility?:boolean;
     /**Sequence feature cell Border color*/
     borderColor?:string;
+    /**Feature cell border width*/
+    borderWidth?: number;
     /**Set highlight hover position*/
     highlightHoverPosition?:boolean;
     /**Set highlight hover track elements*/

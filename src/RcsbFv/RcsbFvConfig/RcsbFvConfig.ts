@@ -6,7 +6,6 @@ import {
     RcsbFvTrackDataElementInterface, RcsbFvColorGradient
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
-import {SelectionInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 
 /**Board track configuration manager className*/
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{

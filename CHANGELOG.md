@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.4.0] - 2021-04-19
+### General
+- Configurable board borders
+
 ## [1.3.0] - 2021-04-15
 ### General
 - Removed board row borders

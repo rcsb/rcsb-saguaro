@@ -88,10 +88,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#addborderbottom" class="tsd-kind-icon">add<wbr>Border<wbr>Bottom</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#callbackrcsbfvrow" class="tsd-kind-icon">callback<wbr>Rcsb<wbr>FvRow</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#contextmanager" class="tsd-kind-icon">context<wbr>Manager</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#firstorlastrow" class="tsd-kind-icon">first<wbr>OrLast<wbr>Row</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#firstrow" class="tsd-kind-icon">first<wbr>Row</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#lastrow" class="tsd-kind-icon">last<wbr>Row</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#rownumber" class="tsd-kind-icon">row<wbr>Number</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#rowtrackconfigdata" class="tsd-kind-icon">row<wbr>Track<wbr>Config<wbr>Data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rcsbfvrowtrackinterface.html#selection" class="tsd-kind-icon">selection</a></li>
@@ -104,12 +106,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="addborderbottom" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> add<wbr>Border<wbr>Bottom</h3>
+					<div class="tsd-signature tsd-kind-icon">add<wbr>Border<wbr>Bottom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L21">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="callbackrcsbfvrow" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> callback<wbr>Rcsb<wbr>FvRow</h3>
 					<div class="tsd-signature tsd-kind-icon">callback<wbr>Rcsb<wbr>FvRow<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L17">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:17</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L17">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -140,17 +152,17 @@
 					<div class="tsd-signature tsd-kind-icon">context<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="../classes/rcsbfvcontextmanager.html" class="tsd-signature-type">RcsbFvContextManager</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L14">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:14</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L14">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:14</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="firstorlastrow" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> first<wbr>OrLast<wbr>Row</h3>
-					<div class="tsd-signature tsd-kind-icon">first<wbr>OrLast<wbr>Row<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<a name="firstrow" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> first<wbr>Row</h3>
+					<div class="tsd-signature tsd-kind-icon">first<wbr>Row<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L19">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:19</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L19">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,7 +172,17 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L12">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:12</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L12">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="lastrow" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> last<wbr>Row</h3>
+					<div class="tsd-signature tsd-kind-icon">last<wbr>Row<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L20">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">row<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L18">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:18</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L18">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">row<wbr>Track<wbr>Config<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="rcsbfvrowconfiginterface.html" class="tsd-signature-type">RcsbFvRowConfigInterface</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L13">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:13</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L13">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -190,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">selection<span class="tsd-signature-symbol">:</span> <a href="../classes/rcsbselection.html" class="tsd-signature-type">RcsbSelection</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L16">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:16</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L16">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +222,7 @@
 					<div class="tsd-signature tsd-kind-icon">x<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ScaleLinear</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/2f0126d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L15">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:15</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/544e2e2/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L15">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -222,16 +244,22 @@
 						<a href="rcsbfvrowtrackinterface.html" class="tsd-kind-icon">Rcsb<wbr>FvRow<wbr>Track<wbr>Interface</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcsbfvrowtrackinterface.html#addborderbottom" class="tsd-kind-icon">add<wbr>Border<wbr>Bottom</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="rcsbfvrowtrackinterface.html#callbackrcsbfvrow" class="tsd-kind-icon">callback<wbr>Rcsb<wbr>FvRow</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="rcsbfvrowtrackinterface.html#contextmanager" class="tsd-kind-icon">context<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="rcsbfvrowtrackinterface.html#firstorlastrow" class="tsd-kind-icon">first<wbr>OrLast<wbr>Row</a>
+								<a href="rcsbfvrowtrackinterface.html#firstrow" class="tsd-kind-icon">first<wbr>Row</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="rcsbfvrowtrackinterface.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rcsbfvrowtrackinterface.html#lastrow" class="tsd-kind-icon">last<wbr>Row</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="rcsbfvrowtrackinterface.html#rownumber" class="tsd-kind-icon">row<wbr>Number</a>

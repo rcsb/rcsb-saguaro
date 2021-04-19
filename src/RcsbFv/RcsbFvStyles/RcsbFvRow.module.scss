@@ -70,19 +70,6 @@ div.rcsbFvBoard *{
     z-index: -1;
 }
 
-.rcsbFvRow:nth-child(2) > .rcsbFvRowTrack div{
-    border-top: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
-}
-
-.rcsbFvRow:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
-    border-left: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
-    border-right: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
-}
-
-.rcsbFvRow:last-child:not(.rcsbFvRowAxis) > .rcsbFvRowTrack div{
-    border-bottom: $border-rcsbFvRowTrack solid $color-rcsbFvBorder;
-}
-
 .rcsbFvTooltip {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;

@@ -23,7 +23,9 @@ interface RcsbFvRowInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: ScaleLinear<number,number>;
     readonly selection: RcsbSelection;
-    readonly firstOrLastRow?: boolean;
+    readonly firstRow: boolean;
+    readonly lastRow: boolean;
+    readonly addBorderBottom: boolean;
 }
 
 /**Board track React state interface*/
@@ -79,7 +81,9 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                         selection={this.props.selection}
                         contextManager={this.props.contextManager}
                         callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}
-                        firstOrLastRow={this.props.firstOrLastRow}
+                        firstRow={this.props.firstRow}
+                        lastRow={this.props.lastRow}
+                        addBorderBottom={this.props.addBorderBottom}
                     />
                 </div>
             </CSSTransition>
@@ -146,7 +150,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         }
         let trackWidth : number = RcsbFvDefaultConfigValues.trackWidth;
         if(typeof this.props.rowConfigData.trackWidth === "number"){
-            trackWidth = this.props.rowConfigData.trackWidth + 2 * RcsbFvDefaultConfigValues.trackMarginWidth;
+            trackWidth = this.props.rowConfigData.trackWidth + 2 * RcsbFvDefaultConfigValues.borderWidth;
         }
         return {
             width: (titleWidth + trackWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace),

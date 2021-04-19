@@ -154,6 +154,7 @@ export class RcsbD3Manager {
     }
 
     addTrack(config: TrackConfInterface): Selection<SVGGElement, any, null, undefined> {
+        //TODO why color filling is setup here ? (Line 141 should be enough)
         this._pane.style(RcsbD3Constants.FILL, config.bgColor);
 
         const trackG: Selection<SVGGElement, any, null, undefined> = this._svgG

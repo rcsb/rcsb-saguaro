@@ -1,6 +1,6 @@
 import * as React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
-import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {EventType, RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
@@ -16,7 +16,9 @@ interface RcsbFvRowTrackInterface {
     readonly selection: RcsbSelection;
     readonly callbackRcsbFvRow: (height: number)=>void;
     readonly rowNumber: number;
-    readonly firstOrLastRow?: boolean;
+    readonly firstRow: boolean;
+    readonly lastRow: boolean;
+    readonly addBorderBottom: boolean;
 }
 
 /**Board track  annotations cell React component style*/
@@ -42,7 +44,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private readonly  renderTimeout: number = 32;
 
     readonly state : RcsbFvRowTrackState = {
-        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight + (this.props.firstOrLastRow ? RcsbFvDefaultConfigValues.trackMarginWidth : 0),
+        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight + this.rowBorderHeight(),
         rowTrackConfigData: this.props.rowTrackConfigData,
         mounted: false
     };
@@ -78,9 +80,13 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private updateHeight(): void{
         const height: number | null = this.rcsbFvTrack.getTrackHeight();
         if(height != null) {
-            this.setState({rowTrackHeight: height + (this.props.firstOrLastRow ? RcsbFvDefaultConfigValues.trackMarginWidth : 0), mounted: true} as RcsbFvRowTrackState, ()=>{
-                this.props.callbackRcsbFvRow(this.state.rowTrackHeight);
-            });
+            this.setState({
+                    rowTrackHeight: height + this.rowBorderHeight(),
+                    mounted: true
+                } as RcsbFvRowTrackState,
+                ()=>{
+                    this.props.callbackRcsbFvRow(this.state.rowTrackHeight);
+                });
         }
     }
 
@@ -90,7 +96,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private configStyle() : React.CSSProperties{
         let width : number = RcsbFvDefaultConfigValues.trackWidth;
         if(typeof this.configData.trackWidth === "number"){
-            width = this.configData.trackWidth + 2*RcsbFvDefaultConfigValues.trackMarginWidth;
+            width = this.configData.trackWidth + 2*RcsbFvDefaultConfigValues.borderWidth;
         }
         return {
             width: width,
@@ -100,8 +106,21 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
 
     private borderStyle(): React.CSSProperties{
         const style: React.CSSProperties =  {};
-        if(typeof this.props.rowTrackConfigData.borderColor === "string") style.borderColor = this.props.rowTrackConfigData.borderColor;
+        style.borderColor = this.props.rowTrackConfigData.borderColor ?? RcsbFvDefaultConfigValues.borderColor;
+        if(this.props.rowTrackConfigData.displayType != RcsbFvDisplayTypes.AXIS) {
+            style.borderLeft = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
+            style.borderRight = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
+        }
+        if(this.props.addBorderBottom || this.props.lastRow)
+            style.borderBottom = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
+        if(this.props.firstRow)
+            style.borderTop = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
         return style;
+    }
+
+    private rowBorderHeight(): number {
+        return (this.props.firstRow  ? this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth : 0) +
+            ((this.props.addBorderBottom || this.props.lastRow) ? this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth : 0);
     }
 
 }
