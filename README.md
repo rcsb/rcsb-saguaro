@@ -13,7 +13,7 @@ RcsbFvWebApp.setBoardConfig({
     trackWidth:540,
     rowTitleWidth:170
 });
-RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17");
+RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {});
 </script>
 --->
 
