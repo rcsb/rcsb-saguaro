@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.4.1] - 2021-04-19
+### General
+- Bug fix: Unhidden tracks due row title hover mark 
+
 ## [1.4.0] - 2021-04-19
 ### General
 - Configurable board borders
