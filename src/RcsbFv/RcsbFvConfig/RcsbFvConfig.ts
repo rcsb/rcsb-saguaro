@@ -40,6 +40,8 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     highlightHoverPosition?:boolean;
     highlightHoverElement?:boolean;
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
+    hideInnerBorder?:boolean;
+    hideRowGlow?:boolean;
 
     constructor(args:RcsbFvRowConfigInterface) {
         this.updateConfig(args);
@@ -151,6 +153,16 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
             this.includeTooltip = args.includeTooltip;
         }else{
             this.includeTooltip = true;
+        }
+        if(typeof args.hideInnerBorder === "boolean"){
+            this.hideInnerBorder = args.hideInnerBorder;
+        }else{
+            this.hideInnerBorder = RcsbFvDefaultConfigValues.hideInnerBorder;
+        }
+        if(typeof args.hideRowGlow === "boolean"){
+            this.hideRowGlow = args.hideRowGlow;
+        }else{
+            this.hideRowGlow = RcsbFvDefaultConfigValues.hideRowGlow;
         }
         this.overlap = args.overlap === true;
     }

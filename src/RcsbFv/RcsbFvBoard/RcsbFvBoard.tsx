@@ -90,6 +90,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             rcsbFvRowAxis = <RcsbFvRow
                 key={rowId}
                 id={rowId}
+                boardId={this.boardId}
                 rowNumber={0}
                 rowConfigData={rowConfigData}
                 xScale={this.xScale}
@@ -116,6 +117,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                             return (<RcsbFvRow
                                 key={rowId}
                                 id={rowId}
+                                boardId={this.boardId}
                                 rowNumber={n+rowIndexShift}
                                 rowConfigData={rowConfigData}
                                 xScale={this.xScale}
@@ -132,6 +134,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX} className={classes.rcsbFvTooltipDescription} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} />
                 <div id={this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX} >
                     <div />
+                </div>
+                <div id={this.boardId+RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX} >
+                    <div style={{borderWidth: RcsbFvDefaultConfigValues.rowGlowWidth, borderColor: RcsbFvDefaultConfigValues.rowGlowColor }}/>
                 </div>
                 <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} xScale={this.xScale} setDomain={this.setDomain.bind(this)}/>
                 <div id={this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} className={classes.rowTrackBoardSatus} >LOADING <span/></div>
@@ -202,6 +207,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
         if(typeof this.state.boardConfigData.borderColor === "string"){
             out.borderColor = this.state.boardConfigData.borderColor;
+        }
+        if(typeof this.state.boardConfigData.hideInnerBorder === "boolean"){
+            out.hideInnerBorder = this.state.boardConfigData.hideInnerBorder;
+        }
+        if(typeof this.state.boardConfigData.hideRowGlow === "boolean"){
+            out.hideRowGlow = this.state.boardConfigData.hideRowGlow;
         }
         return out;
     }
@@ -379,7 +390,20 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     innerGlowDiv.style.width = "0px";
                 },300);
             }
-        },500)
+        },500);
+        this.hideGlowRow();
+    }
+
+    private hideGlowRow(): void{
+        const glowDiv: HTMLElement | null = document.getElementById(this.boardId + RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX);
+        if (glowDiv != null) {
+            const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
+            glowDiv.style.top = "0px";
+            glowDiv.style.marginLeft = "0px";
+            glowDiv.className = classes.rcsbRowNoGlow;
+            innerGlowDiv.style.height = "0px";
+            innerGlowDiv.style.width = "0px";
+        }
     }
 
     private updateGlow(): void{

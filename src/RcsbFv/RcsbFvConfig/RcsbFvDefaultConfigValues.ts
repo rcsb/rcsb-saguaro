@@ -12,8 +12,11 @@ interface RcsbFvDefaultConfigValuesInterface  {
     readonly rowHideTransitionTimeout: number;
     readonly titleAndTrackSpace: number;
     readonly borderWidth: number;
+    readonly rowGlowWidth: number;
+    readonly rowGlowColor: string;
     readonly borderColor: string;
     readonly hideInnerBorder: boolean;
+    readonly hideRowGlow: boolean;
 }
 
 /**Default board configuration values*/
@@ -31,7 +34,10 @@ export const RcsbFvDefaultConfigValues: RcsbFvDefaultConfigValuesInterface = {
     titleAndTrackSpace: 2,
     borderWidth: 1,
     borderColor: "#CCC",
-    hideInnerBorder: true
+    rowGlowWidth: 1,
+    hideInnerBorder: true,
+    hideRowGlow: false,
+    rowGlowColor: "rgba(255,204,204,0.75)"
 };
 
 /**Interpolation types for line and area displays*/

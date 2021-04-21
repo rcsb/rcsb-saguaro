@@ -47,6 +47,8 @@ export interface RcsbFvBoardConfigInterface {
     highlightHoverElement?:boolean;
     /**Function call on hover event*/
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
+    /**Hide row hover glow*/
+    hideRowGlow?: boolean;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
@@ -147,4 +149,8 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     highlightHoverElement?:boolean;
     /**Function call on hover event*/
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
+    /**Hide bottom border (last row is ignored)*/
+    hideInnerBorder?:boolean;
+    /**Hide row hover glow*/
+    hideRowGlow?: boolean;
 }

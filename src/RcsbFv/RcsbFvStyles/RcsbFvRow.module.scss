@@ -128,7 +128,28 @@ div.rcsbFvBoard *{
     position: absolute;
     transition: box-shadow 0.3s;
     box-shadow: none;
-    width: 100%;
+}
+
+.rcsbRowGlow {
+    pointer-events: none;
+    position: absolute;
+}
+
+.rcsbNoRowGlow {
+    pointer-events: none;
+    position: absolute;
+}
+
+.rcsbRowGlow div {
+    pointer-events: none;
+    position: absolute;
+    border: 1px solid rgba(255,204,204,0.75);
+}
+
+.rcsbNoRowGlow div {
+    pointer-events: none;
+    position: absolute;
+    border: none;
 }
 
 .rcsbUI {

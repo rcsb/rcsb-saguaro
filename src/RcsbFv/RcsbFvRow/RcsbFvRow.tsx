@@ -14,10 +14,12 @@ import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {Subscription} from "rxjs";
 import {CSSTransition} from 'react-transition-group';
+import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 
 /**Board track React component interface*/
 interface RcsbFvRowInterface {
     readonly id: string;
+    readonly boardId: string;
     readonly rowNumber: number;
     readonly rowConfigData: RcsbFvRowConfigInterface;
     readonly contextManager: RcsbFvContextManager;
@@ -105,7 +107,46 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         this.props.contextManager.next({
             eventType: EventType.HOVER_ROW,
             eventData: this.props.id
-        } as RcsbFvContextManagerInterface)
+        } as RcsbFvContextManagerInterface);
+        if(this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS && !this.props.rowConfigData.hideRowGlow)
+            this.glowRow();
+        else
+            this.hideGlowRow();
+    }
+
+    private glowRow(): void{
+        const mainDiv: HTMLElement | null = document.getElementById(this.props.id);
+        if (mainDiv != null) {
+            const top: number = mainDiv.offsetTop
+                - RcsbFvDefaultConfigValues.rowGlowWidth
+                + (this.props.firstRow ? (this.props.rowConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth) : 0);
+            const height: number = mainDiv.getBoundingClientRect().height
+                - (this.props.firstRow ? (this.props.rowConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth) : 0)
+                - (!this.props.rowConfigData.hideInnerBorder || this.props.lastRow ? (this.props.rowConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth) : 0);
+            const glowDiv: HTMLElement | null = document.getElementById(this.props.boardId + RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX);
+            if (glowDiv != null) {
+                const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
+                const trackWidth: number = this.props.rowConfigData.trackWidth ??  RcsbFvDefaultConfigValues.trackWidth;
+                const titleWidth: number = (this.state.rowConfigData.rowTitleWidth ?? RcsbFvDefaultConfigValues.rowTitleWidth);
+                glowDiv.style.top = top + "px";
+                glowDiv.style.marginLeft = titleWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace + "px";
+                glowDiv.className = classes.rcsbRowGlow;
+                innerGlowDiv.style.height = (height) + "px";
+                innerGlowDiv.style.width = trackWidth + "px";
+            }
+        }
+    }
+
+    private hideGlowRow(): void{
+        const glowDiv: HTMLElement | null = document.getElementById(this.props.boardId + RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX);
+        if (glowDiv != null) {
+            const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
+            glowDiv.style.top = "0px";
+            glowDiv.style.marginLeft = "0px";
+            glowDiv.className = classes.rcsbRowNoGlow;
+            innerGlowDiv.style.height = "0px";
+            innerGlowDiv.style.width = "0px";
+        }
     }
 
     private checkHoveredRow(trackId: string){

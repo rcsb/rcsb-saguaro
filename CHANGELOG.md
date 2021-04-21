@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.5.0] - 2021-04-21
+### General
+- Mouse hover row glow 
+    - RcsbFvBoardConfigInterface.hideRowGlow (default false)
+
 ## [1.4.1] - 2021-04-19
 ### General
 - Bug fix: Unhidden tracks due row title hover mark 
