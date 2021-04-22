@@ -2,8 +2,12 @@
 $color-rcsbFvBorder: #DDDDDD;
 $border-rcsbFvRowTrack: 1px;
 
-div.rcsbFvBoard *{
+.rcsbFvRootContainer * {
     box-sizing: content-box;
+}
+
+.rcsbFvBoard {
+    visibility: visible;
 }
 
 .rcsbFvRowTitle{
@@ -132,12 +136,12 @@ div.rcsbFvBoard *{
 
 .rcsbRowGlow {
     pointer-events: none;
-    position: absolute;
+    position: relative;
 }
 
 .rcsbNoRowGlow {
     pointer-events: none;
-    position: absolute;
+    position: relative;
 }
 
 .rcsbRowGlow div {

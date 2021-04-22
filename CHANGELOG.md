@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.5.1] - 2021-04-21
+### Row glow effect
+-  Relative row position glow bug fixed
+    
 ## [1.5.0] - 2021-04-21
 ### General
 - Mouse hover row glow 

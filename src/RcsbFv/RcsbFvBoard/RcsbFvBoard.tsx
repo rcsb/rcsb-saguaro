@@ -103,7 +103,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             rowIndexShift = 1;
         }
         return (
-            <div onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
+            <div className={classes.rcsbFvRootContainer} onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
                 <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                     {rcsbFvRowAxis}
                     {
@@ -400,7 +400,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
             glowDiv.style.top = "0px";
             glowDiv.style.marginLeft = "0px";
-            glowDiv.className = classes.rcsbRowNoGlow;
+            glowDiv.className = classes.rcsbNoRowGlow;
             innerGlowDiv.style.height = "0px";
             innerGlowDiv.style.width = "0px";
         }

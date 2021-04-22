@@ -115,14 +115,11 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
     }
 
     private glowRow(): void{
-        const mainDiv: HTMLElement | null = document.getElementById(this.props.id);
-        if (mainDiv != null) {
-            const top: number = mainDiv.offsetTop
-                - RcsbFvDefaultConfigValues.rowGlowWidth
-                + (this.props.firstRow ? (this.props.rowConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth) : 0);
-            const height: number = mainDiv.getBoundingClientRect().height
-                - (this.props.firstRow ? (this.props.rowConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth) : 0)
-                - (!this.props.rowConfigData.hideInnerBorder || this.props.lastRow ? (this.props.rowConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth) : 0);
+        const boardDiv: HTMLElement | null = document.getElementById(this.props.boardId);
+        const rowDiv: HTMLElement | null = document.getElementById(this.props.id);
+        if (rowDiv != null && boardDiv != null) {
+            const top: number = (rowDiv.offsetTop - (boardDiv.offsetTop + boardDiv.getBoundingClientRect().height));
+            const height: number = rowDiv.getBoundingClientRect().height - 2 * RcsbFvDefaultConfigValues.rowGlowWidth;
             const glowDiv: HTMLElement | null = document.getElementById(this.props.boardId + RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX);
             if (glowDiv != null) {
                 const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
@@ -143,7 +140,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
             const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
             glowDiv.style.top = "0px";
             glowDiv.style.marginLeft = "0px";
-            glowDiv.className = classes.rcsbRowNoGlow;
+            glowDiv.className = classes.rcsbNoRowGlow;
             innerGlowDiv.style.height = "0px";
             innerGlowDiv.style.width = "0px";
         }
