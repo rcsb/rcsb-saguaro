@@ -7,7 +7,7 @@ The package offers multiple types of data displays and a rich set of options to 
 <!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro-app@1.1.8/build/dist/app.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro-app@1.1.9/build/dist/app.js" type="text/javascript"></script>
 <script type="text/javascript">
 RcsbFvWebApp.setBoardConfig({
     trackWidth:540,
