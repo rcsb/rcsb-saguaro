@@ -44,7 +44,7 @@ export class RcsbBoard {
     private _bgColor: string = "#FFFFFF";
     private _innerPadding: number = 10;
     private tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
-    elementClickCallBack:(d?:RcsbFvTrackDataElementInterface) => void;
+    elementClickCallBack:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent) => void;
     private highlightHoverElementFlag: boolean = false;
 
     private readonly _xScale: ScaleLinear<number,number> = scaleLinear();
@@ -152,7 +152,7 @@ export class RcsbBoard {
         this.d3Manager.addPane(paneConfig);
     }
 
-    public setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void){
+    public setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void){
        this.elementClickCallBack = f;
     }
 

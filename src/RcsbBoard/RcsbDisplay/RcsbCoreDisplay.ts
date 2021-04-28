@@ -15,9 +15,9 @@ import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager"
 export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
 
     protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
-    private elementClickCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
-    private elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
-    private elementLeaveCallBack: (d?:RcsbFvTrackDataElementInterface)=>void;
+    private elementClickCallBack: (d?:RcsbFvTrackDataElementInterface, e?:MouseEvent)=>void;
+    private elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    private elementLeaveCallBack: (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     private highlightEnterElement: (d?:RcsbFvTrackDataElementInterface)=>void;
     private highlightLeaveElement: (d?:RcsbFvTrackDataElementInterface)=>void;
     protected includeTooltip: boolean = true;
@@ -39,19 +39,19 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         this.tooltipManager = new RcsbTooltipManager(boardId);
     }
 
-    setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
+    setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
         this.elementClickCallBack = f;
     }
 
-    getElementClickCallBack(): (d?:RcsbFvTrackDataElementInterface)=>void{
+    getElementClickCallBack(): (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
         return this.elementClickCallBack;
     }
 
-    setElementEnterCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
+    setElementEnterCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
         this.elementEnterCallBack = f;
     }
 
-    setElementLeaveCallBack(f:(d?:RcsbFvTrackDataElementInterface)=>void): void{
+    setElementLeaveCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
         this.elementLeaveCallBack = f;
     }
 
@@ -98,10 +98,10 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
                 return;
             }
             if(typeof this.elementClickCallBack === "function") {
-                this.elementClickCallBack(d);
+                this.elementClickCallBack(d, event);
             }
             if(typeof d.elementClickCallBack === "function"){
-                d.elementClickCallBack(d);
+                d.elementClickCallBack(d, event);
             }
             RcsbD3EventDispatcher.elementClick(this.getBoardHighlight(),d);
         });
@@ -110,7 +110,7 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
                 return;
             }
             if(typeof this.elementEnterCallBack === "function") {
-                this.elementEnterCallBack(d);
+                this.elementEnterCallBack(d, event);
             }
             if(this.includeTooltip){
                 this.tooltipManager.showTooltip(d);
@@ -130,7 +130,7 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
                 return;
             }
             if(typeof this.elementLeaveCallBack === "function") {
-                this.elementLeaveCallBack(d);
+                this.elementLeaveCallBack(d, event);
             }
             if(this.includeTooltip){
                 this.tooltipManager.hideTooltip();

@@ -93,6 +93,7 @@ export interface SelectionInterface {
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface {
     eventType: string;
+    eventResolve?: ()=>void;
     eventData: string|SelectionInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
 }
 

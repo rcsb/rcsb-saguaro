@@ -58,7 +58,7 @@ export class RcsbD3EventDispatcher {
             const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(board);
             if(typeof board.elementClickCallBack === "function"){
                 region.nonSpecific = true;
-                board.elementClickCallBack(region);
+                board.elementClickCallBack(region, event);
             }
             RcsbD3EventDispatcher.keepSelectingFlag = false;
     }
@@ -80,7 +80,7 @@ export class RcsbD3EventDispatcher {
                 const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end};
                 if(typeof board.elementClickCallBack === "function"){
                     region.nonSpecific = true;
-                    board.elementClickCallBack(region);
+                    board.elementClickCallBack(region, event);
                 }
             }
         },50);

@@ -287,14 +287,14 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<p>If set, <code>this.context</code> will be set at runtime to the current value of the given Context.</p>
 						</div>
 						<p>Usage:</p>
-						<pre><code class="language-ts">type MyContext = number
-const Ctx = React.createContext&lt;MyContext&gt;(0)
+						<pre><code class="language-ts"><span class="hljs-keyword">type</span> MyContext = <span class="hljs-built_in">number</span>
+<span class="hljs-keyword">const</span> Ctx = React.createContext&lt;MyContext&gt;(<span class="hljs-number">0</span>)
 
-class Foo extends React.Component {
-  static contextType = Ctx
-  context!: React.ContextType&lt;typeof Ctx&gt;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-keyword">static</span> contextType = Ctx
+  context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> Ctx&gt;
   render () {
-    return &lt;&gt;My context&#x27;s value: {this.context}&lt;/&gt;;
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>My context&#x27;s value: {this.context}<span class="hljs-tag">&lt;/&gt;</span></span>;
   }
 }</code></pre>
 						<dl class="tsd-comment-tags">
@@ -765,7 +765,7 @@ class Foo extends React.Component {
 							<aside class="tsd-sources">
 								<p>Overrides Component.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/953dc46/src/RcsbFv/RcsbFvUI/RcsbUIHelp.tsx#L10">src/RcsbFv/RcsbFvUI/RcsbUIHelp.tsx:10</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/9d5ecd3/src/RcsbFv/RcsbFvUI/RcsbUIHelp.tsx#L10">src/RcsbFv/RcsbFvUI/RcsbUIHelp.tsx:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>

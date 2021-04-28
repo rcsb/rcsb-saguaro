@@ -69,7 +69,7 @@ export interface RcsbFvTrackDataElementInterface {
     /**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
     rectEnd?: number;
     /**Callback when the annotation is clicked*/
-    elementClickCallBack?:(x: RcsbFvTrackDataElementInterface)=>void;
+    elementClickCallBack?:(x: RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
 }
 
 export interface RcsbFvColorGradient {

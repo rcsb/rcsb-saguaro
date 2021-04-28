@@ -28,9 +28,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     interpolationType? : string;
     dynamicDisplay?: boolean;
     nonEmptyDisplay?: boolean;
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
-    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
-    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface)=>void;
+    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     includeTooltip?: boolean;
     updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;

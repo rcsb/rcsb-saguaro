@@ -2,6 +2,12 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.6.0] - 2021-04-27
+### General
+- Callback event methods defined on the element tracks include the event object as a second argument
+- Board <b>init</b> and all data update methods return a promise where <b>resolve</b> is called after rendering all tracks
+- RcsbFv defines promise-like methods <b>then</b> and <b>catch</b>. Method <b>resolve</b> is called after rendering all tracks
+
 ## [1.5.1] - 2021-04-21
 ### Row glow effect
 -  Relative row position glow bug fixed

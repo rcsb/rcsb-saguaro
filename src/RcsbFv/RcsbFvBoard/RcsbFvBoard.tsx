@@ -33,6 +33,7 @@ export interface RcsbFvBoardFullConfigInterface {
 /**Board React component interface*/
 interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
     readonly contextManager: RcsbFvContextManager;
+    readonly resolve: ()=> void;
 }
 
 /**Board React component state interface*/
@@ -67,6 +68,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private mouseLeaveCallbackId: number = 0;
     /**Row Track Board Status. True when the board content has been rendered*/
     private readonly rowBoardReadyStatus: Map<string,boolean> = new Map<string, boolean>();
+    /**Promise resolve callback when board is ready*/
+    private resolveOnReady: (()=>void) | undefined = undefined;
 
 
     readonly state : RcsbFvBoardState = {
@@ -77,6 +80,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         /**Row Track Board rendered status (%)*/
         progressStatus: 0
     };
+
+    constructor(props: RcsbFvBoardInterface) {
+        super(props);
+        this.resolveOnReady = props.resolve;
+    }
 
     render(): JSX.Element{
         let rcsbFvRowAxis = null;
@@ -232,7 +240,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * */
     private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
         this.xScale.domain([0,1]);
-        this.inactivateHover();
         if(configData.rowConfigData!=null && configData.boardConfigData!=null){
             this.setState({rowConfigData: configData.rowConfigData, boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.boardConfigData!=null){
@@ -241,6 +248,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             this.setState({rowConfigData: configData.rowConfigData} );
         }
     }
+
+
 
     private inactivateHover(): void{
         this.activeMouseOver(false);
@@ -288,12 +297,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 }
                 else if(rowConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && rowConfig.displayConfig instanceof Array)
                     rowConfig.displayConfig?.forEach((display: RcsbFvDisplayConfigInterface)=>{
-                       if(display.displayId === obj.displayId){
-                           if(flag === "replace")
-                               display.displayData = obj.trackData;
-                           else if(flag === "add" && display.displayData instanceof Array)
-                               display.displayData = display.displayData?.concat(obj.trackData);
-                       }
+                        if(display.displayId === obj.displayId){
+                            if(flag === "replace")
+                                display.displayData = obj.trackData;
+                            else if(flag === "add" && display.displayData instanceof Array)
+                                display.displayData = display.displayData?.concat(obj.trackData);
+                        }
                     });
             }
         });
@@ -455,20 +464,29 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         this.rcsbFvRowArrayIds.length = 0;
     }
 
+    private resetReadyStatus(resolve: (()=>void) | undefined): void {
+        this.inactivateHover();
+        this.resolveOnReady = resolve;
+    }
+
     /**Subscribe className to rxjs events (adding tracks, change scale, update board config)
      * @return rxjs Subscription object
      * */
     private subscribe(): Subscription{
         return this.props.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
             if(obj.eventType===EventType.ADD_TRACK){
+                this.resetReadyStatus(obj.eventResolve);
                 this.addRow(obj.eventData as RcsbFvRowConfigInterface);
             }else if(obj.eventType===EventType.UPDATE_BOARD_CONFIG){
+                this.resetReadyStatus(obj.eventResolve);
                 this.updateBoardConfig(obj.eventData as RcsbFvBoardFullConfigInterface);
             }else if(obj.eventType===EventType.TRACK_VISIBILITY){
                 this.changeTrackVisibility(obj.eventData as TrackVisibilityInterface);
             }else if(obj.eventType===EventType.ADD_TRACK_DATA){
+                this.resetReadyStatus(obj.eventResolve);
                 this.addTrackData(obj.eventData as TrackDataInterface);
             }else if(obj.eventType===EventType.UPDATE_TRACK_DATA){
+                this.resetReadyStatus(obj.eventResolve);
                 this.updateTrackData(obj.eventData as TrackDataInterface);
             }else if(obj.eventType===EventType.DOMAIN_VIEW){
                 this.setDomain(obj.eventData as DomainViewInterface);
@@ -589,6 +607,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
        if( N == this.rowBoardReadyStatus.size){
            this.hideStatus();
            this.activeMouseOver(true);
+           if(typeof this.resolveOnReady === "function")
+               this.resolveOnReady();
        }else{
            if(N==1)
                this.showStatus();
