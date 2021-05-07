@@ -155,7 +155,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="rcsbfvui.html">RcsbFvUI</a>.<a href="rcsbfvui.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L50">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:50</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L50">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -177,7 +177,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/rcsbfvrowconfiginterface.html" class="tsd-signature-type">RcsbFvRowConfigInterface</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L40">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:40</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L40">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -231,7 +231,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">rcsb<wbr>FvTrack<span class="tsd-signature-symbol">:</span> <a href="rcsbfvtrack.html" class="tsd-signature-type">RcsbFvTrack</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L42">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:42</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L42">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -272,7 +272,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<div class="tsd-signature tsd-kind-icon">render<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 32</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L44">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:44</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L44">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -296,14 +296,14 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<p>If set, <code>this.context</code> will be set at runtime to the current value of the given Context.</p>
 						</div>
 						<p>Usage:</p>
-						<pre><code class="language-ts"><span class="hljs-keyword">type</span> MyContext = <span class="hljs-built_in">number</span>
-<span class="hljs-keyword">const</span> Ctx = React.createContext&lt;MyContext&gt;(<span class="hljs-number">0</span>)
+						<pre><code class="language-ts">type MyContext = number
+const Ctx = React.createContext&lt;MyContext&gt;(0)
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-  <span class="hljs-keyword">static</span> contextType = Ctx
-  context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> Ctx&gt;
+class Foo extends React.Component {
+  static contextType = Ctx
+  context!: React.ContextType&lt;typeof Ctx&gt;
   render () {
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;&gt;</span>My context&#x27;s value: {this.context}<span class="hljs-tag">&lt;/&gt;</span></span>;
+    return &lt;&gt;My context&#x27;s value: {this.context}&lt;/&gt;;
   }
 }</code></pre>
 						<dl class="tsd-comment-tags">
@@ -463,7 +463,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L107">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:107</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L107">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:107</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">CSSProperties</span></h4>
@@ -514,7 +514,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Overrides <a href="rcsbfvrowtitle.html">RcsbFvRowTitle</a>.<a href="rcsbfvrowtitle.html#componentdidmount">componentDidMount</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L65">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:65</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L65">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -653,7 +653,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Overrides <a href="rcsbfvrowtitle.html">RcsbFvRowTitle</a>.<a href="rcsbfvrowtitle.html#componentwillunmount">componentWillUnmount</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L73">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:73</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L73">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -719,7 +719,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L96">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:96</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L96">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:96</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -800,7 +800,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Overrides Component.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L57">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:57</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L57">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
@@ -817,7 +817,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L121">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:121</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L121">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -907,7 +907,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L80">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:80</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L80">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -929,7 +929,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<aside class="tsd-sources">
 						<p>Overrides <a href="rcsbfvuihelp.html">RcsbFvUIHelp</a>.<a href="rcsbfvuihelp.html#state">state</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L46">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:46</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L46">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:46</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -938,7 +938,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<div class="tsd-signature tsd-kind-icon">mounted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> = false</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L49">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:49</a></li>
+								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L49">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:49</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -948,7 +948,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<div class="tsd-signature tsd-kind-icon">row<wbr>Track<wbr>Config<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/rcsbfvrowconfiginterface.html" class="tsd-signature-type">RcsbFvRowConfigInterface</a><span class="tsd-signature-symbol"> = this.props.rowTrackConfigData</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L48">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:48</a></li>
+								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L48">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:48</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -958,7 +958,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<div class="tsd-signature tsd-kind-icon">row<wbr>Track<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = RcsbFvDefaultConfigValues.trackHeight + this.rowBorderHeight()</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/dd25a7d/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L47">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:47</a></li>
+								<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f621385/src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx#L47">src/RcsbFv/RcsbFvRow/RcsbFvRowTrack.tsx:47</a></li>
 							</ul>
 						</aside>
 					</section>

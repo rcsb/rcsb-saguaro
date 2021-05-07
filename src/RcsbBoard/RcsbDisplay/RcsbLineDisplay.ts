@@ -18,9 +18,10 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     protected yScale: ScaleLinear<number,number> = scaleLinear();
     protected maxPoints: number = 1000;
     protected innerData: Array<RcsbFvTrackDataElementInterface|null> = new Array<RcsbFvTrackDataElementInterface|null>();
+    protected readonly SUFFIX_ID: string = "line_";
 
     definedScale: boolean = false;
-    private line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
+    protected line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     linePoints: RcsbFvTrackDataElementInterface[];
 
     mousemoveCallBack: (n: number)=>void = (index:number)=>{
@@ -67,14 +68,14 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         if(typeof this._height === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
             this.yScale
                 .domain(this._yDomain)
-                .range([this._height,0]);
+                .range([this._height-3,3]);
             this.definedScale = true;
         }else{
             throw "FATAL ERROR: d3 scale unknown format";
         }
     }
 
-    private setLine(): void{
+    protected setLine(): void{
         this.line
             .x((d:RcsbFvTrackDataElementInterface) => {
                 return this.xScale(d.begin) ?? 0;
@@ -84,7 +85,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             });
     }
 
-    private updateLine(): void{
+    protected updateLine(): void{
         this.line.x((d: RcsbFvTrackDataElementInterface) => {
             return this.xScale(d.begin) ?? 0;
         });
@@ -101,7 +102,8 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
             points: this.linePoints,
             line: this.line,
             color: this._displayColor as string,
-            trackG: this.g
+            trackG: this.g,
+            id:this.SUFFIX_ID+"0"
         };
         RcsbD3LineManager.plot(config);
     }
@@ -111,7 +113,8 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         const config: MoveLineInterface = {
             points: this.linePoints,
             line: this.line,
-            trackG: this.g
+            trackG: this.g,
+            id: this.SUFFIX_ID+"0"
         };
         RcsbD3LineManager.move(config);
         this.setDataUpdated(false);

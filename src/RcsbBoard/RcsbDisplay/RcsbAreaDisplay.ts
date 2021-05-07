@@ -10,6 +10,11 @@ import {
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
 import {RcsbFvColorGradient, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {largestTriangleOneBucket} from "@d3fc/d3fc-sample";
+import {
+    MoveLineInterface,
+    PlotLineInterface,
+    RcsbD3LineManager
+} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
 
 interface LineColorInterface {
     points:RcsbFvTrackDataElementInterface[];
@@ -19,9 +24,10 @@ interface LineColorInterface {
 export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInterface{
     private area: Area<RcsbFvTrackDataElementInterface> = area<RcsbFvTrackDataElementInterface>().curve(curveStep);
     private multiLine: Array<LineColorInterface> = new Array<LineColorInterface>();
-    private readonly SUFFIX_ID: string = "area_";
+    protected readonly SUFFIX_ID: string = "area_";
 
     setInterpolationType(type: string): void{
+        super.setInterpolationType(type);
         if(type === InterpolationTypes.CARDINAL)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveCardinal);
         else if(type === InterpolationTypes.STEP)
@@ -33,6 +39,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
     }
 
     private setArea(): void{
+        this.setLine();
         this.area
             .x((d:RcsbFvTrackDataElementInterface) => {
                 return this.xScale(d.begin) ?? 0;
@@ -44,6 +51,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
     }
 
     private updateArea(): void{
+        this.updateLine();
         this.area
             .x((d:RcsbFvTrackDataElementInterface) => {
                 return this.xScale(d.begin) ?? 0;
@@ -62,31 +70,57 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
         }else if(typeof this._displayColor === "object"){
             this.multiLine = this.downSamplingSplit(elements.data(),this._displayColor);
         }
-
-        RcsbD3AreaManager.clean({trackG:this.g});
+        RcsbD3LineManager.clean({trackG:this.g});
+        RcsbD3AreaManager.plotAxis({
+            trackG: this.g,
+            x1: this.xScale.range()[0],
+            x2: this.xScale.range()[1],
+            y1: this.yScale(0) ?? 0,
+            y2: this.yScale(0) ?? 0
+        });
         this.multiLine.forEach((e:LineColorInterface,index:number)=>{
-            const config: PlotAreaInterface = {
+            const areaConfig: PlotAreaInterface = {
                 points: e.points,
                 color: e.color,
                 trackG: this.g,
                 area: this.area,
                 id:this.SUFFIX_ID+index,
+                opacity: (this.multiLine.length > 1 ? 1 : .2),
                 clickCallBack:this.clickCallBack
             };
-            RcsbD3AreaManager.plot(config);
+            RcsbD3AreaManager.plot(areaConfig);
+            if(this.multiLine.length == 1) {
+                const borderConfig: PlotLineInterface = {
+                    points: e.points,
+                    line: this.line,
+                    color: e.color,
+                    trackG: this.g,
+                    id: this.SUFFIX_ID + "line_" + index
+                };
+                RcsbD3LineManager.plot(borderConfig)
+            }
         });
     }
 
     move(): void{
         this.updateArea();
         this.multiLine.forEach((e:LineColorInterface,index:number)=>{
-            const config: MoveAreaInterface = {
+            const areaConfig: MoveAreaInterface = {
                 points: e.points,
                 trackG: this.g,
                 area: this.area,
                 id:this.SUFFIX_ID+index
             };
-            RcsbD3AreaManager.move(config);
+            RcsbD3AreaManager.move(areaConfig);
+            if(this.multiLine.length == 1) {
+                const borderConfig: MoveLineInterface = {
+                    points: e.points,
+                    line: this.line,
+                    trackG: this.g,
+                    id: this.SUFFIX_ID + "line_" + index
+                };
+                RcsbD3LineManager.move(borderConfig);
+            }
         });
         this.setDataUpdated(false);
     }

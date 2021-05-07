@@ -20,6 +20,7 @@ export class RcsbD3Constants{
     public static readonly STROKE: string = 'stroke';
     public static readonly STROKE_OPACITY: string = 'stroke-opacity';
     public static readonly STROKE_WIDTH: string = 'stroke-width';
+    public static readonly VECTOR_EFFECT: string = 'vector-effect';
     public static readonly STROKE_DASH: string = 'stroke-dasharray';
     public static readonly FONT_SIZE: string = 'font-size';
     public static readonly FONT_FAMILY: string = 'font-family';
