@@ -79,16 +79,6 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
             y2: this.yScale(0) ?? 0
         });
         this.multiLine.forEach((e:LineColorInterface,index:number)=>{
-            const areaConfig: PlotAreaInterface = {
-                points: e.points,
-                color: e.color,
-                trackG: this.g,
-                area: this.area,
-                id:this.SUFFIX_ID+index,
-                opacity: (this.multiLine.length > 1 ? 1 : .2),
-                clickCallBack:this.clickCallBack
-            };
-            RcsbD3AreaManager.plot(areaConfig);
             if(this.multiLine.length == 1) {
                 const borderConfig: PlotLineInterface = {
                     points: e.points,
@@ -99,6 +89,16 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
                 };
                 RcsbD3LineManager.plot(borderConfig)
             }
+            const areaConfig: PlotAreaInterface = {
+                points: e.points,
+                color: e.color,
+                trackG: this.g,
+                area: this.area,
+                id:this.SUFFIX_ID+index,
+                opacity: (this.multiLine.length > 1 ? 1 : .2),
+                clickCallBack:this.clickCallBack
+            };
+            RcsbD3AreaManager.plot(areaConfig);
         });
     }
 
@@ -139,16 +139,14 @@ export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInter
             tmp[i] = {points:new Array<RcsbFvTrackDataElementInterface>(),color:c};
         });
         const thr = this.maxPoints;
-        let title:string | undefined = points[0].title;
-        if(points[0].name != null)title = points[0].name;
         for(let n = Math.ceil(domain.min); n<domain.max; n++){
             this.innerData.push(null);
             gradient.colors.forEach((c,i)=>{
-                tmp[i].points[n] = {begin:n,value:0,title:title};
+                tmp[i].points[n] = {begin:n,value:0};
             });
         }
         points.forEach((p) => {
-            this.innerData[p.begin]={begin:p.begin,value:p.value,title:title};
+            this.innerData[p.begin]=p;
             if(p.begin>domain.min && p.begin<domain.max) {
                 const thrIndex: number = RcsbAreaDisplay.searchClassThreshold(p.value as number, gradient.thresholds);
                 tmp[thrIndex].points[p.begin] = p;

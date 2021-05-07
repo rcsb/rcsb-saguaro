@@ -131,11 +131,8 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         domain.min = Math.max(domain.min,this.xScale.domain()[0]);
         domain.max = Math.min(domain.max,this.xScale.domain()[1]);
         const thr = this.maxPoints;
-        let title:string | undefined = points[0].title;
-        if(points[0].name != null)title = points[0].name;
-
         for(let n = Math.ceil(domain.min);n<domain.max; n++){
-            tmp[n] = {begin:n,value:0,title:title};
+            tmp[n] = {begin:n,value:0};
         }
         points.forEach((p) => {
             if(p.begin>domain.min && p.begin<domain.max) {
@@ -145,7 +142,7 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
         tmp.forEach((p)=> {
             if(p.begin>domain.min && p.begin<domain.max){
                 out.push(p);
-                this.innerData[p.begin]={begin:p.begin,value:p.value,title:title};
+                this.innerData[p.begin]=p;
             }
         });
         out.unshift({begin:domain.min,value:0});
