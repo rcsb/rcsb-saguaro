@@ -2,7 +2,7 @@
 
 [Semantic Versioning](https://semver.org/)
 
-## [1.7.0] - 2021-04-27
+## [1.7.0] - 2021-05-06
 ### General
 - Improved Area visualization
 
