@@ -360,7 +360,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             const mainDiv: HTMLElement | null = document.getElementById(this.boardId);
             if (mainDiv != null) {
                 const mainDivSize: DOMRect = mainDiv.getBoundingClientRect();
-                const axisDivSize: number = document.getElementsByClassName(classes.rcsbFvRowAxis)[0]?.getBoundingClientRect().height ?? 0;
+                const axisDivSize: number = mainDiv.getElementsByClassName(classes.rcsbFvRowAxis)[0]?.getBoundingClientRect().height ?? 0;
                 const height: number = mainDivSize.height - axisDivSize;
                 const glowDiv: HTMLElement | null = document.getElementById(this.boardId + RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
                 if (glowDiv != null) {

@@ -2,6 +2,15 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.7.3] - 2021-05-11
+### Minor
+- Removed debugging print
+
+## [1.7.2] - 2021-05-11
+### Bug correction
+- Large track zoom bug fixed
+- Multiple panels bored glowing effect bug fixed  
+
 ## [1.7.1] - 2021-05-07
 ### Bug correction
 - Line/Area popup bug fixed

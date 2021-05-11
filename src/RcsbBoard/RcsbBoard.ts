@@ -456,8 +456,7 @@ export class RcsbBoard {
         }
         const rect:DOMRect = boardDiv.getBoundingClientRect();
         return (
-            rect.top >= -10 &&
-            rect.bottom <= ((window.innerHeight || document.documentElement.clientHeight)+10)
+            !(rect.bottom < -10 || rect.top > ((window.innerHeight || document.documentElement.clientHeight)+10))
         );
     }
 }
