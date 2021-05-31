@@ -222,6 +222,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(typeof this.state.boardConfigData.hideRowGlow === "boolean"){
             out.hideRowGlow = this.state.boardConfigData.hideRowGlow;
         }
+        if(typeof this.state.boardConfigData.includeTooltip === "boolean"){
+            out.includeTooltip = this.state.boardConfigData.includeTooltip;
+        }
         return out;
     }
 

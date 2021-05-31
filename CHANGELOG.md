@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.7.4] - 2021-05-31
+### Bug correction
+- Attribute <b>includeTooltip</b> bug fixed
+
 ## [1.7.3] - 2021-05-11
 ### Minor
 - Removed debugging print

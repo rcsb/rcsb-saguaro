@@ -128,7 +128,7 @@ export class RcsbFvDisplay {
             if (out != null && typeof config.updateDataOnMove === "function") {
                 out.setUpdateDataOnMove(config.updateDataOnMove);
             }
-            if (out != null && config.includeTooltip) {
+            if (out != null && typeof config.includeTooltip === "boolean") {
                 out.setTooltip(config.includeTooltip);
             }
             if(out!=null && typeof config.minRatio === "number"){
