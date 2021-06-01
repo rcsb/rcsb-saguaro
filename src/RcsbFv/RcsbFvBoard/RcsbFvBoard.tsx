@@ -434,6 +434,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private displayUI(): void{
+        if(this.state.boardConfigData.disableMenu)
+            return;
         const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
         if(refDiv == null)
             return;
@@ -455,6 +457,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private hideUI(): void{
+        if(this.state.boardConfigData.disableMenu)
+            return;
         const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             return;

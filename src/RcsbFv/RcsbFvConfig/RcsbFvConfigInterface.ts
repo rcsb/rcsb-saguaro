@@ -25,6 +25,8 @@ export interface RcsbFvBoardConfigInterface {
     includeAxis?: boolean;
     /**Show tooltip when hovering track annotations*/
     includeTooltip?: boolean;
+    /**Disable UI menu*/
+    disableMenu?: boolean;
     /**Function that will be called when a track annotation is clicked*/
     elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Function that will be called when hovering a track annotation*/

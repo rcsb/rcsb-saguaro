@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.8.0] - 2021-05-31
+### Improvement
+- Attribute <b>disableMenu</b> hides the UI menu
+
 ## [1.7.4] - 2021-05-31
 ### Bug correction
 - Attribute <b>includeTooltip</b> bug fixed
