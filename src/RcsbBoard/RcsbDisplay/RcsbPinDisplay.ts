@@ -1,4 +1,4 @@
-import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
+import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3PinManager";
@@ -6,7 +6,7 @@ import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
-export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
+export class RcsbPinDisplay extends RcsbAbstractDisplay {
 
     private yScale: ScaleLinear<number,number> = scaleLinear();
     private radius: number = 5;
@@ -21,10 +21,10 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
     }
 
     private setScale(): void{
-        if(typeof this._height === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
+        if(typeof this.height() === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
             this.yScale
                 .domain(this._yDomain)
-                .range([this.radius, this._height - this.radius]);
+                .range([this.radius, this.height() - this.radius]);
             this.definedScale = true;
         }else{
             throw "FATAL ERROR: d3 scale unknown format";
@@ -48,7 +48,7 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
             labelShift: this.labelShift,
             xScale: this.xScale,
             yScale: this.yScale,
-            height: this._height,
+            height: this.height(),
             color: this._displayColor as string
         };
         this.rcsbD3PinManager.plot(config);
@@ -59,7 +59,7 @@ export class RcsbPinDisplay extends RcsbCoreDisplay implements RcsbDisplayInterf
             xScale: this.xScale,
             labelShift: this.labelShift,
             yScale: this.yScale,
-            height: this._height,
+            height: this.height(),
         };
         this.rcsbD3PinManager.move(config);
     }

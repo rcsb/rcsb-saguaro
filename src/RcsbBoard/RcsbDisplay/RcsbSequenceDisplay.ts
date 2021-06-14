@@ -1,4 +1,4 @@
-import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
+import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection,BaseType} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {scaleLinear, ScaleLinear} from "d3-scale";
@@ -12,7 +12,7 @@ import {
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
-export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
+export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
 
     private yScale: ScaleLinear<number,number> = scaleLinear();
     private intervalRatio: [number,number] = [5,16];
@@ -47,7 +47,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
         if(this.hideFlag)
             return;
 
-        if (this.getData() == null) {
+        if (this.data() == null) {
             return;
         }
 
@@ -78,14 +78,14 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
             return;
         super.plot(elements);
         this.yScale
-            .domain([0, this._height])
-            .range([0, this._height]);
+            .domain([0, this.height()])
+            .range([0, this.height()]);
         const config: PlotSequenceInterface = {
             elements: elements,
             xScale: this.xScale,
             yScale: this.yScale,
             color: this._displayColor as string,
-            height: this._height,
+            height: this.height(),
             intervalRatio: this.intervalRatio,
         };
         this.rcsbD3SequenceManager.plot(config);
@@ -125,7 +125,7 @@ export class RcsbSequenceDisplay extends RcsbCoreDisplay implements RcsbDisplayI
     }
 
     private getSequenceData(): Array<RcsbFvTrackDataElementInterface>{
-        const sequence: RcsbFvTrackData = this.getData();
+        const sequence: RcsbFvTrackData = this.data();
         const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         sequence.forEach(seqRegion=>{
             if(typeof seqRegion.value === "string") {

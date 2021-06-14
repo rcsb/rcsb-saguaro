@@ -1,4 +1,4 @@
-import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
+import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection, BaseType} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
@@ -9,7 +9,7 @@ import {
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
-export class RcsbVlineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
+export class RcsbVlineDisplay extends RcsbAbstractDisplay {
 
     private rcsbD3VlineManager: RcsbD3VlineManager = new RcsbD3VlineManager();
 
@@ -23,7 +23,7 @@ export class RcsbVlineDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
             elements: elements,
             xScale: this.xScale,
             color: this._displayColor as string,
-            height: this._height
+            height: this.height()
         };
         this.rcsbD3VlineManager.plot(config);
     }

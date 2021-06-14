@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RcsbCoreDisplay | @rcsb/rcsb-saguaro</title>
+	<title>RcsbAbstractDisplay | @rcsb/rcsb-saguaro</title>
 	<meta name="description" content="Documentation for @rcsb/rcsb-saguaro">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="rcsbcoredisplay.html">RcsbCoreDisplay</a>
+					<a href="rcsbabstractdisplay.html">RcsbAbstractDisplay</a>
 				</li>
 			</ul>
-			<h1>Class RcsbCoreDisplay</h1>
+			<h1>Class RcsbAbstractDisplay</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 						<a href="rcsbabstracttrack.html" class="tsd-signature-type">RcsbAbstractTrack</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">RcsbCoreDisplay</span>
+								<span class="target">RcsbAbstractDisplay</span>
 								<ul class="tsd-hierarchy">
 									<li>
 										<a href="rcsbaxisdisplay.html" class="tsd-signature-type">RcsbAxisDisplay</a>
@@ -105,6 +105,12 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/rcsbdisplayinterface.html" class="tsd-signature-type">RcsbDisplayInterface</a></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -112,77 +118,74 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="rcsbcoredisplay.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbcoredisplay.html#_displaycolor" class="tsd-kind-icon">_display<wbr>Color</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#_height" class="tsd-kind-icon">_height</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#boardid" class="tsd-kind-icon">board<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#contextmanager" class="tsd-kind-icon">context<wbr>Manager</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#d3manager" class="tsd-kind-icon">d3<wbr>Manager</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#elementclickcallback" class="tsd-kind-icon">element<wbr>Click<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#elemententercallback" class="tsd-kind-icon">element<wbr>Enter<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#elementleavecallback" class="tsd-kind-icon">element<wbr>Leave<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#elementselection" class="tsd-kind-icon">element<wbr>Selection</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#g" class="tsd-kind-icon">g</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#hidden" class="tsd-kind-icon">hidden</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#hideemptytracksflag" class="tsd-kind-icon">hide<wbr>Empty<wbr>Tracks<wbr>Flag</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#highlightenterelement" class="tsd-kind-icon">highlight<wbr>Enter<wbr>Element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#highlightleaveelement" class="tsd-kind-icon">highlight<wbr>Leave<wbr>Element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbcoredisplay.html#includetooltip" class="tsd-kind-icon">include<wbr>Tooltip</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbcoredisplay.html#minratio" class="tsd-kind-icon">min<wbr>Ratio</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#mousemovecallback" class="tsd-kind-icon">mousemove<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#mouseoutcallback" class="tsd-kind-icon">mouseout<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#mouseovercallback" class="tsd-kind-icon">mouseover<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#selectdatainrangeflag" class="tsd-kind-icon">select<wbr>Data<wbr>InRange<wbr>Flag</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbcoredisplay.html#tooltipmanager" class="tsd-kind-icon">tooltip<wbr>Manager</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#trackid" class="tsd-kind-icon">track<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbcoredisplay.html#updatedataonmove" class="tsd-kind-icon">update<wbr>Data<wbr>OnMove</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbabstractdisplay.html#_displaycolor" class="tsd-kind-icon">_display<wbr>Color</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#boardid" class="tsd-kind-icon">board<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#contextmanager" class="tsd-kind-icon">context<wbr>Manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#d3manager" class="tsd-kind-icon">d3<wbr>Manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#elementclickcallback" class="tsd-kind-icon">element<wbr>Click<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#elemententercallback" class="tsd-kind-icon">element<wbr>Enter<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#elementleavecallback" class="tsd-kind-icon">element<wbr>Leave<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#elementselection" class="tsd-kind-icon">element<wbr>Selection</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#g" class="tsd-kind-icon">g</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#hidden" class="tsd-kind-icon">hidden</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#hideemptytracksflag" class="tsd-kind-icon">hide<wbr>Empty<wbr>Tracks<wbr>Flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#highlightenterelement" class="tsd-kind-icon">highlight<wbr>Enter<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#highlightleaveelement" class="tsd-kind-icon">highlight<wbr>Leave<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbabstractdisplay.html#includetooltip" class="tsd-kind-icon">include<wbr>Tooltip</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbabstractdisplay.html#minratio" class="tsd-kind-icon">min<wbr>Ratio</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#mousemovecallback" class="tsd-kind-icon">mousemove<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#mouseoutcallback" class="tsd-kind-icon">mouseout<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#mouseovercallback" class="tsd-kind-icon">mouseover<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#selectdatainrangeflag" class="tsd-kind-icon">select<wbr>Data<wbr>InRange<wbr>Flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rcsbabstractdisplay.html#tooltipmanager" class="tsd-kind-icon">tooltip<wbr>Manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="rcsbabstractdisplay.html#trackid" class="tsd-kind-icon">track<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#updatedataonmove" class="tsd-kind-icon">update<wbr>Data<wbr>OnMove</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#_update" class="tsd-kind-icon">_update</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#displayempty" class="tsd-kind-icon">display<wbr>Empty</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#enter" class="tsd-kind-icon">enter</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#getboardhighlight" class="tsd-kind-icon">get<wbr>Board<wbr>Highlight</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#getdata" class="tsd-kind-icon">get<wbr>Data</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#getdisplaycolor" class="tsd-kind-icon">get<wbr>Display<wbr>Color</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#getelementclickcallback" class="tsd-kind-icon">get<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#getelements" class="tsd-kind-icon">get<wbr>Elements</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="rcsbcoredisplay.html#getratio" class="tsd-kind-icon">get<wbr>Ratio</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#height" class="tsd-kind-icon">height</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#highlighthover" class="tsd-kind-icon">highlight<wbr>Hover</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#highlightregion" class="tsd-kind-icon">highlight<wbr>Region</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#isdataupdated" class="tsd-kind-icon">is<wbr>Data<wbr>Updated</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#load" class="tsd-kind-icon">load</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#moveselection" class="tsd-kind-icon">move<wbr>Selection</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#plot" class="tsd-kind-icon">plot</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#processdata" class="tsd-kind-icon">process<wbr>Data</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#reset" class="tsd-kind-icon">reset</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="rcsbcoredisplay.html#selectelements" class="tsd-kind-icon">select<wbr>Elements</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#setboardhighlight" class="tsd-kind-icon">set<wbr>Board<wbr>Highlight</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#setdataupdated" class="tsd-kind-icon">set<wbr>Data<wbr>Updated</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#setdisplaycolor" class="tsd-kind-icon">set<wbr>Display<wbr>Color</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#setelementclickcallback" class="tsd-kind-icon">set<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#setelemententercallback" class="tsd-kind-icon">set<wbr>Element<wbr>Enter<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#setelementleavecallback" class="tsd-kind-icon">set<wbr>Element<wbr>Leave<wbr>Call<wbr>Back</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#sethideemptytrack" class="tsd-kind-icon">set<wbr>Hide<wbr>Empty<wbr>Track</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#sethighlighthoverelement" class="tsd-kind-icon">set<wbr>Highlight<wbr>Hover<wbr>Element</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#setmanagers" class="tsd-kind-icon">set<wbr>Managers</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#setminratio" class="tsd-kind-icon">set<wbr>Min<wbr>Ratio</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#setselectdatainrange" class="tsd-kind-icon">set<wbr>Select<wbr>Data<wbr>InRange</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#settooltip" class="tsd-kind-icon">set<wbr>Tooltip</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#setupdatedataonmove" class="tsd-kind-icon">set<wbr>Update<wbr>Data<wbr>OnMove</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbcoredisplay.html#trackcolor" class="tsd-kind-icon">track<wbr>Color</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbcoredisplay.html#update" class="tsd-kind-icon">update</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static"><a href="rcsbcoredisplay.html#datakey" class="tsd-kind-icon">data<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#_update" class="tsd-kind-icon">_update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#displayempty" class="tsd-kind-icon">display<wbr>Empty</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#enter" class="tsd-kind-icon">enter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#getboardhighlight" class="tsd-kind-icon">get<wbr>Board<wbr>Highlight</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#getelementclickcallback" class="tsd-kind-icon">get<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#getelements" class="tsd-kind-icon">get<wbr>Elements</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="rcsbabstractdisplay.html#getratio" class="tsd-kind-icon">get<wbr>Ratio</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#height" class="tsd-kind-icon">height</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#highlightregion" class="tsd-kind-icon">highlight<wbr>Region</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#isdataupdated" class="tsd-kind-icon">is<wbr>Data<wbr>Updated</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#move" class="tsd-kind-icon">move</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#moveselection" class="tsd-kind-icon">move<wbr>Selection</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#plot" class="tsd-kind-icon">plot</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="rcsbabstractdisplay.html#processdata" class="tsd-kind-icon">process<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#reset" class="tsd-kind-icon">reset</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="rcsbabstractdisplay.html#selectelements" class="tsd-kind-icon">select<wbr>Elements</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#setboardhighlight" class="tsd-kind-icon">set<wbr>Board<wbr>Highlight</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rcsbabstractdisplay.html#setdataupdated" class="tsd-kind-icon">set<wbr>Data<wbr>Updated</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#setdisplaycolor" class="tsd-kind-icon">set<wbr>Display<wbr>Color</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#setelementclickcallback" class="tsd-kind-icon">set<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#setelemententercallback" class="tsd-kind-icon">set<wbr>Element<wbr>Enter<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#setelementleavecallback" class="tsd-kind-icon">set<wbr>Element<wbr>Leave<wbr>Call<wbr>Back</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#sethideemptytrack" class="tsd-kind-icon">set<wbr>Hide<wbr>Empty<wbr>Track</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#sethighlighthoverelement" class="tsd-kind-icon">set<wbr>Highlight<wbr>Hover<wbr>Element</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#setmanagers" class="tsd-kind-icon">set<wbr>Managers</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#setminratio" class="tsd-kind-icon">set<wbr>Min<wbr>Ratio</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#setselectdatainrange" class="tsd-kind-icon">set<wbr>Select<wbr>Data<wbr>InRange</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#settooltip" class="tsd-kind-icon">set<wbr>Tooltip</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#setupdatedataonmove" class="tsd-kind-icon">set<wbr>Update<wbr>Data<wbr>OnMove</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rcsbabstractdisplay.html#trackcolor" class="tsd-kind-icon">track<wbr>Color</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rcsbabstractdisplay.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static"><a href="rcsbabstractdisplay.html#datakey" class="tsd-kind-icon">data<wbr>Key</a></li>
 							</ul>
 						</section>
 					</div>
@@ -194,13 +197,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Rcsb<wbr>Core<wbr>Display<span class="tsd-signature-symbol">(</span>boardId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, trackId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rcsbcoredisplay.html" class="tsd-signature-type">RcsbCoreDisplay</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Rcsb<wbr>Abstract<wbr>Display<span class="tsd-signature-symbol">(</span>boardId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, trackId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rcsbabstractdisplay.html" class="tsd-signature-type">RcsbAbstractDisplay</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L33">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L32">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -212,7 +215,7 @@
 									<h5>trackId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="rcsbcoredisplay.html" class="tsd-signature-type">RcsbCoreDisplay</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="rcsbabstractdisplay.html" class="tsd-signature-type">RcsbAbstractDisplay</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -225,18 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">_display<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/rcsbfvcolorgradient.html" class="tsd-signature-type">RcsbFvColorGradient</a><span class="tsd-signature-symbol"> = &quot;#FF6666&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L17">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:17</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="_height" class="tsd-anchor"></a>
-					<h3>_height</h3>
-					<div class="tsd-signature tsd-kind-icon">_height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#_height">_height</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L22">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L18">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -246,29 +238,29 @@
 					<div class="tsd-signature tsd-kind-icon">board<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L25">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L25">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="contextmanager" class="tsd-anchor"></a>
-					<h3>context<wbr>Manager</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> context<wbr>Manager</h3>
 					<div class="tsd-signature tsd-kind-icon">context<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="rcsbfvcontextmanager.html" class="tsd-signature-type">RcsbFvContextManager</a></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#contextmanager">contextManager</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L20">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L20">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="d3manager" class="tsd-anchor"></a>
-					<h3>d3<wbr>Manager</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> d3<wbr>Manager</h3>
 					<div class="tsd-signature tsd-kind-icon">d3<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="rcsbd3manager.html" class="tsd-signature-type">RcsbD3Manager</a></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#d3manager">d3Manager</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L19">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L19">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -278,7 +270,7 @@
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Click<wbr>Call<wbr>Back<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, e<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L18">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L19">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -312,7 +304,7 @@
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Enter<wbr>Call<wbr>Back<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, e<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L19">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L20">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -346,7 +338,7 @@
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Leave<wbr>Call<wbr>Back<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, e<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L20">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L21">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -380,18 +372,18 @@
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Selection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGGElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">BaseType</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = select&lt;SVGGElement, RcsbFvTrackDataElementInterface&gt;(RcsbD3Constants.EMPTY)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L33">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L32">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="g" class="tsd-anchor"></a>
-					<h3>g</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> g</h3>
 					<div class="tsd-signature tsd-kind-icon">g<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGGElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#g">g</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L26">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L27">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -401,7 +393,7 @@
 					<div class="tsd-signature tsd-kind-icon">hidden<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L31">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L31">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -411,7 +403,7 @@
 					<div class="tsd-signature tsd-kind-icon">hide<wbr>Empty<wbr>Tracks<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L30">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L30">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -421,7 +413,7 @@
 					<div class="tsd-signature tsd-kind-icon">highlight<wbr>Enter<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L21">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L22">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -452,7 +444,7 @@
 					<div class="tsd-signature tsd-kind-icon">highlight<wbr>Leave<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L22">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L23">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -483,7 +475,7 @@
 					<div class="tsd-signature tsd-kind-icon">include<wbr>Tooltip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L23">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L24">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -493,7 +485,7 @@
 					<div class="tsd-signature tsd-kind-icon">min<wbr>Ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L28">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L28">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -502,9 +494,10 @@
 					<h3>mousemove<wbr>Call<wbr>Back</h3>
 					<div class="tsd-signature tsd-kind-icon">mousemove<wbr>Call<wbr>Back<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>n<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/rcsbdisplayinterface.html">RcsbDisplayInterface</a>.<a href="../interfaces/rcsbdisplayinterface.html#mousemovecallback">mousemoveCallBack</a></p>
 						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#mousemovecallback">mousemoveCallBack</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L30">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L31">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -534,9 +527,10 @@
 					<h3>mouseout<wbr>Call<wbr>Back</h3>
 					<div class="tsd-signature tsd-kind-icon">mouseout<wbr>Call<wbr>Back<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/rcsbdisplayinterface.html">RcsbDisplayInterface</a>.<a href="../interfaces/rcsbdisplayinterface.html#mouseoutcallback">mouseoutCallBack</a></p>
 						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#mouseoutcallback">mouseoutCallBack</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L28">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L29">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -560,9 +554,10 @@
 					<h3>mouseover<wbr>Call<wbr>Back</h3>
 					<div class="tsd-signature tsd-kind-icon">mouseover<wbr>Call<wbr>Back<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/rcsbdisplayinterface.html">RcsbDisplayInterface</a>.<a href="../interfaces/rcsbdisplayinterface.html#mouseovercallback">mouseoverCallBack</a></p>
 						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#mouseovercallback">mouseoverCallBack</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L29">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L30">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -587,7 +582,7 @@
 					<div class="tsd-signature tsd-kind-icon">select<wbr>Data<wbr>InRange<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L29">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L29">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -597,7 +592,7 @@
 					<div class="tsd-signature tsd-kind-icon">tooltip<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="rcsbtooltipmanager.html" class="tsd-signature-type">RcsbTooltipManager</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L27">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L27">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -607,17 +602,18 @@
 					<div class="tsd-signature tsd-kind-icon">track<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L26">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L26">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="updatedataonmove" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> update<wbr>Data<wbr>OnMove</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> update<wbr>Data<wbr>OnMove</h3>
 					<div class="tsd-signature tsd-kind-icon">update<wbr>Data<wbr>OnMove<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/locationviewinterface.html" class="tsd-signature-type">LocationViewInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#updatedataonmove">updateDataOnMove</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L24">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L25">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -642,14 +638,14 @@
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="xscale" class="tsd-anchor"></a>
-					<h3>x<wbr>Scale</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> x<wbr>Scale</h3>
 					<div class="tsd-signature tsd-kind-icon">x<wbr>Scale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ScaleLinear</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = scaleLinear()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#xscale">xScale</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L25">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L26">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -666,7 +662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L169">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:169</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L157">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:157</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -682,6 +678,30 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a><span class="tsd-signature-symbol"> | </span><a href="rcsbfvtrackdatamap.html" class="tsd-signature-type">RcsbFvTrackDataMap</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#data">data</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L73">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:73</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> d: <a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a><span class="tsd-signature-symbol"> | </span><a href="rcsbfvtrackdatamap.html" class="tsd-signature-type">RcsbFvTrackDataMap</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="displayempty" class="tsd-anchor"></a>
 					<h3>display<wbr>Empty</h3>
@@ -692,7 +712,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L166">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L199">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:199</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -709,7 +729,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L228">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L222">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:222</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -722,10 +742,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="getboardhighlight" class="tsd-anchor"></a>
-					<h3>get<wbr>Board<wbr>Highlight</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>Board<wbr>Highlight</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">get<wbr>Board<wbr>Highlight<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"set"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, propFlag<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -733,7 +753,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#getboardhighlight">getBoardHighlight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L99">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L100">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, operation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"set"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"add"</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"select"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"hover"</span>, propFlag<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -767,41 +787,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="getdata" class="tsd-anchor"></a>
-					<h3>get<wbr>Data</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#getdata">getData</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L91">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:91</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getdisplaycolor" class="tsd-anchor"></a>
-					<h3>get<wbr>Display<wbr>Color</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Display<wbr>Color<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/rcsbfvcolorgradient.html" class="tsd-signature-type">RcsbFvColorGradient</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L70">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:70</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/rcsbfvcolorgradient.html" class="tsd-signature-type">RcsbFvColorGradient</a></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getelementclickcallback" class="tsd-anchor"></a>
 					<h3>get<wbr>Element<wbr>Click<wbr>Call<wbr>Back</h3>
@@ -812,7 +797,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L46">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L45">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a>, e<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -850,7 +835,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L231">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:231</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L225">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:225</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Selection</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SVGGElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">BaseType</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -867,7 +852,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L241">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:241</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L235">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:235</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -885,7 +870,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#height">height</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L34">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L35">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -895,30 +880,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="highlighthover" class="tsd-anchor"></a>
-					<h3>highlight<wbr>Hover</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">highlight<wbr>Hover<span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="rcsbfvtrackdata.html#array" class="tsd-signature-type">Array</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#highlighthover">highlightHover</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L132">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:132</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>d: <a href="rcsbfvtrackdata.html#array" class="tsd-signature-type">Array</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/rcsbfvtrackdataelementinterface.html" class="tsd-signature-type">RcsbFvTrackDataElementInterface</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -933,7 +894,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#highlightregion">highlightRegion</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L108">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L109">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -960,7 +921,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L48">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L49">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -982,10 +943,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="isdataupdated" class="tsd-anchor"></a>
-					<h3>is<wbr>Data<wbr>Updated</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> is<wbr>Data<wbr>Updated</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">is<wbr>Data<wbr>Updated<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -993,34 +954,27 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#isdataupdated">isDataUpdated</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L87">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L88">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="load" class="tsd-anchor"></a>
-					<h3>load</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">?: </span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a><span class="tsd-signature-symbol"> | </span><a href="rcsbfvtrackdatamap.html" class="tsd-signature-type">RcsbFvTrackDataMap</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="move" class="tsd-anchor"></a>
+					<h3>move</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">move<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#load">load</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L72">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L202">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:202</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> d: <a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a><span class="tsd-signature-symbol"> | </span><a href="rcsbfvtrackdatamap.html" class="tsd-signature-type">RcsbFvTrackDataMap</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1035,7 +989,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#moveselection">moveSelection</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L136">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L131">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:131</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1058,7 +1012,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L95">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L86">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1071,17 +1025,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="processdata" class="tsd-anchor"></a>
-					<h3>process<wbr>Data</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> process<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">process<wbr>Data<span class="tsd-signature-symbol">(</span>dataElems<span class="tsd-signature-symbol">: </span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L211">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L205">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:205</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1104,7 +1058,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L86">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L77">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:77</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1121,7 +1075,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L215">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:215</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L209">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:209</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1148,7 +1102,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#setboardhighlight">setBoardHighlight</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L95">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L96">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:96</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1188,10 +1142,10 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="setdataupdated" class="tsd-anchor"></a>
-					<h3>set<wbr>Data<wbr>Updated</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> set<wbr>Data<wbr>Updated</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Data<wbr>Updated<span class="tsd-signature-symbol">(</span>flag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -1199,7 +1153,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#setdataupdated">setDataUpdated</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L83">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L84">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1222,7 +1176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L66">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L61">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:61</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1245,7 +1199,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L42">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L41">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1289,7 +1243,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L50">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L49">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1333,7 +1287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L54">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L53">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1377,7 +1331,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L82">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L73">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1400,7 +1354,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L90">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L81">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:81</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1463,7 +1417,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#setmanagers">setManagers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L103">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L104">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1489,7 +1443,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L74">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L65">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1512,7 +1466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L78">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L69">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1535,7 +1489,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L58">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L57">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1548,17 +1502,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="setupdatedataonmove" class="tsd-anchor"></a>
 					<h3>set<wbr>Update<wbr>Data<wbr>OnMove</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">set<wbr>Update<wbr>Data<wbr>OnMove<span class="tsd-signature-symbol">(</span>f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>d<span class="tsd-signature-symbol">: </span><a href="../interfaces/locationviewinterface.html" class="tsd-signature-type">LocationViewInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="rcsbfvtrackdata.html" class="tsd-signature-type">RcsbFvTrackData</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#setupdatedataonmove">setUpdateDataOnMove</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L62">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L92">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1600,7 +1555,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="rcsbabstracttrack.html">RcsbAbstractTrack</a>.<a href="rcsbabstracttrack.html#trackcolor">trackColor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L41">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts#L42">src/RcsbBoard/RcsbDisplay/RcsbAbstractTrack.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1623,7 +1578,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L144">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L135">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1646,7 +1601,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/0922c2b/src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts#L235">src/RcsbBoard/RcsbDisplay/RcsbCoreDisplay.ts:235</a></li>
+									<li>Defined in <a href="https://github.com/rcsb/rcsb-saguaro/blob/f67c40a/src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts#L229">src/RcsbBoard/RcsbDisplay/RcsbAbstractDisplay.ts:229</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1674,190 +1629,181 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="rcsbcoredisplay.html" class="tsd-kind-icon">Rcsb<wbr>Core<wbr>Display</a>
+						<a href="rcsbabstractdisplay.html" class="tsd-kind-icon">Rcsb<wbr>Abstract<wbr>Display</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="rcsbabstractdisplay.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="rcsbcoredisplay.html#_displaycolor" class="tsd-kind-icon">_display<wbr>Color</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#_height" class="tsd-kind-icon">_height</a>
+								<a href="rcsbabstractdisplay.html#_displaycolor" class="tsd-kind-icon">_display<wbr>Color</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#boardid" class="tsd-kind-icon">board<wbr>Id</a>
+								<a href="rcsbabstractdisplay.html#boardid" class="tsd-kind-icon">board<wbr>Id</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#contextmanager" class="tsd-kind-icon">context<wbr>Manager</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#contextmanager" class="tsd-kind-icon">context<wbr>Manager</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#d3manager" class="tsd-kind-icon">d3<wbr>Manager</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#elementclickcallback" class="tsd-kind-icon">element<wbr>Click<wbr>Call<wbr>Back</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#d3manager" class="tsd-kind-icon">d3<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#elemententercallback" class="tsd-kind-icon">element<wbr>Enter<wbr>Call<wbr>Back</a>
+								<a href="rcsbabstractdisplay.html#elementclickcallback" class="tsd-kind-icon">element<wbr>Click<wbr>Call<wbr>Back</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#elementleavecallback" class="tsd-kind-icon">element<wbr>Leave<wbr>Call<wbr>Back</a>
+								<a href="rcsbabstractdisplay.html#elemententercallback" class="tsd-kind-icon">element<wbr>Enter<wbr>Call<wbr>Back</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#elementselection" class="tsd-kind-icon">element<wbr>Selection</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#g" class="tsd-kind-icon">g</a>
+								<a href="rcsbabstractdisplay.html#elementleavecallback" class="tsd-kind-icon">element<wbr>Leave<wbr>Call<wbr>Back</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#hidden" class="tsd-kind-icon">hidden</a>
+								<a href="rcsbabstractdisplay.html#elementselection" class="tsd-kind-icon">element<wbr>Selection</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#g" class="tsd-kind-icon">g</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#hideemptytracksflag" class="tsd-kind-icon">hide<wbr>Empty<wbr>Tracks<wbr>Flag</a>
+								<a href="rcsbabstractdisplay.html#hidden" class="tsd-kind-icon">hidden</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#highlightenterelement" class="tsd-kind-icon">highlight<wbr>Enter<wbr>Element</a>
+								<a href="rcsbabstractdisplay.html#hideemptytracksflag" class="tsd-kind-icon">hide<wbr>Empty<wbr>Tracks<wbr>Flag</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#highlightleaveelement" class="tsd-kind-icon">highlight<wbr>Leave<wbr>Element</a>
+								<a href="rcsbabstractdisplay.html#highlightenterelement" class="tsd-kind-icon">highlight<wbr>Enter<wbr>Element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="rcsbabstractdisplay.html#highlightleaveelement" class="tsd-kind-icon">highlight<wbr>Leave<wbr>Element</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="rcsbcoredisplay.html#includetooltip" class="tsd-kind-icon">include<wbr>Tooltip</a>
+								<a href="rcsbabstractdisplay.html#includetooltip" class="tsd-kind-icon">include<wbr>Tooltip</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="rcsbcoredisplay.html#minratio" class="tsd-kind-icon">min<wbr>Ratio</a>
+								<a href="rcsbabstractdisplay.html#minratio" class="tsd-kind-icon">min<wbr>Ratio</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#mousemovecallback" class="tsd-kind-icon">mousemove<wbr>Call<wbr>Back</a>
+								<a href="rcsbabstractdisplay.html#mousemovecallback" class="tsd-kind-icon">mousemove<wbr>Call<wbr>Back</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#mouseoutcallback" class="tsd-kind-icon">mouseout<wbr>Call<wbr>Back</a>
+								<a href="rcsbabstractdisplay.html#mouseoutcallback" class="tsd-kind-icon">mouseout<wbr>Call<wbr>Back</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#mouseovercallback" class="tsd-kind-icon">mouseover<wbr>Call<wbr>Back</a>
+								<a href="rcsbabstractdisplay.html#mouseovercallback" class="tsd-kind-icon">mouseover<wbr>Call<wbr>Back</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#selectdatainrangeflag" class="tsd-kind-icon">select<wbr>Data<wbr>InRange<wbr>Flag</a>
+								<a href="rcsbabstractdisplay.html#selectdatainrangeflag" class="tsd-kind-icon">select<wbr>Data<wbr>InRange<wbr>Flag</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="rcsbcoredisplay.html#tooltipmanager" class="tsd-kind-icon">tooltip<wbr>Manager</a>
+								<a href="rcsbabstractdisplay.html#tooltipmanager" class="tsd-kind-icon">tooltip<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#trackid" class="tsd-kind-icon">track<wbr>Id</a>
+								<a href="rcsbabstractdisplay.html#trackid" class="tsd-kind-icon">track<wbr>Id</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="rcsbcoredisplay.html#updatedataonmove" class="tsd-kind-icon">update<wbr>Data<wbr>OnMove</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#updatedataonmove" class="tsd-kind-icon">update<wbr>Data<wbr>OnMove</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#xscale" class="tsd-kind-icon">x<wbr>Scale</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#_update" class="tsd-kind-icon">_update</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#displayempty" class="tsd-kind-icon">display<wbr>Empty</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#enter" class="tsd-kind-icon">enter</a>
+								<a href="rcsbabstractdisplay.html#_update" class="tsd-kind-icon">_update</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#getboardhighlight" class="tsd-kind-icon">get<wbr>Board<wbr>Highlight</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#getdata" class="tsd-kind-icon">get<wbr>Data</a>
+								<a href="rcsbabstractdisplay.html#data" class="tsd-kind-icon">data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#getdisplaycolor" class="tsd-kind-icon">get<wbr>Display<wbr>Color</a>
+								<a href="rcsbabstractdisplay.html#displayempty" class="tsd-kind-icon">display<wbr>Empty</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#getelementclickcallback" class="tsd-kind-icon">get<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a>
+								<a href="rcsbabstractdisplay.html#enter" class="tsd-kind-icon">enter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#getboardhighlight" class="tsd-kind-icon">get<wbr>Board<wbr>Highlight</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#getelements" class="tsd-kind-icon">get<wbr>Elements</a>
+								<a href="rcsbabstractdisplay.html#getelementclickcallback" class="tsd-kind-icon">get<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#getelements" class="tsd-kind-icon">get<wbr>Elements</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="rcsbcoredisplay.html#getratio" class="tsd-kind-icon">get<wbr>Ratio</a>
+								<a href="rcsbabstractdisplay.html#getratio" class="tsd-kind-icon">get<wbr>Ratio</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#height" class="tsd-kind-icon">height</a>
+								<a href="rcsbabstractdisplay.html#height" class="tsd-kind-icon">height</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#highlighthover" class="tsd-kind-icon">highlight<wbr>Hover</a>
+								<a href="rcsbabstractdisplay.html#highlightregion" class="tsd-kind-icon">highlight<wbr>Region</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#highlightregion" class="tsd-kind-icon">highlight<wbr>Region</a>
+								<a href="rcsbabstractdisplay.html#init" class="tsd-kind-icon">init</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#init" class="tsd-kind-icon">init</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#isdataupdated" class="tsd-kind-icon">is<wbr>Data<wbr>Updated</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#load" class="tsd-kind-icon">load</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#moveselection" class="tsd-kind-icon">move<wbr>Selection</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#isdataupdated" class="tsd-kind-icon">is<wbr>Data<wbr>Updated</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#plot" class="tsd-kind-icon">plot</a>
+								<a href="rcsbabstractdisplay.html#move" class="tsd-kind-icon">move</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="rcsbabstractdisplay.html#moveselection" class="tsd-kind-icon">move<wbr>Selection</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#processdata" class="tsd-kind-icon">process<wbr>Data</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#reset" class="tsd-kind-icon">reset</a>
+								<a href="rcsbabstractdisplay.html#plot" class="tsd-kind-icon">plot</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="rcsbcoredisplay.html#selectelements" class="tsd-kind-icon">select<wbr>Elements</a>
+								<a href="rcsbabstractdisplay.html#processdata" class="tsd-kind-icon">process<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#reset" class="tsd-kind-icon">reset</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#selectelements" class="tsd-kind-icon">select<wbr>Elements</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#setboardhighlight" class="tsd-kind-icon">set<wbr>Board<wbr>Highlight</a>
+								<a href="rcsbabstractdisplay.html#setboardhighlight" class="tsd-kind-icon">set<wbr>Board<wbr>Highlight</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rcsbabstractdisplay.html#setdataupdated" class="tsd-kind-icon">set<wbr>Data<wbr>Updated</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#setdisplaycolor" class="tsd-kind-icon">set<wbr>Display<wbr>Color</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#setelementclickcallback" class="tsd-kind-icon">set<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#setelemententercallback" class="tsd-kind-icon">set<wbr>Element<wbr>Enter<wbr>Call<wbr>Back</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#setelementleavecallback" class="tsd-kind-icon">set<wbr>Element<wbr>Leave<wbr>Call<wbr>Back</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#sethideemptytrack" class="tsd-kind-icon">set<wbr>Hide<wbr>Empty<wbr>Track</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="rcsbabstractdisplay.html#sethighlighthoverelement" class="tsd-kind-icon">set<wbr>Highlight<wbr>Hover<wbr>Element</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#setdataupdated" class="tsd-kind-icon">set<wbr>Data<wbr>Updated</a>
+								<a href="rcsbabstractdisplay.html#setmanagers" class="tsd-kind-icon">set<wbr>Managers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#setdisplaycolor" class="tsd-kind-icon">set<wbr>Display<wbr>Color</a>
+								<a href="rcsbabstractdisplay.html#setminratio" class="tsd-kind-icon">set<wbr>Min<wbr>Ratio</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#setelementclickcallback" class="tsd-kind-icon">set<wbr>Element<wbr>Click<wbr>Call<wbr>Back</a>
+								<a href="rcsbabstractdisplay.html#setselectdatainrange" class="tsd-kind-icon">set<wbr>Select<wbr>Data<wbr>InRange</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#setelemententercallback" class="tsd-kind-icon">set<wbr>Element<wbr>Enter<wbr>Call<wbr>Back</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#setelementleavecallback" class="tsd-kind-icon">set<wbr>Element<wbr>Leave<wbr>Call<wbr>Back</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#sethideemptytrack" class="tsd-kind-icon">set<wbr>Hide<wbr>Empty<wbr>Track</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#sethighlighthoverelement" class="tsd-kind-icon">set<wbr>Highlight<wbr>Hover<wbr>Element</a>
+								<a href="rcsbabstractdisplay.html#settooltip" class="tsd-kind-icon">set<wbr>Tooltip</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#setmanagers" class="tsd-kind-icon">set<wbr>Managers</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#setminratio" class="tsd-kind-icon">set<wbr>Min<wbr>Ratio</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#setselectdatainrange" class="tsd-kind-icon">set<wbr>Select<wbr>Data<wbr>InRange</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#settooltip" class="tsd-kind-icon">set<wbr>Tooltip</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#setupdatedataonmove" class="tsd-kind-icon">set<wbr>Update<wbr>Data<wbr>OnMove</a>
+								<a href="rcsbabstractdisplay.html#setupdatedataonmove" class="tsd-kind-icon">set<wbr>Update<wbr>Data<wbr>OnMove</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="rcsbcoredisplay.html#trackcolor" class="tsd-kind-icon">track<wbr>Color</a>
+								<a href="rcsbabstractdisplay.html#trackcolor" class="tsd-kind-icon">track<wbr>Color</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="rcsbcoredisplay.html#update" class="tsd-kind-icon">update</a>
+								<a href="rcsbabstractdisplay.html#update" class="tsd-kind-icon">update</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-static">
-								<a href="rcsbcoredisplay.html#datakey" class="tsd-kind-icon">data<wbr>Key</a>
+								<a href="rcsbabstractdisplay.html#datakey" class="tsd-kind-icon">data<wbr>Key</a>
 							</li>
 						</ul>
 					</li>

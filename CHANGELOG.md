@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.8.1] - 2021-06-14
+### Code Refactoring
+- Minor code refactoring  
+
 ## [1.8.0] - 2021-05-31
 ### Improvement
 - Attribute <b>disableMenu</b> hides the UI menu

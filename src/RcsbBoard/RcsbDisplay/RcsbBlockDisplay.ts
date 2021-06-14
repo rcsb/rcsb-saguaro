@@ -1,4 +1,4 @@
-import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
+import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection, BaseType, select, EnterElement} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
@@ -15,7 +15,7 @@ import {
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
-export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
+export class RcsbBlockDisplay extends RcsbAbstractDisplay {
 
 	private dx: number = 0.5;
 
@@ -34,12 +34,12 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 		super.plot(elements);
 		const config: PlotBlockInterface = {
 			elements: this.getElements(),
-			dy: this._height * (2 / 3),
+			dy: this.height() * (2 / 3),
 			dx: this.dx,
-			y_o: this._height * (1 / 6),
+			y_o: this.height() * (1 / 6),
 			xScale: this.xScale,
 			color: this._displayColor as string,
-			height: this._height
+			height: this.height()
 		};
 		this.rcsbD3BlockManager.plot(config);
 		if (this.minRatio == 0 || this.getRatio() > this.minRatio)
@@ -52,12 +52,12 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 		const config: MoveBlockInterface = {
 			dx: this.dx,
 			xScale: this.xScale,
-			height: this._height
+			height: this.height()
 		};
 		this.rcsbD3BlockManager.move(config);
     }
 
-    processData(dataElems: RcsbFvTrackData): RcsbFvTrackData{
+    protected processData(dataElems: RcsbFvTrackData): RcsbFvTrackData{
         this.loadDecorators(dataElems);
 		if( this.minRatio == 0 || this.getRatio()>this.minRatio) {
 			const out: RcsbFvTrackData = new RcsbFvTrackData();
@@ -157,20 +157,20 @@ export class RcsbBlockDisplay extends RcsbCoreDisplay implements RcsbDisplayInte
 
 		const circleConfig: PlotCircleInterface = {
 			elements: this.circles,
-			dy: this._height*(2/3),
+			dy: this.height()*(2/3),
 			dx: this.dx,
 			xScale: this.xScale,
 			color: this._displayColor as string,
-			height:this._height
+			height:this.height()
 		};
 		const lineConfig: PlotLineInterface = {
 			elements: this.lines,
-			y_o: this._height*(1/6),
-			dy: this._height*(2/3),
+			y_o: this.height()*(1/6),
+			dy: this.height()*(2/3),
 			dx: this.dx,
 			xScale: this.xScale,
 			color: this._displayColor as string,
-			height:this._height
+			height:this.height()
 		}
 		this.rcsbD3BlockManager.plotDecorators(circleConfig, lineConfig);
 	}

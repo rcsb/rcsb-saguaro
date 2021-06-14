@@ -3,11 +3,13 @@ import {ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
 import {
+    RcsbFvColorGradient,
     RcsbFvTrackData,
     RcsbFvTrackDataElementInterface,
     RcsbFvTrackDataMap
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
+import {BaseType, Selection} from "d3-selection";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;
@@ -28,6 +30,8 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     setMinRatio: (ratio: number) => void;
     setSelectDataInRange: (flag: boolean) => void;
     setHideEmptyTrack: (flag:boolean) =>  void;
+
+
 
     setCompositeHeight(h: number): void{
         this.compositeHeight = h;
@@ -135,14 +139,14 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         return this._bgColor;
     }
 
-    load(d?: RcsbFvTrackDataMap | RcsbFvTrackData): RcsbFvTrackDataMap{
+    data(d?: RcsbFvTrackDataMap | RcsbFvTrackData): RcsbFvTrackDataMap{
         if(d != undefined) {
             const e: RcsbFvTrackDataMap = d as RcsbFvTrackDataMap;
             this._data = e;
             this.innerDisplays.forEach(de=>{
                 const deData: RcsbFvTrackData | undefined = e.get(de.id);
                 if(deData != undefined)
-                    de.display.load(deData);
+                    de.display.data(deData);
             });
         }
         return this._data;
@@ -153,5 +157,10 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
             this.innerDisplays[0].display.highlightRegion(d,options);
         }
     }
+
+    setDisplayColor(color: string | RcsbFvColorGradient): void {
+    }
+
+    plot:(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>void;
 
 }

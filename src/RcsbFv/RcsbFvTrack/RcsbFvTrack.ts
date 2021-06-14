@@ -194,7 +194,7 @@ export class RcsbFvTrack {
                     else
                         trackDataMap.set(id,[]);
                 });
-                rcsbCompositeTrack.load(trackDataMap);
+                rcsbCompositeTrack.data(trackDataMap);
             }
         }else if (trackData instanceof RcsbFvTrackData){
             let nonOverlapping: Array<RcsbFvTrackData>;
@@ -204,7 +204,7 @@ export class RcsbFvTrack {
                 nonOverlapping = [trackData];
             }
             nonOverlapping.forEach(trackData=>{
-                this.buildRcsbTrack().load(trackData);
+                this.buildRcsbTrack().data(trackData);
             });
         }else{
             this.loadedData = false;

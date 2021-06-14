@@ -1,4 +1,4 @@
-import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
+import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection, BaseType, mouse, event, ContainerElement} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
@@ -12,7 +12,7 @@ import {largestTriangleOneBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
-export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
+export class RcsbLineDisplay extends RcsbAbstractDisplay {
 
     private _yDomain: [number, number];
     protected yScale: ScaleLinear<number,number> = scaleLinear();
@@ -65,10 +65,10 @@ export class RcsbLineDisplay extends RcsbCoreDisplay implements RcsbDisplayInter
     }
 
     setScale(): void{
-        if(typeof this._height === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
+        if(typeof this.height() === "number" && this._yDomain.length == 2 && typeof this._yDomain[0] === "number" && typeof this._yDomain[1] === "number") {
             this.yScale
                 .domain(this._yDomain)
-                .range([this._height-3,3]);
+                .range([this.height()-3,3]);
             this.definedScale = true;
         }else{
             throw "FATAL ERROR: d3 scale unknown format";

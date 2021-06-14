@@ -21,7 +21,7 @@ interface LineColorInterface {
     color: string;
 }
 
-export class RcsbAreaDisplay extends RcsbLineDisplay implements RcsbDisplayInterface{
+export class RcsbAreaDisplay extends RcsbLineDisplay {
     private area: Area<RcsbFvTrackDataElementInterface> = area<RcsbFvTrackDataElementInterface>().curve(curveStep);
     private multiLine: Array<LineColorInterface> = new Array<LineColorInterface>();
     protected readonly SUFFIX_ID: string = "area_";

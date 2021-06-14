@@ -11,8 +11,9 @@ import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
+import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 
-export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
+export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements RcsbDisplayInterface{
 
     protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
     private elementClickCallBack: (d?:RcsbFvTrackDataElementInterface, e?:MouseEvent)=>void;
@@ -21,7 +22,6 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
     private highlightEnterElement: (d?:RcsbFvTrackDataElementInterface)=>void;
     private highlightLeaveElement: (d?:RcsbFvTrackDataElementInterface)=>void;
     protected includeTooltip: boolean = true;
-    private updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     private readonly boardId: string;
     private readonly trackId: string;
     protected tooltipManager: RcsbTooltipManager;
@@ -29,7 +29,6 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
     private selectDataInRangeFlag: boolean = false;
     private hideEmptyTracksFlag: boolean = false;
     private hidden = false;
-
     private elementSelection: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGGElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
 
     constructor(boardId: string, trackId: string) {
@@ -59,16 +58,8 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         this.includeTooltip = flag;
     }
 
-    setUpdateDataOnMove( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> ): void{
-       this.updateDataOnMove = f;
-    }
-
     setDisplayColor(color: string  | RcsbFvColorGradient): void{
         this._displayColor = color;
-    }
-
-    getDisplayColor(): string|RcsbFvColorGradient{
-        return this._displayColor;
     }
 
     setMinRatio(ratio: number): void{
@@ -145,8 +136,8 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         const where: LocationViewInterface = {from:Math.floor(this.xScale.domain()[0]),to:Math.ceil(this.xScale.domain()[1])}
         if(typeof this.updateDataOnMove === "function"){
             this.updateDataOnMove(where).then((result:RcsbFvTrackData)=>{
-                this.load(result);
-                if(this.getData() != null) {
+                this.data(result);
+                if(this.data() != null) {
                     this._update(where, compKey);
                 }else{
                     this.displayEmpty()
@@ -155,7 +146,7 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
                 console.error(error);
             });
         }else{
-            if (this.getData() == null) {
+            if (this.data() == null) {
                 this.displayEmpty();
                 return;
             }
@@ -163,12 +154,9 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         }
     }
 
-    displayEmpty(): void {
-    }
-
     _update(where: LocationViewInterface, compKey?: string):void {
         if (this.selectDataInRangeFlag) {
-            let dataElems: RcsbFvTrackData = this.processData(this.getData().filter((s: RcsbFvTrackDataElementInterface, i: number) => {
+            let dataElems: RcsbFvTrackData = this.processData(this.data().filter((s: RcsbFvTrackDataElementInterface, i: number) => {
                 if (s.end == null) {
                     return (s.begin >= where.from && s.begin <= where.to);
                 } else {
@@ -195,7 +183,7 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
                 .classed(classes.rcsbElement + "_" + compKey, typeof compKey === "string")
                 .call(this.plot.bind(this));
         }else if( (this.minRatio == 0 || this.getRatio()>this.minRatio) && !this.isDataUpdated() ){
-            let dataElems: RcsbFvTrackData = this.processData(this.getData());
+            let dataElems: RcsbFvTrackData = this.processData(this.data());
             this.selectElements(dataElems,compKey)
                 .attr("class", classes.rcsbElement)
                 .classed(classes.rcsbElement + "_" + compKey, typeof compKey === "string")
@@ -208,13 +196,19 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         }
     }
 
-    processData(dataElems: RcsbFvTrackData): RcsbFvTrackData{
+    displayEmpty (): void{
+    };
+
+    move(): void {
+    };
+
+    protected processData(dataElems: RcsbFvTrackData): RcsbFvTrackData{
        return dataElems;
     }
 
     protected selectElements(dataElems: RcsbFvTrackData, compKey?: string): Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> {
         const className:string  = typeof compKey === "string" ? "."+classes.rcsbElement+"_" + compKey : "."+classes.rcsbElement;
-        const elements:Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = this.g.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>(className).data(dataElems, RcsbCoreDisplay.dataKey);
+        const elements:Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = this.g.selectAll<SVGGElement,RcsbFvTrackDataElementInterface>(className).data(dataElems, RcsbAbstractDisplay.dataKey);
         const newElems:Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = elements.enter()
             .append<SVGGElement>(RcsbD3Constants.G)
             .attr("class", classes.rcsbElement)
@@ -242,5 +236,7 @@ export abstract class RcsbCoreDisplay extends RcsbAbstractTrack{
         const xScale = this.xScale;
         return (xScale.range()[1]-xScale.range()[0])/(xScale.domain()[1]-xScale.domain()[0]);
     }
+
+
 
 }

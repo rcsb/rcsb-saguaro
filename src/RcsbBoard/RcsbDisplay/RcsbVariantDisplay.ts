@@ -1,4 +1,4 @@
-import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
+import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {BaseType, Selection} from "d3-selection";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
@@ -9,7 +9,7 @@ import {
 import {scalePoint, ScalePoint} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
-export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface {
+export class RcsbVariantDisplay extends RcsbAbstractDisplay {
 
     private aaList: Array<string> = ['G', 'A', 'V', 'L', 'I', 'S', 'T', 'C', 'M', 'D', 'N', 'E', 'Q', 'R', 'K', 'H', 'F', 'Y', 'W', 'P', '≡', '⊖'];
     private yScale: ScalePoint<string> = scalePoint();
@@ -19,10 +19,10 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
     private rcsbD3VariantManager = new RcsbD3VariantManager();
 
     private setScale(): void{
-        if(typeof this._height === "number") {
+        if(typeof this.height() === "number") {
             this.yScale
                 .domain(this.aaList)
-                .range([2*this.radius,this._height - 2*this.radius]);
+                .range([2*this.radius,this.height() - 2*this.radius]);
             this.definedScale = true;
         }else{
             throw "FATAL ERROR: d3 scale unknown format";
@@ -39,7 +39,7 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
             radius: this.radius,
             xScale: this.xScale,
             yScale: this.yScale,
-            height: this._height,
+            height: this.height(),
             color: this._displayColor as string,
             trackG: this.g
         };
@@ -51,7 +51,7 @@ export class RcsbVariantDisplay extends RcsbCoreDisplay implements RcsbDisplayIn
             elements: this.getElements(),
             xScale: this.xScale,
             yScale: this.yScale,
-            height: this._height,
+            height: this.height(),
             trackG: this.g
         };
         this.rcsbD3VariantManager.move(config);

@@ -9,21 +9,22 @@ import * as classes from "../scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {
     RcsbFvTrackData,
-    RcsbFvTrackDataElementGapInterface,
     RcsbFvTrackDataElementInterface,
     RcsbFvTrackDataMap
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
+import {LocationViewInterface} from "../RcsbBoard";
 
 export abstract class RcsbAbstractTrack {
-    d3Manager: RcsbD3Manager;
-    contextManager: RcsbFvContextManager;
+    protected d3Manager: RcsbD3Manager;
+    protected contextManager: RcsbFvContextManager;
     private _bgColor: string = "#FFFFFF";
-    _height: number;
+    private _height: number;
     private _width: number;
     private _data: RcsbFvTrackData;
-    xScale: ScaleLinear<number,number> = scaleLinear();
-    g: Selection<SVGGElement,any,null,undefined>;
+    protected updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
+    protected xScale: ScaleLinear<number,number> = scaleLinear();
+    protected g: Selection<SVGGElement,any,null,undefined>;
     private boardHighlight: (d: RcsbFvTrackDataElementInterface, operation: 'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
@@ -69,7 +70,7 @@ export abstract class RcsbAbstractTrack {
         this.g = this.d3Manager.addTrack(config);
     }
 
-    load(d?:  RcsbFvTrackData | RcsbFvTrackDataMap): RcsbFvTrackData {
+    data(d?:  RcsbFvTrackData | RcsbFvTrackDataMap): RcsbFvTrackData {
         if(d!=null) {
             const e: RcsbFvTrackData = d as RcsbFvTrackData;
             if (e != null) {
@@ -80,23 +81,23 @@ export abstract class RcsbAbstractTrack {
         return this._data;
     }
 
-    setDataUpdated(flag: boolean){
+    protected setDataUpdated(flag: boolean){
         this.dataUpdatedFlag = flag;
     }
 
-    isDataUpdated(){
+    protected isDataUpdated(){
         return this.dataUpdatedFlag;
     }
 
-    getData(): RcsbFvTrackData{
-        return this._data;
+    setUpdateDataOnMove( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> ): void{
+        this.updateDataOnMove = f;
     }
 
     setBoardHighlight(f: (d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void){
         this.boardHighlight = f;
     }
 
-    getBoardHighlight(): (d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void {
+    protected getBoardHighlight(): (d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void {
         return this.boardHighlight;
     }
 
@@ -106,10 +107,8 @@ export abstract class RcsbAbstractTrack {
     }
 
     highlightRegion(d:Array<RcsbFvTrackDataElementInterface>|null, options?:{color?:string, rectClass?: string;}): void {
-
         const height: number = this._height;
         const xScale: ScaleLinear<number,number> = this.xScale;
-
         if(typeof(height)==="number" && d!= null ) {
             const highlightRegConfig: HighlightRegionInterface = {
                 trackG: this.g,
@@ -129,19 +128,13 @@ export abstract class RcsbAbstractTrack {
 
     }
 
-    highlightHover(d:Array<RcsbFvTrackDataElementInterface>|null): void {
-        this.highlightRegion(d, {color:"#FFCCCC", rectClass:classes.rcsbHoverRect})
-    };
-
     moveSelection(mode:'select'|'hover'): void{
-
         const xScale: ScaleLinear<number,number> = this.xScale;
         const moveSelectionConfig: MoveSelectedRegionInterface = {
             trackG: this.g,
             xScale: xScale,
             rectClass: mode === 'select' ? classes.rcsbSelectRect : classes.rcsbHoverRect
         };
-
         this.d3Manager.moveSelection(moveSelectionConfig);
     }
 

@@ -1,11 +1,11 @@
-import {RcsbCoreDisplay} from "./RcsbCoreDisplay";
+import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Axis, AxisDomain, axisBottom} from "d3-axis";
 import {format} from "d3-format";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import * as classes from "../scss/RcsbBoard.module.scss";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
-export class RcsbAxisDisplay extends RcsbCoreDisplay implements RcsbDisplayInterface{
+export class RcsbAxisDisplay extends RcsbAbstractDisplay {
 
     private xAxis: Axis<AxisDomain>;
     private readonly length: number|undefined;
