@@ -70,14 +70,13 @@ interface SelectedElementInterface {
 
 export class RcsbD3Manager {
 
-    _dom: Selection<HTMLElement | null, any, null, undefined>;
-    _svg: Selection<SVGSVGElement, any, null, undefined>;
-    _zoomG: Selection<SVGGElement, any, null, undefined>;
-    _svgG: Selection<SVGGElement, any, null, undefined>;
-    _pane: Selection<SVGRectElement, any, null, undefined>;
-    _trackHeightPosition: number = 0;
-
-    _width: number;
+    private _dom: Selection<HTMLElement | null, any, null, undefined>;
+    private _svg: Selection<SVGSVGElement, any, null, undefined>;
+    private _zoomG: Selection<SVGGElement, any, null, undefined>;
+    private _svgG: Selection<SVGGElement, any, null, undefined>;
+    private _pane: Selection<SVGRectElement, any, null, undefined>;
+    private _trackHeightPosition: number = 0;
+    private _width: number;
 
     svgG(): Selection<SVGGElement, any, null, undefined> {
         return this._svgG;
