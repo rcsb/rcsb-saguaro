@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.8.2] - 2021-06-21
+### Minor data display
+- Min prefixWidth when fitTitleWidth is used
+
 ## [1.8.1] - 2021-06-14
 ### Code Refactoring
 - Minor code refactoring  

@@ -1,6 +1,6 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "RCSB 1D Feature Viewer",
   "main": "build/RcsbFv.js",
   "files": [

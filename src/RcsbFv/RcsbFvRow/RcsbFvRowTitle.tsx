@@ -32,7 +32,8 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
         const trackTitle: string = typeof this.configData?.rowTitle === "string" ? this.configData.rowTitle : (typeof this.configData?.rowTitle === "object" ? this.configData.rowTitle.visibleTex : "");
         const rowMark: JSX.Element = (<div style={{display:"inline-block", width:6, height:6, marginBottom: 4, marginRight:5}} className={classes.rcsbFvRowMark} ><div/></div>);
         if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0 && this.configData.fitTitleWidth){
-            const prefixWidth: number = Math.round(((this.configData.rowPrefix.length/this.configData.rowPrefix.concat(trackTitle).length)*(this.configStyle().width as number)));
+            const prefixLength: number = Math.max(this.configData.rowPrefix.length, 16);
+            const prefixWidth: number = Math.round((prefixLength/(prefixLength+trackTitle.length)*(this.configStyle().width as number)));
             const titleWidth: number = (this.configStyle().width as number)-prefixWidth;
             const style: React.CSSProperties = {width:titleWidth,height:height,paddingRight:this.PADDING_RIGHT};
             return (
