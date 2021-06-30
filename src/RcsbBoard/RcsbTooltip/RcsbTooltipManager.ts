@@ -63,7 +63,7 @@ export class RcsbTooltipManager {
         }
         if(typeof d.value === "number"){
             const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
-            valueRegion.append(" val: "+d.value);
+            valueRegion.append(" value: "+d.value);
             tooltipDiv.append(valueRegion);
             tooltipDiv.append(RcsbTooltipManager.bNode());
         }

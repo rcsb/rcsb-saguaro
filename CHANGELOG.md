@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.8.3] - 2021-06-30
+### Minor data display
+- Mouse hover track element tooltip value tag changed from "val" to "value"
+
 ## [1.8.2] - 2021-06-21
 ### Minor data display
 - Min prefixWidth when fitTitleWidth is used
