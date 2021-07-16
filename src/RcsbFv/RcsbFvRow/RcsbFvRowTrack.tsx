@@ -42,6 +42,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private rcsbFvTrack : RcsbFvTrack;
     /**Timeout to render*/
     private readonly  renderTimeout: number = 32;
+    private timeoutPid: number | null = null;
 
     readonly state : RcsbFvRowTrackState = {
         rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight + this.rowBorderHeight(),
@@ -63,7 +64,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     componentDidMount(): void{
-        setTimeout(()=>{
+        this.timeoutPid = setTimeout(()=>{
             this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager);
             this.updateHeight();
             this.props.contextManager.next({eventType:EventType.BOARD_READY, eventData:this.props.id});
@@ -71,6 +72,8 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     componentWillUnmount(): void {
+        if(typeof this.timeoutPid === "number")
+            clearTimeout(this.timeoutPid);
         if(this.rcsbFvTrack != null) {
             this.rcsbFvTrack.unsubscribe();
         }

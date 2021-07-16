@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.8.4] - 2021-07-16
+### Minor bug correction
+- Clearing RcsbFvTrack if RcsbFvRowTrack is unmounted
+
 ## [1.8.3] - 2021-06-30
 ### Minor data display
 - Mouse hover track element tooltip value tag changed from "val" to "value"

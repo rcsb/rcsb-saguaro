@@ -21,7 +21,7 @@ RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {});
 `npm install @rcsb/rcsb-saguaro`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro@1.8.3/build/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro@1.8.4/build/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### Library Documentation
 TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/globals.html).
