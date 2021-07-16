@@ -77,7 +77,7 @@ interface CommonConfigInterface{
     minRatio?:number;
     /**Only data that fall in the current feature viewer range in rendered*/
     selectDataInRangeFlag?: boolean;
-    /**Hide tracks with no visible data*/
+    /**Hide tracks with no visible data. Needs selectDataInRangeFlag = true*/
     hideEmptyTrackFlag?: boolean;
 }
 
