@@ -19,14 +19,16 @@ import {
 interface LineColorInterface {
     points:RcsbFvTrackDataElementInterface[];
     color: string;
+    alpha?: number;
 }
 
 export class RcsbAreaDisplay extends RcsbLineDisplay {
     private area: Area<RcsbFvTrackDataElementInterface> = area<RcsbFvTrackDataElementInterface>().curve(curveStep);
     private multiLine: Array<LineColorInterface> = new Array<LineColorInterface>();
+    private blockAreaFlag: boolean = false;
     protected readonly SUFFIX_ID: string = "area_";
 
-    setInterpolationType(type: string): void{
+    public setInterpolationType(type: string): void{
         super.setInterpolationType(type);
         if(type === InterpolationTypes.CARDINAL)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveCardinal);
@@ -36,6 +38,10 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveBasis);
         else if(type === InterpolationTypes.LINEAR)
             this.area = area<RcsbFvTrackDataElementInterface>().curve(curveLinear);
+    }
+
+    public setBlockArea(flag: boolean){
+        this.blockAreaFlag = flag;
     }
 
     private setArea(): void{
@@ -58,7 +64,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
             })
     }
 
-    plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
+    public plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
         if(!this.definedScale){
             this.setScale();
             this.setArea();
@@ -68,18 +74,19 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         if(typeof this._displayColor === "string") {
             this.multiLine = [{points: this.downSampling(elements.data()), color: this._displayColor}];
         }else if(typeof this._displayColor === "object"){
-            this.multiLine = this.downSamplingSplit(elements.data(),this._displayColor);
+            this.multiLine = this.downSamplingSplit(elements.data(),buildColorThreshold(this._displayColor));
         }
         RcsbD3LineManager.clean({trackG:this.g});
-        RcsbD3AreaManager.plotAxis({
-            trackG: this.g,
-            x1: this.xScale.range()[0],
-            x2: this.xScale.range()[1],
-            y1: this.yScale(0) ?? 0,
-            y2: this.yScale(0) ?? 0
-        });
+        if(!this.blockAreaFlag)
+            RcsbD3AreaManager.plotAxis({
+                trackG: this.g,
+                x1: this.xScale.range()[0],
+                x2: this.xScale.range()[1],
+                y1: this.yScale(0) ?? 0,
+                y2: this.yScale(0) ?? 0
+            });
         this.multiLine.forEach((e:LineColorInterface,index:number)=>{
-            if(this.multiLine.length == 1) {
+            if(this.multiLine.length == 1 && !this.blockAreaFlag) {
                 const borderConfig: PlotLineInterface = {
                     points: e.points,
                     line: this.line,
@@ -95,14 +102,14 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 trackG: this.g,
                 area: this.area,
                 id:this.SUFFIX_ID+index,
-                opacity: (this.multiLine.length > 1 ? 1 : .2),
+                opacity: (e.alpha ?? ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
                 clickCallBack:this.clickCallBack
             };
             RcsbD3AreaManager.plot(areaConfig);
         });
     }
 
-    move(): void{
+    public move(): void{
         this.updateArea();
         this.multiLine.forEach((e:LineColorInterface,index:number)=>{
             const areaConfig: MoveAreaInterface = {
@@ -125,7 +132,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         this.setDataUpdated(false);
     }
 
-    private downSamplingSplit(points: RcsbFvTrackDataElementInterface[], gradient:RcsbFvColorGradient):Array<LineColorInterface> {
+    private downSamplingSplit(points: RcsbFvTrackDataElementInterface[], gradient:{thresholds:Array<number>;colors:Array<string>;}):Array<LineColorInterface> {
         const tmp:Array<LineColorInterface> = new Array<LineColorInterface>();
         const lineColorArray:Array<LineColorInterface> = new Array<LineColorInterface>();
         const domain: {min:number;max:number;} = {min:Number.MAX_SAFE_INTEGER,max:Number.MIN_SAFE_INTEGER};
@@ -148,11 +155,11 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         points.forEach((p) => {
             this.innerData[p.begin]=p;
             if(p.begin>domain.min && p.begin<domain.max) {
-                const thrIndex: number = RcsbAreaDisplay.searchClassThreshold(p.value as number, gradient.thresholds);
-                tmp[thrIndex].points[p.begin] = p;
+                const thrIndex: number = searchClassThreshold(p.value as number, gradient.thresholds);
+                tmp[thrIndex].points[p.begin] = this.blockAreaFlag ? {...p, value:1} : p;
             }
         });
-        tmp.forEach((lineColor)=>{
+        tmp.forEach((lineColor, index)=>{
             let out:RcsbFvTrackDataElementInterface[] = [];
             lineColor.points.forEach((p)=> {
                 if(p!= null && p.begin>domain.min && p.begin<domain.max){
@@ -171,15 +178,28 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 sampler.y((d:RcsbFvTrackDataElementInterface)=>{return d.value});
                 out = sampler(out);
             }
-            lineColorArray.push({points:out,color:lineColor.color});
+            lineColorArray.push({points:out,color:lineColor.color,alpha:gradient.thresholds[index] ?? 1});
         });
         return lineColorArray.reverse();
     }
 
-    private static searchClassThreshold(x: number, thresholds: Array<number>): number{
-        if(x>thresholds[0])
-            return 1;
-        else
-            return 0;
+}
+
+function searchClassThreshold(x: number, thresholds: Array<number>): number{
+    if(x<thresholds[0])
+        return 0;
+    for(let i=0;i<thresholds.length-1;i++){
+        if(thresholds[i+1] > x && x >= thresholds[i] )
+            return i+1
     }
+    return thresholds.length;
+}
+
+function buildColorThreshold(displayColor: RcsbFvColorGradient): {thresholds:Array<number>;colors:Array<string>;} {
+    if(displayColor.colors instanceof Array)
+        return {thresholds: displayColor.thresholds, colors: displayColor.colors};
+    return {
+        thresholds: displayColor.thresholds,
+        colors: Array(displayColor.thresholds.length+1).fill(displayColor.colors)
+    };
 }

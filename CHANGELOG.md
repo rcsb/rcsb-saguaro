@@ -2,6 +2,13 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.9.0] - 2021-08-11
+### New track display
+- `RcsbFvDisplayTypes.BLOCK_AREA ("block-area")` displays track data as block shapes and alpha-gradient colors using the `RcsbFvDisplayTypes.AREA` display under the hood. 
+Display alpha-gradient color must define track `displayColor` as a `RcsbFvColorGradient` object where `colors` is a single hex and `thresholds` 
+an array of sorted (- to +) numbers in (0,1) that define the alpha level bins. Track elements `RcsbFvTrackDataElementInterface.value` are used to select the alpha 
+level of the track position  
+ 
 ## [1.8.4] - 2021-07-16
 ### Minor bug correction
 - Clearing RcsbFvTrack if RcsbFvRowTrack is unmounted

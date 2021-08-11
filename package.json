@@ -1,6 +1,6 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "1.8.4",
+  "version": "1.9.0",
   "description": "RCSB 1D Feature Viewer",
   "main": "build/RcsbFv.js",
   "files": [
@@ -40,8 +40,8 @@
     "@babel/core": "^7.10.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
-    "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.2",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.8",
     "@types/react-transition-group": "^4.4.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",

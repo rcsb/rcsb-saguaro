@@ -74,7 +74,7 @@ export interface RcsbFvTrackDataElementInterface {
 
 export interface RcsbFvColorGradient {
     thresholds:Array<number>;
-    colors:Array<string>;
+    colors:Array<string> | string;
 }
 
 /**Array of annotation elements*/

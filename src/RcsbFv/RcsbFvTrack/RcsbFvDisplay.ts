@@ -107,6 +107,12 @@ export class RcsbFvDisplay {
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
+                case RcsbFvDisplayTypes.BLOCK_AREA:
+                    if(config.displayDomain != undefined)
+                        out = areaDisplay(config.boardId, config.trackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType, true);
+                    else
+                        throw "Track displayDomain (yScale) not defined";
+                    break;
                 case RcsbFvDisplayTypes.VARIANT:
                     out = variantDisplay(config.boardId, config.trackId, config.displayColor as string);
                     break;
@@ -197,12 +203,14 @@ function lineDisplay(boardId: string, trackId: string, color: string, domain:[nu
     return display;
 }
 
-function areaDisplay(boardId: string, trackId: string, color: string | RcsbFvColorGradient, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
+function areaDisplay(boardId: string, trackId: string, color: string | RcsbFvColorGradient, domain:[number,number], interpolationType?: string, blockAreaFlag?: boolean) : RcsbDisplayInterface{
     const display: RcsbAreaDisplay = new RcsbAreaDisplay(boardId,trackId);
     display.setDisplayColor(color);
     display.yDomain(domain);
-    if(interpolationType != undefined)
+    if(typeof interpolationType === "string")
         display.setInterpolationType(interpolationType);
+    if(typeof blockAreaFlag === "boolean")
+        display.setBlockArea(blockAreaFlag)
     return display;
 }
 

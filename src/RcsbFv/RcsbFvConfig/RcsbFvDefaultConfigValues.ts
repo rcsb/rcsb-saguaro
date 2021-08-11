@@ -56,6 +56,7 @@ export const enum RcsbFvDisplayTypes {
     PIN = "pin",
     LINE="line",
     AREA="area",
+    BLOCK_AREA="block-area",
     VLINE="vline",
     VARIANT="variant",
     BOND="bond",
