@@ -9,11 +9,12 @@ The package offers multiple types of data displays and a rich set of options to 
 <div id="pfv" ></div>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro-app@2.2.0/build/dist/app.js" type="text/javascript"></script>
 <script type="text/javascript">
-RcsbFvWebApp.setBoardConfig({
-    trackWidth:540,
-    rowTitleWidth:170
+RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {
+    boardConfig:{
+        trackWidth:540,
+        rowTitleWidth:170
+    }
 });
-RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {});
 </script>
 --->
 
