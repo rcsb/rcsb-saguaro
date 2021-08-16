@@ -163,7 +163,7 @@ $border-rcsbFvRowTrack: 1px;
 }
 
 .rcsbUI * {
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
 $border-rcsbFvIcon: 1px;

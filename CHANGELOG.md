@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.9.1] - 2021-08-16
+### Minor css modification
+Added `!important` to UI menu `box-sizing` 
+
 ## [1.9.0] - 2021-08-11
 ### New track display
 - `RcsbFvDisplayTypes.BLOCK_AREA ("block-area")` displays track data as block shapes and alpha-gradient colors using the `RcsbFvDisplayTypes.AREA` display under the hood. 
