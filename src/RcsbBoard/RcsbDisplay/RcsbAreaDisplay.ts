@@ -102,7 +102,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 trackG: this.g,
                 area: this.area,
                 id:this.SUFFIX_ID+index,
-                opacity: (e.alpha ?? ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
+                opacity: (this.blockAreaFlag ? e.alpha : ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
                 clickCallBack:this.clickCallBack
             };
             RcsbD3AreaManager.plot(areaConfig);

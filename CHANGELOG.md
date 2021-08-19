@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.9.2] - 2021-08-19
+### Bug correction
+Fixed alpha channel when threshold value is 0 
+
 ## [1.9.1] - 2021-08-16
 ### Minor css modification
 Added `!important` to UI menu `box-sizing` 
