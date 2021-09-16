@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.10.0] - 2021-09-16
+### Configuration improvement
+Added configuration callback when rendering starts
+
 ## [1.9.2] - 2021-08-19
 ### Bug correction
 Fixed alpha channel when threshold value is 0 

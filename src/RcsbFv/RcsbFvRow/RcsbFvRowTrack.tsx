@@ -41,7 +41,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     /**Track Protein Feature Viewer object*/
     private rcsbFvTrack : RcsbFvTrack;
     /**Timeout to render*/
-    private readonly  renderTimeout: number = 32;
+    private readonly  RENDER_TIMEOUT: number = 32;
     private timeoutPid: number | null = null;
 
     readonly state : RcsbFvRowTrackState = {
@@ -68,7 +68,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
             this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager);
             this.updateHeight();
             this.props.contextManager.next({eventType:EventType.BOARD_READY, eventData:this.props.id});
-        },this.props.rowNumber*this.renderTimeout);
+        },this.props.rowNumber*this.RENDER_TIMEOUT);
     }
 
     componentWillUnmount(): void {

@@ -110,6 +110,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             />;
             rowIndexShift = 1;
         }
+        this.renderStarts();
         return (
             <div className={classes.rcsbFvRootContainer} onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
                 <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
@@ -669,6 +670,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(tooltipDiv == null)
             return;
         tooltipDiv.setAttribute(RcsbFvDOMConstants.POPPER_HIDDEN,"");
+    }
+
+    private renderStarts(): void {
+        if(typeof this.props.boardConfigData.onFvRenderStartsCallback === "function")
+            this.props.boardConfigData.onFvRenderStartsCallback();
     }
 
 }

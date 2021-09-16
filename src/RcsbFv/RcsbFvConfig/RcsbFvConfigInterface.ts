@@ -51,6 +51,8 @@ export interface RcsbFvBoardConfigInterface {
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
     /**Hide row hover glow*/
     hideRowGlow?: boolean;
+    /**Callback function called when the feature viewer rendering starts*/
+    onFvRenderStartsCallback?:()=>void;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
