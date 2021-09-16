@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.10.1] - 2021-09-16
+### Bug correction
+Render callback empty row config bug fixed
+
 ## [1.10.0] - 2021-09-16
 ### Configuration improvement
 Added configuration callback when rendering starts

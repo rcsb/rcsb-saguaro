@@ -153,6 +153,12 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         );
     }
 
+    componentDidMount(): void {
+        this.subscription = this.subscribe();
+        if(typeof this.state.boardConfigData.selectionChangeCallBack === "function")
+            this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallBack);
+    }
+
     /**Returns the full track width (title+annotations)
      * @return Board track full width
      * */
@@ -253,8 +259,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         }
     }
 
-
-
     private inactivateHover(): void{
         this.activeMouseOver(false);
         this.hideUI();
@@ -312,12 +316,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         });
         this.setState({rowConfigData: rowConfigData, boardConfigData:this.state.boardConfigData});
         this.setScale();
-    }
-
-    componentDidMount(): void {
-        this.subscription = this.subscribe();
-        if( typeof this.state.boardConfigData.selectionChangeCallBack === "function")
-            this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallBack);
     }
 
     private setMouseOverCallback(): (()=>void)|undefined{
@@ -673,8 +671,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private renderStarts(): void {
-        if(typeof this.props.boardConfigData.onFvRenderStartsCallback === "function")
-            this.props.boardConfigData.onFvRenderStartsCallback();
+        if(typeof this.state.boardConfigData.onFvRenderStartsCallback === "function") {
+            this.state.boardConfigData.onFvRenderStartsCallback();
+        }
     }
 
 }
