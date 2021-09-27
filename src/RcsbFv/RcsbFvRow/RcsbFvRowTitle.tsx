@@ -60,20 +60,28 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div className={classes.rcsbFvRowTitleText} style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}>
+                    <div className={classes.rcsbFvRowTitleText+(this.state.expandTitle ? " "+classes.rcsbFvRowTitleTextExpand : "")}
+                         style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}
+                         onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
+                         onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
+                    >
                         {rowMark}
                         {this.configData.rowPrefix+" "}{this.setTitle()}
                     </div>
                 </div>
             );
-        }else {
+        }else{
             return (
                 <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
                     {
                         this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
                                                        className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
                     }
-                    <div className={classes.rcsbFvRowTitleText+(this.state.expandTitle ? " "+classes.rcsbFvRowTitleTextExpand : "")} style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}} onMouseEnter={(evt)=>{this.expandTitle(evt, true)}} onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}>
+                    <div className={classes.rcsbFvRowTitleText+(this.state.expandTitle ? " "+classes.rcsbFvRowTitleTextExpand : "")}
+                         style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}
+                         onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
+                         onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
+                    >
                         {rowMark}
                         {this.setTitle()}
                     </div>

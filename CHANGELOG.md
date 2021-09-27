@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [1.10.2] - 2021-09-27
+### Improvement
+Expand title for non-fit prefixed rows 
+
 ## [1.10.1] - 2021-09-16
 ### Bug correction
 Render callback empty row config bug fixed
