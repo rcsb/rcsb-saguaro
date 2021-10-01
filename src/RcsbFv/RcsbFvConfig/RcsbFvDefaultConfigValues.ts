@@ -57,6 +57,7 @@ export const enum RcsbFvDisplayTypes {
     LINE="line",
     AREA="area",
     BLOCK_AREA="block-area",
+    MULTI_AREA="multi-area",
     VLINE="vline",
     VARIANT="variant",
     BOND="bond",

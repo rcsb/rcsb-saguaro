@@ -1,4 +1,3 @@
-import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {RcsbLineDisplay} from "./RcsbLineDisplay";
 import {area, Area, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
@@ -26,6 +25,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
     private area: Area<RcsbFvTrackDataElementInterface> = area<RcsbFvTrackDataElementInterface>().curve(curveStep);
     private multiLine: Array<LineColorInterface> = new Array<LineColorInterface>();
     private blockAreaFlag: boolean = false;
+    private multiAreaFlag: boolean = false;
     protected readonly SUFFIX_ID: string = "area_";
 
     public setInterpolationType(type: string): void{
@@ -44,6 +44,10 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         this.blockAreaFlag = flag;
     }
 
+    public setMultiArea(flag: boolean){
+        this.multiAreaFlag = flag;
+    }
+
     private setArea(): void{
         this.setLine();
         this.area
@@ -51,9 +55,15 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 return this.xScale(d.begin) ?? 0;
             })
             .y1((d:RcsbFvTrackDataElementInterface) => {
+                if(d.values instanceof Array)
+                    return this.yScale(d.values[1]) ?? 0;
                 return this.yScale(d.value as number) ?? 0;
             })
-            .y0( this.yScale(0) ?? 0);
+            .y0( (d:RcsbFvTrackDataElementInterface) => {
+                if(d.values instanceof Array)
+                    return this.yScale(d.values[0]) ?? 0;
+                return this.yScale(0) ?? 0;
+            });
     }
 
     private updateArea(): void{
@@ -149,14 +159,22 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         for(let n = Math.ceil(domain.min); n<domain.max; n++){
             this.innerData.push(null);
             gradient.colors.forEach((c,i)=>{
-                tmp[i].points[n] = {begin:n,value:0};
+                tmp[i].points[n] = {begin:n,value:0,values:[0,0]};
             });
         }
         points.forEach((p) => {
             this.innerData[p.begin]=p;
             if(p.begin>domain.min && p.begin<domain.max) {
-                const thrIndex: number = searchClassThreshold(p.value as number, gradient.thresholds);
-                tmp[thrIndex].points[p.begin] = this.blockAreaFlag ? {...p, value:1} : p;
+                if(this.multiAreaFlag){
+                    gradient.colors.forEach((c,n)=>{
+                        if(p.values)
+                            tmp[n].points[p.begin] = {...p, values:[ (n-1)<0 ? 0 : p.values[n-1],p.values[n] ]};
+                    })
+                }else{
+                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    const thrIndex: number = searchClassThreshold(p.value as number, gradient.thresholds);
+                    tmp[thrIndex].points[p.begin] = this.blockAreaFlag ? {...p, value: 1} : p;
+                }
             }
         });
         tmp.forEach((lineColor, index)=>{
@@ -166,10 +184,10 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                     out.push(p);
                 }
             });
-            out.unshift({begin:domain.min,value:0});
-            out.unshift({begin:this.xScale.domain()[0],value:0});
-            out.push({begin:domain.max,value:0});
-            out.push({begin:this.xScale.domain()[1],value:0});
+            out.unshift({begin:domain.min,value:0,values:[0,0]});
+            out.unshift({begin:this.xScale.domain()[0],value:0,values:[0,0]});
+            out.push({begin:domain.max,value:0,values:[0,0]});
+            out.push({begin:this.xScale.domain()[1],value:0,values:[0,0]});
             if(out.length>thr){
                 const bucketSize = out.length/thr ;
                 const sampler = largestTriangleOneBucket();
@@ -180,6 +198,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
             }
             lineColorArray.push({points:out,color:lineColor.color,alpha:gradient.thresholds[index] ?? 1});
         });
+        console.log(lineColorArray);
         return lineColorArray.reverse();
     }
 

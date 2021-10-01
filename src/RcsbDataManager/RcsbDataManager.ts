@@ -12,6 +12,8 @@ export interface RcsbFvTrackDataElementGapInterface {
 export interface RcsbFvTrackDataElementInterface {
     /**Annotation local value. E.g. interface residue energy*/
     value?: number|string;
+    /**Annotation local multidimensional value. E.g. Surface normal vector*/
+    values?: Array<number>;
     /**Annotation global value. E.g. whole interface energy*/
     gValue?: number|string;
     /**Annotation start position*/
