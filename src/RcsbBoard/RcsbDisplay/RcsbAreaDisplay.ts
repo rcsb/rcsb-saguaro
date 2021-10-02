@@ -171,7 +171,6 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                             tmp[n].points[p.begin] = {...p, values:[ (n-1)<0 ? 0 : p.values[n-1],p.values[n] ]};
                     })
                 }else{
-                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     const thrIndex: number = searchClassThreshold(p.value as number, gradient.thresholds);
                     tmp[thrIndex].points[p.begin] = this.blockAreaFlag ? {...p, value: 1} : p;
                 }
@@ -198,7 +197,6 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
             }
             lineColorArray.push({points:out,color:lineColor.color,alpha:gradient.thresholds[index] ?? 1});
         });
-        console.log(lineColorArray);
         return lineColorArray.reverse();
     }
 
