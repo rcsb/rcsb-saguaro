@@ -2,12 +2,13 @@
 
 [Semantic Versioning](https://semver.org/)
 
-## [1.11.0] - 2021-09-27
+## [1.11.0] - 2021-10-08
 ### New track display
 - `RcsbFvDisplayTypes.MULTI_AREA ("multi-area")` displays multiple "additive" areas () with multiple colors using the `RcsbFvDisplayTypes.AREA` display under the hood.
 This display config requires `displayColor` to be defined as a `RcsbFvColorGradient` object where `colors` is an array of hex and `thresholds` and empty array (length 0).
 Track elements `RcsbFvTrackDataElementInterface.values` is a new property that stores multidimensional data (array of numbers). The display configuration requires that
 `RcsbFvTrackDataElementInterface.values` are comprised between 0 and 1 and sorted in ascending order. Its number of elements must match with the number of defined colors.   
+- css important comments to force keeping empty rules
 
 ## [1.10.2] - 2021-09-27
 ### Improvement
