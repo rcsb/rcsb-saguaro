@@ -192,12 +192,12 @@ export class RcsbBoard {
             this.highlightRegion(null, 'set', mode, true);
     }
 
-    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, operation: 'set'|'add', mode:'select'|'hover', propFlag?: boolean): void{
+    public highlightRegion(d:RcsbFvTrackDataElementInterface | null, operation: 'set'|'add'|'replace-last', mode:'select'|'hover', propFlag?: boolean): void{
         if(d!=null) {
             if(operation === 'set')
                 this.selection.setSelected({rcsbFvTrackDataElement: d, domId: this.domId}, mode);
-            else if(operation === 'add')
-                this.selection.addSelected({rcsbFvTrackDataElement: d, domId: this.domId}, mode)
+            else if(operation === 'add' || operation === 'replace-last')
+                this.selection.addSelected({rcsbFvTrackDataElement: d, domId: this.domId}, mode, operation === 'replace-last')
         } else if(propFlag === false) {
             this.selection.clearSelection(mode);
         }

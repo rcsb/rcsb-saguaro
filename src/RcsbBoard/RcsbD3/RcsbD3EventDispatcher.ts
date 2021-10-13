@@ -2,6 +2,7 @@ import {event, mouse, ContainerElement} from "d3-selection";
 import {RcsbBoard} from "../RcsbBoard";
 import {RcsbD3Constants} from "./RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import { queueScheduler } from 'rxjs';
 
 export class RcsbD3EventDispatcher {
 
@@ -9,7 +10,7 @@ export class RcsbD3EventDispatcher {
     private static selectionEnd: number;
     public static keepSelectingFlag: boolean = false;
     private static changeTrackFlag: boolean = true;
-    private static operation: 'add'|'set' = 'set';
+    private static operation: 'add'|'set'|'replace-last' = 'set';
 
     static elementClick(callback:(d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', f:boolean)=>void, d:RcsbFvTrackDataElementInterface){
         if(event.shiftKey || event.ctrlKey)
@@ -19,16 +20,21 @@ export class RcsbD3EventDispatcher {
     }
 
     public static boardMousedown(board: RcsbBoard){
-        board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, function(){
-            RcsbD3EventDispatcher.boardMousemove(board);
-        });
         const svgNode:ContainerElement | null  = board.d3Manager.svgG().node();
         if(svgNode != null) {
             const x = mouse(svgNode)[0];
             RcsbD3EventDispatcher.selectionBegin = Math.round(board.xScale().invert(x));
         }
         RcsbD3EventDispatcher.keepSelectingFlag = true;
-        RcsbD3EventDispatcher.operation = (event.shiftKey || event.ctrlKey) ? 'add' : 'set';
+        RcsbD3EventDispatcher.operation = (event.shiftKey || event.ctrlKey) ? 'replace-last' : 'set';
+        let _begin = RcsbD3EventDispatcher.selectionBegin;
+        const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _begin, nonSpecific: true};
+        queueScheduler.schedule(()=>{
+            board.highlightRegion(region, RcsbD3EventDispatcher.operation == 'replace-last' ? 'add' : 'set', 'select', false);
+        });
+        board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, function(){
+            RcsbD3EventDispatcher.boardMousemove(board);
+        });
     }
 
     private static boardMousemove(board: RcsbBoard): RcsbFvTrackDataElementInterface{
@@ -43,8 +49,10 @@ export class RcsbD3EventDispatcher {
                 _begin = _end;
                 _end = aux;
             }
-            const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end};
-            board.highlightRegion(region, RcsbD3EventDispatcher.operation, 'select', false);
+            const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end, nonSpecific: true};
+            queueScheduler.schedule(()=>{
+                board.highlightRegion(region, RcsbD3EventDispatcher.operation, 'select', false);
+            });
             return region;
         }else{
             throw "Board main G element not found";
@@ -52,15 +60,14 @@ export class RcsbD3EventDispatcher {
     }
 
     public static boardMouseup(board: RcsbBoard){
-            if(!RcsbD3EventDispatcher.keepSelectingFlag)
-                return;
-            board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, null);
-            const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(board);
-            if(typeof board.elementClickCallBack === "function"){
-                region.nonSpecific = true;
-                board.elementClickCallBack(region, event);
-            }
-            RcsbD3EventDispatcher.keepSelectingFlag = false;
+        if(!RcsbD3EventDispatcher.keepSelectingFlag)
+            return;
+        board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, null);
+        const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(board);
+        if(typeof board.elementClickCallBack === "function"){
+            board.elementClickCallBack(region, event);
+        }
+        RcsbD3EventDispatcher.keepSelectingFlag = false;
     }
 
     public static leavingTrack(board: RcsbBoard): void{

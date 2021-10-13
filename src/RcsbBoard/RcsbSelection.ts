@@ -40,13 +40,16 @@ export class RcsbSelection {
         }
     }
 
-    public addSelected(elements: Array<SelectionInterface> | SelectionInterface, mode:'select'|'hover'): void{
+    public addSelected(elements: Array<SelectionInterface> | SelectionInterface, mode:'select'|'hover', replaceLast?:boolean): void{
 
         if(mode == null || mode === 'select') {
             if (elements instanceof Array) {
                 this.selectedElements = this.selectedElements.concat(elements);
             } else {
-                this.selectedElements.push(elements);
+                if(replaceLast)
+                    this.selectedElements[this.selectedElements.length-1].rcsbFvTrackDataElement = elements.rcsbFvTrackDataElement;
+                else
+                    this.selectedElements.push(elements);
             }
             if(typeof this.selectionChangeCallback === "function"){
                 this.selectionChangeCallback(this.selectedElements);

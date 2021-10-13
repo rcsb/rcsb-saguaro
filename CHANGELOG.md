@@ -1,6 +1,10 @@
-# RCSB Saguaro App Changelog
+# RCSB Saguaro Changelog
 
 [Semantic Versioning](https://semver.org/)
+
+## [1.11.1] - 2021-10-13
+### Performance improvement
+- Fixed selection array growing bug when adding custom regions 
 
 ## [1.11.0] - 2021-10-08
 ### New track display
