@@ -2,7 +2,7 @@ import {event, mouse, ContainerElement} from "d3-selection";
 import {RcsbBoard} from "../RcsbBoard";
 import {RcsbD3Constants} from "./RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
-import { queueScheduler } from 'rxjs';
+import {asyncScheduler} from 'rxjs';
 
 export class RcsbD3EventDispatcher {
 
@@ -29,9 +29,7 @@ export class RcsbD3EventDispatcher {
         RcsbD3EventDispatcher.operation = (event.shiftKey || event.ctrlKey) ? 'replace-last' : 'set';
         let _begin = RcsbD3EventDispatcher.selectionBegin;
         const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _begin, nonSpecific: true};
-        queueScheduler.schedule(()=>{
-            board.highlightRegion(region, RcsbD3EventDispatcher.operation == 'replace-last' ? 'add' : 'set', 'select', false);
-        });
+        board.highlightRegion(region, RcsbD3EventDispatcher.operation == 'replace-last' ? 'add' : 'set', 'select', false);
         board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, function(){
             RcsbD3EventDispatcher.boardMousemove(board);
         });
@@ -50,9 +48,7 @@ export class RcsbD3EventDispatcher {
                 _end = aux;
             }
             const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end, nonSpecific: true};
-            queueScheduler.schedule(()=>{
-                board.highlightRegion(region, RcsbD3EventDispatcher.operation, 'select', false);
-            });
+            board.highlightRegion(region, RcsbD3EventDispatcher.operation, 'select', false);
             return region;
         }else{
             throw "Board main G element not found";
@@ -73,7 +69,7 @@ export class RcsbD3EventDispatcher {
     public static leavingTrack(board: RcsbBoard): void{
         RcsbD3EventDispatcher.changeTrackFlag = true;
         board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, null);
-        setTimeout(()=>{
+        asyncScheduler.schedule(()=>{
             if(RcsbD3EventDispatcher.changeTrackFlag){
                 RcsbD3EventDispatcher.keepSelectingFlag = false;
                 RcsbD3EventDispatcher.changeTrackFlag = false;

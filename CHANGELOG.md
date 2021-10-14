@@ -5,6 +5,7 @@
 ## [1.11.1] - 2021-10-13
 ### Performance improvement
 - Fixed selection array growing bug when adding custom regions 
+- Changed `setTimeout` calls to 'rxjs' `asyncScheduler`
 
 ## [1.11.0] - 2021-10-08
 ### New track display
