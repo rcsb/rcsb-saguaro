@@ -5,12 +5,13 @@ export interface SelectionInterface {
     domId: string;
 }
 
+//TODO add a callback for the 'hover' case
 export class RcsbSelection {
     private selectedElements: Array<SelectionInterface> = new Array<SelectionInterface>();
     private hoverHighlightElements: Array<SelectionInterface> = new Array<SelectionInterface>();
-    private selectionChangeCallback: (selection: Array<SelectionInterface>)=>void;
+    private selectionChangeCallback: (selection: Array<RcsbFvTrackDataElementInterface>)=>void;
 
-    public setSelectionChangeCallback(f: (selection: Array<SelectionInterface>)=>void): void{
+    public setSelectionChangeCallback(f: (selection: Array<RcsbFvTrackDataElementInterface>)=>void): void{
         this.selectionChangeCallback = f;
     }
 
@@ -28,9 +29,6 @@ export class RcsbSelection {
             } else {
                 this.selectedElements = [elements];
             }
-            if(typeof this.selectionChangeCallback === "function"){
-                this.selectionChangeCallback(this.selectedElements);
-            }
         }else{
             if (elements instanceof Array) {
                 this.hoverHighlightElements = elements;
@@ -38,10 +36,10 @@ export class RcsbSelection {
                 this.hoverHighlightElements = [elements];
             }
         }
+        this.callback(mode);
     }
 
     public addSelected(elements: Array<SelectionInterface> | SelectionInterface, mode:'select'|'hover', replaceLast?:boolean): void{
-
         if(mode == null || mode === 'select') {
             if (elements instanceof Array) {
                 this.selectedElements = this.selectedElements.concat(elements);
@@ -51,9 +49,6 @@ export class RcsbSelection {
                 else
                     this.selectedElements.push(elements);
             }
-            if(typeof this.selectionChangeCallback === "function"){
-                this.selectionChangeCallback(this.selectedElements);
-            }
         }else {
             if (elements instanceof Array) {
                 this.hoverHighlightElements = this.selectedElements.concat(elements);
@@ -61,16 +56,23 @@ export class RcsbSelection {
                 this.hoverHighlightElements.push(elements);
             }
         }
+        this.callback(mode);
     }
 
     public clearSelection(mode:'select'|'hover'):void {
         if(mode == null || mode === 'select') {
             this.selectedElements = new Array<SelectionInterface>();
-            if(typeof this.selectionChangeCallback === "function"){
-                this.selectionChangeCallback(this.selectedElements);
-            }
         }else{
             this.hoverHighlightElements = new Array<SelectionInterface>();
+        }
+        this.callback(mode);
+    }
+
+    private callback(mode:'select'|'hover'): void{
+        if(mode == null || mode === 'select') {
+            if(typeof this.selectionChangeCallback === "function"){
+                this.selectionChangeCallback(this.selectedElements.map(e=>e.rcsbFvTrackDataElement));
+            }
         }
     }
 

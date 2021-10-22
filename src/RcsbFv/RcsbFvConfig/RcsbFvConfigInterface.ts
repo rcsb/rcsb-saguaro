@@ -34,7 +34,7 @@ export interface RcsbFvBoardConfigInterface {
     /**Function that will be called when mouse-leaving a track annotation*/
     elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Function that will be called when selection changes*/
-    selectionChangeCallBack?:(selection: Array<SelectionInterface>)=>void;
+    selectionChangeCallBack?:(selection: Array<RcsbFvTrackDataElementInterface>)=>void;
     /**Feature cells border color*/
     borderColor?: string;
     /**Feature cells border width*/

@@ -34,6 +34,8 @@ export interface RcsbFvBoardFullConfigInterface {
 interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly resolve: ()=> void;
+    readonly xScale: ScaleLinear<number,number>;
+    readonly selection: RcsbSelection;
 }
 
 /**Board React component state interface*/
@@ -59,9 +61,9 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     /**Subscription to events*/
     private subscription: Subscription;
     /**Global d3 Xscale object shaed among all board tracks*/
-    private readonly xScale: ScaleLinear<number,number> = scaleLinear();
+    private readonly xScale: ScaleLinear<number,number>;
     /**Global selection shared among all tracks*/
-    private readonly selection:RcsbSelection = new RcsbSelection();
+    private readonly selection:RcsbSelection;
     /**Flag to activate Glow. Helps solving the repeating Glow bug*/
     private activateGlowFlag: boolean = true;
     /**Mouse Leave Callback task*/
@@ -84,6 +86,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     constructor(props: RcsbFvBoardInterface) {
         super(props);
         this.resolveOnReady = props.resolve;
+        this.xScale = props.xScale;
+        this.selection = props.selection;
     }
 
     render(): JSX.Element{
