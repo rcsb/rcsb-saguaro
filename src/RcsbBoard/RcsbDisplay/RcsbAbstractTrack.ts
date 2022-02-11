@@ -4,8 +4,8 @@ import {
     RcsbD3Manager,
     TrackConfInterface
 } from "../RcsbD3/RcsbD3Manager";
-import {mouse, Selection} from "d3-selection";
-import * as classes from "../scss/RcsbBoard.module.scss";
+import { Selection} from "d3-selection";
+import classes from "../scss/RcsbBoard.module.scss";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {
     RcsbFvTrackData,

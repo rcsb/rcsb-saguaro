@@ -1,8 +1,7 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Axis, AxisDomain, axisBottom} from "d3-axis";
 import {format} from "d3-format";
-import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
-import * as classes from "../scss/RcsbBoard.module.scss";
+import classes from "../scss/RcsbBoard.module.scss";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbAxisDisplay extends RcsbAbstractDisplay {

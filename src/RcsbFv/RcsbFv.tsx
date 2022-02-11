@@ -9,6 +9,8 @@ import {
     RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
+import {scaleLinear, ScaleLinear} from "d3-scale";
+import {RcsbSelection, SelectionInterface} from "../RcsbBoard/RcsbSelection";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface
@@ -39,6 +41,10 @@ export class RcsbFv {
     private  elementId: string;
     /**Flag indicating that the React component has been mounted*/
     private mounted: boolean = false;
+    /**Global d3 Xscale object shaed among all board tracks*/
+    private readonly xScale: ScaleLinear<number,number> = scaleLinear();
+    /**Global selection shared among all tracks*/
+    private readonly selection:RcsbSelection = new RcsbSelection();
 
     private resolveOnReady: ()=> void;
 
@@ -109,7 +115,7 @@ export class RcsbFv {
             this.resolveOnReady = resolve;
             if(!this.mounted && this.boardConfigData != undefined) {
                 ReactDom.render(
-                    <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager} resolve={this.resolveOnReady}/>,
+                    <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager} xScale={this.xScale} selection={this.selection} resolve={this.resolveOnReady}/>,
                     document.getElementById(this.elementId)
                 );
                 this.mounted = true;
@@ -282,6 +288,13 @@ export class RcsbFv {
             eventType:EventType.SET_SELECTION,
             eventData:selection
         });
+    }
+
+    /**Get selected board ranges
+     * @param mode selection type
+     **/
+    public getSelection(mode:"select"|"hover"): Array<SelectionInterface> {
+        return this.selection.getSelected(mode);
     }
 
     /**Add selection to board

@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 export interface RcsbFvUIHelpInterface {
     boardId: string;

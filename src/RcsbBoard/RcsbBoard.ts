@@ -10,7 +10,7 @@ import {
     ZoomConfigInterface
 } from "./RcsbD3/RcsbD3Manager";
 
-import * as classes from "./scss/RcsbBoard.module.scss";
+import classes from "./scss/RcsbBoard.module.scss";
 import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
     CONDITIONAL_FLAG,
@@ -23,7 +23,7 @@ import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbSelection} from "./RcsbSelection";
-import {Subject} from "rxjs";
+import {asapScheduler, asyncScheduler, Subject, Subscription} from "rxjs";
 
 export interface LocationViewInterface {
     from: number;
@@ -61,7 +61,7 @@ export class RcsbBoard {
         to:500
     };
 
-    private updateId: number = 0;
+    private updateTask: Subscription | null = null;
     private updateDelay: number = 300;
 
     private upToDate: boolean = true;
@@ -421,12 +421,11 @@ export class RcsbBoard {
     }
 
     private updateWithDelay(): void {
-        if(window != null) {
-            window.clearTimeout(this.updateId);
-            this.updateId = window.setTimeout(() => {
-                this.updateAllTracks();
-            }, this.updateDelay);
-        }
+        if(this.updateTask)
+            this.updateTask.unsubscribe();
+        this.updateTask = asyncScheduler.schedule(() => {
+            this.updateAllTracks();
+        }, this.updateDelay);
     };
 
     public setScale(domId: string){

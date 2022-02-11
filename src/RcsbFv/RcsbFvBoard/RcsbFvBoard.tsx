@@ -6,7 +6,7 @@ import {
     RcsbFvDisplayConfigInterface,
     RcsbFvRowConfigInterface
 } from "../RcsbFvConfig/RcsbFvConfigInterface";
-import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
 import {
     DomainViewInterface,
@@ -17,7 +17,7 @@ import {
     TrackDataInterface,
     TrackVisibilityInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
-import {Subscription} from "rxjs";
+import {asyncScheduler, Subscription} from "rxjs";
 import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {createPopper} from "@popperjs/core";
@@ -34,6 +34,8 @@ export interface RcsbFvBoardFullConfigInterface {
 interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly resolve: ()=> void;
+    readonly xScale: ScaleLinear<number,number>;
+    readonly selection: RcsbSelection;
 }
 
 /**Board React component state interface*/
@@ -59,13 +61,13 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     /**Subscription to events*/
     private subscription: Subscription;
     /**Global d3 Xscale object shaed among all board tracks*/
-    private readonly xScale: ScaleLinear<number,number> = scaleLinear();
+    private readonly xScale: ScaleLinear<number,number>;
     /**Global selection shared among all tracks*/
-    private readonly selection:RcsbSelection = new RcsbSelection();
+    private readonly selection:RcsbSelection;
     /**Flag to activate Glow. Helps solving the repeating Glow bug*/
     private activateGlowFlag: boolean = true;
-    /**Mouse Leave Callback process Id*/
-    private mouseLeaveCallbackId: number = 0;
+    /**Mouse Leave Callback task*/
+    private mouseLeaveCallbackTask: Subscription | null = null;
     /**Row Track Board Status. True when the board content has been rendered*/
     private readonly rowBoardReadyStatus: Map<string,boolean> = new Map<string, boolean>();
     /**Promise resolve callback when board is ready*/
@@ -84,6 +86,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     constructor(props: RcsbFvBoardInterface) {
         super(props);
         this.resolveOnReady = props.resolve;
+        this.xScale = props.xScale;
+        this.selection = props.selection;
     }
 
     render(): JSX.Element{
@@ -357,7 +361,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private onMouseOverAttribute: ()=>void = ()=>{};
     private onMouseOverCallback(): void{
         if(this.activateGlowFlag) {
-            window?.clearTimeout(this.mouseLeaveCallbackId);
+            if(this.mouseLeaveCallbackTask)
+                this.mouseLeaveCallbackTask.unsubscribe();
             this.activateGlowFlag = false;
             const mainDiv: HTMLElement | null = document.getElementById(this.boardId);
             if (mainDiv != null) {
@@ -378,7 +383,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
             }
             this.displayUI();
         }else{
-            window?.clearTimeout(this.mouseLeaveCallbackId);
+            if(this.mouseLeaveCallbackTask)
+                this.mouseLeaveCallbackTask.unsubscribe();
         }
     }
 
@@ -387,13 +393,13 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
     private onMouseLeaveAttribute: ()=>void = ()=>{}
     private onMouseLeaveCallback(): void{
-        this.mouseLeaveCallbackId = window?.setTimeout(()=>{
+        this.mouseLeaveCallbackTask = asyncScheduler.schedule(()=>{
             this.hideUI();
             const glowDiv: HTMLElement|null = document.getElementById(this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
             if(glowDiv!=null){
                 glowDiv.className = classes.rcsbNoGlow;
                 this.activateGlowFlag = true;
-                this.mouseLeaveCallbackId = window.setTimeout(()=>{
+                this.mouseLeaveCallbackTask = asyncScheduler.schedule(()=>{
                     const innerGlowDiv: HTMLElement|undefined = glowDiv.getElementsByTagName("div")[0];
                     glowDiv.style.top = "0px";
                     glowDiv.style.marginLeft = "0px";

@@ -1,11 +1,13 @@
 import * as React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {EventType, RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
+
+import {asapScheduler, asyncScheduler, Subscription} from 'rxjs';
 
 /**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {
@@ -40,9 +42,8 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private readonly configData : RcsbFvRowConfigInterface;
     /**Track Protein Feature Viewer object*/
     private rcsbFvTrack : RcsbFvTrack;
-    /**Timeout to render*/
-    private readonly  RENDER_TIMEOUT: number = 32;
-    private timeoutPid: number | null = null;
+    /**Feature Viewer builder Async task*/
+    private asyncTask: Subscription | null = null;
 
     readonly state : RcsbFvRowTrackState = {
         rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight + this.rowBorderHeight(),
@@ -64,16 +65,16 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     componentDidMount(): void{
-        this.timeoutPid = setTimeout(()=>{
+        this.asyncTask = asyncScheduler.schedule(()=>{
             this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager);
             this.updateHeight();
             this.props.contextManager.next({eventType:EventType.BOARD_READY, eventData:this.props.id});
-        },this.props.rowNumber*this.RENDER_TIMEOUT);
+        });
     }
 
     componentWillUnmount(): void {
-        if(typeof this.timeoutPid === "number")
-            clearTimeout(this.timeoutPid);
+        if(this.asyncTask)
+            this.asyncTask.unsubscribe();
         if(this.rcsbFvTrack != null) {
             this.rcsbFvTrack.unsubscribe();
         }

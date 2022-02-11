@@ -2,7 +2,7 @@ import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear, ScalePoint} from "d3-scale";
 import {axisLeft, Axis} from "d3-axis";
 import {RcsbD3Constants} from "../RcsbD3Constants";
-import * as classes from "../../scss/RcsbBoard.module.scss";
+import classes from "../../scss/RcsbBoard.module.scss";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 
 export interface PlotVariantInterface {

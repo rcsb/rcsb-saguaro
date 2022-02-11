@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
 import {FaBars as menu, FaSearchMinus as zoomOut, FaSearchPlus as zoomIn, FaRegArrowAltCircleRight as moveRight, FaRegArrowAltCircleLeft as moveLeft} from 'react-icons/fa';

@@ -2,6 +2,7 @@ import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
+import {animationFrameScheduler, asapScheduler, asyncScheduler} from "rxjs";
 
 export interface PlotSequenceInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
@@ -73,7 +74,7 @@ export class RcsbD3SequenceManager {
     }
 
     move(config: MoveSequenceInterface){
-        setTimeout(()=>{
+        asyncScheduler.schedule(()=>{
             const xScale = config.xScale;
             this.textElements
                 .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {

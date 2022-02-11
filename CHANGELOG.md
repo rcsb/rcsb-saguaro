@@ -2,9 +2,20 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.0.0] - 2022-10-15
+### New methods and minor code refactor
+- `RcsbFv` exposes a new getter method `getSelection` to retrieve the current selected region inf the feature viewer
+- `selection` and `xScale` attributes have been moved from `RcsbFvBoard` class to the root `RcsbFv` and are passed to `RcsbFvBoard` as React properties
+### Dependecy update
+- Multiple dependencies have been updated
+### Breaking changes
+- `RcsbFvBoardConfigInterface` interface attribute function `selectionChangeCallBack` accepts as input `Array<RcsbFvTrackDataElementInterface>`
+instead of `Array<SelectionInterface>`
+
 ## [1.11.1] - 2021-10-13
 ### Performance improvement
 - Fixed selection array growing bug when adding custom regions 
+- Changed `setTimeout` calls to 'rxjs' `asyncScheduler`
 
 ## [1.11.0] - 2021-10-08
 ### New track display
