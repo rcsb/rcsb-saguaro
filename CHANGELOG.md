@@ -2,11 +2,15 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.0.1] - 2022-10-15
+### Dependency update
+- typedoc v0.22.11
+
 ## [2.0.0] - 2022-10-15
 ### New methods and minor code refactor
 - `RcsbFv` exposes a new getter method `getSelection` to retrieve the current selected region inf the feature viewer
 - `selection` and `xScale` attributes have been moved from `RcsbFvBoard` class to the root `RcsbFv` and are passed to `RcsbFvBoard` as React properties
-### Dependecy update
+### Dependency update
 - Multiple dependencies have been updated
 ### Breaking changes
 - `RcsbFvBoardConfigInterface` interface attribute function `selectionChangeCallBack` accepts as input `Array<RcsbFvTrackDataElementInterface>`
