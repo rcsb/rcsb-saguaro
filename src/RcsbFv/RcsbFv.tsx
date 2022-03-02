@@ -280,6 +280,12 @@ export class RcsbFv {
         });
     }
 
+    /**Get board view range
+     **/
+    public getDomain(): [number,number] {
+        return [this.xScale.domain()[0], this.xScale.domain()[1]];
+    }
+
     /**Select board range
      * @param selection region/elements
      **/
