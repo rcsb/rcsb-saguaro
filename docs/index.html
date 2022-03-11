@@ -38,16 +38,16 @@ RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {}, {
 </a>
 <p>These are the most important elements if you are only interested in using RCSB Saguaro to visualise protein annotations</p>
 <ul>
-<li><a href="https://rcsb.github.io/rcsb-saguaro/classes/rcsbfv.html">RcsbFv</a>: 
+<li><a href="https://rcsb.github.io/rcsb-saguaro/classes/RcsbFv.html">RcsbFv</a>: 
 Main feature viewer class that can be used to create, configure and render a feature viewer object. It includes different methods to 
 change viewer configuration, add new tracks, replace or update track data or change track visibility</li>
-<li><a href="https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvboardconfiginterface.html">RcsbFvBoardConfigInterface</a>:
+<li><a href="https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvBoardConfigInterface.html">RcsbFvBoardConfigInterface</a>:
 Feature viewer configuration interface that defines the different properties to configure the feature viewer main panel 
 including track title and annotation cells width, activate tooltips flag and annotation click and hovering callbacks</li>
-<li><a href="https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvrowconfiginterface.html">RcsbFvRowConfigInterface</a>: 
+<li><a href="https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvRowConfigInterface.html">RcsbFvRowConfigInterface</a>: 
 This interface can be used to set up the configuration for feature viewer tracks. It includes multiple properties that define how track features 
 are displayed (color, shape, overlap flag) and also different track attributes (background color, track height, track title, track visibility)</li>
-<li><a href="https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvtrackdataelementinterface.html">RcsbFvTrackDataElementInterface</a>
+<li><a href="https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvTrackDataElementInterface.html">RcsbFvTrackDataElementInterface</a>
 Interface that defines properties of an specific annotation object. It includes the location where the annotation will be displayed 
 (begin, end) and additional properties to change the final representation and click-event behaviour</li>
 </ul>
@@ -60,7 +60,7 @@ Interface that defines properties of an specific annotation object. It includes 
   <h4>Board Configuration</h4>
 </a>
 <p>Main feature viewer board object configuration defines the coordinate range, track and title width and axis display. 
-The full set of attributes is defined in <a href="https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvboardconfiginterface.html">RcsbFvBoardConfigInterface</a>
+The full set of attributes is defined in <a href="https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvBoardConfigInterface.html">RcsbFvBoardConfigInterface</a>
 interface.</p>
 <p>Main Board Configuration properties are:</p>
 <ul>
@@ -79,7 +79,7 @@ interface.</p>
 <a href="#track-configuration" id="track-configuration" style="color: inherit; text-decoration: none;">
   <h4>Track Configuration</h4>
 </a>
-<p>Row configuration object defines format and content of feature viewer rows. The full set of board row configuration attributes is defined in <a href="https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvrowconfiginterface.html">RcsbFvRowConfigInterface</a>.</p>
+<p>Row configuration object defines format and content of feature viewer rows. The full set of board row configuration attributes is defined in <a href="https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvRowConfigInterface.html">RcsbFvRowConfigInterface</a>.</p>
 <p>Main Row Configuration properties are:</p>
 <ul>
 <li><strong>trackHeight</strong>: Defines the board row height</li>
@@ -89,7 +89,7 @@ interface.</p>
 <li>Values: sequence, block, pin, line, area, bond, vline</li>
 </ul>
 </li>
-<li><strong>trackData</strong>: List of data displayed in the board row. The full set o data attributes are defined in <a href="https://rcsb.github.io/rcsb-saguaro/interfaces/rcsbfvtrackdataelementinterface.html">RcsbFvTrackDataElementInterface</a>. Most important data elements attributes are <ul>
+<li><strong>trackData</strong>: List of data displayed in the board row. The full set o data attributes are defined in <a href="https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvTrackDataElementInterface.html">RcsbFvTrackDataElementInterface</a>. Most important data elements attributes are <ul>
 <li><strong>begin</strong>: Start position of the feature</li>
 <li><strong>end</strong>: End position of the feature (optional value). When no end value is available the feature is located on a single position defined by <em>begin</em></li>
 <li><strong>value</strong>: Numerical or string value of the feature in this range (optional value)</li>
