@@ -117,6 +117,13 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         this.renderStarts();
         return (
             <div className={classes.rcsbFvRootContainer} onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
+                <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} xScale={this.xScale} setDomain={this.setDomain.bind(this)}/>
+                <div id={this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX} className={classes.rcsbNoGlow}>
+                    <div />
+                </div>
+                <div id={this.boardId+RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX} className={classes.rcsbNoRowGlow}>
+                    <div style={{borderWidth: RcsbFvDefaultConfigValues.rowGlowWidth, borderColor: RcsbFvDefaultConfigValues.rowGlowColor }}/>
+                </div>
                 <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                     {rcsbFvRowAxis}
                     {
@@ -145,13 +152,6 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 </div>
                 <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX} className={classes.rcsbFvTooltip} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} />
                 <div id={this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX} className={classes.rcsbFvTooltipDescription} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} />
-                <div id={this.boardId+RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX} >
-                    <div />
-                </div>
-                <div id={this.boardId+RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX} >
-                    <div style={{borderWidth: RcsbFvDefaultConfigValues.rowGlowWidth, borderColor: RcsbFvDefaultConfigValues.rowGlowColor }}/>
-                </div>
-                <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} xScale={this.xScale} setDomain={this.setDomain.bind(this)}/>
                 <div id={this.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} className={classes.rowTrackBoardSatus} >LOADING <span/></div>
             </div>
         );
@@ -374,7 +374,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
                     const trackWidth: number = (this.state.boardConfigData.trackWidth ?? 0) + 2*(this.state.boardConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth);
                     const titleWidth: number = (this.state.boardConfigData.rowTitleWidth ?? RcsbFvDefaultConfigValues.rowTitleWidth);
-                    glowDiv.style.top = "-" + height + "px";
+                    glowDiv.style.top = axisDivSize + "px";
                     glowDiv.style.marginLeft = titleWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace + "px";
                     glowDiv.className = classes.rcsbGlow;
                     innerGlowDiv.style.height = (height) + "px";

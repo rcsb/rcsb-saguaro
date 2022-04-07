@@ -118,7 +118,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         const boardDiv: HTMLElement | null = document.getElementById(this.props.boardId);
         const rowDiv: HTMLElement | null = document.getElementById(this.props.id);
         if (rowDiv != null && boardDiv != null) {
-            const top: number = (rowDiv.offsetTop - (boardDiv.offsetTop + boardDiv.getBoundingClientRect().height));
+            const top: number = rowDiv.offsetTop - boardDiv.offsetTop;
             const height: number = rowDiv.getBoundingClientRect().height - 2 * RcsbFvDefaultConfigValues.rowGlowWidth;
             const glowDiv: HTMLElement | null = document.getElementById(this.props.boardId + RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX);
             if (glowDiv != null) {
