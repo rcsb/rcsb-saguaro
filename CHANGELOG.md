@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.0.4] - 2022-04-07
+### Dependency update
+- Auditing vulnerabilities
+
 ## [2.0.3] - 2022-04-07
 ### Bug fixes
 - Glow div elements are defined before the main board to avoid inconsistent height overflow. This bug was affecting Firefox browser
