@@ -31,6 +31,9 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
             else
                 this.tooltipManager.hideTooltip();
         }
+        if(typeof this.getElementEnterCallBack === "function" && this.innerData[index]!=null){
+            this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
+        }
     };
 
     mouseoutCallBack: ()=>void = ()=>{

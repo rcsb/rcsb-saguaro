@@ -50,6 +50,10 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
         this.elementEnterCallBack = f;
     }
 
+    getElementEnterCallBack(): (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
+        return this.elementEnterCallBack;
+    }
+
     setElementLeaveCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
         this.elementLeaveCallBack = f;
     }

@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.0.5] - 2022-04-11
+### Improvement
+- `elementEnterCallBack` method is triggerd for area and line display when the mouse moves through the curve
+
 ## [2.0.4] - 2022-04-07
 ### Dependency update
 - Auditing vulnerabilities
@@ -43,23 +47,23 @@ Track elements `RcsbFvTrackDataElementInterface.values` is a new property that s
 
 ## [1.10.2] - 2021-09-27
 ### Improvement
-Expand title for non-fit prefixed rows 
+- Expand title for non-fit prefixed rows 
 
 ## [1.10.1] - 2021-09-16
 ### Bug correction
-Render callback empty row config bug fixed
+- Render callback empty row config bug fixed
 
 ## [1.10.0] - 2021-09-16
 ### Configuration improvement
-Added configuration callback when rendering starts
+- Added configuration callback when rendering starts
 
 ## [1.9.2] - 2021-08-19
 ### Bug correction
-Fixed alpha channel when threshold value is 0 
+- Fixed alpha channel when threshold value is 0 
 
 ## [1.9.1] - 2021-08-16
 ### Minor css modification
-Added `!important` to UI menu `box-sizing` 
+- Added `!important` to UI menu `box-sizing` 
 
 ## [1.9.0] - 2021-08-11
 ### New track display
