@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.0.6] - 2022-04-04
+### Bug fixes
+- `mousemoveCallBack` minor bug fixed
+
 ## [2.0.5] - 2022-04-11
 ### Improvement
 - `elementEnterCallBack` method is triggerd for area and line display when the mouse moves through the curve
