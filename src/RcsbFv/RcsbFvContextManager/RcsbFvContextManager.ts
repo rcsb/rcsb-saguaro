@@ -17,7 +17,7 @@ export class RcsbFvContextManager {
      * @return Subscription
      * */
     public subscribe(f:(x:RcsbFvContextManagerInterface)=>void):Subscription {
-        return this.subject.asObservable().subscribe(f);
+        return this.subject.subscribe(f);
     }
     /**Unsubscribe all methods*/
     public unsubscribeAll():void {
@@ -49,11 +49,12 @@ export enum EventType {
     TRACK_HIDE = "eventTypeHide",
     UPDATE_BOARD_CONFIG = "updateBoardConfig",
     DOMAIN_VIEW = "domainView",
-    UPDATE_GLOW = "updateGlow",
+    BOARD_HOVER = "boardHover",
+    ROW_READY = "rowReady",
     BOARD_READY = "boardReady",
     SET_SELECTION = "eventTypeSetSelection",
     ADD_SELECTION = "eventTypeAddSelection",
-    HOVER_ROW = "hoverRow"
+    ROW_HOVER = "rowHover"
 }
 
 /**Event Data Interface used to update row configuration*/
@@ -90,10 +91,15 @@ export interface SelectionInterface {
     mode:'select'|'hover';
 }
 
+export interface RowReadyInterface {
+    rowId:string;
+    rowNumber:number;
+}
+
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface {
-    eventType: string;
+    eventType: EventType;
     eventResolve?: ()=>void;
-    eventData: string|SelectionInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
+    eventData: string|boolean|RowReadyInterface|SelectionInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
 }
 

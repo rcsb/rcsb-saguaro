@@ -21,7 +21,7 @@ export class RcsbAxisDisplay extends RcsbAbstractDisplay {
 
     update(){
         if(this.xAxis == null) {
-            this.xAxis = axisBottom<AxisDomain>(this.xScale);
+            this.xAxis = axisBottom<AxisDomain>(this.xScale.getScale());
             if(this.length != null && this.length < 9)
                 this.xAxis.tickValues( Array(this.length).fill(0).map((v,i)=>{return (i+1)}) ).tickFormat(format("d"));
             this.g.classed(classes.rcsbAxis, true)

@@ -1,14 +1,14 @@
 import {Selection, BaseType, select} from "d3-selection";
-import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
+import {RcsbScaleInterface} from "../../RcsbScaleFactory";
 
 export interface PlotBlockInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     dy: number;
     dx: number;
     y_o: number;
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
     height: number;
     color: string;
 }
@@ -17,7 +17,7 @@ export interface PlotCircleInterface {
     elements: Selection<SVGGElement,CircleDecoratorInterface,BaseType,undefined>;
     dy: number;
     dx: number;
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
     height: number;
     color: string;
 }
@@ -27,14 +27,14 @@ export interface PlotLineInterface {
     dy: number;
     dx: number;
     y_o: number;
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
     height: number;
     color: string;
 }
 
 export interface MoveBlockInterface {
     dx: number;
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
     height: number;
 }
 
@@ -110,7 +110,7 @@ export class RcsbD3BlockManager {
         this.moveCircle(config.xScale,config.dx);
     }
 
-    private static getMinWidth(begin: number, end: number, xScale: ScaleLinear<number,number>, dx: number): number{
+    private static getMinWidth(begin: number, end: number, xScale: RcsbScaleInterface, dx: number): number{
         let w: number = ((xScale(end+dx) ?? 0) - (xScale(begin-dx) ?? 0));
         if(w<this.minWidth){
             w=this.minWidth;
@@ -166,7 +166,7 @@ export class RcsbD3BlockManager {
             });
     }
 
-    private moveBlock(xScale: ScaleLinear<number,number>, dx: number): void{
+    private moveBlock(xScale: RcsbScaleInterface, dx: number): void{
         this.rectElements.attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface)=>{
                 const begin: number = d.rectBegin ?? d.begin;
                 return (xScale(begin-dx) ?? 0)+this.STROKE_WIDTH
@@ -182,7 +182,7 @@ export class RcsbD3BlockManager {
             })
     }
 
-    private moveLine(xScale: ScaleLinear<number,number>, dx: number ): void{
+    private moveLine(xScale: RcsbScaleInterface, dx: number ): void{
         this.lineElements.attr(RcsbD3Constants.X1,(d: LineDecoratorInterface) => {
                 return xScale(d.begin+dx) ?? 0;
             })
@@ -192,7 +192,7 @@ export class RcsbD3BlockManager {
 
     };
 
-    private moveCircle(xScale: ScaleLinear<number,number>, dx: number): void{
+    private moveCircle(xScale: RcsbScaleInterface, dx: number): void{
         this.circleElements.attr(RcsbD3Constants.CX, (d: CircleDecoratorInterface)=>{
                 return xScale(d.position+d.shift*dx) ?? 0;
             });

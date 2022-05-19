@@ -14,7 +14,7 @@ import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {Subscription} from "rxjs";
 import {CSSTransition} from 'react-transition-group';
-import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
 
 /**Board track React component interface*/
 interface RcsbFvRowInterface {
@@ -23,11 +23,12 @@ interface RcsbFvRowInterface {
     readonly rowNumber: number;
     readonly rowConfigData: RcsbFvRowConfigInterface;
     readonly contextManager: RcsbFvContextManager;
-    readonly xScale: ScaleLinear<number,number>;
+    readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
     readonly firstRow: boolean;
     readonly lastRow: boolean;
     readonly addBorderBottom: boolean;
+    readonly renderSchedule: "async"|"sync";
 }
 
 /**Board track React state interface*/
@@ -66,10 +67,10 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 timeout={RcsbFvDefaultConfigValues.rowHideTransitionTimeout}
                 classNames={classes.rcsbFvRow}
                 onEntering={()=>{
-                    this.props.contextManager.next({eventType: EventType.UPDATE_GLOW, eventData:""});
+                    this.props.contextManager.next({eventType: EventType.BOARD_HOVER, eventData:true});
                 }}
                 onExited={()=>{
-                    this.props.contextManager.next({eventType: EventType.UPDATE_GLOW, eventData:""});
+                    this.props.contextManager.next({eventType: EventType.BOARD_HOVER, eventData:true});
                 }}>
                 <div onMouseEnter={()=>{this.hoverRow(true)}} onMouseLeave={()=>{this.hoverRow(false)}}
                      className={classNames+((this.state.titleGlow && this.state.display)? " "+classes.rcsbFvGlowTitle : "")}
@@ -86,6 +87,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                         firstRow={this.props.firstRow}
                         lastRow={this.props.lastRow}
                         addBorderBottom={this.props.addBorderBottom}
+                        renderSchedule={this.props.renderSchedule}
                     />
                 </div>
             </CSSTransition>
@@ -102,56 +104,6 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         }
     }
 
-    private hoverRow(flag: boolean): void {
-        this.setState(()=>({titleGlow:flag}));
-        this.props.contextManager.next({
-            eventType: EventType.HOVER_ROW,
-            eventData: this.props.id
-        } as RcsbFvContextManagerInterface);
-        if(this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS && !this.props.rowConfigData.hideRowGlow)
-            this.glowRow();
-        else
-            this.hideGlowRow();
-    }
-
-    private glowRow(): void{
-        const boardDiv: HTMLElement | null = document.getElementById(this.props.boardId);
-        const rowDiv: HTMLElement | null = document.getElementById(this.props.id);
-        if (rowDiv != null && boardDiv != null) {
-            const top: number = rowDiv.offsetTop - boardDiv.offsetTop;
-            const height: number = rowDiv.getBoundingClientRect().height - 2 * RcsbFvDefaultConfigValues.rowGlowWidth;
-            const glowDiv: HTMLElement | null = document.getElementById(this.props.boardId + RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX);
-            if (glowDiv != null) {
-                const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
-                const trackWidth: number = this.props.rowConfigData.trackWidth ??  RcsbFvDefaultConfigValues.trackWidth;
-                const titleWidth: number = (this.state.rowConfigData.rowTitleWidth ?? RcsbFvDefaultConfigValues.rowTitleWidth);
-                glowDiv.style.top = top + "px";
-                glowDiv.style.marginLeft = titleWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace + "px";
-                glowDiv.className = classes.rcsbRowGlow;
-                innerGlowDiv.style.height = (height) + "px";
-                innerGlowDiv.style.width = trackWidth + "px";
-            }
-        }
-    }
-
-    private hideGlowRow(): void{
-        const glowDiv: HTMLElement | null = document.getElementById(this.props.boardId + RcsbFvDOMConstants.GLOW_ROW_DOM_ID_SUFFIX);
-        if (glowDiv != null) {
-            const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
-            glowDiv.style.top = "0px";
-            glowDiv.style.marginLeft = "0px";
-            glowDiv.className = classes.rcsbNoRowGlow;
-            innerGlowDiv.style.height = "0px";
-            innerGlowDiv.style.width = "0px";
-        }
-    }
-
-    private checkHoveredRow(trackId: string){
-        if(trackId != this.props.id && this.state.titleGlow){
-            this.setState(()=>({titleGlow:false}));
-        }
-    }
-
     /**Subscribe className to rxjs events (adding tracks, change scale, update board config)
      * @return rxjs Subscription object
      * */
@@ -160,13 +112,29 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
             if(obj.eventType===EventType.TRACK_HIDE){
                 const vis: TrackVisibilityInterface = obj.eventData as TrackVisibilityInterface;
                 if(vis.trackId === this.props.rowConfigData.trackId){
-                   this.changeClass(vis.visibility);
+                    this.changeClass(vis.visibility);
                 }
-            }else if(obj.eventType === EventType.HOVER_ROW){
+            }else if(obj.eventType === EventType.ROW_HOVER){
                 const trackId: string = obj.eventData as string;
                 this.checkHoveredRow(trackId);
             }
         });
+    }
+
+    private hoverRow(flag: boolean): void {
+        if(!this.props.rowConfigData.hideRowGlow){
+            this.setState(()=>({titleGlow:flag}));
+            this.props.contextManager.next({
+                eventType: EventType.ROW_HOVER,
+                eventData: this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS ? this.props.id : null
+            } as RcsbFvContextManagerInterface);
+        }
+    }
+
+    private checkHoveredRow(trackId: string){
+        if(trackId != this.props.id && this.state.titleGlow){
+            this.setState(()=>({titleGlow:false}));
+        }
     }
 
     private changeClass(display: boolean): void{

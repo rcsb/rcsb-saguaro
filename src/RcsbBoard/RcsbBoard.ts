@@ -1,5 +1,4 @@
 import {event} from "d3-selection";
-import {ScaleLinear, scaleLinear} from "d3-scale";
 import {zoom, ZoomBehavior, ZoomedElementBaseType, zoomIdentity, ZoomTransform} from "d3-zoom";
 
 import {
@@ -23,7 +22,8 @@ import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbSelection} from "./RcsbSelection";
-import {asapScheduler, asyncScheduler, Subject, Subscription} from "rxjs";
+import {asyncScheduler, Subject, Subscription} from "rxjs";
+import {RcsbScaleInterface} from "./RcsbScaleFactory";
 
 export interface LocationViewInterface {
     from: number;
@@ -40,6 +40,7 @@ interface RegionLimitsInterface {
 export class RcsbBoard {
     readonly d3Manager: RcsbD3Manager = new RcsbD3Manager();
     private readonly domId: string;
+    private readonly boardDiv: HTMLElement;
     private _width: number = 920;
     private _bgColor: string = "#FFFFFF";
     private _innerPadding: number = 10;
@@ -47,7 +48,7 @@ export class RcsbBoard {
     elementClickCallBack:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent) => void;
     private highlightHoverElementFlag: boolean = false;
 
-    private readonly _xScale: ScaleLinear<number,number> = scaleLinear();
+    private readonly _xScale: RcsbScaleInterface;
     private readonly selection: RcsbSelection;
 
     private limits: RegionLimitsInterface = {
@@ -63,6 +64,8 @@ export class RcsbBoard {
 
     private updateTask: Subscription | null = null;
     private updateDelay: number = 300;
+    private scrollTask: Subscription | null = null;
+    private scrollDelay: number = 300;
 
     private upToDate: boolean = true;
 
@@ -76,15 +79,23 @@ export class RcsbBoard {
     private readonly contextManager: RcsbFvContextManager;
 
     private readonly scrollEvent = ()=>{
-        if(!this.upToDate)
-            this.updateAndMove();
+        this.scrollTask?.unsubscribe();
+        this.scrollTask = asyncScheduler.schedule(()=>{
+            if(!this.upToDate)
+                this.updateAndMove();
+        },this.scrollDelay)
     };
 
-    constructor(elementId: string, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
+    constructor(elementId: string, xScale: RcsbScaleInterface, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
         this.domId = elementId;
         this.contextManager = contextManager;
         this._xScale = xScale;
         this.selection = selection;
+        const boardDiv: HTMLElement | null = document.getElementById(this.domId);
+        if(boardDiv == null){
+            throw "Board DOM ["+this.domId+"] element not found. Removing scroll event handler from window";
+        }
+        this.boardDiv = boardDiv;
         window.addEventListener("scroll", this.scrollEvent);
     }
 
@@ -242,18 +253,18 @@ export class RcsbBoard {
     }
 
     public startBoard(): void {
-
         if ((this.currentLocationView.to - this.currentLocationView.from) < this.limits.minZoom) {
             this.currentLocationView.to = this.currentLocationView.from + this.limits.minZoom;
         }else if((this.currentLocationView.to - this.currentLocationView.from) > this.limits.maxZoom){
             this.currentLocationView.to = this.currentLocationView.from + this.limits.maxZoom;
         }
-
         this.addSVG();
-        if(this.xScale().domain()[0] === 0 && this.xScale().domain()[1] === 1)
-            this.xScale().domain([this.currentLocationView.from, this.currentLocationView.to])
-                         .range([this._innerPadding, this._width - this._innerPadding]);
-
+        if(!this.xScale().checkAndSetScale(
+            [this.currentLocationView.from, this.currentLocationView.to],
+            [this._innerPadding, this._width - this._innerPadding]
+        )){
+            this.selection.clearSelection("select");
+        }
         this.d3Manager.addZoom({
             zoomEventHandler: this.zoomEventHandler,
             zoomCallBack: this.moveBoard.bind(this)
@@ -361,7 +372,7 @@ export class RcsbBoard {
         });
     }
 
-    public xScale(): ScaleLinear<number,number>{
+    public xScale(): RcsbScaleInterface{
         return this._xScale;
     }
 
@@ -380,7 +391,7 @@ export class RcsbBoard {
             return;
         }
 
-        let newDomain:number[] = transform.rescaleX(this._xScale).domain();
+        let newDomain:number[] = transform.rescaleX(this._xScale.getScale()).domain();
         let length: number = newDomain[1] - newDomain[0];
 
         if( length < this.limits.minZoom ){
@@ -421,8 +432,7 @@ export class RcsbBoard {
     }
 
     private updateWithDelay(): void {
-        if(this.updateTask)
-            this.updateTask.unsubscribe();
+        this.updateTask?.unsubscribe();
         this.updateTask = asyncScheduler.schedule(() => {
             this.updateAllTracks();
         }, this.updateDelay);
@@ -447,13 +457,7 @@ export class RcsbBoard {
     }
 
     private boardInViewport():boolean {
-        const boardDiv: HTMLElement | null = document.getElementById(this.domId);
-        if(boardDiv == null){
-            console.warn("Board DOM ["+this.domId+"] element not found. Removing scroll event handler from window");
-            this.removeScrollEvent();
-            return false;
-        }
-        const rect:DOMRect = boardDiv.getBoundingClientRect();
+        const rect:DOMRect = this.boardDiv.getBoundingClientRect();
         return (
             !(rect.bottom < -10 || rect.top > ((window.innerHeight || document.documentElement.clientHeight)+10))
         );

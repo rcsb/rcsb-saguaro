@@ -9,8 +9,9 @@ import {
     RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
-import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbSelection, SelectionInterface} from "../RcsbBoard/RcsbSelection";
+import uniqid from "uniqid";
+import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbBoard/RcsbScaleFactory";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface
@@ -41,8 +42,8 @@ export class RcsbFv {
     private  elementId: string;
     /**Flag indicating that the React component has been mounted*/
     private mounted: boolean = false;
-    /**Global d3 Xscale object shaed among all board tracks*/
-    private readonly xScale: ScaleLinear<number,number> = scaleLinear();
+    /**Global d3 Xscale object shared among all board tracks*/
+    private readonly xScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
 
@@ -148,7 +149,7 @@ export class RcsbFv {
     private identifyFvTracks(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
         for(const trackConfig of rowConfigData){
             if(typeof trackConfig.trackId === "undefined"){
-                trackConfig.trackId = "trackId_"+Math.random().toString(36).substr(2);
+                trackConfig.trackId = uniqid("trackId_");
             }
             if(!this.trackIds.includes(trackConfig.trackId)) {
                 this.trackIds.push(trackConfig.trackId);

@@ -16,8 +16,8 @@ import {
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
-import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
 
 /**This className provides  an abstraction layer to build and manage a particular board annotation cell*/
 export class RcsbFvTrack {
@@ -40,11 +40,11 @@ export class RcsbFvTrack {
     /**Event Handler Manager. This is a common object for all board annotation cells*/
     private readonly contextManager: RcsbFvContextManager;
     /**X-Scale d3 object. This is a common for all board annotation cells*/
-    private readonly xScale: ScaleLinear<number,number>;
+    private readonly xScale: RcsbScaleInterface;
     /**Current selection object. This is a common for all board annotation cells*/
     private readonly selection: RcsbSelection;
 
-    public constructor(args:RcsbFvRowConfigInterface, xScale: ScaleLinear<number,number>, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
+    public constructor(args:RcsbFvRowConfigInterface, xScale: RcsbScaleInterface, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
         this.contextManager = contextManager;
         this.xScale = xScale;
         this.selection = selection;

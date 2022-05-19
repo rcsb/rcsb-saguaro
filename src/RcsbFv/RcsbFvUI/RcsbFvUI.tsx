@@ -6,13 +6,21 @@ import {FaBars as menu, FaSearchMinus as zoomOut, FaSearchPlus as zoomIn, FaRegA
 import {RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {ScaleLinear} from "d3-scale";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {DomainViewInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {
+    DomainViewInterface,
+    EventType,
+    RcsbFvContextManager,
+    RcsbFvContextManagerInterface
+} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {createPopper} from "@popperjs/core";
+import {asyncScheduler, Subscription} from "rxjs";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
 
 export interface RcsbFvUIConfigInterface {
     readonly boardId: string;
     readonly boardConfigData: RcsbFvBoardConfigInterface;
-    readonly xScale: ScaleLinear<number,number>;
-    readonly setDomain: (domainData: DomainViewInterface) => void;
+    readonly contextManager: RcsbFvContextManager;
+    readonly xScale: RcsbScaleInterface;
 }
 
 export interface RcsbFvUIStateInterface {
@@ -40,6 +48,9 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         icon: moveLeft({}),
         callback: this.move.bind(this,-1)
     }];
+
+    private subscription: Subscription;
+    private hideTask: Subscription | null = null;
 
     readonly state: RcsbFvUIStateInterface = {
         collapse: false
@@ -78,6 +89,65 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         );
     }
 
+    componentDidMount() {
+        this.subscription = this.subscribe();
+    }
+
+    componentWillUnmount() {
+        this.subscription.unsubscribe();
+    }
+
+    private subscribe(): Subscription{
+        return this.props.contextManager.subscribe((o)=>{
+            switch (o.eventType){
+                case EventType.BOARD_HOVER:
+                    this.boardHover(o.eventData as boolean);
+                    break;
+            }
+        });
+    }
+
+    private boardHover(flag: boolean): void{
+        if(flag){
+            this.displayUI();
+        }else{
+            this.hideUI();
+        }
+    }
+
+    private displayUI(): void{
+        if(this.hideTask)
+            this.hideTask.unsubscribe();
+        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId);
+        if(refDiv == null)
+            return;
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX);
+        if(tooltipDiv == null)
+            return;
+        const offsetHeight: number = this.props.boardConfigData.includeAxis === true ? RcsbFvDefaultConfigValues.trackAxisHeight + 2 : 0;
+        createPopper(refDiv, tooltipDiv, {
+            placement:'right-start',
+            modifiers: [{
+                name: 'offset',
+                options: {
+                    offset: [offsetHeight,0]
+                }
+            }]
+        }).forceUpdate();
+        tooltipDiv.classList.remove(classes.rcsbSmoothDivHide);
+        tooltipDiv.classList.add(classes.rcsbSmoothDivDisplay);
+    }
+
+    private hideUI(): void{
+        const tooltipDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX);
+        if(tooltipDiv == null)
+            return;
+        this.hideTask = asyncScheduler.schedule(()=>{
+            tooltipDiv.classList.remove(classes.rcsbSmoothDivDisplay);
+            tooltipDiv.classList.add(classes.rcsbSmoothDivHide);
+        },300);
+    }
+
     buildButton(buttonConfig: RcsbFvUIButtonInterface): JSX.Element{
         buttonConfig.icon.props.className = classes.rcsbIcon;
         buttonConfig.icon.props.onClick = buttonConfig.callback;
@@ -95,6 +165,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
     /***************
      ** UI methods **
      ****************/
+
     private zoomIn(): void {
         const max: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.max : this.props.boardConfigData.length;
         const min: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.min : 1;
@@ -106,7 +177,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         const x: number = currentDomain[0]+deltaZoom;
         const y: number = currentDomain[1]-deltaZoom;
         if( (y-x)>20)
-            this.props.setDomain({domain:[x,y]});
+            this.setDomain({domain:[x,y]});
     }
 
     private zoomOut(): void {
@@ -120,9 +191,9 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         const x: number = currentDomain[0]-deltaZoom > (min-RcsbFvDefaultConfigValues.increasedView) ? currentDomain[0]-deltaZoom : (min-RcsbFvDefaultConfigValues.increasedView);
         const y: number = currentDomain[1]+deltaZoom < max+RcsbFvDefaultConfigValues.increasedView ? currentDomain[1]+deltaZoom : max+RcsbFvDefaultConfigValues.increasedView;
         if( (y-x) < (max+RcsbFvDefaultConfigValues.increasedView))
-            this.props.setDomain({domain:[x,y]});
+            this.setDomain({domain:[x,y]});
         else
-            this.props.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
+            this.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
     }
 
     private move(direction:1|-1): void {
@@ -141,9 +212,26 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         const x: number = currentDomain[0]+direction*deltaZoom;
         const y: number = currentDomain[1]+direction*deltaZoom;
         if( (y-x) < (max+RcsbFvDefaultConfigValues.increasedView))
-            this.props.setDomain({domain:[x,y]});
+            this.setDomain({domain:[x,y]});
         else
-            this.props.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
+            this.setDomain({domain:[(min-RcsbFvDefaultConfigValues.increasedView),max+RcsbFvDefaultConfigValues.increasedView]});
     }
 
+    /**Force all board track annotation cells to set xScale. Called when a new track has been added*/
+    private setScale(): void{
+        if(this.props.xScale!=null) {
+            this.props.contextManager.next({
+                eventType: EventType.SCALE,
+                eventData: this.props.boardId
+            } as RcsbFvContextManagerInterface);
+        }
+    }
+
+    /**Update d3 xScale domain
+     * @param domainData new xScale domain
+     * */
+    private setDomain(domainData: DomainViewInterface): void {
+        this.props.xScale.domain(domainData.domain);
+        this.setScale();
+    }
 }

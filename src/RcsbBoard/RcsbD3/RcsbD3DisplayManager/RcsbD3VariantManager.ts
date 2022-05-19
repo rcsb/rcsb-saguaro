@@ -1,15 +1,16 @@
 import {Selection, BaseType, select} from "d3-selection";
-import {ScaleLinear, ScalePoint} from "d3-scale";
+import {ScalePoint} from "d3-scale";
 import {axisLeft, Axis} from "d3-axis";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import classes from "../../scss/RcsbBoard.module.scss";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
+import {RcsbScaleInterface} from "../../RcsbScaleFactory";
 
 export interface PlotVariantInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     radius: number;
-    xScale: ScaleLinear<number,number>;
-    yScale: ScalePoint<string>;
+    xScale: RcsbScaleInterface;
+    yScale: RcsbScaleInterface<string,ScalePoint<string>>;
     height: number;
     color?: string;
     trackG: Selection<SVGGElement,any,null,undefined>;
@@ -17,8 +18,8 @@ export interface PlotVariantInterface {
 
 export interface MoveVariantInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
-    xScale: ScaleLinear<number,number>;
-    yScale: ScalePoint<string>;
+    xScale: RcsbScaleInterface;
+    yScale: RcsbScaleInterface<string,ScalePoint<string>>;
     height: number;
     trackG: Selection<SVGGElement,any,null,undefined>;
 }
@@ -73,7 +74,7 @@ export class RcsbD3VariantManager {
         RcsbD3VariantManager.includeAxis(config.trackG, config.xScale, config.yScale, config.height)
     }
 
-    private static includeAxis (trackG: Selection<SVGGElement,any,BaseType,undefined>, xScale:ScaleLinear<number,number>, yScale:ScalePoint<string>, height: number){
+    private static includeAxis (trackG: Selection<SVGGElement,any,BaseType,undefined>, xScale:RcsbScaleInterface, yScale:RcsbScaleInterface<string,ScalePoint<string>>, height: number){
         trackG.selectAll("."+classes.rcsbAxis).remove();
         trackG.selectAll("."+classes.rcsbVariantGrid).remove();
         trackG.append(RcsbD3Constants.G).classed(classes.rcsbVariantGrid, true);
@@ -94,7 +95,7 @@ export class RcsbD3VariantManager {
                 this.parentNode.append(this);
         });
 
-        const variantAxis:Axis<string> = axisLeft(yScale);
+        const variantAxis:Axis<string> = axisLeft(yScale.getScale());
         trackG.append(RcsbD3Constants.G).classed(classes.rcsbAxis,true)
             .attr(RcsbD3Constants.TRANSFORM, "translate(20,0)")
             .append(RcsbD3Constants.RECT)

@@ -1,14 +1,13 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {BaseType, Selection} from "d3-selection";
-import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3PinManager";
-import {scaleLinear, ScaleLinear} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
+import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
 
 export class RcsbPinDisplay extends RcsbAbstractDisplay {
 
-    private yScale: ScaleLinear<number,number> = scaleLinear();
+    private yScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
     private radius: number = 5;
     private labelShift: number = 10;
     private _yDomain: [number, number];

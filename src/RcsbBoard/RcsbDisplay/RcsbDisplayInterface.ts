@@ -1,7 +1,6 @@
 import {Selection, BaseType} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
-import {ScaleLinear} from "d3-scale";
 import {
     RcsbFvColorGradient,
     RcsbFvTrackData,
@@ -9,12 +8,13 @@ import {
     RcsbFvTrackDataMap
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
+import {RcsbScaleInterface} from "../RcsbScaleFactory";
 
 export interface RcsbDisplayInterface {
     //RcsbAbstractTrack
     height: (h?: number) => number;
     trackColor: (c?: string) => string;
-    init: (width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number) => void;
+    init: (width: number, scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number) => void;
     data: (d: RcsbFvTrackData | RcsbFvTrackDataMap) => RcsbFvTrackData | RcsbFvTrackDataMap;
     setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
     setBoardHighlight: (f:(d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void) => void;

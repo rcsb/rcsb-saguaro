@@ -10,6 +10,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {BaseType, Selection} from "d3-selection";
+import {RcsbScaleInterface} from "../RcsbScaleFactory";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;
@@ -67,7 +68,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    init(width: number, scale:ScaleLinear<number,number>): void{
+    init(width: number, scale:RcsbScaleInterface): void{
         this.innerDisplays.forEach((de)=>{
             de.display.init(width, scale, true, this.compositeHeight);
         });

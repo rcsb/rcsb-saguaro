@@ -1,28 +1,28 @@
 import {Selection, BaseType, select} from "d3-selection";
-import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
-import {animationFrameScheduler, asapScheduler, asyncScheduler} from "rxjs";
+import {asyncScheduler} from "rxjs";
+import {RcsbScaleInterface} from "../../RcsbScaleFactory";
 
 export interface PlotSequenceInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
-    xScale: ScaleLinear<number,number>;
-    yScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
+    yScale: RcsbScaleInterface;
     color?: string;
     height:number;
     intervalRatio: [number,number];
 }
 
 export interface PlotSequenceLineInterface {
-    xScale: ScaleLinear<number,number>;
-    yScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
+    yScale: RcsbScaleInterface;
     g:Selection<SVGGElement,any,null,undefined>;
     height:number;
     color?: string;
 }
 
 export interface MoveSequenceInterface {
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
     intervalRatio: [number,number];
 }
 
@@ -86,7 +86,7 @@ export class RcsbD3SequenceManager {
         });
     }
 
-    private static opacity (xScale: ScaleLinear<number,number>, intervalRatio: [number,number]): number {
+    private static opacity (xScale: RcsbScaleInterface, intervalRatio: [number,number]): number {
         const r = (xScale.range()[1]-xScale.range()[0])/(xScale.domain()[1]-xScale.domain()[0]);
         const o_min = 0.2;
         const a = intervalRatio[0];

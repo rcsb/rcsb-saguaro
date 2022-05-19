@@ -1,6 +1,5 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection,BaseType} from "d3-selection";
-import {scaleLinear, ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import classes from "../scss/RcsbBoard.module.scss";
 import {
@@ -10,16 +9,17 @@ import {
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3SequenceManager";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
+import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
 
 export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
 
-    private yScale: ScaleLinear<number,number> = scaleLinear();
+    private yScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
     private intervalRatio: [number,number] = [5,16];
     private hideFlag: boolean = false;
     private compKey: string | undefined;
     private nonEmptyDisplay: boolean = false;
     private rcsbD3SequenceManager: RcsbD3SequenceManager = new RcsbD3SequenceManager();
-
+    private definedScale: boolean = false;
 
     setDynamicDisplay(){
         this.hideFlag = true;
@@ -76,9 +76,9 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
         if(this.hideFlag)
             return;
         super.plot(elements);
-        this.yScale
-            .domain([0, this.height()])
-            .range([0, this.height()]);
+        if(!this.definedScale) {
+            this.setScale();
+        }
         const config: PlotSequenceInterface = {
             elements: elements,
             xScale: this.xScale,
@@ -97,6 +97,13 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
             intervalRatio: this.intervalRatio,
         };
         this.rcsbD3SequenceManager.move(config);
+    }
+
+    private setScale(): void {
+        this.yScale
+            .domain([0, this.height()])
+            .range([0, this.height()]);
+        this.definedScale = true
     }
 
     private plotSequenceLine(): void{

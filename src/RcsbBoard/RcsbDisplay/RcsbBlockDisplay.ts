@@ -1,6 +1,5 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
-import {Selection, BaseType, select, EnterElement} from "d3-selection";
-import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
+import {Selection, BaseType, select} from "d3-selection";
 import {
 	CircleDecoratorInterface, LineDecoratorInterface,
 	MoveBlockInterface,

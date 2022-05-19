@@ -1,28 +1,27 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection, BaseType, mouse, event, ContainerElement} from "d3-selection";
-import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
     MoveLineInterface,
     PlotLineInterface,
     RcsbD3LineManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
-import {scaleLinear, ScaleLinear} from "d3-scale";
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {largestTriangleOneBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
 
 export class RcsbLineDisplay extends RcsbAbstractDisplay {
 
     private _yDomain: [number, number];
-    protected yScale: ScaleLinear<number,number> = scaleLinear();
+    protected yScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
     protected maxPoints: number = 1000;
     protected innerData: Array<RcsbFvTrackDataElementInterface|null> = new Array<RcsbFvTrackDataElementInterface|null>();
     protected readonly SUFFIX_ID: string = "line_";
 
-    definedScale: boolean = false;
+    protected definedScale: boolean = false;
     protected line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
-    linePoints: RcsbFvTrackDataElementInterface[];
+    private linePoints: RcsbFvTrackDataElementInterface[];
 
     mousemoveCallBack: (n: number)=>void = (index:number)=>{
         if(this.includeTooltip){

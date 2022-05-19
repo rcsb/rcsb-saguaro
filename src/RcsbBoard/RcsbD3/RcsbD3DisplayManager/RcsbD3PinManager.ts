@@ -2,13 +2,14 @@ import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
+import {RcsbScaleInterface} from "../../RcsbScaleFactory";
 
 export interface PlotPinInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
     radius: number;
     labelShift: number;
-    xScale: ScaleLinear<number,number>;
-    yScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
+    yScale: RcsbScaleInterface;
     height: number;
     color?: string;
     addLine?: boolean;
@@ -17,8 +18,8 @@ export interface PlotPinInterface {
 
 export interface MovePinInterface {
     labelShift: number;
-    xScale: ScaleLinear<number,number>;
-    yScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
+    yScale: RcsbScaleInterface;
     height: number;
     addLine?: boolean;
 }
@@ -31,8 +32,8 @@ export class RcsbD3PinManager {
 
     plot(config: PlotPinInterface): void{
         const elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined> = config.elements;
-        const xScale: ScaleLinear<number,number> = config.xScale;
-        const yScale: ScaleLinear<number,number> = config.yScale;
+        const xScale: RcsbScaleInterface = config.xScale;
+        const yScale: RcsbScaleInterface = config.yScale;
         const height: number = config.height;
         const color: string = config.color != undefined ? config.color : "#CCCCCC";
         const radius: number = config.radius;
@@ -109,8 +110,8 @@ export class RcsbD3PinManager {
     }
 
     move(config: MovePinInterface): void{
-        const xScale: ScaleLinear<number,number> = config.xScale;
-        const yScale: ScaleLinear<number,number> = config.yScale;
+        const xScale: RcsbScaleInterface = config.xScale;
+        const yScale: RcsbScaleInterface = config.yScale;
         const height: number = config.height;
         const labelShift: number = config.labelShift;
 

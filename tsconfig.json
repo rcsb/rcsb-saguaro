@@ -8,6 +8,7 @@
     "lib": [ "dom", "es2017" ],
     "declaration": true,
     "sourceMap": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "esModuleInterop": true
   }
 }

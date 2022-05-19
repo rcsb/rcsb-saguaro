@@ -3,24 +3,26 @@ import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
-import {EventType, RcsbFvContextManager} from "../RcsbFvContextManager/RcsbFvContextManager";
+import {EventType, RcsbFvContextManager, RowReadyInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
-import {asapScheduler, asyncScheduler, Subscription} from 'rxjs';
+import {asyncScheduler, Subscription} from 'rxjs';
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
 
 /**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {
-    id: string;
-    rowTrackConfigData: RcsbFvRowConfigInterface;
+    readonly id: string;
+    readonly rowTrackConfigData: RcsbFvRowConfigInterface;
     readonly contextManager: RcsbFvContextManager;
-    readonly xScale: ScaleLinear<number,number>;
+    readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
     readonly callbackRcsbFvRow: (height: number)=>void;
     readonly rowNumber: number;
     readonly firstRow: boolean;
     readonly lastRow: boolean;
     readonly addBorderBottom: boolean;
+    readonly renderSchedule: "async"|"sync";
 }
 
 /**Board track  annotations cell React component style*/
@@ -44,6 +46,8 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private rcsbFvTrack : RcsbFvTrack;
     /**Feature Viewer builder Async task*/
     private asyncTask: Subscription | null = null;
+    /**Subscription to events*/
+    private subscription: Subscription;
 
     readonly state : RcsbFvRowTrackState = {
         rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight + this.rowBorderHeight(),
@@ -65,19 +69,51 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     componentDidMount(): void{
-        this.asyncTask = asyncScheduler.schedule(()=>{
-            this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager);
-            this.updateHeight();
-            this.props.contextManager.next({eventType:EventType.BOARD_READY, eventData:this.props.id});
-        });
+        this.subscription = this.subscribe();
+        if(this.props.renderSchedule == "sync"){
+            this.queueTask();
+        }
     }
 
     componentWillUnmount(): void {
+        this.subscription.unsubscribe();
         if(this.asyncTask)
             this.asyncTask.unsubscribe();
         if(this.rcsbFvTrack != null) {
             this.rcsbFvTrack.unsubscribe();
         }
+    }
+
+    private subscribe(): Subscription{
+        return this.props.contextManager.subscribe((o)=>{
+            switch (o.eventType){
+                case EventType.ROW_READY:
+                    this.renderTrack(o.eventData as RowReadyInterface);
+                    break;
+            }
+        });
+    }
+
+    private renderTrack(rowData:RowReadyInterface): void{
+        if(this.props.rowNumber-rowData.rowNumber == 1){
+            this.queueTask();
+        }
+    }
+
+    private queueTask(): void {
+        this.asyncTask = asyncScheduler.schedule(()=>{
+            this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager);
+            this.updateHeight();
+            if(this.props.selection.getSelected("select") && this.props.selection.getSelected("select").length>0)
+                this.props.contextManager.next({
+                    eventType:EventType.SET_SELECTION,
+                    eventData: {
+                        mode:"select",
+                        elements:this.props.selection.getSelected("select").map(s=>({begin:s.rcsbFvTrackDataElement.begin,end:s.rcsbFvTrackDataElement.end,isEmpty:s.rcsbFvTrackDataElement.isEmpty}))
+                    }
+                });
+            this.props.contextManager.next({eventType:EventType.ROW_READY, eventData:{rowId:this.props.id,rowNumber:this.props.rowNumber}});
+        });
     }
 
     /**This method is called when the final track height is known, it updates React Component height State*/

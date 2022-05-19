@@ -6,6 +6,7 @@ import classes from "../scss/RcsbBoard.module.scss";
 import {
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbScaleInterface} from "../RcsbScaleFactory";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -16,7 +17,7 @@ export interface SVGConfInterface  {
     mouseoutCallBack: Array<()=>void>;
     mouseoverCallBack: Array<()=>void>;
     mousemoveCallBack: Array<(n:number)=>void>;
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
 }
 
 export interface MainGConfInterface  {
@@ -50,7 +51,7 @@ export interface ZoomConfigInterface {
 export interface HighlightRegionInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
     height: number;
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
     rectClass: string;
     elements:Array<RcsbFvTrackDataElementInterface>;
     color?: string;
@@ -58,7 +59,7 @@ export interface HighlightRegionInterface {
 
 export interface MoveSelectedRegionInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
-    xScale: ScaleLinear<number,number>;
+    xScale: RcsbScaleInterface;
     rectClass: string;
 }
 

@@ -6,7 +6,6 @@ import {
 } from "../RcsbD3/RcsbD3Manager";
 import { Selection} from "d3-selection";
 import classes from "../scss/RcsbBoard.module.scss";
-import {scaleLinear, ScaleLinear} from "d3-scale";
 import {
     RcsbFvTrackData,
     RcsbFvTrackDataElementInterface,
@@ -14,6 +13,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {LocationViewInterface} from "../RcsbBoard";
+import {RcsbScaleInterface} from "../RcsbScaleFactory";
 
 export abstract class RcsbAbstractTrack {
     protected d3Manager: RcsbD3Manager;
@@ -23,7 +23,7 @@ export abstract class RcsbAbstractTrack {
     private _width: number;
     private _data: RcsbFvTrackData;
     protected updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
-    protected xScale: ScaleLinear<number,number> = scaleLinear();
+    protected xScale: RcsbScaleInterface;
     protected g: Selection<SVGGElement,any,null,undefined>;
     private boardHighlight: (d: RcsbFvTrackDataElementInterface, operation: 'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void;
@@ -46,7 +46,7 @@ export abstract class RcsbAbstractTrack {
         return this._bgColor;
     }
 
-    init(width: number, scale:ScaleLinear<number,number>, compositeFlag?: boolean, compositeHeight?: number): void{
+    init(width: number, scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number): void{
         this._width = width;
         this.xScale = scale;
     	if(this.g != null) {
@@ -108,7 +108,7 @@ export abstract class RcsbAbstractTrack {
 
     highlightRegion(d:Array<RcsbFvTrackDataElementInterface>|null, options?:{color?:string, rectClass?: string;}): void {
         const height: number = this._height;
-        const xScale: ScaleLinear<number,number> = this.xScale;
+        const xScale: RcsbScaleInterface = this.xScale;
         if(typeof(height)==="number" && d!= null ) {
             const highlightRegConfig: HighlightRegionInterface = {
                 trackG: this.g,
@@ -129,7 +129,7 @@ export abstract class RcsbAbstractTrack {
     }
 
     moveSelection(mode:'select'|'hover'): void{
-        const xScale: ScaleLinear<number,number> = this.xScale;
+        const xScale: RcsbScaleInterface = this.xScale;
         const moveSelectionConfig: MoveSelectedRegionInterface = {
             trackG: this.g,
             xScale: xScale,

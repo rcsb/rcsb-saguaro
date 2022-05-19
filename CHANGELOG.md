@@ -2,6 +2,17 @@
 
 [Semantic Versioning](https://semver.org/)
 
+
+## [2.1.0] - 2022-05-19
+### Code refactoring
+- `RcsbScaleFactory` provides objects (`RcsbScaleInterface`) to extend the d3 scale class
+- `RcsbFvBoard` component responsibilities have been divided in different components 
+  - `RcsbFvTable` component renders the board tracks
+  - `BoardGlow` component renders the board glow effect
+  - `BoardProgress` component render the loaded trak status
+  - `RowGlow` component render single row glow effect
+- `RcsbFvRowTrackInterface.renderSchedule` controls how the track is rendered `sync` or `async`
+
 ## [2.0.6] - 2022-04-04
 ### Bug fixes
 - `mousemoveCallBack` minor bug fixed
