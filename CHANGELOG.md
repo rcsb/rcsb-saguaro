@@ -2,6 +2,9 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.1.1] - 2022-06-13
+### Dependency update
+- Multiple dependencies have been updated
 
 ## [2.1.0] - 2022-05-19
 ### Code refactoring

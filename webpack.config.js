@@ -32,7 +32,14 @@ module.exports = {
       ]
     },
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js', 'jsx' ]
+      extensions: [ '.tsx', '.ts', '.js', 'jsx' ],
+      fallback: {
+          fs: false,
+          buffer: require.resolve('buffer'),
+          crypto: require.resolve('crypto-browserify'),
+          path: require.resolve('path-browserify'),
+          stream: require.resolve('stream-browserify')
+      }
     },
     output: {
         filename: '[name].js',

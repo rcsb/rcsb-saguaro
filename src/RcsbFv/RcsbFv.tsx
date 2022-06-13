@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
+import {createRoot, Root} from "react-dom/client";
 import {RcsbFvBoard, RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard/RcsbFvBoard";
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvConfig/RcsbFvConfigInterface";
 import {
@@ -50,6 +50,8 @@ export class RcsbFv {
     private resolveOnReady: ()=> void;
 
     private rcsbFvPromise: Promise<void>;
+
+    private reactRoot: Root;
 
     constructor(props: RcsbFvInterface){
         this.boardConfigData = props.boardConfigData;
@@ -115,10 +117,11 @@ export class RcsbFv {
         this.rcsbFvPromise = new Promise<void>((resolve, reject)=>{
             this.resolveOnReady = resolve;
             if(!this.mounted && this.boardConfigData != undefined) {
-                ReactDom.render(
-                    <RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager} xScale={this.xScale} selection={this.selection} resolve={this.resolveOnReady}/>,
-                    document.getElementById(this.elementId)
-                );
+                const node: HTMLElement|null = document.getElementById(this.elementId);
+                if(node==null)
+                    throw `ERROR: HTML element ${this.elementId} not found`
+                this.reactRoot = createRoot(node);
+                this.reactRoot.render(<RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager} xScale={this.xScale} selection={this.selection} resolve={this.resolveOnReady}/>);
                 this.mounted = true;
                 resolve();
             }else{
@@ -130,9 +133,9 @@ export class RcsbFv {
 
     /**Unmount the board*/
     public unmount(){
-        const node: HTMLElement|null = document.getElementById(this.elementId);
-        if(node!=null)
-            ReactDom.unmountComponentAtNode(node)
+        if(this.reactRoot!=null) {
+            this.reactRoot.unmount();
+        }
     }
 
     /**Method used to check data config properties
