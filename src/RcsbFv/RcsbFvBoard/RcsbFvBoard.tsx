@@ -101,6 +101,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
 
     componentDidMount(): void {
         this.subscription = this.subscribe();
+        this.checkReadyState();
         if(typeof this.state.boardConfigData.selectionChangeCallBack === "function")
             this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallBack);
     }
@@ -176,6 +177,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     private boardReady():void{
         if(typeof this.resolveOnReady === "function")
             this.resolveOnReady();
+    }
+
+    private checkReadyState(): void {
+        if((!this.props.rowConfigData || this.props.rowConfigData.length == 0) && !this.props.boardConfigData.includeAxis)
+            this.boardReady();
     }
 
     private renderStarts(): void {

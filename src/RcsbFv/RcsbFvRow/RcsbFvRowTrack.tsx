@@ -4,7 +4,6 @@ import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/Rcs
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {EventType, RcsbFvContextManager, RowReadyInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
-import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 import {asyncScheduler, Subscription} from 'rxjs';

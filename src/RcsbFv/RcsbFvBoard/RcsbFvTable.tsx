@@ -14,8 +14,6 @@ import {
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
-import {RcsbFvUI} from "../RcsbFvUI/RcsbFvUI";
-import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {Subscription} from "rxjs";
 import uniqid  from 'uniqid';
 import {RowConfigFactory} from "./Utils/RowConfigFactory";
@@ -63,7 +61,6 @@ export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBod
     }
 
     render(): JSX.Element{
-        this.renderStarts();
         return (
             <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                 {this.props.boardConfigData.includeAxis ? this.getAxisRow(): null}
@@ -321,12 +318,6 @@ export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBod
         return {
             width: (titleWidth+trackWidth+(this.props.boardConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth)*2+RcsbFvDefaultConfigValues.titleAndTrackSpace)
         };
-    }
-
-    private renderStarts(): void {
-        if(typeof this.props.boardConfigData.onFvRenderStartsCallback === "function") {
-            this.props.boardConfigData.onFvRenderStartsCallback();
-        }
     }
 
 }

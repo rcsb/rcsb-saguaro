@@ -47,8 +47,6 @@ export class RcsbFv {
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
 
-    private resolveOnReady: ()=> void;
-
     private rcsbFvPromise: Promise<void>;
 
     private reactRoot: Root;
@@ -64,7 +62,9 @@ export class RcsbFv {
             this.checkFvTrackConfig(this.rowConfigData);
         }
         if(this.boardConfigData != null) {
-            this.init();
+            this.init().then(()=>{
+                console.info(`PFV ${this.elementId} is ready. Configuration provided during object instantiation`);
+            });
         }
     }
 
@@ -115,15 +115,13 @@ export class RcsbFv {
     /**Renders the board*/
     public init(): Promise<void> {
         this.rcsbFvPromise = new Promise<void>((resolve, reject)=>{
-            this.resolveOnReady = resolve;
             if(!this.mounted && this.boardConfigData != undefined) {
                 const node: HTMLElement|null = document.getElementById(this.elementId);
                 if(node==null)
                     throw `ERROR: HTML element ${this.elementId} not found`
                 this.reactRoot = createRoot(node);
-                this.reactRoot.render(<RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager} xScale={this.xScale} selection={this.selection} resolve={this.resolveOnReady}/>);
+                this.reactRoot.render(<RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager} xScale={this.xScale} selection={this.selection} resolve={resolve}/>);
                 this.mounted = true;
-                resolve();
             }else{
                 reject("FATAL ERROR: RcsvFvBoard is mounted or board configuration was not loaded");
             }
