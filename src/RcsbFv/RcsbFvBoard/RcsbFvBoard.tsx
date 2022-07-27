@@ -78,7 +78,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         return (
             <div className={classes.rcsbFvRootContainer} onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>
                 {
-                    this.props.boardConfigData.disableMenu ? null : <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} contextManager={this.props.contextManager} xScale={this.xScale} />
+                    this.state.boardConfigData.disableMenu ? null : <RcsbFvUI boardId={this.boardId} boardConfigData={this.state.boardConfigData} contextManager={this.props.contextManager} xScale={this.xScale} />
                 }
                 <BoardGlow boardId={this.boardId} boardConfigData={this.state.boardConfigData} contextManager={this.props.contextManager}/>
                 <RowGlow boardId={this.boardId} boardConfigData={this.state.boardConfigData} contextManager={this.props.contextManager}/>
@@ -102,12 +102,14 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     componentDidMount(): void {
         this.subscription = this.subscribe();
         this.checkReadyState();
-        if(typeof this.state.boardConfigData.selectionChangeCallBack === "function")
-            this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallBack);
     }
 
     componentWillUnmount(): void {
         this.props.contextManager.unsubscribeAll();
+    }
+
+    componentDidUpdate(prevProps: Readonly<RcsbFvBoardInterface>, prevState: Readonly<RcsbFvBoardState>, snapshot?: any) {
+        this.checkReadyState();
     }
 
     /**Subscribe className to rxjs events (adding tracks, change scale, update board config)
@@ -137,7 +139,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * */
     private updateBoardConfig(configData: Partial<RcsbFvBoardFullConfigInterface>): void {
         if(configData.rowConfigData!=null && configData.boardConfigData!=null){
-            this.setState({rowConfigData: configData.rowConfigData, boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
+            this.setState({rowConfigData: configData.rowConfigData, boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}});
         }else if(configData.boardConfigData!=null){
             this.setState({boardConfigData: {...this.state.boardConfigData, ...configData.boardConfigData}} );
         }else if(configData.rowConfigData!=null){
@@ -146,14 +148,14 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private setMouseOverCallback(): (()=>void)|undefined{
-        if(this.props.boardConfigData.hideTrackFrameGlow)
+        if(this.state.boardConfigData.hideTrackFrameGlow)
             return undefined;
         else
             return this.onMouseOver.bind(this);
     }
 
     private setMouseLeaveCallback(): (()=>void)|undefined{
-        if(this.props.boardConfigData.hideTrackFrameGlow)
+        if(this.state.boardConfigData.hideTrackFrameGlow)
             return undefined;
         else
             return this.onMouseLeave.bind(this);
@@ -180,14 +182,18 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private checkReadyState(): void {
-        if((!this.props.rowConfigData || this.props.rowConfigData.length == 0) && !this.props.boardConfigData.includeAxis)
+        if((!this.state.rowConfigData || this.state.rowConfigData.length == 0) && !this.state.boardConfigData.includeAxis)
             this.boardReady();
     }
 
     private renderStarts(): void {
-        if(typeof this.state.boardConfigData.onFvRenderStartsCallback === "function") {
+
+        if(typeof this.state.boardConfigData.onFvRenderStartsCallback === "function")
             this.state.boardConfigData.onFvRenderStartsCallback();
-        }
+
+        if(typeof this.state.boardConfigData.selectionChangeCallBack === "function")
+            this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallBack);
+
     }
 
     private boardHover(flag:boolean): void{

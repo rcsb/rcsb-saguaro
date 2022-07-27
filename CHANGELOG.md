@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.1.3] - 2022-07-27
+### Bug fixes
+- `RcsbFvBoard` resolves the ready-state promise when the component is updated and row configuration is empty
+ 
 ## [2.1.2] - 2022-06-14
 ### Bug fixes
 - `onFvRenderStartsCallback` call was removed from `RcsbFvTable` component
