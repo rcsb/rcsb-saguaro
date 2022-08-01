@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.1.4] - 2022-08-01
+### Dependency update
+- Multiple dependencies have been updated
+
 ## [2.1.3] - 2022-07-27
 ### Bug fixes
 - `RcsbFvBoard` resolves the ready-state promise when the component is updated and row configuration is empty
