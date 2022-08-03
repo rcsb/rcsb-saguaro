@@ -73,7 +73,7 @@ export class RcsbBoard {
 
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
     private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
-    private mousemoveCallBack: Array<(n:number)=>void> = new Array<(n:number)=> void>();
+    private mousemoveCallBack: Array<(event: MouseEvent, n:number)=>void> = new Array<(event: MouseEvent, n:number)=> void>();
     private readonly mouseHoverCallBack: Subject<Array<RcsbFvTrackDataElementInterface>> = new Subject<Array<RcsbFvTrackDataElementInterface>>();
 
     private readonly contextManager: RcsbFvContextManager;
@@ -168,7 +168,7 @@ export class RcsbBoard {
     }
 
     public setHighlightHoverPosition(){
-        this.mousemoveCallBack.push((n:number)=>{
+        this.mousemoveCallBack.push((event: MouseEvent, n:number)=>{
             if(this.contextManager.getCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT))
                 return;
             this.highlightRegion({begin:n,nonSpecific:true},'set','hover')

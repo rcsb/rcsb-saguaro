@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.1.6] - 2022-08-03
+### Bug fix
+- Area mousemove callback bug fixed
+
 ## [2.1.5] - 2022-08-03
 ### Dependency update
 - d3 v7.6.1

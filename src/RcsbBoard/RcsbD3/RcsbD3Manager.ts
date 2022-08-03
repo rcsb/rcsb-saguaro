@@ -6,7 +6,6 @@ import {
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbScaleInterface} from "../RcsbScaleFactory";
-import {ClientPointEvent} from "d3";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -16,7 +15,7 @@ export interface SVGConfInterface  {
     pointerEvents: string;
     mouseoutCallBack: Array<()=>void>;
     mouseoverCallBack: Array<()=>void>;
-    mousemoveCallBack: Array<(n:number)=>void>;
+    mousemoveCallBack: Array<(event: MouseEvent, n:number)=>void>;
     xScale: RcsbScaleInterface;
 }
 
@@ -113,7 +112,7 @@ export class RcsbD3Manager {
             }).on(RcsbD3Constants.MOUSE_MOVE,(event: MouseEvent)=>{
                 const index: number = config.mousemoveCallBack.length > 0 ? Math.round(config.xScale.invert(pointer(event, this.getPane())[0])) : -1;
                 config.mousemoveCallBack.forEach(f=>{
-                    f(index);
+                    f(event, index);
                 })
             });
         this._width = config.width;
