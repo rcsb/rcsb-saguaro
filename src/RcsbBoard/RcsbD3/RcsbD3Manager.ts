@@ -1,12 +1,12 @@
 import {RcsbD3Constants} from "./RcsbD3Constants";
-import {Selection, select, event, BaseType, EnterElement, mouse} from "d3-selection";
+import {Selection, select, BaseType, pointer} from "d3-selection";
 import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
-import {ScaleLinear} from "d3-scale";
 import classes from "../scss/RcsbBoard.module.scss";
 import {
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbScaleInterface} from "../RcsbScaleFactory";
+import {ClientPointEvent} from "d3";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -23,11 +23,11 @@ export interface SVGConfInterface  {
 export interface MainGConfInterface  {
     masterClass: string;
     innerClass: string;
-    dblClick: () => void;
-    mouseDown: () => void;
-    mouseUp: () => void;
-    mouseEnter: () => void;
-    mouseLeave: () => void;
+    dblClick: (event:  MouseEvent) => void;
+    mouseDown: (event:  MouseEvent) => void;
+    mouseUp: (event:  MouseEvent) => void;
+    mouseEnter: (event:  MouseEvent) => void;
+    mouseLeave: (event:  MouseEvent) => void;
 }
 
 export interface PaneConfInterface {
@@ -95,23 +95,23 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.CLASS, config.svgClass)
             .attr(RcsbD3Constants.WIDTH, config.width)
             .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents)
-            .on(RcsbD3Constants.CONTEXT_MENU, ()=>{
+            .on(RcsbD3Constants.CONTEXT_MENU, (event:MouseEvent)=>{
                 event.preventDefault();
             })
-            .on(RcsbD3Constants.MOUSE_WHEEL, ()=>{
+            .on(RcsbD3Constants.MOUSE_WHEEL, (event:MouseEvent)=>{
                 event.preventDefault();
             })
-            .on(RcsbD3Constants.MOUSE_ENTER,()=>{
+            .on(RcsbD3Constants.MOUSE_ENTER,(event:MouseEvent)=>{
                 config.mouseoverCallBack.forEach(f=>{
                     f();
                 });
             })
-            .on(RcsbD3Constants.MOUSE_LEAVE,()=>{
+            .on(RcsbD3Constants.MOUSE_LEAVE,(event:MouseEvent)=>{
                 config.mouseoutCallBack.forEach(f=>{
                     f();
                 })
-            }).on(RcsbD3Constants.MOUSE_MOVE,()=>{
-                const index: number = config.mousemoveCallBack.length > 0 ? Math.round(config.xScale.invert(mouse(this.getPane())[0])) : -1;
+            }).on(RcsbD3Constants.MOUSE_MOVE,(event: MouseEvent)=>{
+                const index: number = config.mousemoveCallBack.length > 0 ? Math.round(config.xScale.invert(pointer(event, this.getPane())[0])) : -1;
                 config.mousemoveCallBack.forEach(f=>{
                     f(index);
                 })

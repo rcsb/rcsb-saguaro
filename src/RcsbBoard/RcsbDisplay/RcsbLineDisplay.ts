@@ -1,5 +1,5 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
-import {Selection, BaseType, mouse, event, ContainerElement} from "d3-selection";
+import {Selection, BaseType, pointer, ContainerElement} from "d3-selection";
 import {
     MoveLineInterface,
     PlotLineInterface,
@@ -23,7 +23,7 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
     protected line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     private linePoints: RcsbFvTrackDataElementInterface[];
 
-    mousemoveCallBack: (n: number)=>void = (index:number)=>{
+    mousemoveCallBack: (event:MouseEvent, n: number)=>void = (event:MouseEvent, index:number)=>{
         if(this.includeTooltip){
             if(this.innerData[index] !=null)
                 this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
@@ -39,10 +39,10 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
         this.tooltipManager.hideTooltip();
     };
 
-    protected clickCallBack: ()=>void = ()=>{
+    protected clickCallBack = (event: MouseEvent)=>{
         const svgNode:ContainerElement | null  = this.g.node();
         if(svgNode != null) {
-            const x = mouse(svgNode)[0];
+            const x = pointer(event, svgNode)[0];
             const position = Math.round(this.xScale.invert(x));
             const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
             this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);

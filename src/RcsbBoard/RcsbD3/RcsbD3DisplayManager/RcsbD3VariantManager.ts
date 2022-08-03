@@ -94,9 +94,9 @@ export class RcsbD3VariantManager {
             if( this.parentNode != undefined)
                 this.parentNode.append(this);
         });
-
         const variantAxis:Axis<string> = axisLeft(yScale.getScale());
-        trackG.append(RcsbD3Constants.G).classed(classes.rcsbAxis,true)
+        const gAxis: Selection<SVGGElement, any, BaseType, undefined> = trackG.append(RcsbD3Constants.G);
+        gAxis.classed(classes.rcsbAxis,true)
             .attr(RcsbD3Constants.TRANSFORM, "translate(20,0)")
             .append(RcsbD3Constants.RECT)
             .attr(RcsbD3Constants.FILL,"white")
@@ -104,7 +104,6 @@ export class RcsbD3VariantManager {
             .attr(RcsbD3Constants.Y,0)
             .attr(RcsbD3Constants.HEIGHT, height)
             .attr(RcsbD3Constants.WIDTH,15);
-
-        trackG.selectAll("."+classes.rcsbAxis).call(variantAxis);
+        gAxis.call(variantAxis);
     }
 }

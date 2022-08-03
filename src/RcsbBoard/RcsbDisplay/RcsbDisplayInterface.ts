@@ -23,7 +23,7 @@ export interface RcsbDisplayInterface {
     moveSelection: (mode:'select'|'hover')=> void;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
-    mousemoveCallBack: (n:number)=>void;
+    mousemoveCallBack: (event:MouseEvent, n:number)=>void;
     //RcsbAbstractDisplay
     reset: ()=> void;
     plot:(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>void;

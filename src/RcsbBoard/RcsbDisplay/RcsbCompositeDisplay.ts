@@ -54,10 +54,10 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    mousemoveCallBack(n:number): void{
+    mousemoveCallBack(event:MouseEvent, n:number): void{
         this.innerDisplays.forEach(id=>{
             if(typeof id.display.mousemoveCallBack === "function") {
-                id.display.mousemoveCallBack(n);
+                id.display.mousemoveCallBack(event, n);
             }
         });
     }

@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.1.5] - 2022-08-03
+### Dependency update
+- d3 v7.6.1
+
 ## [2.1.4] - 2022-08-01
 ### Dependency update
 - Multiple dependencies have been updated

@@ -14,7 +14,7 @@ export interface PlotAreaInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
     area:Area<RcsbFvTrackDataElementInterface>;
     id:string;
-    clickCallBack: ()=>void;
+    clickCallBack: (event:MouseEvent)=>void;
     opacity?: number;
 }
 
@@ -47,8 +47,8 @@ export class RcsbD3AreaManager {
             .style(RcsbD3Constants.FILL_OPACITY,config.opacity ?? .2)
             .style(RcsbD3Constants.FILL, config.color)
             .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
-            .on(RcsbD3Constants.CLICK, ()=>{
-                config.clickCallBack();
+            .on(RcsbD3Constants.CLICK, (event: MouseEvent)=>{
+                config.clickCallBack(event);
             });
     }
 

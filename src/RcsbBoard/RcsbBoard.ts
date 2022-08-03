@@ -1,4 +1,3 @@
-import {event} from "d3-selection";
 import {zoom, ZoomBehavior, ZoomedElementBaseType, zoomIdentity, ZoomTransform} from "d3-zoom";
 
 import {
@@ -24,6 +23,7 @@ import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultCon
 import {RcsbSelection} from "./RcsbSelection";
 import {asyncScheduler, Subject, Subscription} from "rxjs";
 import {RcsbScaleInterface} from "./RcsbScaleFactory";
+import {D3ZoomEvent} from "d3";
 
 export interface LocationViewInterface {
     from: number;
@@ -123,33 +123,33 @@ export class RcsbBoard {
         const innerConfig: MainGConfInterface ={
             masterClass: classes.rcsbMasterG,
             innerClass: classes.rcsbInnerG,
-            mouseUp:()=>{
-                if((event as MouseEvent).button === MOUSE.RIGHT) {
-                    (event as MouseEvent).preventDefault();
-                    (event as MouseEvent).stopImmediatePropagation();
-                    RcsbD3EventDispatcher.boardMouseup(this);
+            mouseUp:(event: MouseEvent)=>{
+                if(event.button === MOUSE.RIGHT) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    RcsbD3EventDispatcher.boardMouseup(event, this);
                 }
             },
-            mouseDown:()=>{
-                if((event as MouseEvent).button === MOUSE.RIGHT) {
-                    (event as MouseEvent).preventDefault();
-                    (event as MouseEvent).stopImmediatePropagation();
-                    RcsbD3EventDispatcher.boardMousedown(this);
+            mouseDown:(event: MouseEvent)=>{
+                if(event.button === MOUSE.RIGHT) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    RcsbD3EventDispatcher.boardMousedown(event, this);
                 }
             },
-            dblClick:()=>{
+            dblClick:(event: MouseEvent)=>{
                 this.highlightRegion(null, 'set','select', false);
                 if(typeof this.elementClickCallBack === "function")
                     this.elementClickCallBack();
             },
-            mouseEnter:()=>{
+            mouseEnter:(event: MouseEvent)=>{
                 if(RcsbD3EventDispatcher.keepSelectingFlag) {
-                    RcsbD3EventDispatcher.changeTrack(this);
+                    RcsbD3EventDispatcher.changeTrack(event, this);
                 }
             },
-            mouseLeave:()=>{
+            mouseLeave:(event: MouseEvent)=>{
                 if(RcsbD3EventDispatcher.keepSelectingFlag) {
-                    RcsbD3EventDispatcher.leavingTrack(this);
+                    RcsbD3EventDispatcher.leavingTrack(event, this);
                 }
             }
         };
@@ -376,7 +376,7 @@ export class RcsbBoard {
         return this._xScale;
     }
 
-    private moveBoard(newTransform: ZoomTransform, propFlag: boolean): void {
+    private moveBoard(event: D3ZoomEvent<SVGGElement,null>, newTransform: ZoomTransform, propFlag: boolean): void {
 
         let transform: ZoomTransform;
         const isNotIdentity = (transform: ZoomTransform): boolean => {

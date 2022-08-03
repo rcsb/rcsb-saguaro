@@ -28,7 +28,7 @@ export abstract class RcsbAbstractTrack {
     private boardHighlight: (d: RcsbFvTrackDataElementInterface, operation: 'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void;
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
-    mousemoveCallBack: (n:number)=>void;
+    mousemoveCallBack: (event:MouseEvent, n:number)=>void;
 
     private dataUpdatedFlag: boolean = false;
 

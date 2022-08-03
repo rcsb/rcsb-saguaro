@@ -1,6 +1,6 @@
 import {RcsbAbstractTrack} from "./RcsbAbstractTrack";
 import classes from "../scss/RcsbBoard.module.scss";
-import {Selection, BaseType, event, select, EnterElement } from "d3-selection";
+import {Selection, BaseType, select } from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {
     RcsbFvColorGradient,
@@ -88,7 +88,7 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
     }
 
     plot(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{
-        element.on(RcsbD3Constants.CLICK, (d)=> {
+        element.on(RcsbD3Constants.CLICK, (event: MouseEvent, d: RcsbFvTrackDataElementInterface)=> {
             if (event.defaultPrevented) {
                 return;
             }
@@ -98,9 +98,9 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
             if(typeof d.elementClickCallBack === "function"){
                 d.elementClickCallBack(d, event);
             }
-            RcsbD3EventDispatcher.elementClick(this.getBoardHighlight(),d);
+            RcsbD3EventDispatcher.elementClick(event, this.getBoardHighlight(),d);
         });
-        element.on(RcsbD3Constants.MOUSE_ENTER, (d, i) => {
+        element.on(RcsbD3Constants.MOUSE_ENTER, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
             if (event.defaultPrevented) {
                 return;
             }
@@ -115,12 +115,12 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
                 this.highlightEnterElement(d);
             }
         });
-        element.on(RcsbD3Constants.DBL_CLICK, (d, i) => {
+        element.on(RcsbD3Constants.DBL_CLICK, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
             if (event.defaultPrevented) {
                 return;
             }
         });
-        element.on(RcsbD3Constants.MOUSE_LEAVE, (d, i) => {
+        element.on(RcsbD3Constants.MOUSE_LEAVE, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
             if (event.defaultPrevented) {
                 return;
             }

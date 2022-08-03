@@ -13,14 +13,16 @@
 <li><a href="../modules.html">@rcsb/rcsb-saguaro</a></li>
 <li><a href="../modules/_internal_.html">&lt;internal&gt;</a></li>
 <li><a href="_internal_.ScaleContinuousNumeric.html">ScaleContinuousNumeric</a></li></ul>
-<h1>Interface ScaleContinuousNumeric&lt;Range, Output&gt;</h1></div>
+<h1>Interface ScaleContinuousNumeric&lt;Range, Output, Unknown&gt;</h1></div>
 <section class="tsd-panel tsd-type-parameters">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameters">
 <li>
 <h4>Range</h4></li>
 <li>
-<h4>Output</h4></li></ul></section>
+<h4>Output</h4></li>
+<li>
+<h4>Unknown = <span class="tsd-signature-type">never</span></h4></li></ul></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
@@ -29,7 +31,7 @@
 <li><a href="_internal_.ScaleLinear.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleLinear</a></li></ul></li></ul></section>
 <section class="tsd-panel">
 <ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-namespace tsd-is-external">
-<li class="tsd-signature tsd-anchor-link" id="ScaleContinuousNumeric">Scale<wbr/>Continuous<wbr/>Numeric<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><a href="#ScaleContinuousNumeric" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="ScaleContinuousNumeric">Scale<wbr/>Continuous<wbr/>Numeric<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><a href="#ScaleContinuousNumeric" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Given a value from the domain, returns the corresponding value from the range, subject to interpolation, if any.</p>
 <p>If the given value is outside the domain, and clamping is not enabled, the mapping may be extrapolated such that the returned value is outside the range.</p>
@@ -42,9 +44,9 @@
 <h5>value: <a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a></h5>
 <div class="tsd-comment tsd-typography"><p>A numeric value from the domain.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:51</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:52</li></ul></aside></li></ul></section>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -61,7 +63,6 @@
 <a href="_internal_.ScaleContinuousNumeric.html#rangeRound" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>range<wbr/>Round</span></a>
 <a href="_internal_.ScaleContinuousNumeric.html#tickFormat" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>tick<wbr/>Format</span></a>
 <a href="_internal_.ScaleContinuousNumeric.html#ticks" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>ticks</span></a>
-<a href="_internal_.ScaleContinuousNumeric.html#unknown" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>unknown</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
@@ -74,8 +75,8 @@
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:116</li></ul></aside></li>
-<li class="tsd-signature tsd-anchor-link" id="clamp.clamp-2">clamp<span class="tsd-signature-symbol">(</span>clamp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span><a href="#clamp.clamp-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:117</li></ul></aside></li>
+<li class="tsd-signature tsd-anchor-link" id="clamp.clamp-2">clamp<span class="tsd-signature-symbol">(</span>clamp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span><a href="#clamp.clamp-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Enables or disables clamping, respectively. If clamping is disabled and the scale is passed a value outside the domain,
 the scale may return a value outside the range through extrapolation.</p>
@@ -88,19 +89,19 @@ the scale may return a value outside the range through extrapolation.</p>
 <h5>clamp: <span class="tsd-signature-type">boolean</span></h5>
 <div class="tsd-comment tsd-typography"><p>A flag to enable (true) or disable (false) clamping.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:125</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:126</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="copy" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>copy</span><a href="#copy" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
-<li class="tsd-signature tsd-anchor-link" id="copy.copy-1">copy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span><a href="#copy.copy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="copy.copy-1">copy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span><a href="#copy.copy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Returns an exact copy of this scale. Changes to this scale will not affect the returned scale, and vice versa.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:181</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:171</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="domain" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>domain</span><a href="#domain" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
@@ -110,8 +111,8 @@ the scale may return a value outside the range through extrapolation.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:72</li></ul></aside></li>
-<li class="tsd-signature tsd-anchor-link" id="domain.domain-2">domain<span class="tsd-signature-symbol">(</span>domain<span class="tsd-signature-symbol">: </span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span><a href="#domain.domain-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:73</li></ul></aside></li>
+<li class="tsd-signature tsd-anchor-link" id="domain.domain-2">domain<span class="tsd-signature-symbol">(</span>domain<span class="tsd-signature-symbol">: </span><a href="_internal_.Iterable.html" class="tsd-signature-type" data-tsd-kind="Interface">Iterable</a><span class="tsd-signature-symbol">&lt;</span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span><a href="#domain.domain-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Sets the scale’s domain to the specified array of numbers. The array must contain two or more elements.
 If the elements in the given array are not numbers, they will be coerced to numbers</p>
@@ -123,12 +124,12 @@ Thus, the domain must be in ascending or descending order. If the domain and ran
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>domain: <a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">[]</span></h5>
+<h5>domain: <a href="_internal_.Iterable.html" class="tsd-signature-type" data-tsd-kind="Interface">Iterable</a><span class="tsd-signature-symbol">&lt;</span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>Array of numeric domain values.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:84</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:85</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="invert" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>invert</span><a href="#invert" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
@@ -151,11 +152,11 @@ The scale and its inverse may not be exact due to the limitations of floating po
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:67</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:68</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="nice" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>nice</span><a href="#nice" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
-<li class="tsd-signature tsd-anchor-link" id="nice.nice-1">nice<span class="tsd-signature-symbol">(</span>count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span><a href="#nice.nice-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="nice.nice-1">nice<span class="tsd-signature-symbol">(</span>count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span><a href="#nice.nice-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Extends the domain so that it starts and ends on nice round values.
 This method typically modifies the scale’s domain, and may only extend the bounds to the nearest round value.
@@ -174,9 +175,9 @@ You must re-nice the scale after setting the new domain, if desired.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> count: <span class="tsd-signature-type">number</span></h5>
 <div class="tsd-comment tsd-typography"><p>An optional number of ticks expected to be used.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:176</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:166</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="range" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>range</span><a href="#range" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
@@ -186,8 +187,8 @@ You must re-nice the scale after setting the new domain, if desired.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:89</li></ul></aside></li>
-<li class="tsd-signature tsd-anchor-link" id="range.range-2">range<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span><a href="#range.range-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:90</li></ul></aside></li>
+<li class="tsd-signature tsd-anchor-link" id="range.range-2">range<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><a href="_internal_.Iterable.html" class="tsd-signature-type" data-tsd-kind="Interface">Iterable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span><a href="#range.range-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Sets the scale’s range to the specified array of values.</p>
 <p>The array must contain two or more elements. Unlike the domain, elements in the given array need not be numbers;
@@ -197,16 +198,16 @@ any value that is supported by the underlying interpolator will work, though not
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>range: <span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">[]</span></h5>
+<h5>range: <a href="_internal_.Iterable.html" class="tsd-signature-type" data-tsd-kind="Interface">Iterable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>Array of range values.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:98</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:99</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="rangeRound" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>range<wbr/>Round</span><a href="#rangeRound" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
-<li class="tsd-signature tsd-anchor-link" id="rangeRound.rangeRound-1">range<wbr/>Round<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span><a href="#rangeRound.rangeRound-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="rangeRound.rangeRound-1">range<wbr/>Round<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><a href="_internal_.Iterable.html" class="tsd-signature-type" data-tsd-kind="Interface">Iterable</a><span class="tsd-signature-symbol">&lt;</span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span><a href="#rangeRound.rangeRound-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Sets the scale’s range to the specified array of values while also setting the scale’s interpolator to interpolateRound.</p>
 <p>The rounding interpolator is sometimes useful for avoiding antialiasing artifacts,
@@ -218,12 +219,12 @@ any value that is supported by the underlying interpolator will work, though not
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>range: <a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">[]</span></h5>
+<h5>range: <a href="_internal_.Iterable.html" class="tsd-signature-type" data-tsd-kind="Interface">Iterable</a><span class="tsd-signature-symbol">&lt;</span><a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>Array of range values.</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Unknown</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:111</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:112</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="tickFormat" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>tick<wbr/>Format</span><a href="#tickFormat" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
@@ -261,7 +262,7 @@ The specified count should have the same value as the count that is used to gene
 <h5>d: <a href="../types/_internal_.NumberValue.html" class="tsd-signature-type" data-tsd-kind="Type alias">NumberValue</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4></li></ul></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:160</li></ul></aside></li></ul></section>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:150</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="ticks" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>ticks</span><a href="#ticks" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
@@ -282,31 +283,7 @@ The specified count is only a hint; the scale may return more or fewer values de
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:149</li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a id="unknown" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>unknown</span><a href="#unknown" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
-<li class="tsd-signature tsd-anchor-link" id="unknown.unknown-1">unknown<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><a href="#unknown.unknown-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Returns the current unknown value, which defaults to undefined.</p>
-</div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span></h4><aside class="tsd-sources">
-<ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:130</li></ul></aside></li>
-<li class="tsd-signature tsd-anchor-link" id="unknown.unknown-2">unknown<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span><a href="#unknown.unknown-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Sets the output value of the scale for undefined (or NaN) input values and returns this scale.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5>value: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span></h5>
-<div class="tsd-comment tsd-typography"><p>The output value of the scale for undefined (or NaN) input values.</p>
-</div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="_internal_.ScaleContinuousNumeric.html" class="tsd-signature-type" data-tsd-kind="Interface">ScaleContinuousNumeric</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Output</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
-<ul>
-<li>Defined in node_modules/@types/d3-scale/index.d.ts:136</li></ul></aside></li></ul></section></section></div>
+<li>Defined in node_modules/@types/d3-scale/index.d.ts:139</li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -341,8 +318,7 @@ The specified count is only a hint; the scale may return more or fewer values de
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_internal_.ScaleContinuousNumeric.html#range" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>range</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_internal_.ScaleContinuousNumeric.html#rangeRound" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>range<wbr/>Round</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_internal_.ScaleContinuousNumeric.html#tickFormat" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>tick<wbr/>Format</a></li>
-<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_internal_.ScaleContinuousNumeric.html#ticks" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>ticks</a></li>
-<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_internal_.ScaleContinuousNumeric.html#unknown" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>unknown</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="_internal_.ScaleContinuousNumeric.html#ticks" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>ticks</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>
