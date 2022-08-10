@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.1.7] - 2022-08-10
+### Improvement
+- `RcsbFv.reset` can be used to reset `Selection` and `xScale` objects. It clears the current selection and x-domain interval. 
+This is useful to avoid preserving selected regions or the domain range when the viewer is update with new configuration. 
+
 ## [2.1.6] - 2022-08-03
 ### Bug fix
 - Area mousemove callback bug fixed

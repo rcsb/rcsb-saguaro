@@ -328,5 +328,13 @@ export class RcsbFv {
         });
     }
 
+    /**
+     * reset Selection and Scale
+     **/
+    public reset(): void{
+        this.selection.reset();
+        this.xScale.reset();
+    }
+
 }
 

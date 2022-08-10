@@ -259,10 +259,13 @@ export class RcsbBoard {
             this.currentLocationView.to = this.currentLocationView.from + this.limits.maxZoom;
         }
         this.addSVG();
-        if(!this.xScale().checkAndSetScale(
+        if(
+            !this.xScale().checkAndSetScale(
             [this.currentLocationView.from, this.currentLocationView.to],
             [this._innerPadding, this._width - this._innerPadding]
-        )){
+            )
+            && this.selection.getSelected("select").length > 0
+        ){
             this.selection.clearSelection("select");
         }
         this.d3Manager.addZoom({

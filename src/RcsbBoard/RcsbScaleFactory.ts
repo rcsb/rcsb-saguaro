@@ -11,6 +11,7 @@ export interface RcsbScaleInterface<T=number,S=ScaleLinear<number,number>> {
     invert(x: number): T;
     checkAndSetScale(domain:[number,number],range:[number,number]): boolean;
     getScale(): S;
+    reset(): void;
 }
 
 export namespace RcsbScaleFactory {
@@ -33,6 +34,10 @@ export namespace RcsbScaleFactory {
                 scale.domain(domain).range(range);
                 return false;
             }
+        };
+        scale.reset = () => {
+            scale._domain = [0,0];
+            scale._range = [0,0];
         };
         return scale;
     }
