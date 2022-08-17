@@ -53,8 +53,6 @@ export class RcsbD3PinManager {
                 }
                 return height - (yScale(y) ?? 0);
             })
-            .transition()
-            .duration(500)
             .attr(RcsbD3Constants.R, radius)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if(typeof d.color === "string")

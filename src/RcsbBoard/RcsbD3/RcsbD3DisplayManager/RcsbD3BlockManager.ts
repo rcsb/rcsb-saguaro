@@ -78,8 +78,6 @@ export class RcsbD3BlockManager {
                     return RcsbD3BlockManager.minWidth;
             })
             .attr(RcsbD3Constants.HEIGHT, config.dy)
-            .transition()
-            .duration(500)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface)=> {
                 if (d.color === undefined) {
                     return config.color;
@@ -124,8 +122,6 @@ export class RcsbD3BlockManager {
                 return config.xScale(d.position+d.shift*config.dx) ?? 0
             })
             .attr(RcsbD3Constants.CY, 0.5*config.height)
-            .transition()
-            .duration(500)
             .attr(RcsbD3Constants.R, config.dy/4)
             .attr(RcsbD3Constants.FILL, "#ffffff")
             .attr(RcsbD3Constants.STROKE,(d:CircleDecoratorInterface)=> {
@@ -153,8 +149,6 @@ export class RcsbD3BlockManager {
             .attr(RcsbD3Constants.Y2, (d: LineDecoratorInterface) => {
                 return config.height*0.5;
             })
-            .transition()
-            .duration(500)
             .attr(RcsbD3Constants.STROKE_WIDTH,this.STROKE_WIDTH)
             .attr(RcsbD3Constants.STROKE_DASH,4)
             .attr(RcsbD3Constants.STROKE, (d:LineDecoratorInterface) => {

@@ -3,6 +3,7 @@ import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValu
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {MouseEvent} from "react";
+import {RcsbFvRowMark} from "./RcsbFvRowMark";
 
 /**Board track title cell React component interface*/
 interface RcsbFvRowTitleInterface {
@@ -16,7 +17,7 @@ interface RcsbFvRowTitleInterState {
 
 export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, RcsbFvRowTitleInterState> {
 
-    configData : RcsbFvRowConfigInterface;
+    private readonly configData : RcsbFvRowConfigInterface;
     readonly state = {
         expandTitle: false
     };
@@ -27,10 +28,9 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
         this.configData = this.props.data;
     }
 
-    render(){
+    public render(): JSX.Element{
         const height: number = (this.configStyle().height as number);
         const trackTitle: string = typeof this.configData?.rowTitle === "string" ? this.configData.rowTitle : (typeof this.configData?.rowTitle === "object" ? this.configData.rowTitle.visibleTex : "");
-        const rowMark: JSX.Element = (<div style={{display:"inline-block", width:6, height:6, marginBottom: 4, marginRight:5}} className={classes.rcsbFvRowMark} ><div/></div>);
         if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0 && this.configData.fitTitleWidth){
             const prefixLength: number = Math.max(this.configData.rowPrefix.length, 16);
             const prefixWidth: number = Math.round((prefixLength/(prefixLength+trackTitle.length)*(this.configStyle().width as number)));
@@ -47,7 +47,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                     </div>
                     <div style={{height:height, float:"right", display:"inline-block"}}>
                         <div className={classes.rcsbFvRowTitleText}  style={{lineHeight:height+"px", display:"inline-block"}}>
-                            {rowMark}
+                            <RcsbFvRowMark {...this.props.data.rowMarkCallback} />
                             {this.configData.rowPrefix}
                         </div>
                     </div>
@@ -65,7 +65,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
                          onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
                     >
-                        {rowMark}
+                        <RcsbFvRowMark {...this.props.data.rowMarkCallback} />
                         {this.configData.rowPrefix+" "}{this.setTitle()}
                     </div>
                 </div>
@@ -82,7 +82,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
                          onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
                     >
-                        {rowMark}
+                        <RcsbFvRowMark {...this.props.data.rowMarkCallback} />
                         {this.setTitle()}
                     </div>
                 </div>
@@ -93,7 +93,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
     /**
      * @return Title string defined in the track configuration object
      * */
-    setTitle(): string | null | JSX.Element {
+    private setTitle(): string | null | JSX.Element {
         if(typeof this.configData.rowTitle === "string"){
             return this.configData.rowTitle;
         }else if(typeof this.configData.rowTitle === "object"){
@@ -109,7 +109,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
     /**
      * @return CSS style width and height for the cell
      * */
-    configStyle() : React.CSSProperties {
+    private configStyle() : React.CSSProperties {
         let width : number = RcsbFvDefaultConfigValues.rowTitleWidth;
         if(typeof this.configData.rowTitleWidth === "number"){
             width = this.configData.rowTitleWidth;
@@ -123,7 +123,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
     /**
      * @return Title flag color css style properties
      * */
-    configTitleFlagColorStyle():React.CSSProperties {
+    private configTitleFlagColorStyle():React.CSSProperties {
         let color: string = "#FFFFFF";
         if(typeof this.props.data.titleFlagColor === "string"){
             color = this.props.data.titleFlagColor;

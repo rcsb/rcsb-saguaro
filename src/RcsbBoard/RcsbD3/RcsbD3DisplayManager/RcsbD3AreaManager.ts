@@ -3,6 +3,7 @@ import {Area} from "d3-shape";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 import classes from "../../scss/RcsbBoard.module.scss";
+import {asyncScheduler, Subscription} from "rxjs";
 
 export interface ClearAreaInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;
@@ -32,27 +33,35 @@ export interface PlotAxisInterface {
     y2: number;
     trackG: Selection<SVGGElement,any,null,undefined>;
 }
-
 export class RcsbD3AreaManager {
 
-    static clean(config: ClearAreaInterface){
-        config.trackG.selectAll(RcsbD3Constants.PATH).remove();
-    }
+    private plotTask: Subscription = new Subscription();
+    private areaMap: {[key:string]: Selection<SVGGElement, any, null, undefined>} = {};
 
-    static plot(config: PlotAreaInterface){
-        config.trackG.append(RcsbD3Constants.PATH)
-            .datum(config.points)
-            .attr(RcsbD3Constants.ID,config.id)
-            .attr(RcsbD3Constants.D, config.area)
-            .style(RcsbD3Constants.FILL_OPACITY,config.opacity ?? .2)
-            .style(RcsbD3Constants.FILL, config.color)
-            .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
-            .on(RcsbD3Constants.CLICK, (event: MouseEvent)=>{
-                config.clickCallBack(event);
+    public plot(multiConfig: Array<PlotAreaInterface>){
+        this.plotTask.unsubscribe();
+        this.plotTask = asyncScheduler.schedule(()=> {
+            multiConfig.forEach(config=>{
+                if(this.areaMap[config.id] == null) {
+                    this.areaMap[config.id] = config.trackG.append(RcsbD3Constants.PATH);
+                    this.areaMap[config.id]
+                        .attr(RcsbD3Constants.ID, config.id)
+                        .style(RcsbD3Constants.FILL_OPACITY, config.opacity ?? .2)
+                        .style(RcsbD3Constants.FILL, config.color)
+                        .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
+                        .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
+                            config.clickCallBack(event);
+                        });
+                }
+                this.areaMap[config.id]
+                    .datum(config.points)
+                    .attr(RcsbD3Constants.D, config.area)
+
             });
+        });
     }
 
-    static plotAxis(config: PlotAxisInterface){
+    public plotAxis(config: PlotAxisInterface){
         config.trackG.select(RcsbD3Constants.LINE).remove();
         config.trackG.append(RcsbD3Constants.LINE)
             .style(RcsbD3Constants.STROKE, "#CCC")
@@ -63,9 +72,11 @@ export class RcsbD3AreaManager {
             .attr(RcsbD3Constants.Y2, config.y2);
     }
 
-    static move(config:MoveAreaInterface){
-        config.trackG.select(RcsbD3Constants.PATH+"#"+config.id)
-            .datum(config.points)
-            .attr(RcsbD3Constants.D, config.area);
+    public move(config:MoveAreaInterface){
+        asyncScheduler.schedule(()=> {
+            config.trackG.select(RcsbD3Constants.PATH + "#" + config.id)
+                .datum(config.points)
+                .attr(RcsbD3Constants.D, config.area);
+        });
     }
 }

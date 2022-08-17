@@ -21,18 +21,17 @@ export interface MoveLineInterface {
 
 export class RcsbD3LineManager {
 
-    static clean(config: ClearAreaInterface){
-        config.trackG.selectAll(RcsbD3Constants.PATH).remove();
-    }
-
     static plot(config: PlotLineInterface){
-        config.trackG.append(RcsbD3Constants.PATH)
+        if(config.trackG.select(RcsbD3Constants.PATH + "#" + config.id).size() == 0)
+            config.trackG.append(RcsbD3Constants.PATH)
+                .attr(RcsbD3Constants.ID,config.id)
+                .style(RcsbD3Constants.STROKE, config.color)
+                .style(RcsbD3Constants.STROKE_WIDTH, 0.6)
+                .style(RcsbD3Constants.FILL, "none");
+
+        config.trackG.select(RcsbD3Constants.PATH+"#"+config.id)
             .datum(config.points)
-            .attr(RcsbD3Constants.ID,config.id)
             .attr(RcsbD3Constants.D, config.line)
-            .style(RcsbD3Constants.STROKE, config.color)
-            .style(RcsbD3Constants.STROKE_WIDTH, 0.6)
-            .style(RcsbD3Constants.FILL, "none");
     }
 
     static move(config:MoveLineInterface){

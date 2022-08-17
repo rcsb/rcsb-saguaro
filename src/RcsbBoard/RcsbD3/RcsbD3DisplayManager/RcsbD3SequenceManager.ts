@@ -1,7 +1,7 @@
 import {Selection, BaseType, select} from "d3-selection";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
-import {asyncScheduler} from "rxjs";
+import {asyncScheduler, Subscription} from "rxjs";
 import {RcsbScaleInterface} from "../../RcsbScaleFactory";
 
 export interface PlotSequenceInterface {
@@ -28,37 +28,39 @@ export interface MoveSequenceInterface {
 
 export class RcsbD3SequenceManager {
     private textElements: Selection<SVGTextElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGTextElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
-
+    private plotTask: Subscription = new Subscription();
     plot(config: PlotSequenceInterface){
-        const xScale = config.xScale;
-        const yScale = config.yScale;
+        this.plotTask.unsubscribe();
+        this.plotTask = asyncScheduler.schedule(()=>{
+            const xScale = config.xScale;
+            const yScale = config.yScale;
 
-        this.textElements = config.elements.select(RcsbD3Constants.TEXT);
-        this.textElements
-            .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin) ?? 0;
-            })
-            .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4) ?? 0)
-            .transition()
-            .duration(500)
-            .attr(RcsbD3Constants.FONT_SIZE, "10")
-            .attr(RcsbD3Constants.FONT_FAMILY,"Arial")
-            .attr(RcsbD3Constants.TEXT_ANCHOR, "middle")
-            .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
-                if (typeof d.color === "string"){
-                    return d.color;
-                } else if(typeof config.color === "string"){
-                    return config.color;
-                }else{
-                    console.warn("Config color noy found");
-                    return "#CCCCCC";
-                }
-            }).text((d:RcsbFvTrackDataElementInterface) => {
+            this.textElements = config.elements.select(RcsbD3Constants.TEXT);
+            this.textElements
+                .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
+                    return xScale(d.begin) ?? 0;
+                })
+                .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4) ?? 0)
+                .transition()
+                .duration(500)
+                .attr(RcsbD3Constants.FONT_SIZE, "10")
+                .attr(RcsbD3Constants.FONT_FAMILY,"Arial")
+                .attr(RcsbD3Constants.TEXT_ANCHOR, "middle")
+                .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
+                    if (typeof d.color === "string"){
+                        return d.color;
+                    } else if(typeof config.color === "string"){
+                        return config.color;
+                    }else{
+                        console.warn("Config color noy found");
+                        return "#CCCCCC";
+                    }
+                }).text((d:RcsbFvTrackDataElementInterface) => {
                 return d.label || "";
             }).attr(RcsbD3Constants.FILL_OPACITY,()=>{
                 return RcsbD3SequenceManager.opacity(xScale,config.intervalRatio)
             })
-
+        });
     }
 
     static plotSequenceLine(config: PlotSequenceLineInterface): void{

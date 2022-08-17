@@ -66,8 +66,6 @@ export class RcsbD3BondManager {
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return height - (yScale(0.5) ?? 0);
             })
-            .transition()
-            .duration(500)
             .attr(RcsbD3Constants.R, radius)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if(typeof d.color === "string")
@@ -84,8 +82,6 @@ export class RcsbD3BondManager {
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
                 return height - (yScale(0.5) ?? 0);
             })
-            .transition()
-            .duration(500)
             .attr(RcsbD3Constants.R, radius)
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if(typeof d.color === "string")

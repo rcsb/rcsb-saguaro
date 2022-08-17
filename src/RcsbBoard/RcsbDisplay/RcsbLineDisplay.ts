@@ -8,8 +8,12 @@ import {
 import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-shape";
 import {largestTriangleOneBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
+import classes from "../scss/RcsbBoard.module.scss";
+import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
+import {EnterElement} from "d3";
+import {LocationViewInterface} from "../RcsbBoard";
 
 export class RcsbLineDisplay extends RcsbAbstractDisplay {
 
@@ -93,13 +97,22 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
         });
     }
 
-    plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
+    _update(where: LocationViewInterface, compKey?: string):void {
+        this.geoPlot(this.data().filter((s: RcsbFvTrackDataElementInterface, i: number) => {
+            if (s.end == null) {
+                return (s.begin >= where.from && s.begin <= where.to);
+            } else {
+                return !(s.begin > where.to || s.end < where.from);
+            }
+        }));
+    }
+
+    protected geoPlot(data:RcsbFvTrackData): void {
         if(!this.definedScale) {
             this.setScale();
             this.setLine();
         }
-        this.linePoints = this.downSampling(elements.data());
-        elements.remove();
+        this.linePoints = this.downSampling(data);
         const config: PlotLineInterface = {
             points: this.linePoints,
             line: this.line,

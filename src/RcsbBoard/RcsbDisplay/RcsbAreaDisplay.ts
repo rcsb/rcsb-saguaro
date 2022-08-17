@@ -7,13 +7,18 @@ import {
     PlotAreaInterface,
     RcsbD3AreaManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3AreaManager";
-import {RcsbFvColorGradient, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
+import {
+    RcsbFvColorGradient,
+    RcsbFvTrackData,
+    RcsbFvTrackDataElementInterface
+} from "../../RcsbDataManager/RcsbDataManager";
 import {largestTriangleOneBucket} from "@d3fc/d3fc-sample";
 import {
     MoveLineInterface,
     PlotLineInterface,
     RcsbD3LineManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
+import {LocationViewInterface} from "../RcsbBoard";
 
 interface LineColorInterface {
     points:RcsbFvTrackDataElementInterface[];
@@ -26,6 +31,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
     private multiLine: Array<LineColorInterface> = new Array<LineColorInterface>();
     private blockAreaFlag: boolean = false;
     private multiAreaFlag: boolean = false;
+    private readonly areaManager: RcsbD3AreaManager = new RcsbD3AreaManager();
     protected readonly SUFFIX_ID: string = "area_";
 
     public setInterpolationType(type: string): void{
@@ -74,39 +80,40 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
             })
     }
 
-    public plot(elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void {
+    protected geoPlot(data:RcsbFvTrackData): void {
         if(!this.definedScale){
             this.setScale();
             this.setArea();
         }
 
-        elements.remove();
         if(typeof this._displayColor === "string") {
-            this.multiLine = [{points: this.downSampling(elements.data()), color: this._displayColor}];
+            this.multiLine = [{points: this.downSampling(data), color: this._displayColor}];
         }else if(typeof this._displayColor === "object"){
-            this.multiLine = this.downSamplingSplit(elements.data(),buildColorThreshold(this._displayColor));
+            this.multiLine = this.downSamplingSplit(data,buildColorThreshold(this._displayColor));
         }
-        RcsbD3LineManager.clean({trackG:this.g});
         if(!this.blockAreaFlag)
-            RcsbD3AreaManager.plotAxis({
+            this.areaManager.plotAxis({
                 trackG: this.g,
                 x1: this.xScale.range()[0],
                 x2: this.xScale.range()[1],
                 y1: this.yScale(0) ?? 0,
                 y2: this.yScale(0) ?? 0
             });
+        if(this.multiLine.length == 1 && !this.blockAreaFlag) {
+            const index: number = 0;
+            const e:LineColorInterface = this.multiLine[index];
+            const borderConfig: PlotLineInterface = {
+                points: e.points,
+                line: this.line,
+                color: e.color,
+                trackG: this.g,
+                id: this.SUFFIX_ID + "line_" + index
+            };
+            RcsbD3LineManager.plot(borderConfig)
+        }
+        const areaConfig: Array<PlotAreaInterface> = [];
         this.multiLine.forEach((e:LineColorInterface,index:number)=>{
-            if(this.multiLine.length == 1 && !this.blockAreaFlag) {
-                const borderConfig: PlotLineInterface = {
-                    points: e.points,
-                    line: this.line,
-                    color: e.color,
-                    trackG: this.g,
-                    id: this.SUFFIX_ID + "line_" + index
-                };
-                RcsbD3LineManager.plot(borderConfig)
-            }
-            const areaConfig: PlotAreaInterface = {
+             areaConfig.push({
                 points: e.points,
                 color: e.color,
                 trackG: this.g,
@@ -114,9 +121,9 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 id:this.SUFFIX_ID+index,
                 opacity: (this.blockAreaFlag ? e.alpha : ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
                 clickCallBack:this.clickCallBack
-            };
-            RcsbD3AreaManager.plot(areaConfig);
+            });
         });
+        this.areaManager.plot(areaConfig);
     }
 
     public move(): void{
@@ -128,7 +135,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 area: this.area,
                 id:this.SUFFIX_ID+index
             };
-            RcsbD3AreaManager.move(areaConfig);
+            this.areaManager.move(areaConfig);
             if(this.multiLine.length == 1) {
                 const borderConfig: MoveLineInterface = {
                     points: e.points,

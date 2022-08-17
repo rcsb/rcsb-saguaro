@@ -157,4 +157,9 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     hideInnerBorder?:boolean;
     /**Hide row hover glow*/
     hideRowGlow?: boolean;
+    /**Track mark events callbacks*/
+    rowMarkCallback?:{
+        clickCallback?:()=>void;
+        hoverCallback?:()=>void;
+    }
 }

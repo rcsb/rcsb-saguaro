@@ -18,7 +18,7 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
     private hideFlag: boolean = false;
     private compKey: string | undefined;
     private nonEmptyDisplay: boolean = false;
-    private rcsbD3SequenceManager: RcsbD3SequenceManager = new RcsbD3SequenceManager();
+    private readonly rcsbD3SequenceManager: RcsbD3SequenceManager = new RcsbD3SequenceManager();
     private definedScale: boolean = false;
 
     setDynamicDisplay(){
@@ -39,6 +39,10 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
 
     enter(e: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined>): void{
         e.append<SVGTextElement>(RcsbD3Constants.TEXT);
+    }
+
+    update(compKey?: string) {
+
     }
 
     _update(where: LocationViewInterface, compKey?: string) {
