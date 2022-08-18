@@ -51,6 +51,7 @@ export class RcsbD3Constants{
     public static readonly EMPTY: string = "empty";
     public static readonly BOND_END: string = "bondEnd";
     public static readonly BOND_BEGIN: string = "bondBegin";
+    public static readonly TEXT_LENGTH: string = "textLength";
 }
 
 export enum MOUSE {

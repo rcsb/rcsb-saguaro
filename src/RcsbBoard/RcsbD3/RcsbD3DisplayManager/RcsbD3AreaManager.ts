@@ -35,29 +35,24 @@ export interface PlotAxisInterface {
 }
 export class RcsbD3AreaManager {
 
-    private plotTask: Subscription = new Subscription();
     private areaMap: {[key:string]: Selection<SVGGElement, any, null, undefined>} = {};
 
     public plot(multiConfig: Array<PlotAreaInterface>){
-        this.plotTask.unsubscribe();
-        this.plotTask = asyncScheduler.schedule(()=> {
-            multiConfig.forEach(config=>{
-                if(this.areaMap[config.id] == null) {
-                    this.areaMap[config.id] = config.trackG.append(RcsbD3Constants.PATH);
-                    this.areaMap[config.id]
-                        .attr(RcsbD3Constants.ID, config.id)
-                        .style(RcsbD3Constants.FILL_OPACITY, config.opacity ?? .2)
-                        .style(RcsbD3Constants.FILL, config.color)
-                        .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
-                        .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
-                            config.clickCallBack(event);
-                        });
-                }
+        multiConfig.forEach(config=>{
+            if(this.areaMap[config.id] == null) {
+                this.areaMap[config.id] = config.trackG.append(RcsbD3Constants.PATH);
                 this.areaMap[config.id]
-                    .datum(config.points)
-                    .attr(RcsbD3Constants.D, config.area)
-
-            });
+                    .attr(RcsbD3Constants.ID, config.id)
+                    .style(RcsbD3Constants.FILL_OPACITY, config.opacity ?? .2)
+                    .style(RcsbD3Constants.FILL, config.color)
+                    .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
+                    .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
+                        config.clickCallBack(event);
+                    });
+            }
+            this.areaMap[config.id]
+                .datum(config.points)
+                .attr(RcsbD3Constants.D, config.area)
         });
     }
 
@@ -73,10 +68,9 @@ export class RcsbD3AreaManager {
     }
 
     public move(config:MoveAreaInterface){
-        asyncScheduler.schedule(()=> {
-            config.trackG.select(RcsbD3Constants.PATH + "#" + config.id)
-                .datum(config.points)
-                .attr(RcsbD3Constants.D, config.area);
-        });
+        config.trackG.select(RcsbD3Constants.PATH + "#" + config.id)
+            .datum(config.points)
+            .attr(RcsbD3Constants.D, config.area);
     }
+
 }
