@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/@popperjs/core@2" type="text/javascript"></script>
+    <title></title>
+</head>
+<body>
+<div style="position: absolute">
+<div id="pfv" style="margin-top:100px;width:500px;height: 250px;background-color: red;" ></div>
+<div id="pfv2"  >TOOLTIP 1</div>
+<div id="pfv3"  >TOOLTIP 2</div>
+</div>
+<script type="text/javascript">
+    const refDiv = document.querySelector("#pfv");
+    if(refDiv == null)
+        throw "Main board DOM element not found";
+    const tooltipDiv = document.querySelector("#pfv2");
+    if(tooltipDiv == null)
+        throw "Tooltip DOM element not found";
+    Popper.createPopper(refDiv, tooltipDiv, {
+        placement:'top-end'
+    }).forceUpdate();
+    Popper.createPopper(refDiv, document.querySelector("#pfv3"), {
+        placement:'right-start'
+    }).forceUpdate();
+</script>
+</body>
+</html>
