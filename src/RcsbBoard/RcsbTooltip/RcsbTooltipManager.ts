@@ -1,24 +1,51 @@
-import {createPopper} from "@popperjs/core";
-
 import {RcsbFvTrackDataElementInterface} from "../../RcsbFv";
 import {RcsbFvDOMConstants} from "../../RcsbFv/RcsbFvConfig/RcsbFvDOMConstants";
+import {computePosition, detectOverflow} from "@floating-ui/dom";
 
 export class RcsbTooltipManager {
+
     private readonly boardId: string;
     private readonly divHeight:number = 25;
+
+    private tooltipDiv: HTMLDivElement;
+    private tooltipDescriptionDiv: HTMLDivElement;
+    private refDiv: HTMLDivElement;
+
     constructor(boardId: string) {
         this.boardId = boardId;
-    }
-
-    showTooltip(d: RcsbFvTrackDataElementInterface){
         const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);
         if(refDiv == null)
             throw "Main board DOM element not found";
+        this.refDiv = refDiv;
         const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX);
         if(tooltipDiv == null)
             throw "Tooltip DOM element not found";
-        tooltipDiv.innerHTML = "";
-        tooltipDiv.removeAttribute(RcsbFvDOMConstants.POPPER_HIDDEN);
+        this.tooltipDiv = tooltipDiv;
+        const tooltipDescriptionDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX);
+        if(tooltipDescriptionDiv == null)
+            throw "Tooltip DOM element not found";
+        this.tooltipDescriptionDiv = tooltipDescriptionDiv;
+
+        Object.assign(this.tooltipDiv.style, {
+            position: 'absolute',
+            visibility: 'hidden',
+            whiteSpace: 'nowrap',
+            top: '0',
+            left: '0',
+        });
+
+        Object.assign(this.tooltipDescriptionDiv.style, {
+            position: 'absolute',
+            visibility: 'hidden',
+            whiteSpace: 'nowrap',
+            top: '0',
+            left: '0',
+        });
+    }
+
+    showTooltip(d: RcsbFvTrackDataElementInterface){
+
+        this.tooltipDiv.textContent = "";
 
         let region: string = "Position: "+d.begin.toString();
         if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
@@ -44,7 +71,7 @@ export class RcsbTooltipManager {
         let title:string | undefined = d.title;
         if(typeof d.name === "string") title = d.name;
         else if( typeof d.featureId === "string") title = d.featureId;
-        if(title != undefined )tooltipDiv.append(title);
+        if(title != undefined )this.tooltipDiv.append(title);
         if(typeof d.provenanceName === "string"){
             const spanProvenance: HTMLSpanElement = document.createElement<"span">("span");
 
@@ -56,32 +83,38 @@ export class RcsbTooltipManager {
                 spanProvenanceString.style.color = "#888888";
             spanProvenance.append(" [",spanProvenanceString,"]");
             spanProvenance.style.color = "#888888";
-            tooltipDiv.append(spanProvenance);
-            tooltipDiv.append( RcsbTooltipManager.bNode() );
+            this.tooltipDiv.append(spanProvenance);
+            this.tooltipDiv.append( RcsbTooltipManager.bNode() );
         }else if(title!=undefined){
-            tooltipDiv.append( RcsbTooltipManager.bNode() );
+            this.tooltipDiv.append( RcsbTooltipManager.bNode() );
         }
         if(typeof d.value === "number"){
             const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
             valueRegion.append(" value: "+d.value);
-            tooltipDiv.append(valueRegion);
-            tooltipDiv.append(RcsbTooltipManager.bNode());
+            this.tooltipDiv.append(valueRegion);
+            this.tooltipDiv.append(RcsbTooltipManager.bNode());
         }
-        tooltipDiv.append(spanRegion);
-        createPopper(refDiv, tooltipDiv, {
+        this.tooltipDiv.append(spanRegion);
+        computePosition(this.refDiv,this.tooltipDiv,{
             placement:'top-end',
-            modifiers:[{
-                name: 'preventOverflow',
-                options: {
-                    altAxis: true
-                }
-            },{
-                name: 'flip',
-                options: {
-                    fallbackPlacements: ['bottom-end', 'right', 'auto'],
+            middleware:[{
+                name: 'middleware',
+                async fn(middlewareArguments) {
+                    const overflow = await detectOverflow(middlewareArguments,{
+                        rootBoundary: "viewport"
+                    });
+                    if(overflow.top > 0)
+                        return {y:overflow.top+middlewareArguments.y};
+                    return {};
                 },
             }]
-        }).forceUpdate();
+        }).then((o) => {
+            Object.assign(this.tooltipDiv.style, {
+                left: `${o.x}px`,
+                top: `${o.y}px`,
+                visibility: 'visible'
+            });
+        });
     }
 
     private static buildIndexNames(beginName:string, endName:string|undefined, name: string): HTMLSpanElement{
@@ -95,52 +128,39 @@ export class RcsbTooltipManager {
 
     showTooltipDescription(d: RcsbFvTrackDataElementInterface){
         if(d.description == null || d.description.length == 0) return;
-        const refDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId);
-        if(refDiv == null)
-            throw "Main board DOM element not found";
-        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX);
-        if(tooltipDiv == null)
-            throw "Tooltip DOM element not found";
-        tooltipDiv.innerHTML = "";
-        tooltipDiv.removeAttribute(RcsbFvDOMConstants.POPPER_HIDDEN);
+        this.tooltipDescriptionDiv.textContent = "";
         d.description.forEach(des=>{
             const desDiv = document.createElement<"div">("div");
             desDiv.append(des);
-            tooltipDiv.append(desDiv);
+            this.tooltipDescriptionDiv.append(desDiv);
         });
-
-        createPopper(refDiv, tooltipDiv, {
+        computePosition(this.refDiv,this.tooltipDescriptionDiv,{
             placement:'top-end',
-            modifiers: [{
-                name: 'preventOverflow',
-                options: {
-                    altAxis: true
-                }
-            },{
-                name: 'flip',
-                options: {
-                    fallbackPlacements: ['bottom-end', 'right-start', 'right', 'auto'],
+            middleware:[{
+                name: 'middleware',
+                async fn(middlewareArguments) {
+                    const overflow = await detectOverflow(middlewareArguments,{
+                        rootBoundary: "viewport"
+                    });
+                    if(overflow.top > 0)
+                        return {y:overflow.top+middlewareArguments.y};
+                    return {};
                 },
-            },{
-                name: 'offset',
-                options: {
-                    offset: [0,30]
-                }
             }]
-        }).forceUpdate();
+        }).then(({x, y}) => {
+            Object.assign(this.tooltipDescriptionDiv.style, {
+                left: `${x}px`,
+                top: `${y-30}px`,
+                visibility: 'visible'
+            });
+        });
     }
 
     hideTooltip(){
-        RcsbTooltipManager._hideTooltip(this.boardId+RcsbFvDOMConstants.TOOLTIP_DOM_ID_PREFIX);
-        RcsbTooltipManager._hideTooltip(this.boardId+RcsbFvDOMConstants.TOOLTIP_DESCRIPTION_DOM_ID_PREFIX);
-    }
-
-    private static _hideTooltip(name: string){
-        const tooltipDiv: HTMLDivElement | null = document.querySelector("#"+name);
-        if(tooltipDiv == null)
-            throw "Tooltip DOM element not found";
-        tooltipDiv.innerHTML = "";
-        tooltipDiv.setAttribute(RcsbFvDOMConstants.POPPER_HIDDEN,"");
+        this.tooltipDiv.innerHTML = "";
+        this.tooltipDiv.style.visibility = "hidden";
+        this.tooltipDescriptionDiv.innerHTML = "";
+        this.tooltipDescriptionDiv.style.visibility = "hidden";
     }
 
     private static capitalizeFirstLetter(string: string): string {

@@ -4,7 +4,7 @@ import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInter
 import {RcsbAxisDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAxisDisplay";
 import {RcsbPinDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbPinDisplay";
 import {RcsbBondDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbBondDisplay";
-import {RcsbSequenceDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbSequenceDisplay";
+import {RcsbFastSequenceDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbFastSequenceDisplay";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
 import {RcsbBlockDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbBlockDisplay";
 import {RcsbLineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbLineDisplay";
@@ -170,7 +170,7 @@ function axisDisplay(boardId:string, trackId:string, length:number|undefined): R
 }
 
 function sequenceDisplay(boardId: string, trackId: string, color:string, dynamicDisplayFlag:boolean, nonEmptyDisplayFlag:boolean) : RcsbDisplayInterface{
-    const display: RcsbSequenceDisplay = new RcsbSequenceDisplay(boardId, trackId);
+    const display: RcsbFastSequenceDisplay = new RcsbFastSequenceDisplay(boardId, trackId);
     display.setDisplayColor(color);
     if(dynamicDisplayFlag === true) {
         display.setDynamicDisplay();

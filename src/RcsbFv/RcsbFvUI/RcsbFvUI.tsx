@@ -4,7 +4,6 @@ import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
 import {FaBars as menu, FaSearchMinus as zoomOut, FaSearchPlus as zoomIn, FaRegArrowAltCircleRight as moveRight, FaRegArrowAltCircleLeft as moveLeft} from 'react-icons/fa';
 import {RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
-import {ScaleLinear} from "d3-scale";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {
     DomainViewInterface,
@@ -12,9 +11,9 @@ import {
     RcsbFvContextManager,
     RcsbFvContextManagerInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
-import {createPopper} from "@popperjs/core";
 import {asyncScheduler, Subscription} from "rxjs";
-import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
+import {computePosition, detectOverflow} from "@floating-ui/dom";
 
 export interface RcsbFvUIConfigInterface {
     readonly boardId: string;
@@ -33,6 +32,9 @@ export interface RcsbFvUIButtonInterface {
 }
 
 export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIStateInterface> {
+
+    private tooltipDiv: HTMLDivElement;
+    private refDiv: HTMLDivElement;
 
     /**UI config Object*/
     private readonly config: Array<RcsbFvUIButtonInterface> = [{
@@ -58,7 +60,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     render(): JSX.Element{
         return (
-            <div id={this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX} className={classes.rcsbUI+" "+classes.rcsbSmoothDivHide}>
+            <div id={this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX} className={classes.rcsbUI+" "+classes.rcsbSmoothDivHide} style={{position:"absolute", top:0, left:0}}>
                 <div style={{position:"relative"}} >
                     <CSSTransition
                         in={this.state.collapse}
@@ -91,6 +93,14 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     componentDidMount() {
         this.subscription = this.subscribe();
+        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId);
+        if(refDiv == null)
+            throw "Main board DOM element not found";
+        this.refDiv = refDiv;
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX);
+        if(tooltipDiv == null)
+            throw "Tooltip DOM element not found";
+        this.tooltipDiv = tooltipDiv;
     }
 
     componentWillUnmount() {
@@ -118,24 +128,29 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
     private displayUI(): void{
         if(this.hideTask)
             this.hideTask.unsubscribe();
-        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId);
-        if(refDiv == null)
-            return;
-        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX);
-        if(tooltipDiv == null)
-            return;
+
         const offsetHeight: number = this.props.boardConfigData.includeAxis === true ? RcsbFvDefaultConfigValues.trackAxisHeight + 2 : 0;
-        createPopper(refDiv, tooltipDiv, {
+        computePosition(this.refDiv,this.tooltipDiv,{
             placement:'right-start',
-            modifiers: [{
-                name: 'offset',
-                options: {
-                    offset: [offsetHeight,0]
-                }
+            middleware:[{
+                name: 'middleware',
+                async fn(middlewareArguments) {
+                    const overflow = await detectOverflow(middlewareArguments,{
+                        rootBoundary: "viewport"
+                    });
+                    if(overflow.top > offsetHeight)
+                        return {y:overflow.top+middlewareArguments.y - offsetHeight};
+                    return {};
+                },
             }]
-        }).forceUpdate();
-        tooltipDiv.classList.remove(classes.rcsbSmoothDivHide);
-        tooltipDiv.classList.add(classes.rcsbSmoothDivDisplay);
+        }).then(({x, y}) => {
+            Object.assign(this.tooltipDiv.style, {
+                left: `${x}px`,
+                top: `${y + offsetHeight}px`
+            });
+        });
+        this.tooltipDiv.classList.remove(classes.rcsbSmoothDivHide);
+        this.tooltipDiv.classList.add(classes.rcsbSmoothDivDisplay);
     }
 
     private hideUI(): void{

@@ -10,7 +10,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {BaseType, Selection} from "d3-selection";
-import {RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;

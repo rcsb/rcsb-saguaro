@@ -17,7 +17,7 @@ import {BoardGlow} from "./Components/BoardGlow";
 import {RowGlow} from "./Components/RowGlow";
 import {BoardProgress} from "./Components/BoardProgress";
 import {RowStatusMap} from "./Utils/RowStatusMap";
-import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 /**Board React component configuration interface*/
 export interface RcsbFvBoardFullConfigInterface {

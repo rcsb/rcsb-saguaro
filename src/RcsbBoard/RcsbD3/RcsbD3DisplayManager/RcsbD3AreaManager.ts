@@ -3,7 +3,6 @@ import {Area} from "d3-shape";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 import classes from "../../scss/RcsbBoard.module.scss";
-import {asyncScheduler, Subscription} from "rxjs";
 
 export interface ClearAreaInterface {
     trackG: Selection<SVGGElement,any,null,undefined>;

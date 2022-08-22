@@ -1,24 +1,54 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
-import {Selection,BaseType} from "d3-selection";
+import {Selection, BaseType, ContainerElement, pointer} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
-import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 import classes from "../scss/RcsbBoard.module.scss";
 import {
     MoveFastSequenceInterface, PlotFastSequenceInterface, PlotFastSequenceLineInterface,
     RcsbD3FastSequenceManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3FastSequenceManager";
 
-export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
+export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
 
-    private yScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
+    private yScale: RcsbScaleInterface = RcsbD3ScaleFactory.getLinearScale();
     private intervalRatio: [number,number] = [5,16];
     private hideFlag: boolean = false;
     private compKey: string | undefined;
     private nonEmptyDisplay: boolean = false;
     private readonly rcsbD3SequenceManager: RcsbD3FastSequenceManager = new RcsbD3FastSequenceManager();
     private definedScale: boolean = false;
+
+    private innerData: Array<RcsbFvTrackDataElementInterface|null> = new Array<RcsbFvTrackDataElementInterface|null>();
+
+    mousemoveCallBack: (event:MouseEvent, n: number)=>void = (event:MouseEvent, index:number)=>{
+        if(this.includeTooltip){
+            if(this.innerData[index] !=null)
+                this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
+            else
+                this.tooltipManager.hideTooltip();
+        }
+        if(typeof this.getElementEnterCallBack() === "function" && this.innerData[index]!=null){
+            this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
+        }
+    };
+
+    mouseoutCallBack: ()=>void = ()=>{
+        this.tooltipManager.hideTooltip();
+    };
+
+    private clickCallBack = (event: MouseEvent)=>{
+        const svgNode:ContainerElement | null  = this.g.node();
+        if(svgNode != null) {
+            const x = pointer(event, svgNode)[0];
+            const position = Math.round(this.xScale.invert(x));
+            const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
+            this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);
+            if(typeof this.getElementClickCallBack() === "function")
+                this.getElementClickCallBack()(region, event);
+        }
+    };
 
     setDynamicDisplay(){
         this.hideFlag = true;
@@ -83,6 +113,7 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
             color: this._displayColor as string,
             height: this.height(),
             intervalRatio: this.intervalRatio,
+            clickCallBack: this.clickCallBack
         };
         this.rcsbD3SequenceManager.plot(config);
         this.checkHideFlag();
@@ -129,8 +160,8 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
 
     private getSequenceData(where: LocationViewInterface): Array<RcsbFvTrackDataElementInterface>{
         const sequence: RcsbFvTrackData = this.data();
-        const elems: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         const seqPath: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
+        this.innerData = [];
         sequence.forEach(seqRegion=>{
             if(typeof seqRegion.value === "string") {
                 if(seqRegion.value.length>1) {
@@ -147,8 +178,10 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
                             e.sourceId = seqRegion.sourceId;
                         if(typeof seqRegion.source === "string")
                             e.source = seqRegion.source;
-                        elems.push(e);
-                        addResToSeqPath(e,seqPath);
+                        if(e.begin >= where.from && e.begin <= where.to) {
+                            this.innerData[e.begin] = e;
+                            addResToSeqPath(e, seqPath);
+                        }
                     });
                 }else{
                     const e: RcsbFvTrackDataElementInterface = {
@@ -157,8 +190,10 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
                         title: "RESIDUE",
                         label: seqRegion.value
                     };
-                    elems.push(e);
-                    addResToSeqPath(e,seqPath);
+                    if(e.begin >= where.from && e.begin <= where.to) {
+                        this.innerData[e.begin] = e;
+                        addResToSeqPath(e, seqPath);
+                    }
                 }
             }
         });

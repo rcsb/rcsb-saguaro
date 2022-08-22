@@ -18,7 +18,7 @@ import {Subscription} from "rxjs";
 import uniqid  from 'uniqid';
 import {RowConfigFactory} from "./Utils/RowConfigFactory";
 import {RowStatusMap} from "./Utils/RowStatusMap";
-import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 
 interface RcsbFvBodyInterface extends RcsbFvBoardFullConfigInterface {

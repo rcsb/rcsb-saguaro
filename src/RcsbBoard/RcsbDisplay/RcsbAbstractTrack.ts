@@ -13,7 +13,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {LocationViewInterface} from "../RcsbBoard";
-import {RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 
 export abstract class RcsbAbstractTrack {
     protected d3Manager: RcsbD3Manager;

@@ -8,7 +8,7 @@ import {
     RcsbFvTrackDataMap
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
-import {RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 
 export interface RcsbDisplayInterface {
     //RcsbAbstractTrack

@@ -3,11 +3,11 @@ import {BaseType, Selection} from "d3-selection";
 import {MovePinInterface, PlotPinInterface, RcsbD3PinManager} from "../RcsbD3/RcsbD3DisplayManager/RcsbD3PinManager";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
-import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 
 export class RcsbPinDisplay extends RcsbAbstractDisplay {
 
-    private yScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
+    private yScale: RcsbScaleInterface = RcsbD3ScaleFactory.getLinearScale();
     private radius: number = 5;
     private labelShift: number = 10;
     private _yDomain: [number, number];

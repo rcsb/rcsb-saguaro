@@ -14,7 +14,7 @@ import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {Subscription} from "rxjs";
 import {CSSTransition} from 'react-transition-group';
-import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 /**Board track React component interface*/
 interface RcsbFvRowInterface {

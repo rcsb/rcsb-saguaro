@@ -7,12 +7,12 @@ import {
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3VariantManager";
 import {ScalePoint} from "d3-scale";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
-import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 
 export class RcsbVariantDisplay extends RcsbAbstractDisplay {
 
     private aaList: Array<string> = ['G', 'A', 'V', 'L', 'I', 'S', 'T', 'C', 'M', 'D', 'N', 'E', 'Q', 'R', 'K', 'H', 'F', 'Y', 'W', 'P', '≡', '⊖'];
-    private yScale: RcsbScaleInterface<string,ScalePoint<string>> = RcsbScaleFactory.getPointScale();
+    private yScale: RcsbScaleInterface<string,ScalePoint<string>> = RcsbD3ScaleFactory.getPointScale();
     private radius: number = 5;
     private definedScale: boolean = false;
 

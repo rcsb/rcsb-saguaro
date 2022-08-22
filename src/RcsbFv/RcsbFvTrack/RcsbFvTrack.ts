@@ -17,7 +17,7 @@ import {
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
-import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 /**This className provides  an abstraction layer to build and manage a particular board annotation cell*/
 export class RcsbFvTrack {

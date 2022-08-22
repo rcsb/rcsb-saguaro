@@ -9,16 +9,13 @@ import {line, Line, curveStep, curveCardinal, curveBasis, curveLinear} from "d3-
 import {largestTriangleOneBucket} from "@d3fc/d3fc-sample";
 import {InterpolationTypes} from "../../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
-import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
-import classes from "../scss/RcsbBoard.module.scss";
-import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
-import {EnterElement} from "d3";
+import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 import {LocationViewInterface} from "../RcsbBoard";
 
 export class RcsbLineDisplay extends RcsbAbstractDisplay {
 
     private _yDomain: [number, number];
-    protected yScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
+    protected yScale: RcsbScaleInterface = RcsbD3ScaleFactory.getLinearScale();
     protected maxPoints: number = 1000;
     protected innerData: Array<RcsbFvTrackDataElementInterface|null> = new Array<RcsbFvTrackDataElementInterface|null>();
     protected readonly SUFFIX_ID: string = "line_";

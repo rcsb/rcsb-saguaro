@@ -2,11 +2,11 @@ import * as React from "react";
 import {RcsbFvDOMConstants} from "../../RcsbFvConfig/RcsbFvDOMConstants";
 import classes from "../../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvDefaultConfigValues} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {createPopper} from "@popperjs/core";
 import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import {Subscription} from "rxjs";
 import {EventType, RcsbFvContextManager, RowReadyInterface} from "../../RcsbFvContextManager/RcsbFvContextManager";
 import {RowStatusMap} from "../Utils/RowStatusMap";
+import {computePosition, detectOverflow} from "@floating-ui/dom";
 
 interface BoardProgressInterface {
     readonly boardId:string;
@@ -19,13 +19,23 @@ interface BoardProgressInterface {
 export class BoardProgress extends React.Component <BoardProgressInterface> {
 
     private subscription: Subscription;
+    private tooltipDiv: HTMLDivElement;
+    private refDiv: HTMLDivElement;
 
     render() {
-        return (<div id={this.props.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX} {...{[RcsbFvDOMConstants.POPPER_HIDDEN]:""}} className={classes.rowTrackBoardSatus} >LOADING <span/></div>);
+        return (<div id={this.props.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX} style={{position:"absolute", top:0, left:0, visibility:"hidden", minWidth:150}} className={classes.rowTrackBoardSatus} >LOADING <span/></div>);
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.subscription = this.subscribe();
+        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId);
+        if(refDiv == null)
+            throw "Main board DOM element not found";
+        this.refDiv = refDiv;
+        const tooltipDiv: HTMLDivElement  | null= document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
+        if(tooltipDiv == null)
+            throw "Tooltip DOM element not found";
+        this.tooltipDiv = tooltipDiv;
     }
 
     componentWillUnmount() {
@@ -60,35 +70,31 @@ export class BoardProgress extends React.Component <BoardProgressInterface> {
     }
 
     private showStatus(): void{
-        const refDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId);
-        if(refDiv == null)
-            return;
-        const tooltipDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
-        if(tooltipDiv == null)
-            return;
         const offsetHeight: number = this.props.boardConfigData.includeAxis === true ? 0 : -RcsbFvDefaultConfigValues.trackAxisHeight - 2;
-        createPopper(refDiv, tooltipDiv, {
+        computePosition(this.refDiv,this.tooltipDiv,{
             placement:'right-start',
-            modifiers: [{
-                name: 'offset',
-                options: {
-                    offset: [offsetHeight,10]
-                }
-            },{
-                name: 'flip',
-                options: {
-                    fallbackPlacements: ['top-end', 'auto'],
+            middleware:[{
+                name: 'middleware',
+                async fn(middlewareArguments) {
+                    const overflow = await detectOverflow(middlewareArguments,{
+                        rootBoundary: "viewport"
+                    });
+                    if(overflow.top > offsetHeight)
+                        return {y:overflow.top+middlewareArguments.y - offsetHeight};
+                    return {};
                 },
             }]
-        }).forceUpdate();
-        tooltipDiv.removeAttribute(RcsbFvDOMConstants.POPPER_HIDDEN);
+        }).then(({x, y}) => {
+            Object.assign(this.tooltipDiv.style, {
+                left: `${x}px`,
+                top: `${y+offsetHeight}px`,
+                visibility: 'visible'
+            });
+        });
     }
 
     private statusComplete(){
-        const tooltipDiv: HTMLDivElement | null= document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX);
-        if(tooltipDiv == null)
-            return;
-        tooltipDiv.setAttribute(RcsbFvDOMConstants.POPPER_HIDDEN,"");
+        this.tooltipDiv.style.visibility = "hidden";
         this.props.contextManager.next({
             eventType: EventType.BOARD_READY,
             eventData: null

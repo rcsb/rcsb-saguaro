@@ -5,7 +5,7 @@ import classes from "../scss/RcsbBoard.module.scss";
 import {
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
-import {RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbScaleInterface} from "./RcsbD3ScaleFactory";
 
 export interface SVGConfInterface  {
     elementId: string,

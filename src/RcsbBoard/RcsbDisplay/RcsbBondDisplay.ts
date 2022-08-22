@@ -7,11 +7,11 @@ import {
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3BondManager";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
-import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbScaleFactory";
+import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 
 export class RcsbBondDisplay extends RcsbAbstractDisplay {
 
-    private yScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
+    private yScale: RcsbScaleInterface = RcsbD3ScaleFactory.getLinearScale();
     private radius: number = 5;
     private _yDomain: [number, number] = [0,1];
     private definedScale: boolean = false;

@@ -2,10 +2,18 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.0] - 2022-08-22
+### Improvements
+- Improved how elements are rendered/updated in `RcsbLineDisplay` and `RcsbAreaDisplay`
+- Removed all D3 `transition` calls
+- Migration from `popper.js` to `floating-ui.js`. It improves rendering of popups 
+- Changed `window` scroll events for `IntersectionObserver`. It improves display performance while scrolling pages
+- New display `RcsbFastSequenceDisplay` renders sequences using a single `text` element
+
 ## [2.1.7] - 2022-08-10
-### Improvement
-- `RcsbFv.reset` can be used to reset `Selection` and `xScale` objects. It clears the current selection and x-domain interval. 
-This is useful to avoid preserving selected regions or the domain range when the viewer is update with new configuration. 
+### Improvements
+- `RcsbFv.reset` can be used to reset `Selection` and `xScale` objects. It clears the current selection and x-domain interval
+This is useful to avoid preserving selected regions or the domain range when the viewer is update with new configuration
 
 ## [2.1.6] - 2022-08-03
 ### Bug fix
@@ -47,7 +55,7 @@ This is useful to avoid preserving selected regions or the domain range when the
 - `mousemoveCallBack` minor bug fixed
 
 ## [2.0.5] - 2022-04-11
-### Improvement
+### Improvements
 - `elementEnterCallBack` method is triggerd for area and line display when the mouse moves through the curve
 
 ## [2.0.4] - 2022-04-07
@@ -59,7 +67,7 @@ This is useful to avoid preserving selected regions or the domain range when the
 - Glow div elements are defined before the main board to avoid inconsistent height overflow. This bug was affecting Firefox browser
 
 ## [2.0.2] - 2022-03-02
-### Improvement
+### Improvements
 - Exposed a new method `getDomain` in class `RcsbFv` to get the current domain
 
 ## [2.0.1] - 2022-02-15
@@ -86,11 +94,11 @@ instead of `Array<SelectionInterface>`
 - `RcsbFvDisplayTypes.MULTI_AREA ("multi-area")` displays multiple "additive" areas () with multiple colors using the `RcsbFvDisplayTypes.AREA` display under the hood.
 This display config requires `displayColor` to be defined as a `RcsbFvColorGradient` object where `colors` is an array of hex and `thresholds` and empty array (length 0).
 Track elements `RcsbFvTrackDataElementInterface.values` is a new property that stores multidimensional data (array of numbers). The display configuration requires that
-`RcsbFvTrackDataElementInterface.values` are comprised between 0 and 1 and sorted in ascending order. Its number of elements must match with the number of defined colors.   
+`RcsbFvTrackDataElementInterface.values` are comprised between 0 and 1 and sorted in ascending order. Its number of elements must match with the number of defined colors   
 - css important comments to force keeping empty rules
 
 ## [1.10.2] - 2021-09-27
-### Improvement
+### Improvements
 - Expand title for non-fit prefixed rows 
 
 ## [1.10.1] - 2021-09-16
@@ -133,7 +141,7 @@ level of the track position
 - Minor code refactoring  
 
 ## [1.8.0] - 2021-05-31
-### Improvement
+### Improvements
 - Attribute <b>disableMenu</b> hides the UI menu
 
 ## [1.7.4] - 2021-05-31

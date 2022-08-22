@@ -2,7 +2,7 @@ import {Selection, BaseType, select} from "d3-selection";
 import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
-import {RcsbScaleInterface} from "../../RcsbScaleFactory";
+import {RcsbScaleInterface} from "../RcsbD3ScaleFactory";
 
 export interface PlotPinInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;

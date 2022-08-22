@@ -7,7 +7,7 @@ import {EventType, RcsbFvContextManager, RowReadyInterface} from "../RcsbFvConte
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 import {asyncScheduler, Subscription} from 'rxjs';
-import {RcsbScaleInterface} from "../../RcsbBoard/RcsbScaleFactory";
+import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 /**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {

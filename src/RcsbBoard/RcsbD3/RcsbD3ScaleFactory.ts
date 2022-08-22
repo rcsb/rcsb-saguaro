@@ -14,7 +14,7 @@ export interface RcsbScaleInterface<T=number,S=ScaleLinear<number,number>> {
     reset(): void;
 }
 
-export namespace RcsbScaleFactory {
+export namespace RcsbD3ScaleFactory {
 
     export function getLinearScale(): RcsbScaleInterface {
         const xScale: ScaleLinear<number,number> = scaleLinear();

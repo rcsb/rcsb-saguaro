@@ -22,8 +22,9 @@ import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManage
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbSelection} from "./RcsbSelection";
 import {asyncScheduler, Subject, Subscription} from "rxjs";
-import {RcsbScaleInterface} from "./RcsbScaleFactory";
+import {RcsbScaleInterface} from "./RcsbD3/RcsbD3ScaleFactory";
 import {D3ZoomEvent} from "d3";
+import {RcsbWindowEventManager} from "./RcsbWindowEventManager";
 
 export interface LocationViewInterface {
     from: number;
@@ -64,10 +65,9 @@ export class RcsbBoard {
 
     private updateTask: Subscription | null = null;
     private updateDelay: number = 300;
-    private scrollTask: Subscription | null = null;
-    private scrollDelay: number = 300;
 
     private upToDate: boolean = true;
+    private isIntersecting: boolean = true;
 
     private zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any> = zoom();
 
@@ -78,12 +78,10 @@ export class RcsbBoard {
 
     private readonly contextManager: RcsbFvContextManager;
 
-    private readonly scrollEvent = ()=>{
-        this.scrollTask?.unsubscribe();
-        this.scrollTask = asyncScheduler.schedule(()=>{
-            if(!this.upToDate)
-                this.updateAndMove();
-        },this.scrollDelay)
+    private readonly scrollEvent = (isIntersecting: boolean)=>{
+        this.isIntersecting = isIntersecting;
+        if(!this.upToDate && this.isIntersecting)
+            this.updateAndMove();
     };
 
     constructor(elementId: string, xScale: RcsbScaleInterface, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
@@ -96,11 +94,11 @@ export class RcsbBoard {
             throw "Board DOM ["+this.domId+"] element not found. Removing scroll event handler from window";
         }
         this.boardDiv = boardDiv;
-        window.addEventListener("scroll", this.scrollEvent);
+        RcsbWindowEventManager.intersectionObserve(this.boardDiv, this.scrollEvent);
     }
 
     public removeScrollEvent(){
-        window.removeEventListener("scroll", this.scrollEvent);
+        RcsbWindowEventManager.intersectionUnobserve(this.boardDiv);
     }
 
     private addSVG():void {
@@ -424,7 +422,7 @@ export class RcsbBoard {
     };
 
     private updateAndMove(): void{
-        if(this.boardInViewport()) {
+        if(this.isIntersecting) {
             this.moveAllTracks();
             this.moveSelection();
             this.updateWithDelay();
@@ -459,10 +457,4 @@ export class RcsbBoard {
         this.contextManager.next(selection);
     }
 
-    private boardInViewport():boolean {
-        const rect:DOMRect = this.boardDiv.getBoundingClientRect();
-        return (
-            !(rect.bottom < -10 || rect.top > ((window.innerHeight || document.documentElement.clientHeight)+10))
-        );
-    }
 }

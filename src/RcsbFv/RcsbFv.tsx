@@ -11,7 +11,7 @@ import {
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbSelection, SelectionInterface} from "../RcsbBoard/RcsbSelection";
 import uniqid from "uniqid";
-import {RcsbScaleFactory, RcsbScaleInterface} from "../RcsbBoard/RcsbScaleFactory";
+import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface
@@ -43,7 +43,7 @@ export class RcsbFv {
     /**Flag indicating that the React component has been mounted*/
     private mounted: boolean = false;
     /**Global d3 Xscale object shared among all board tracks*/
-    private readonly xScale: RcsbScaleInterface = RcsbScaleFactory.getLinearScale();
+    private readonly xScale: RcsbScaleInterface = RcsbD3ScaleFactory.getLinearScale();
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
 

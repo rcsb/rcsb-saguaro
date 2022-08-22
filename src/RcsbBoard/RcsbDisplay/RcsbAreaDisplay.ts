@@ -18,7 +18,6 @@ import {
     PlotLineInterface,
     RcsbD3LineManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
-import {LocationViewInterface} from "../RcsbBoard";
 
 interface LineColorInterface {
     points:RcsbFvTrackDataElementInterface[];

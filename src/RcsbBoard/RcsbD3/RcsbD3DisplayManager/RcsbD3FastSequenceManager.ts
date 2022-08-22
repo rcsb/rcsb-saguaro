@@ -2,7 +2,7 @@ import {Selection, BaseType, select} from "d3-selection";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 import {asyncScheduler, Subscription} from "rxjs";
-import {RcsbScaleInterface} from "../../RcsbScaleFactory";
+import {RcsbScaleInterface} from "../RcsbD3ScaleFactory";
 
 export interface PlotFastSequenceInterface {
     elements:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
@@ -12,6 +12,7 @@ export interface PlotFastSequenceInterface {
     color?: string;
     height:number;
     intervalRatio: [number,number];
+    clickCallBack: (event:MouseEvent)=>void;
 }
 
 export interface PlotFastSequenceLineInterface {
@@ -29,7 +30,8 @@ export interface MoveFastSequenceInterface {
 
 export class RcsbD3FastSequenceManager {
     private textElements: Selection<SVGTextElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGTextElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
-    private readonly MONOSPACE_SIZE: number = 2.5;
+    private readonly MONOSPACE_BEGIN: number = 2.5;
+    private readonly MONOSPACE_LENGTH: number = 5;
 
     plot(config: PlotFastSequenceInterface){
         const xScale = config.xScale;
@@ -38,14 +40,14 @@ export class RcsbD3FastSequenceManager {
         this.textElements = config.elements.select(RcsbD3Constants.TEXT);
         this.textElements
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin)-this.MONOSPACE_SIZE;
+                return xScale(d.begin)-this.MONOSPACE_BEGIN;
             })
             .attr(RcsbD3Constants.TEXT_LENGTH, (d:RcsbFvTrackDataElementInterface)=>{
-                return xScale(d.begin+d.label!.length-1)-xScale(d.begin);
+                return xScale(d.begin+d.label!.length-1)-xScale(d.begin)+this.MONOSPACE_LENGTH;
             })
             .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4) ?? 0)
-            .attr(RcsbD3Constants.FONT_SIZE, "12")
-            .attr(RcsbD3Constants.FONT_FAMILY,"Courier New")
+            .attr(RcsbD3Constants.FONT_SIZE, "10")
+            .attr(RcsbD3Constants.FONT_FAMILY,"Menlo")
             .attr(RcsbD3Constants.TEXT_ANCHOR, "start")
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if (typeof d.color === "string"){
@@ -63,6 +65,9 @@ export class RcsbD3FastSequenceManager {
             .attr(RcsbD3Constants.FILL_OPACITY,()=>{
                 return RcsbD3FastSequenceManager.opacity(xScale,config.intervalRatio)
             })
+            .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
+                config.clickCallBack(event);
+            });
     }
 
     static plotSequenceLine(config: PlotFastSequenceLineInterface): void{
@@ -82,10 +87,10 @@ export class RcsbD3FastSequenceManager {
             const xScale = config.xScale;
             this.textElements
                 .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                    return xScale(d.begin)-this.MONOSPACE_SIZE;
+                    return xScale(d.begin)-this.MONOSPACE_BEGIN;
                 })
                 .attr(RcsbD3Constants.TEXT_LENGTH, (d:RcsbFvTrackDataElementInterface)=>{
-                    return xScale(d.begin+d.label!.length-1)-xScale(d.begin);
+                    return xScale(d.begin+d.label!.length-1)-xScale(d.begin)+this.MONOSPACE_LENGTH;
                 })
                 .attr(RcsbD3Constants.FILL_OPACITY,()=>{
                     return RcsbD3FastSequenceManager.opacity(xScale,config.intervalRatio)

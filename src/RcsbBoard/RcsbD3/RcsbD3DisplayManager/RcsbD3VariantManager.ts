@@ -4,7 +4,7 @@ import {axisLeft, Axis} from "d3-axis";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import classes from "../../scss/RcsbBoard.module.scss";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
-import {RcsbScaleInterface} from "../../RcsbScaleFactory";
+import {RcsbScaleInterface} from "../RcsbD3ScaleFactory";
 
 export interface PlotVariantInterface {
     elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
