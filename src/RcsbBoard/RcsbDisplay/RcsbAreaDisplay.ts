@@ -113,13 +113,14 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         const areaConfig: Array<PlotAreaInterface> = [];
         this.multiLine.forEach((e:LineColorInterface,index:number)=>{
              areaConfig.push({
-                points: e.points,
-                color: e.color,
-                trackG: this.g,
-                area: this.area,
-                id:this.SUFFIX_ID+index,
-                opacity: (this.blockAreaFlag ? e.alpha : ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
-                clickCallBack:this.clickCallBack
+                 points: e.points,
+                 color: e.color,
+                 trackG: this.g,
+                 area: this.area,
+                 id:this.SUFFIX_ID+index,
+                 opacity: (this.blockAreaFlag ? e.alpha : ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
+                 clickCallBack:this.clickCallBack,
+                 hoverCallback:this.hoverCallback
             });
         });
         this.areaManager.plot(areaConfig);

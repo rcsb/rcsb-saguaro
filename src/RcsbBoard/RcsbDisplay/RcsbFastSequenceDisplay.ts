@@ -22,15 +22,20 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
 
     private innerData: Array<RcsbFvTrackDataElementInterface|null> = new Array<RcsbFvTrackDataElementInterface|null>();
 
-    mousemoveCallBack: (event:MouseEvent, n: number)=>void = (event:MouseEvent, index:number)=>{
-        if(this.includeTooltip){
-            if(this.innerData[index] !=null)
-                this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
-            else
-                this.tooltipManager.hideTooltip();
-        }
-        if(typeof this.getElementEnterCallBack() === "function" && this.innerData[index]!=null){
-            this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
+    private hoverCallback: (event:MouseEvent)=>void = (event:MouseEvent)=>{
+        const svgNode:ContainerElement | null  = this.g.node();
+        if(svgNode != null) {
+            const x = pointer(event, svgNode)[0];
+            const index = Math.round(this.xScale.invert(x));
+            if (this.includeTooltip) {
+                if (this.innerData[index] != null)
+                    this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
+                else
+                    this.tooltipManager.hideTooltip();
+            }
+            if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
+                this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
+            }
         }
     };
 
@@ -113,7 +118,8 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
             color: this._displayColor as string,
             height: this.height(),
             intervalRatio: this.intervalRatio,
-            clickCallBack: this.clickCallBack
+            clickCallBack: this.clickCallBack,
+            hoverCallback: this.hoverCallback
         };
         this.rcsbD3SequenceManager.plot(config);
         this.checkHideFlag();

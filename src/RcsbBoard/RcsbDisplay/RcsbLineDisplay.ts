@@ -24,15 +24,20 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
     protected line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     private linePoints: RcsbFvTrackDataElementInterface[];
 
-    mousemoveCallBack: (event:MouseEvent, n: number)=>void = (event:MouseEvent, index:number)=>{
-        if(this.includeTooltip){
-            if(this.innerData[index] !=null)
-                this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
-            else
-                this.tooltipManager.hideTooltip();
-        }
-        if(typeof this.getElementEnterCallBack() === "function" && this.innerData[index]!=null){
-            this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
+    protected hoverCallback: (event:MouseEvent)=>void = (event:MouseEvent)=>{
+        const svgNode:ContainerElement | null  = this.g.node();
+        if(svgNode != null) {
+            const x = pointer(event, svgNode)[0];
+            const index = Math.round(this.xScale.invert(x));
+            if (this.includeTooltip) {
+                if (this.innerData[index] != null)
+                    this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
+                else
+                    this.tooltipManager.hideTooltip();
+            }
+            if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
+                this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
+            }
         }
     };
 

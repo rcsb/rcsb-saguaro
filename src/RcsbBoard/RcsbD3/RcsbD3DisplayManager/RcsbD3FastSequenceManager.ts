@@ -13,6 +13,7 @@ export interface PlotFastSequenceInterface {
     height:number;
     intervalRatio: [number,number];
     clickCallBack: (event:MouseEvent)=>void;
+    hoverCallback: (event:MouseEvent)=>void;
 }
 
 export interface PlotFastSequenceLineInterface {
@@ -67,6 +68,9 @@ export class RcsbD3FastSequenceManager {
             })
             .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
                 config.clickCallBack(event);
+            })
+            .on(RcsbD3Constants.MOUSE_MOVE, (event: MouseEvent) => {
+                config.hoverCallback(event);
             });
     }
 

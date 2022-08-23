@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.1] - 2022-08-23
+### Bug fix
+- Hover tooltip for area and sequences display bug fixed
+
 ## [2.2.0] - 2022-08-22
 ### Improvements
 - Improved how elements are rendered/updated in `RcsbLineDisplay` and `RcsbAreaDisplay`

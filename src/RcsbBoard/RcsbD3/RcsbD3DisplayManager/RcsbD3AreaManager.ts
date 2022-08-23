@@ -15,6 +15,7 @@ export interface PlotAreaInterface {
     area:Area<RcsbFvTrackDataElementInterface>;
     id:string;
     clickCallBack: (event:MouseEvent)=>void;
+    hoverCallback: (event:MouseEvent)=>void;
     opacity?: number;
 }
 
@@ -47,6 +48,9 @@ export class RcsbD3AreaManager {
                     .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
                     .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
                         config.clickCallBack(event);
+                    })
+                    .on(RcsbD3Constants.MOUSE_MOVE, (event: MouseEvent) => {
+                        config.hoverCallback(event);
                     });
             }
             this.areaMap[config.id]
