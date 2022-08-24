@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.2] - 2022-08-24
+### Improvements
+- Exposed configuration for the row mark icon (track pointing triangle). External callbacks events (hover and click) or full component definition
+
 ## [2.2.1] - 2022-08-23
 ### Bug fix
 - Hover tooltip for area and sequences display bug fixed

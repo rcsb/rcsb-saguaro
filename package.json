@@ -1,6 +1,6 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "RCSB 1D Feature Viewer",
   "main": "build/RcsbFv.js",
   "files": [
@@ -61,7 +61,7 @@
     "ts-loader": "^9.3.1",
     "tslib": "^2.4.0",
     "typedoc": "^0.23.10",
-    "typedoc-plugin-missing-exports": "^0.23.0",
+    "typedoc-plugin-missing-exports": "^1.0.0",
     "typescript": "^4.7.4",
     "uniqid": "^5.4.0",
     "webpack": "^5.74.0",

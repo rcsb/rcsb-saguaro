@@ -24,6 +24,14 @@
             displayType: "sequence",
             nonEmptyDisplay: true,
             rowTitle: "SEQUENCE",
+            rowMarkCallback:{
+                clickCallback:()=>{
+                    console.log("clickCallback");
+                },
+                hoverCallback:()=>{
+                    console.log("hoverCallback");
+                }
+            },
             trackData: [
                 {
                     begin: 1,

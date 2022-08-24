@@ -47,7 +47,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                     </div>
                     <div style={{height:height, float:"right", display:"inline-block"}}>
                         <div className={classes.rcsbFvRowTitleText}  style={{lineHeight:height+"px", display:"inline-block"}}>
-                            <RcsbFvRowMark {...this.props.data.rowMarkCallback} />
+                            <RcsbFvRowMark {...this.props.data.rowMark} />
                             {this.configData.rowPrefix}
                         </div>
                     </div>
@@ -65,7 +65,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
                          onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
                     >
-                        <RcsbFvRowMark {...this.props.data.rowMarkCallback} />
+                        <RcsbFvRowMark {...this.props.data.rowMark} />
                         {this.configData.rowPrefix+" "}{this.setTitle()}
                     </div>
                 </div>
@@ -82,7 +82,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
                          onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
                     >
-                        <RcsbFvRowMark {...this.props.data.rowMarkCallback} />
+                        <RcsbFvRowMark {...this.props.data.rowMark} />
                         {this.setTitle()}
                     </div>
                 </div>
