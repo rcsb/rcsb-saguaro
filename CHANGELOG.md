@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.6] - 2022-08-26
+### Minor improvement
+- External row mark component property `isGlowing` not exposed
+
 ## [2.2.5] - 2022-08-26
 ### Minor improvement
 - External row mark component new property `isGlowing` is true when row glow is visible (false otherwise)

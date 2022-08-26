@@ -6,8 +6,7 @@ import {
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
 import * as React from "react";
-import {SelectionInterface} from "../../RcsbBoard/RcsbSelection";
-import {RcsbFvRowMarkInterface} from "../RcsbFvRow/RcsbFvRowMark";
+import {RcsbFvRowMarkPublicInterface} from "../RcsbFvRow/RcsbFvRowMark";
 
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
@@ -159,5 +158,5 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     /**Hide row hover glow*/
     hideRowGlow?: boolean;
     /**Track mark events callbacks*/
-    rowMark?: RcsbFvRowMarkInterface;
+    rowMark?: RcsbFvRowMarkPublicInterface;
 }
