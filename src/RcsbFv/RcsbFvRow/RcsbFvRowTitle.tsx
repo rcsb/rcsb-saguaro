@@ -9,6 +9,7 @@ import {RcsbFvRowMark} from "./RcsbFvRowMark";
 interface RcsbFvRowTitleInterface {
     readonly data: RcsbFvRowConfigInterface;
     readonly rowTitleHeight: number;
+    readonly isGlowing: boolean;
 }
 
 interface RcsbFvRowTitleInterState {
@@ -47,7 +48,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                     </div>
                     <div style={{height:height, float:"right", display:"inline-block"}}>
                         <div className={classes.rcsbFvRowTitleText}  style={{lineHeight:height+"px", display:"inline-block"}}>
-                            <RcsbFvRowMark {...this.props.data.rowMark} />
+                            <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
                             {this.configData.rowPrefix}
                         </div>
                     </div>
@@ -65,7 +66,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
                          onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
                     >
-                        <RcsbFvRowMark {...this.props.data.rowMark} />
+                        <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
                         {this.configData.rowPrefix+" "}{this.setTitle()}
                     </div>
                 </div>
@@ -82,7 +83,7 @@ export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, Rc
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
                          onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
                     >
-                        <RcsbFvRowMark {...this.props.data.rowMark} />
+                        <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
                         {this.setTitle()}
                     </div>
                 </div>

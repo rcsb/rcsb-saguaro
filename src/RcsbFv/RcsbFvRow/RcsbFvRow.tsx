@@ -75,7 +75,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 <div onMouseEnter={()=>{this.hoverRow(true)}} onMouseLeave={()=>{this.hoverRow(false)}}
                      className={classNames+((this.state.titleGlow && this.state.display)? " "+classes.rcsbFvGlowTitle : "")}
                      style={this.configStyle()}>
-                    <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} />
+                    <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow}/>
                     <RcsbFvRowTrack
                         id={this.props.id}
                         rowNumber={this.props.rowNumber}
