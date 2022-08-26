@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.4] - 2022-08-26
+### Bug fix
+- One more external row mark component bug fix
+
 ## [2.2.3] - 2022-08-26
 ### Bug fix
 - External row mark component bug fix
