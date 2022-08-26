@@ -18,7 +18,15 @@ $border-rcsbFvRowTrack: 1px;
   float:left;
 }
 
+.rcsbFvRowMark > div {
+    visibility: hidden;
+}
+
 .rcsbFvGlowTitle:not(.rcsbFvRowAxis) .rcsbFvRowMark > div {
+    visibility: visible !important;
+}
+
+.rcsbFvRowMarkComponent {
     width: 0;
     height: 0;
     border-top: 6px solid transparent;

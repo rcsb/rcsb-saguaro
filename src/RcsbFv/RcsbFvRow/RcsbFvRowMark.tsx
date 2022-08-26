@@ -10,10 +10,12 @@ export interface RcsbFvRowMarkInterface  {
 export class RcsbFvRowMark extends React.Component <RcsbFvRowMarkInterface,{}> {
 
     public render(): JSX.Element {
-        if(this.props.component)
-            return this.props.component;
-        return (<div onClick={this.props.clickCallback} onMouseOver={this.props.hoverCallback} style={{display:"inline-block", width:6, height:6, marginBottom: 4, marginRight:5}} className={classes.rcsbFvRowMark} >
-            <div/>
+        return (<div className={classes.rcsbFvRowMark} style={{display:"inline-block"}}>
+            <div>
+                <div onClick={this.props.clickCallback} onMouseOver={this.props.hoverCallback} style={{width:6, height:6, marginBottom: 4, marginRight:5}} >
+                    <div className={classes.rcsbFvRowMarkComponent}/>
+                </div>
+            </div>
         </div>);
     }
 
