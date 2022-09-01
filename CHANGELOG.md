@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.7] - 2022-09-01
+### Improvement
+- Path/Line display optimization
+
 ## [2.2.6] - 2022-08-26
 ### Minor improvement
 - External row mark component property `isGlowing` not exposed

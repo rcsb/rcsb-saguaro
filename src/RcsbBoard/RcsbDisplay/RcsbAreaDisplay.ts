@@ -185,10 +185,10 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         });
         tmp.forEach((lineColor, index)=>{
             let out:RcsbFvTrackDataElementInterface[] = [];
-            lineColor.points.forEach((p)=> {
-                if(p!= null && p.begin>domain.min && p.begin<domain.max){
+            const filterPoints = lineColor.points.filter(p=>(p!= null && p.begin>domain.min && p.begin<domain.max));
+            filterPoints.forEach((p,n)=>{
+                if(!(out[out.length-1]?.value == p.value && p.value == filterPoints[n+1]?.value))
                     out.push(p);
-                }
             });
             out.unshift({begin:domain.min,value:0,values:[0,0]});
             out.unshift({begin:this.xScale.domain()[0],value:0,values:[0,0]});
