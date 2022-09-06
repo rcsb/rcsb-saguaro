@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.9] - 2022-09-06
+### Minor bug fix
+- Removed console output
+
 ## [2.2.8] - 2022-09-06
 ### Bug fix
 - Fast sequence display includes description tooltip
