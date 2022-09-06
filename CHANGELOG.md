@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.8] - 2022-09-06
+### Bug fix
+- Fast sequence display includes description tooltip
+- Multi-area display includes all points that intersect with the current domain
+
 ## [2.2.7] - 2022-09-01
 ### Improvement
 - Path/Line display optimization

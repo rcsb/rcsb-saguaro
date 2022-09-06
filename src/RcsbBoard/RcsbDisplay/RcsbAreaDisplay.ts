@@ -187,7 +187,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
             let out:RcsbFvTrackDataElementInterface[] = [];
             const filterPoints = lineColor.points.filter(p=>(p!= null && p.begin>domain.min && p.begin<domain.max));
             filterPoints.forEach((p,n)=>{
-                if(!(out[out.length-1]?.value == p.value && p.value == filterPoints[n+1]?.value))
+                if(!(out[out.length-1]?.value == p.value && p.value == filterPoints[n+1]?.value) || this.multiAreaFlag)
                     out.push(p);
             });
             out.unshift({begin:domain.min,value:0,values:[0,0]});

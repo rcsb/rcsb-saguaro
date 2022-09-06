@@ -28,10 +28,13 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
             const x = pointer(event, svgNode)[0];
             const index = Math.round(this.xScale.invert(x));
             if (this.includeTooltip) {
-                if (this.innerData[index] != null)
+                if (this.innerData[index] != null) {
                     this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
-                else
+                    if((this.innerData[index]?.description?.length ?? 0) > 0)
+                        this.tooltipManager.showTooltipDescription(this.innerData[index] as RcsbFvTrackDataElementInterface);
+                } else {
                     this.tooltipManager.hideTooltip();
+                }
             }
             if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
                 this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
@@ -166,6 +169,7 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
 
     private getSequenceData(where: LocationViewInterface): Array<RcsbFvTrackDataElementInterface>{
         const sequence: RcsbFvTrackData = this.data();
+        console.log(sequence)
         const seqPath: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         this.innerData = [];
         sequence.forEach(seqRegion=>{
