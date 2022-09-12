@@ -6,7 +6,7 @@ import {MouseEvent} from "react";
 import {RcsbFvRowMark} from "./RcsbFvRowMark";
 
 /**Board track title cell React component interface*/
-interface RcsbFvRowTitleInterface {
+export interface RcsbFvRowTitleInterface {
     readonly data: RcsbFvRowConfigInterface;
     readonly rowTitleHeight: number;
     readonly isGlowing: boolean;
@@ -16,7 +16,14 @@ interface RcsbFvRowTitleInterState {
     readonly expandTitle: boolean;
 }
 
-export class RcsbFvRowTitle extends React.Component <RcsbFvRowTitleInterface, RcsbFvRowTitleInterState> {
+export type RowTitleComponentType<T={}> = typeof RowTitleComponent<T>;
+abstract class RowTitleComponent<T={}> extends React.Component <RcsbFvRowTitleInterface, T> {
+    protected constructor(props: Readonly<RcsbFvRowTitleInterface>) {
+        super(props);
+    }
+}
+
+export class RcsbFvRowTitle extends RowTitleComponent <RcsbFvRowTitleInterState> {
 
     private readonly configData : RcsbFvRowConfigInterface;
     readonly state = {

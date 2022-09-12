@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.10] - 2022-09-12
+### Improvement
+- Exposed row title external component `RowTitleComponentType`
+ 
 ## [2.2.9] - 2022-09-06
 ### Minor bug fix
 - Removed console output

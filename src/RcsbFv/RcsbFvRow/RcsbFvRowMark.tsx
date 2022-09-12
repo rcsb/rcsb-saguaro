@@ -16,7 +16,7 @@ interface RcsbFvRowMarkCallbackInterface {
 
 type ExternalComponentType = typeof ExternalComponent;
 abstract class ExternalComponent extends React.Component<{isGlowing:boolean} & RcsbFvRowMarkCallbackInterface, any>{
-    protected constructor(props: any) {
+    protected constructor(props: Readonly<{ isGlowing: boolean } & RcsbFvRowMarkCallbackInterface>) {
         super(props);
     }
 }

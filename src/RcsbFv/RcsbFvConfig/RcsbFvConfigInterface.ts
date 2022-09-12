@@ -7,6 +7,7 @@ import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
 import * as React from "react";
 import {RcsbFvRowMarkPublicInterface} from "../RcsbFvRow/RcsbFvRowMark";
+import {RcsbFvRowTitleInterface, RowTitleComponentType} from "../RcsbFvRow/RcsbFvRowTitle";
 
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
@@ -159,4 +160,6 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     hideRowGlow?: boolean;
     /**Track mark events callbacks*/
     rowMark?: RcsbFvRowMarkPublicInterface;
+    /**Custom row title react component*/
+    rowTitleComponent?: RowTitleComponentType;
 }

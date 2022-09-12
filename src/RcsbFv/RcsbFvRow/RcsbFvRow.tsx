@@ -1,6 +1,6 @@
 import * as React from "react";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvRowTitle} from "./RcsbFvRowTitle";
+import {RcsbFvRowTitle, RcsbFvRowTitleInterface, RowTitleComponentType} from "./RcsbFvRowTitle";
 import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
@@ -61,6 +61,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
 
     render(){
         const classNames:string = this.props.rowConfigData.displayType === RcsbFvDisplayTypes.AXIS ? classes.rcsbFvRow+" "+classes.rcsbFvRowAxis : classes.rcsbFvRow;
+        const RowTitleComponent: RowTitleComponentType<any> = this.props.rowConfigData.rowTitleComponent ?? RcsbFvRowTitle;
         return (
             <CSSTransition
                 in={this.state.display}
@@ -75,7 +76,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 <div onMouseEnter={()=>{this.hoverRow(true)}} onMouseLeave={()=>{this.hoverRow(false)}}
                      className={classNames+((this.state.titleGlow && this.state.display)? " "+classes.rcsbFvGlowTitle : "")}
                      style={this.configStyle()}>
-                    <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow}/>
+                    <RowTitleComponent data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow}/>
                     <RcsbFvRowTrack
                         id={this.props.id}
                         rowNumber={this.props.rowNumber}
