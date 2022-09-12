@@ -102,7 +102,7 @@ export interface RcsbFvLink {
 /**
  * Board track configuration object
  */
-export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
+export interface RcsbFvRowConfigInterface<P={},S={}> extends CommonConfigInterface{
     /**DOM element Id where the PFV will be rendered*/
     boardId?: string;
     /**Id used to identify the board track*/
@@ -161,5 +161,8 @@ export interface RcsbFvRowConfigInterface extends CommonConfigInterface{
     /**Track mark events callbacks*/
     rowMark?: RcsbFvRowMarkPublicInterface;
     /**Custom row title react component*/
-    rowTitleComponent?: RowTitleComponentType;
+    externalRowTitle?: {
+        rowTitleComponent: RowTitleComponentType<P,S>,
+        rowTitleAdditionalProps: P
+    };
 }

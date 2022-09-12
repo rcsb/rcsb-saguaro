@@ -16,14 +16,14 @@ interface RcsbFvRowTitleInterState {
     readonly expandTitle: boolean;
 }
 
-export type RowTitleComponentType<T={}> = typeof RowTitleComponent<T>;
-abstract class RowTitleComponent<T={}> extends React.Component <RcsbFvRowTitleInterface, T> {
-    protected constructor(props: Readonly<RcsbFvRowTitleInterface>) {
+export type RowTitleComponentType<P={},S={}> = typeof RowTitleComponent<P,S>;
+abstract class RowTitleComponent<P={},S={}> extends React.Component <RcsbFvRowTitleInterface & P, S> {
+    protected constructor(props: Readonly<RcsbFvRowTitleInterface & P>) {
         super(props);
     }
 }
 
-export class RcsbFvRowTitle extends RowTitleComponent <RcsbFvRowTitleInterState> {
+export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterState> {
 
     private readonly configData : RcsbFvRowConfigInterface;
     readonly state = {

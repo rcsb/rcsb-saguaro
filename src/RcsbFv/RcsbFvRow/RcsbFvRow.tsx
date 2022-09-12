@@ -1,6 +1,6 @@
 import * as React from "react";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvRowTitle, RcsbFvRowTitleInterface, RowTitleComponentType} from "./RcsbFvRowTitle";
+import {RcsbFvRowTitle, RowTitleComponentType} from "./RcsbFvRowTitle";
 import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
@@ -10,7 +10,6 @@ import {
     RcsbFvContextManagerInterface,
     TrackVisibilityInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
-import {ScaleLinear} from "d3-scale";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {Subscription} from "rxjs";
 import {CSSTransition} from 'react-transition-group';
@@ -61,7 +60,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
 
     render(){
         const classNames:string = this.props.rowConfigData.displayType === RcsbFvDisplayTypes.AXIS ? classes.rcsbFvRow+" "+classes.rcsbFvRowAxis : classes.rcsbFvRow;
-        const RowTitleComponent: RowTitleComponentType<any> = this.props.rowConfigData.rowTitleComponent ?? RcsbFvRowTitle;
+        const RowTitleComponent: RowTitleComponentType<any,any> = this.props.rowConfigData.externalRowTitle?.rowTitleComponent ?? RcsbFvRowTitle;
         return (
             <CSSTransition
                 in={this.state.display}
@@ -76,7 +75,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 <div onMouseEnter={()=>{this.hoverRow(true)}} onMouseLeave={()=>{this.hoverRow(false)}}
                      className={classNames+((this.state.titleGlow && this.state.display)? " "+classes.rcsbFvGlowTitle : "")}
                      style={this.configStyle()}>
-                    <RowTitleComponent data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow}/>
+                    <RowTitleComponent data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow} {...this.props.rowConfigData.externalRowTitle?.rowTitleAdditionalProps} />
                     <RcsbFvRowTrack
                         id={this.props.id}
                         rowNumber={this.props.rowNumber}
