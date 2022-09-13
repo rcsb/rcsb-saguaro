@@ -45,8 +45,16 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
             const rowTitleProps = this.props.data.externalRowTitle.rowTitleAdditionalProps;
             const RowTitleComponent: RowTitleComponentType<typeof rowTitleProps,any> = this.props.data.externalRowTitle?.rowTitleComponent;
             titleElement =(<>
-                <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
-                <RowTitleComponent {...this.props} {...rowTitleProps}/>
+                <div className={classes.rcsbFvRowTitleText+(this.state.expandTitle ? " "+classes.rcsbFvRowTitleTextExpand : "")}
+                     style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}
+                     onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
+                     onMouseLeave={(evt)=>{this.expandTitle(evt, false)}}
+                >
+                    <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
+                    <div style={{display:"inline-block"}}>
+                        <RowTitleComponent {...this.props} {...rowTitleProps}/>
+                    </div>
+                </div>
             </>);
         }else if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0 && this.configData.fitTitleWidth){
             const prefixLength: number = Math.max(this.configData.rowPrefix.length, 16);

@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.14] - 2022-09-13
+### Improvement
+- Improved external row title integration
+
 ## [2.2.13] - 2022-09-13
 ### Bug fix
 - Row title bug fix
