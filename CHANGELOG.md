@@ -2,7 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
-## [2.2.11] - 2022-09-13
+## [2.2.13] - 2022-09-13
+### Bug fix
+- Row title bug fix
+ 
+## [2.2.12] - 2022-09-13
 ### Improvement
 - External row title is rendered in `RcsbFvRowTitle`
 

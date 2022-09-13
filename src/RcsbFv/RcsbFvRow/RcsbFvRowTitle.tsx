@@ -76,7 +76,7 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
                     </div>
                 </>);
         }else{
-            return (
+            titleElement = (
                <>
                     <div className={classes.rcsbFvRowTitleText+(this.state.expandTitle ? " "+classes.rcsbFvRowTitleTextExpand : "")}
                          style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}
