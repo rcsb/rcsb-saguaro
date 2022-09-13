@@ -60,7 +60,6 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
 
     render(){
         const classNames:string = this.props.rowConfigData.displayType === RcsbFvDisplayTypes.AXIS ? classes.rcsbFvRow+" "+classes.rcsbFvRowAxis : classes.rcsbFvRow;
-        const RowTitleComponent: RowTitleComponentType<any,any> = this.props.rowConfigData.externalRowTitle?.rowTitleComponent ?? RcsbFvRowTitle;
         return (
             <CSSTransition
                 in={this.state.display}
@@ -75,7 +74,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 <div onMouseEnter={()=>{this.hoverRow(true)}} onMouseLeave={()=>{this.hoverRow(false)}}
                      className={classNames+((this.state.titleGlow && this.state.display)? " "+classes.rcsbFvGlowTitle : "")}
                      style={this.configStyle()}>
-                    <RowTitleComponent data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow} {...this.props.rowConfigData.externalRowTitle?.rowTitleAdditionalProps} />
+                    <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow} {...this.props.rowConfigData.externalRowTitle?.rowTitleAdditionalProps} />
                     <RcsbFvRowTrack
                         id={this.props.id}
                         rowNumber={this.props.rowNumber}

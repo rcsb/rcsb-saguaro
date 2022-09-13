@@ -39,17 +39,21 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
     public render(): JSX.Element{
         const height: number = (this.configStyle().height as number);
         const trackTitle: string = typeof this.configData?.rowTitle === "string" ? this.configData.rowTitle : (typeof this.configData?.rowTitle === "object" ? this.configData.rowTitle.visibleTex : "");
-        if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0 && this.configData.fitTitleWidth){
+
+        let titleElement: JSX.Element;
+        if(this.props.data.externalRowTitle?.rowTitleComponent){
+            const rowTitleProps = this.props.data.externalRowTitle.rowTitleAdditionalProps;
+            const RowTitleComponent: RowTitleComponentType<typeof rowTitleProps,any> = this.props.data.externalRowTitle?.rowTitleComponent;
+            titleElement =(<>
+                <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
+                <RowTitleComponent {...this.props} {...rowTitleProps}/>
+            </>);
+        }else if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0 && this.configData.fitTitleWidth){
             const prefixLength: number = Math.max(this.configData.rowPrefix.length, 16);
             const prefixWidth: number = Math.round((prefixLength/(prefixLength+trackTitle.length)*(this.configStyle().width as number)));
             const titleWidth: number = (this.configStyle().width as number)-prefixWidth;
             const style: React.CSSProperties = {width:titleWidth,height:height,paddingRight:this.PADDING_RIGHT};
-            return (
-                <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
-                    {
-                        this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
-                                                       className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
-                    }
+            titleElement = (<>
                     <div style={{...style, float:"right", display:"inline-block"}}>
                         <div className={classes.rcsbFvRowTitleText} style={{lineHeight:height+"px"}}>{this.setTitle()}</div>
                     </div>
@@ -59,15 +63,9 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
                             {this.configData.rowPrefix}
                         </div>
                     </div>
-                </div>
-            );
+                </>);
         }else if(typeof this.configData.rowPrefix === "string" && this.configData.rowPrefix.length > 0){
-            return (
-                <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
-                    {
-                        this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
-                                                       className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
-                    }
+            titleElement = (<>
                     <div className={classes.rcsbFvRowTitleText+(this.state.expandTitle ? " "+classes.rcsbFvRowTitleTextExpand : "")}
                          style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
@@ -76,15 +74,10 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
                         <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
                         {this.configData.rowPrefix+" "}{this.setTitle()}
                     </div>
-                </div>
-            );
+                </>);
         }else{
             return (
-                <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
-                    {
-                        this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
-                                                       className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
-                    }
+               <>
                     <div className={classes.rcsbFvRowTitleText+(this.state.expandTitle ? " "+classes.rcsbFvRowTitleTextExpand : "")}
                          style={{lineHeight:height+"px", paddingRight:this.PADDING_RIGHT}}
                          onMouseEnter={(evt)=>{this.expandTitle(evt, true)}}
@@ -93,9 +86,19 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
                         <RcsbFvRowMark {...this.props.data.rowMark} isGlowing={this.props.isGlowing}/>
                         {this.setTitle()}
                     </div>
-                </div>
+               </>
             );
         }
+        return ( <div className={classes.rcsbFvRowTitle} style={this.configStyle()}>
+            {
+                this.setTitle() != null ? <div style={this.configTitleFlagColorStyle()}
+                                               className={classes.rcsbFvRowTitleProvenanceFlag}/> : null
+            }
+            {
+                titleElement
+            }
+        </div>);
+
     }
 
     /**
