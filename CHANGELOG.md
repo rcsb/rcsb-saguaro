@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.15] - 2022-09-13
+### Improvement
+- Exposing external row mark props
+
 ## [2.2.14] - 2022-09-13
 ### Improvement
 - Improved external row title integration

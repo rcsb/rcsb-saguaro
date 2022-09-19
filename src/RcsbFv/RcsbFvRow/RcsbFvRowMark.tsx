@@ -1,12 +1,15 @@
 import * as React from "react";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 
-export interface RcsbFvRowMarkInterface extends RcsbFvRowMarkPublicInterface{
+export interface RcsbFvRowMarkInterface<T> extends RcsbFvRowMarkPublicInterface<T>{
     isGlowing: boolean;
 }
 
-export interface RcsbFvRowMarkPublicInterface extends RcsbFvRowMarkCallbackInterface {
-    externalComponent?: ExternalComponentType;
+export interface RcsbFvRowMarkPublicInterface<T> extends RcsbFvRowMarkCallbackInterface {
+    externalRowMark?: {
+        component:ExternalComponentType<T>;
+        props:T;
+    }
 }
 
 interface RcsbFvRowMarkCallbackInterface {
@@ -14,21 +17,20 @@ interface RcsbFvRowMarkCallbackInterface {
     hoverCallback?:()=>void;
 }
 
-type ExternalComponentType = typeof ExternalComponent;
-abstract class ExternalComponent extends React.Component<{isGlowing:boolean} & RcsbFvRowMarkCallbackInterface, any>{
-    protected constructor(props: Readonly<{ isGlowing: boolean } & RcsbFvRowMarkCallbackInterface>) {
+type ExternalComponentType<T> = typeof ExternalComponent<T>;
+abstract class ExternalComponent<T> extends React.Component<{isGlowing:boolean} & RcsbFvRowMarkCallbackInterface & T, any>{
+    protected constructor(props: Readonly<{ isGlowing: boolean } & RcsbFvRowMarkCallbackInterface> & T) {
         super(props);
     }
 }
 
-export class RcsbFvRowMark extends React.Component <RcsbFvRowMarkInterface,{}> {
+export class RcsbFvRowMark<T> extends React.Component <RcsbFvRowMarkInterface<T>,{}> {
 
     public render(): JSX.Element {
-        const ExternalComponent: ExternalComponentType | undefined = this.props.externalComponent;
         return (<div className={classes.rcsbFvRowMark} style={{display:"inline-block"}}>
             <div>
                 {
-                    ExternalComponent ? <ExternalComponent isGlowing={this.props.isGlowing} clickCallback={this.props.clickCallback} hoverCallback={this.props.hoverCallback}/> : (
+                    this.props.externalRowMark ? <this.props.externalRowMark.component isGlowing={this.props.isGlowing} clickCallback={this.props.clickCallback} hoverCallback={this.props.hoverCallback} {...this.props.externalRowMark.props}/> : (
                         <div onClick={this.props.clickCallback} onMouseOver={this.props.hoverCallback} style={{width:6, height:6, marginBottom: 4, marginRight:5}} >
                             <div className={classes.rcsbFvRowMarkComponent}/>
                         </div>
