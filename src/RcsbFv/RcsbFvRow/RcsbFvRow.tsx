@@ -125,7 +125,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
             this.setState(()=>({titleGlow:flag}));
             this.props.contextManager.next({
                 eventType: EventType.ROW_HOVER,
-                eventData: this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS ? this.props.id : null
+                eventData: (this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS && flag) ? this.props.id : null
             } as RcsbFvContextManagerInterface);
         }
     }

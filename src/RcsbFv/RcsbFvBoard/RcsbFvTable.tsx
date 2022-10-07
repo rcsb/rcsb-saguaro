@@ -1,4 +1,8 @@
 import * as React from "react";
+import {createRoot, Root} from "react-dom/client";
+import SortableList, { SortableItem } from 'react-easy-sort'
+import arrayMove from 'array-move'
+
 import {
     DomainViewInterface,
     EventType,
@@ -21,7 +25,7 @@ import {RowStatusMap} from "./Utils/RowStatusMap";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 
-interface RcsbFvBodyInterface extends RcsbFvBoardFullConfigInterface {
+interface RcsbFvTableInterface extends RcsbFvBoardFullConfigInterface {
     readonly boardId: string;
     readonly contextManager: RcsbFvContextManager;
     readonly resolve: ()=> void;
@@ -31,10 +35,11 @@ interface RcsbFvBodyInterface extends RcsbFvBoardFullConfigInterface {
 }
 
 /**Board React component state interface*/
-interface RcsbFvBodyState {
+interface RcsbFvTableState {
+    order: Array<RcsbFvRowConfigInterface>;
 }
 
-export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBodyState> {
+export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTableState> {
 
     /**Inner div board DOM element id*/
     private readonly boardId : string;
@@ -49,10 +54,11 @@ export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBod
     /**Promise resolve callback when board is complete*/
     private resolveOnReady: (()=>void) | undefined = undefined;
 
-    readonly state: RcsbFvBodyState = {
+    readonly state: RcsbFvTableState = {
+        order:  this.props.rowConfigData
     };
 
-    constructor(props: RcsbFvBodyInterface) {
+    constructor(props: RcsbFvTableInterface) {
         super(props);
         this.resolveOnReady = props.resolve;
         this.xScale = props.xScale;
@@ -64,36 +70,43 @@ export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBod
         return (
             <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                 {this.props.boardConfigData.includeAxis ? this.getAxisRow(): null}
-                {
-                    this.props.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
-                        return rowData.trackVisibility != false;
-                    }).map((rowConfig: RcsbFvRowConfigInterface, n) =>{
-                        const rowId: string = uniqid("RcsbFvRow_");
-                        const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
-                        this.props.rowStatusMap.set(rowId, false);
-                        this.rcsbFvRowArrayIds.push(rowId);
-                        return (<RcsbFvRow
-                            key={rowId}
-                            id={rowId}
-                            boardId={this.boardId}
-                            rowNumber={rowNumber}
-                            rowConfigData={RowConfigFactory.getConfig(rowId,this.boardId,rowConfig,this.props.boardConfigData)}
-                            xScale={this.xScale}
-                            selection={this.selection}
-                            contextManager={this.props.contextManager}
-                            firstRow={ n==0 }
-                            lastRow={ n == (this.props.rowConfigData.length-1) }
-                            addBorderBottom={!(this.props.boardConfigData.hideInnerBorder ?? RcsbFvDefaultConfigValues.hideInnerBorder)}
-                            renderSchedule={ rowNumber == 0 ? "sync" : "async"}
-                        />);
-                    })
-                }
+                <SortableList onSortEnd={(oldIndex: number, newIndex: number)=>this.sortCallback(oldIndex,newIndex)} className={"list"} draggedItemClassName={"dragged"}>
+                    {
+                        this.state.order.filter((rowData: RcsbFvRowConfigInterface) =>{
+                            return rowData.trackVisibility != false;
+                        }).map((rowConfig: RcsbFvRowConfigInterface, n) =>{
+                            const rowId: string = uniqid("RcsbFvRow_");
+                            const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
+                            this.props.rowStatusMap.set(rowId, false);
+                            this.rcsbFvRowArrayIds.push(rowId);
+                            return (<SortableItem key={"SortableItem_"+rowId}><div className={"item"}><RcsbFvRow
+                                key={rowId}
+                                id={rowId}
+                                boardId={this.boardId}
+                                rowNumber={rowNumber}
+                                rowConfigData={RowConfigFactory.getConfig(rowId,this.boardId,rowConfig,this.props.boardConfigData)}
+                                xScale={this.xScale}
+                                selection={this.selection}
+                                contextManager={this.props.contextManager}
+                                firstRow={ n==0 }
+                                lastRow={ n == (this.props.rowConfigData.length-1) }
+                                addBorderBottom={!(this.props.boardConfigData.hideInnerBorder ?? RcsbFvDefaultConfigValues.hideInnerBorder)}
+                                renderSchedule={ rowNumber == 0 ? "sync" : "async"}
+                            /></div></SortableItem>);
+                        })
+                    }
+                </SortableList>
+
             </div>
         );
     }
 
     componentDidMount(): void {
         this.subscription = this.subscribe();
+    }
+
+    private sortCallback(oldIndex: number, newIndex: number): void {
+        this.setState({order:arrayMove(this.state.order,oldIndex,newIndex)});
     }
 
     private setMouseLeaveBoardCallback(): (()=>void)|undefined{
@@ -244,7 +257,7 @@ export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBod
                     });
             }
         });
-        this.setState({rowConfigData: rowConfigData});
+        //this.setState({rowConfigData: rowConfigData});
         this.setScale();
     }
 
@@ -258,7 +271,7 @@ export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBod
                 rowConfig.trackVisibility = obj.visibility;
             }
         });
-        this.setState({rowConfigData: rowConfigData});
+        //this.setState({rowConfigData: rowConfigData});
         this.setScale();
     }
 
@@ -268,7 +281,7 @@ export class RcsbFvTable extends React.Component <RcsbFvBodyInterface, RcsbFvBod
     private addRow(configRow: RcsbFvRowConfigInterface): void{
         const rowConfigData: Array<RcsbFvRowConfigInterface> = this.props.rowConfigData;
         rowConfigData.push(configRow);
-        this.setState({rowConfigData: rowConfigData});
+        //this.setState({rowConfigData: rowConfigData});
         this.setScale();
     }
 
