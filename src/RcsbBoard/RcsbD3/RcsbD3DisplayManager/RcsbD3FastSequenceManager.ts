@@ -33,6 +33,7 @@ export class RcsbD3FastSequenceManager {
     private textElements: Selection<SVGTextElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGTextElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
     private readonly MONOSPACE_BEGIN: number = 2.5;
     private readonly MONOSPACE_LENGTH: number = 5;
+    private readonly FONT_FAMILY: string = "Menlo, Monaco, Lucida, monospace";
 
     plot(config: PlotFastSequenceInterface){
         const xScale = config.xScale;
@@ -48,7 +49,7 @@ export class RcsbD3FastSequenceManager {
             })
             .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4) ?? 0)
             .attr(RcsbD3Constants.FONT_SIZE, "10")
-            .attr(RcsbD3Constants.FONT_FAMILY,"Menlo")
+            .attr(RcsbD3Constants.FONT_FAMILY,this.FONT_FAMILY)
             .attr(RcsbD3Constants.TEXT_ANCHOR, "start")
             .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface) => {
                 if (typeof d.color === "string"){

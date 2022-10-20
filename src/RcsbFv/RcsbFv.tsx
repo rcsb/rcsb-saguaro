@@ -152,7 +152,9 @@ export class RcsbFv {
             if(typeof trackConfig.trackId === "undefined"){
                 trackConfig.trackId = uniqid("trackId_");
             }
-            if(!this.trackIds.includes(trackConfig.trackId)) {
+            if(this.trackIds.includes(trackConfig.trackId)) {
+                throw `ERROR: Duplicated ${trackConfig.trackId} trackId is not allowed`;
+            }else{
                 this.trackIds.push(trackConfig.trackId);
             }
         }

@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.16] - 2022-10-17
+### Improvement
+- Multiple compatible monospace fonts for the fast sequence display
+
 ## [2.2.15] - 2022-09-13
 ### Improvement
 - Exposing external row mark props

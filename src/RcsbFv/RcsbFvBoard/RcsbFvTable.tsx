@@ -1,5 +1,4 @@
 import * as React from "react";
-import {createRoot, Root} from "react-dom/client";
 import SortableList, { SortableItem } from 'react-easy-sort'
 import arrayMove from 'array-move'
 
@@ -75,12 +74,12 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
                         this.state.order.filter((rowData: RcsbFvRowConfigInterface) =>{
                             return rowData.trackVisibility != false;
                         }).map((rowConfig: RcsbFvRowConfigInterface, n) =>{
-                            const rowId: string = uniqid("RcsbFvRow_");
+                            const rowId: string = rowConfig.trackId;
                             const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
                             this.props.rowStatusMap.set(rowId, false);
                             this.rcsbFvRowArrayIds.push(rowId);
                             return (<SortableItem key={"SortableItem_"+rowId}><div className={"item"}><RcsbFvRow
-                                key={rowId}
+                                key={rowId+"_key"}
                                 id={rowId}
                                 boardId={this.boardId}
                                 rowNumber={rowNumber}
@@ -296,7 +295,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
     }
 
     private getAxisRow(): JSX.Element {
-        const rowId: string = uniqid("RcsbFvAxis_");
+        const rowId: string = "RcsbFvAxis_0";
         this.props.rowStatusMap.set(rowId, false);
         this.rcsbFvRowArrayIds.push(rowId);
         const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:uniqid("axisId_"), boardId:this.boardId};
