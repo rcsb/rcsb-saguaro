@@ -148,6 +148,7 @@ export class RcsbFv {
      * @param rowConfigData Array of track configurations
      * */
     private identifyFvTracks(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
+        this.trackIds = [];
         for(const trackConfig of rowConfigData){
             if(typeof trackConfig.trackId === "undefined"){
                 trackConfig.trackId = uniqid("trackId_");

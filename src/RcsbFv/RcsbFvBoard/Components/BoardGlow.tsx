@@ -58,7 +58,7 @@ export class BoardGlow extends React.Component <BoardGlowInterface> {
         if (mainDiv != null) {
             const mainDivSize: DOMRect = mainDiv.getBoundingClientRect();
             const axisDivSize: number = mainDiv.getElementsByClassName(classes.rcsbFvRowAxis)[0]?.getBoundingClientRect().height ?? 0;
-            const height: number = mainDivSize.height - axisDivSize + 2 * (this.props.boardConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth);
+            const height: number = mainDivSize.height - axisDivSize;
             const glowDiv: HTMLElement | null = document.getElementById(this.props.boardId + RcsbFvDOMConstants.GLOW_DOM_ID_PREFIX);
             if (glowDiv != null) {
                 const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];

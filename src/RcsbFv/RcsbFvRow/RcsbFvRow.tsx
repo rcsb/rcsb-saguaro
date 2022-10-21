@@ -24,7 +24,7 @@ interface RcsbFvRowInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
-    readonly renderSchedule: "async"|"sync";
+    readonly renderSchedule: "async"|"sync"|"fixed";
 }
 
 /**Board track React state interface*/

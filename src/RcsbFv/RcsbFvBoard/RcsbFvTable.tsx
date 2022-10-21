@@ -32,19 +32,19 @@ interface RcsbFvTableInterface extends RcsbFvBoardFullConfigInterface {
     readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
     readonly rowStatusMap: RowStatusMap;
+    readonly rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}>;
 }
 
 /**Board React component state interface*/
 interface RcsbFvTableState {
-    order: Array<RcsbFvRowConfigInterface>;
+    order: Array<RcsbFvRowConfigInterface & {key:string}>;
+    axisKey: string;
 }
 
 export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTableState> {
 
     /**Inner div board DOM element id*/
     private readonly boardId : string;
-    /**Array of inner div board track DOM element ids*/
-    private readonly rcsbFvRowArrayIds : Array<string> = new Array<string>();
     /**Subscription to events*/
     private subscription: Subscription;
     /**Global d3 Xscale object shaed among all board tracks*/
@@ -55,7 +55,8 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
     private resolveOnReady: (()=>void) | undefined = undefined;
 
     readonly state: RcsbFvTableState = {
-        order:  this.props.rowConfigData
+        order:  this.props.rowConfigData,
+        axisKey: uniqid("rcsbFvAxis_key_")
     };
 
     constructor(props: RcsbFvTableInterface) {
@@ -75,13 +76,11 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
                     {
                         this.state.order.filter((rowData: RcsbFvRowConfigInterface) =>{
                             return rowData.trackVisibility != false;
-                        }).map((rowConfig: RcsbFvRowConfigInterface, n) =>{
+                        }).map((rowConfig: RcsbFvRowConfigInterface & {key:string}, n) =>{
                             const rowId: string = rowConfig.trackId;
                             const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
                             this.props.rowStatusMap.set(rowId, false);
-                            this.rcsbFvRowArrayIds.push(rowId);
-                            return (<SortableItem key={"SortableItem_"+rowId}><div className={"item"}><RcsbFvRow
-                                key={rowId+"_key"}
+                            return (<SortableItem key={rowConfig.key}><div className={"item"}><RcsbFvRow
                                 id={rowId}
                                 boardId={this.boardId}
                                 rowNumber={rowNumber}
@@ -89,7 +88,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
                                 xScale={this.xScale}
                                 selection={this.selection}
                                 contextManager={this.props.contextManager}
-                                renderSchedule={ rowNumber == 0 ? "sync" : "async"}
+                                renderSchedule={ rowNumber == (this.props.boardConfigData.includeAxis ? 1 : 0) ? "sync" : "async"}
                             /></div></SortableItem>);
                         })
                     }
@@ -101,6 +100,14 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
 
     componentDidMount(): void {
         this.subscription = this.subscribe();
+    }
+
+    componentDidUpdate(prevProps: Readonly<RcsbFvTableInterface>, prevState: Readonly<RcsbFvTableState>, snapshot?: any) {
+        if( this.props.rowConfigData.map(rc=>rc.key).join("|") != this.state.order.map(rc=>rc.key).join("|") && prevState.order.map(rc=>rc.key).join("|") == this.state.order.map(rc=>rc.key).join("|"))
+            this.setState({
+                order:this.props.rowConfigData,
+                axisKey:uniqid("rcsbFvAxis_key_")
+            });
     }
 
     private sortCallback(oldIndex: number, newIndex: number): void {
@@ -294,12 +301,10 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
     }
 
     private getAxisRow(): JSX.Element {
-        const rowId: string = "RcsbFvAxis_0";
-        this.props.rowStatusMap.set(rowId, false);
-        this.rcsbFvRowArrayIds.push(rowId);
-        const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:uniqid("axisId_"), boardId:this.boardId};
+        const rowId: string = "rcsbFvAxis_0";
+        const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:rowId, boardId:this.boardId};
         return(<RcsbFvRow
-            key={rowId}
+            key={this.state.axisKey}
             id={rowId}
             boardId={this.props.boardId}
             rowNumber={0}
@@ -307,7 +312,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             xScale={this.xScale}
             selection={this.selection}
             contextManager={this.props.contextManager}
-            renderSchedule={"sync"}
+            renderSchedule={"fixed"}
         />);
     }
 
@@ -331,12 +336,18 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
 }
 
 function border(boardConfigData: RcsbFvBoardConfigInterface): JSX.Element {
-    return(<div style={{
-        float: "right",
+    const height: number = RcsbFvDefaultConfigValues.borderWidth;
+    return(<div
+        style={{
+            width: "100%",
+            height
+        }}
+    ><div style={{
         width: boardConfigData.trackWidth,
         height:0,
-        borderTop: RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD",
+        float:"right",
+        borderTop: height + "px solid #DDD",
         borderLeft: RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD",
         borderRight: RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD"
-    }}></div>);
+    }}></div></div>);
 }
