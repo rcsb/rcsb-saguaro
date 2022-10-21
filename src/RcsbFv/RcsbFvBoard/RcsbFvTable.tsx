@@ -11,6 +11,7 @@ import {
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
 import {
+    RcsbFvBoardConfigInterface,
     RcsbFvDisplayConfigInterface,
     RcsbFvRowConfigInterface
 } from "../RcsbFvConfig/RcsbFvConfigInterface";
@@ -69,6 +70,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
         return (
             <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                 {this.props.boardConfigData.includeAxis ? this.getAxisRow(): null}
+                {border(this.props.boardConfigData)}
                 <SortableList onSortEnd={(oldIndex: number, newIndex: number)=>this.sortCallback(oldIndex,newIndex)} className={"list"} draggedItemClassName={"dragged"}>
                     {
                         this.state.order.filter((rowData: RcsbFvRowConfigInterface) =>{
@@ -87,15 +89,12 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
                                 xScale={this.xScale}
                                 selection={this.selection}
                                 contextManager={this.props.contextManager}
-                                firstRow={ n==0 }
-                                lastRow={ n == (this.props.rowConfigData.length-1) }
-                                addBorderBottom={!(this.props.boardConfigData.hideInnerBorder ?? RcsbFvDefaultConfigValues.hideInnerBorder)}
                                 renderSchedule={ rowNumber == 0 ? "sync" : "async"}
                             /></div></SortableItem>);
                         })
                     }
                 </SortableList>
-
+                {border(this.props.boardConfigData)}
             </div>
         );
     }
@@ -308,9 +307,6 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             xScale={this.xScale}
             selection={this.selection}
             contextManager={this.props.contextManager}
-            firstRow={false}
-            lastRow={false}
-            addBorderBottom={false}
             renderSchedule={"sync"}
         />);
     }
@@ -332,4 +328,15 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
         };
     }
 
+}
+
+function border(boardConfigData: RcsbFvBoardConfigInterface): JSX.Element {
+    return(<div style={{
+        float: "right",
+        width: boardConfigData.trackWidth,
+        height:0,
+        borderTop: RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD",
+        borderLeft: RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD",
+        borderRight: RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD"
+    }}></div>);
 }
