@@ -11,7 +11,7 @@ The package offers multiple types of data displays and a rich set of options to 
 <script type="text/javascript">
 RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {}, {
     boardConfig:{
-        trackWidth:540,
+        trackWidth:740,
         rowTitleWidth:170
     }
 });
@@ -25,7 +25,7 @@ RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {}, {
 `<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro/build/rcsb-saguaro.js" type="text/javascript"></script>`
 
 ### Library Documentation
-TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/globals.html).
+TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/modules.html).
 
 ### Main Classes and Interfaces
 These are the most important elements if you are only interested in using RCSB Saguaro to visualise protein annotations

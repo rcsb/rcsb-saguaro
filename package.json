@@ -15,7 +15,7 @@
     "build": "webpack --config ./webpack.config.js",
     "buildApp": "npm run build",
     "buildAll": "npm run buildApp && npm run buildAllDoc",
-    "buildDoc": "npx typedoc ./src/RcsbFv.ts && sed -i '' '/---/d' docs/index.html",
+    "buildDoc": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" ./src/RcsbFv.ts && sed -i '' '/---/d' docs/index.html",
     "cpExamples": "ncp examples docs/examples",
     "buildAllDoc": "npm run buildDoc && npm run cpExamples",
     "packApp": "npm run buildApp && npm pack",
