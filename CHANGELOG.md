@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.2.17] - 2022-11-08
+### Dependency update
+- Auditing vulnerabilities
+
 ## [2.2.16] - 2022-10-17
 ### Improvement
 - Multiple compatible monospace fonts for the fast sequence display
