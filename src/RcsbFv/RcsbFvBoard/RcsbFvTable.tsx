@@ -1,12 +1,15 @@
 import * as React from "react";
-import SortableList, { SortableItem } from 'react-easy-sort'
+import SortableList, {SortableItem} from 'react-easy-sort'
 import arrayMove from 'array-move'
 
 import {
     DomainViewInterface,
-    EventType,
+    EventType, MoveTrackInterface,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, SetSelectionInterface, TrackDataInterface, TrackVisibilityInterface
+    RcsbFvContextManagerInterface,
+    SetSelectionInterface,
+    TrackDataInterface,
+    TrackVisibilityInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
@@ -19,7 +22,7 @@ import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/Rcs
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {Subscription} from "rxjs";
-import uniqid  from 'uniqid';
+import uniqid from 'uniqid';
 import {RowConfigFactory} from "./Utils/RowConfigFactory";
 import {RowStatusMap} from "./Utils/RowStatusMap";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
@@ -72,7 +75,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                 {this.props.boardConfigData.includeAxis ? this.getAxisRow(): null}
                 {border(this.props.boardConfigData)}
-                <SortableList onSortEnd={(oldIndex: number, newIndex: number)=>this.sortCallback(oldIndex,newIndex)} className={"list"} draggedItemClassName={"dragged"}>
+                <SortableList lockAxis={"y"} onSortEnd={(oldIndex: number, newIndex: number)=>this.sortCallback({oldIndex,newIndex})} className={"list"} draggedItemClassName={"dragged"}>
                     {
                         this.state.order.filter((rowData: RcsbFvRowConfigInterface) =>{
                             return rowData.trackVisibility != false;
@@ -110,8 +113,8 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             });
     }
 
-    private sortCallback(oldIndex: number, newIndex: number): void {
-        this.setState({order:arrayMove(this.state.order,oldIndex,newIndex)});
+    private sortCallback(move: {oldIndex: number, newIndex: number}): void {
+        this.setState({order:arrayMove(this.state.order,move.oldIndex,move.newIndex)});
     }
 
     private setMouseLeaveBoardCallback(): (()=>void)|undefined{
@@ -152,6 +155,8 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
                 this.setSelection(obj.eventData as SetSelectionInterface);
             }else if(obj.eventType===EventType.ADD_SELECTION){
                 this.addSelection(obj.eventData as SetSelectionInterface);
+            }else if(obj.eventType===EventType.MOVE_TRACK){
+                this.sortCallback( obj.eventData as MoveTrackInterface);
             }
         });
     }

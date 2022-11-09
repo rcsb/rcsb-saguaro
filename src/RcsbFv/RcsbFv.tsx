@@ -332,6 +332,21 @@ export class RcsbFv {
     }
 
     /**
+     * Move board track
+     * @param oldIndex original position
+     * @param newIndex new position
+     * **/
+    public moveTrack(oldIndex: number, newIndex: number): void {
+        this.contextManager.next({
+            eventType:EventType.MOVE_TRACK,
+            eventData: {
+                oldIndex,
+                newIndex
+            }
+        });
+    }
+
+    /**
      * reset Selection and Scale
      **/
     public reset(): void{

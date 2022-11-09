@@ -37,7 +37,6 @@ const compositeConfig: RcsbFvRowConfigInterface = {
     ]
 };
 
-
 const boardConfigData = {
     length: sequence.length,
     trackWidth: 940,
