@@ -20,7 +20,7 @@
     "cpExamples": "ncp examples docs/examples",
     "buildAllDoc": "npm run buildDoc && npm run cpExamples",
     "packApp": "npm run buildApp && npm pack",
-    "publish": "npm publish --tag beta",
+    "publishApp": "npm publish --tag beta",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
