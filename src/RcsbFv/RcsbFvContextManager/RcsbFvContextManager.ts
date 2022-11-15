@@ -54,7 +54,8 @@ export enum EventType {
     BOARD_READY = "boardReady",
     SET_SELECTION = "eventTypeSetSelection",
     ADD_SELECTION = "eventTypeAddSelection",
-    ROW_HOVER = "rowHover"
+    ROW_HOVER = "rowHover",
+    MOVE_TRACK = "moveTrack"
 }
 
 /**Event Data Interface used to update row configuration*/
@@ -96,10 +97,15 @@ export interface RowReadyInterface {
     rowNumber:number;
 }
 
+export interface MoveTrackInterface {
+    oldIndex:number;
+    newIndex:number;
+}
+
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface {
     eventType: EventType;
     eventResolve?: ()=>void;
-    eventData: string|boolean|RowReadyInterface|SelectionInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
+    eventData: string|boolean|MoveTrackInterface|RowReadyInterface|SelectionInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
 }
 

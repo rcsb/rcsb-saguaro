@@ -18,10 +18,7 @@ interface RcsbFvRowTrackInterface {
     readonly selection: RcsbSelection;
     readonly callbackRcsbFvRow: (height: number)=>void;
     readonly rowNumber: number;
-    readonly firstRow: boolean;
-    readonly lastRow: boolean;
-    readonly addBorderBottom: boolean;
-    readonly renderSchedule: "async"|"sync";
+    readonly renderSchedule: "async"|"sync"|"fixed";
 }
 
 /**Board track  annotations cell React component style*/
@@ -39,8 +36,6 @@ interface RcsbFvRowTrackState {
 
 export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, RcsbFvRowTrackState> {
 
-    /**Board track configuration object*/
-    private readonly configData : RcsbFvRowConfigInterface;
     /**Track Protein Feature Viewer object*/
     private rcsbFvTrack : RcsbFvTrack;
     /**Feature Viewer builder Async task*/
@@ -49,14 +44,13 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     private subscription: Subscription;
 
     readonly state : RcsbFvRowTrackState = {
-        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight + this.rowBorderHeight(),
+        rowTrackHeight:RcsbFvDefaultConfigValues.trackHeight,
         rowTrackConfigData: this.props.rowTrackConfigData,
         mounted: false
     };
 
     constructor(props: RcsbFvRowTrackInterface) {
         super(props);
-        this.configData = this.props.rowTrackConfigData;
     }
 
     render(){
@@ -69,8 +63,13 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
 
     componentDidMount(): void{
         this.subscription = this.subscribe();
-        if(this.props.renderSchedule == "sync"){
-            this.queueTask();
+        switch (this.props.renderSchedule){
+            case "sync":
+                this.queueTask();
+                break;
+            case "fixed":
+                this.rcsbFvTrackInit();
+                break;
         }
     }
 
@@ -101,18 +100,25 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
 
     private queueTask(): void {
         this.asyncTask = asyncScheduler.schedule(()=>{
-            this.rcsbFvTrack = new RcsbFvTrack(this.configData, this.props.xScale, this.props.selection, this.props.contextManager);
-            this.updateHeight();
-            if(this.props.selection.getSelected("select") && this.props.selection.getSelected("select").length>0)
-                this.props.contextManager.next({
-                    eventType:EventType.SET_SELECTION,
-                    eventData: {
-                        mode:"select",
-                        elements:this.props.selection.getSelected("select").map(s=>({begin:s.rcsbFvTrackDataElement.begin,end:s.rcsbFvTrackDataElement.end,isEmpty:s.rcsbFvTrackDataElement.isEmpty}))
-                    }
-                });
+            this.rcsbFvTrackInit();
             this.props.contextManager.next({eventType:EventType.ROW_READY, eventData:{rowId:this.props.id,rowNumber:this.props.rowNumber}});
         });
+    }
+
+    private rcsbFvTrackInit(): void {
+        if(this.rcsbFvTrack)
+            this.rcsbFvTrack.setConfig(this.props.rowTrackConfigData);
+        else
+            this.rcsbFvTrack = new RcsbFvTrack(this.props.rowTrackConfigData, this.props.xScale, this.props.selection, this.props.contextManager);
+        this.updateHeight();
+        if(this.props.selection.getSelected("select") && this.props.selection.getSelected("select").length>0)
+            this.props.contextManager.next({
+                eventType:EventType.SET_SELECTION,
+                eventData: {
+                    mode:"select",
+                    elements:this.props.selection.getSelected("select").map(s=>({begin:s.rcsbFvTrackDataElement.begin,end:s.rcsbFvTrackDataElement.end,isEmpty:s.rcsbFvTrackDataElement.isEmpty}))
+                }
+            });
     }
 
     /**This method is called when the final track height is known, it updates React Component height State*/
@@ -120,7 +126,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
         const height: number | null = this.rcsbFvTrack.getTrackHeight();
         if(height != null) {
             this.setState({
-                    rowTrackHeight: height + this.rowBorderHeight(),
+                    rowTrackHeight: height,
                     mounted: true
                 } as RcsbFvRowTrackState,
                 ()=>{
@@ -134,8 +140,8 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
      * */
     private configStyle() : React.CSSProperties{
         let width : number = RcsbFvDefaultConfigValues.trackWidth;
-        if(typeof this.configData.trackWidth === "number"){
-            width = this.configData.trackWidth + 2*RcsbFvDefaultConfigValues.borderWidth;
+        if(typeof this.props.rowTrackConfigData.trackWidth === "number"){
+            width = this.props.rowTrackConfigData.trackWidth + 2*RcsbFvDefaultConfigValues.borderWidth;
         }
         return {
             width: width,
@@ -150,16 +156,9 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
             style.borderLeft = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
             style.borderRight = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
         }
-        if(this.props.addBorderBottom || this.props.lastRow)
-            style.borderBottom = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
-        if(this.props.firstRow)
-            style.borderTop = this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth + "px solid #DDD";
         return style;
     }
 
-    private rowBorderHeight(): number {
-        return (this.props.firstRow  ? this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth : 0) +
-            ((this.props.addBorderBottom || this.props.lastRow) ? this.props.rowTrackConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth : 0);
-    }
+
 
 }

@@ -67,7 +67,7 @@ export class BoardGlow extends React.Component <BoardGlowInterface> {
                 glowDiv.style.top = axisDivSize + "px";
                 glowDiv.style.marginLeft = titleWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace + "px";
                 glowDiv.className = classes.rcsbGlow;
-                innerGlowDiv.style.height = (height) + "px";
+                innerGlowDiv.style.height = height + "px";
                 innerGlowDiv.style.width = trackWidth + "px";
             }
         }

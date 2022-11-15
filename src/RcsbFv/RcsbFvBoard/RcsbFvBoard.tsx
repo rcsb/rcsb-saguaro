@@ -88,7 +88,10 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     selection={this.selection}
                     contextManager={this.props.contextManager}
                     boardConfigData={this.state.boardConfigData}
-                    rowConfigData={this.state.rowConfigData}
+                    rowConfigData={this.state.rowConfigData.map(rc=>({
+                        ...rc,
+                        key: `${rc.trackId}_${uniqid("key_")}`
+                    }))}
                     resolve={this.props.resolve}
                     rowStatusMap={this.rowStatusMap}
                 />
@@ -182,7 +185,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     private checkReadyState(): void {
-        if((!this.state.rowConfigData || this.state.rowConfigData.length == 0) && !this.state.boardConfigData.includeAxis)
+        if(!this.state.rowConfigData || this.state.rowConfigData.length == 0)
             this.boardReady();
     }
 

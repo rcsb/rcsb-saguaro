@@ -36,9 +36,6 @@ export class RowGlow extends React.Component <RowGlowInterface>{
                 case EventType.ROW_HOVER:
                     this.updateGlow(o.eventData as string|null);
                     break;
-                case EventType.BOARD_HOVER:
-                    if(!o.eventData) this.hideGlow();
-                    break;
             }
         });
     }
@@ -61,11 +58,11 @@ export class RowGlow extends React.Component <RowGlowInterface>{
             if (glowDiv != null) {
                 const innerGlowDiv: HTMLElement | undefined = glowDiv.getElementsByTagName("div")[0];
                 const trackWidth: number = this.props.boardConfigData.trackWidth ??  RcsbFvDefaultConfigValues.trackWidth;
-                const titleWidth: number = (this.props.boardConfigData.rowTitleWidth ?? RcsbFvDefaultConfigValues.rowTitleWidth);
+                const titleWidth: number = this.props.boardConfigData.rowTitleWidth ?? RcsbFvDefaultConfigValues.rowTitleWidth;
                 glowDiv.style.top = top + "px";
                 glowDiv.style.marginLeft = titleWidth + RcsbFvDefaultConfigValues.titleAndTrackSpace + "px";
                 glowDiv.className = classes.rcsbRowGlow;
-                innerGlowDiv.style.height = (height) + "px";
+                innerGlowDiv.style.height = height + "px";
                 innerGlowDiv.style.width = trackWidth + "px";
             }
         }

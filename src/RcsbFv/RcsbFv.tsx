@@ -148,11 +148,14 @@ export class RcsbFv {
      * @param rowConfigData Array of track configurations
      * */
     private identifyFvTracks(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
+        this.trackIds = [];
         for(const trackConfig of rowConfigData){
             if(typeof trackConfig.trackId === "undefined"){
                 trackConfig.trackId = uniqid("trackId_");
             }
-            if(!this.trackIds.includes(trackConfig.trackId)) {
+            if(this.trackIds.includes(trackConfig.trackId)) {
+                throw `ERROR: Duplicated ${trackConfig.trackId} trackId is not allowed`;
+            }else{
                 this.trackIds.push(trackConfig.trackId);
             }
         }
@@ -324,6 +327,21 @@ export class RcsbFv {
             eventData: {
                 elements:null,
                 mode:mode ?? 'select'
+            }
+        });
+    }
+
+    /**
+     * Move board track
+     * @param oldIndex original position
+     * @param newIndex new position
+     * **/
+    public moveTrack(oldIndex: number, newIndex: number): void {
+        this.contextManager.next({
+            eventType:EventType.MOVE_TRACK,
+            eventData: {
+                oldIndex,
+                newIndex
             }
         });
     }

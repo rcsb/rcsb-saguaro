@@ -1,6 +1,6 @@
 import * as React from "react";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvRowTitle, RowTitleComponentType} from "./RcsbFvRowTitle";
+import {RcsbFvRowTitle} from "./RcsbFvRowTitle";
 import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
@@ -24,10 +24,7 @@ interface RcsbFvRowInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
-    readonly firstRow: boolean;
-    readonly lastRow: boolean;
-    readonly addBorderBottom: boolean;
-    readonly renderSchedule: "async"|"sync";
+    readonly renderSchedule: "async"|"sync"|"fixed";
 }
 
 /**Board track React state interface*/
@@ -83,9 +80,6 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                         selection={this.props.selection}
                         contextManager={this.props.contextManager}
                         callbackRcsbFvRow={this.callbackRcsbFvRowTrack.bind(this)}
-                        firstRow={this.props.firstRow}
-                        lastRow={this.props.lastRow}
-                        addBorderBottom={this.props.addBorderBottom}
                         renderSchedule={this.props.renderSchedule}
                     />
                 </div>
@@ -125,7 +119,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
             this.setState(()=>({titleGlow:flag}));
             this.props.contextManager.next({
                 eventType: EventType.ROW_HOVER,
-                eventData: this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS ? this.props.id : null
+                eventData: (this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS && flag) ? this.props.id : null
             } as RcsbFvContextManagerInterface);
         }
     }
