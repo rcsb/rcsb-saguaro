@@ -244,8 +244,8 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
      * @param flag Replace track data or add data to the current one
      * */
     private changeTrackData(obj: TrackDataInterface, flag: "replace"|"add"): void{
-        const rowConfigData: Array<RcsbFvRowConfigInterface> = this.props.rowConfigData;
-        rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface)=>{
+        const rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}> = this.props.rowConfigData;
+        rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface  & {key:string})=>{
             if(rowConfig.trackId === obj.trackId){
                 if(rowConfig.displayType != RcsbFvDisplayTypes.COMPOSITE) {
                     if(flag === "replace")
@@ -262,9 +262,10 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
                                 display.displayData = display.displayData?.concat(obj.trackData);
                         }
                     });
+                rowConfig.key = `${rowConfig.trackId}_${uniqid("key_")}`
             }
         });
-        //this.setState({rowConfigData: rowConfigData});
+        this.setState({order: rowConfigData});
         this.setScale();
     }
 
@@ -272,13 +273,13 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
      * @param obj Target track id and visibility flag (true/false)
      * */
     private changeTrackVisibility(obj: TrackVisibilityInterface): void{
-        const rowConfigData: Array<RcsbFvRowConfigInterface> = this.props.rowConfigData;
+        const rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}> = this.props.rowConfigData;
         rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface)=>{
             if(rowConfig.trackId === obj.trackId){
                 rowConfig.trackVisibility = obj.visibility;
             }
         });
-        //this.setState({rowConfigData: rowConfigData});
+        this.setState({order: rowConfigData});
         this.setScale();
     }
 
@@ -286,9 +287,9 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
      * @param configRow Track configuration object
      * */
     private addRow(configRow: RcsbFvRowConfigInterface): void{
-        const rowConfigData: Array<RcsbFvRowConfigInterface> = this.props.rowConfigData;
-        rowConfigData.push(configRow);
-        //this.setState({rowConfigData: rowConfigData});
+        const rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}> = this.props.rowConfigData;
+        rowConfigData.push( { ...configRow, key:`${(configRow.trackId ?? "track")}_${uniqid("key_")}` });
+        this.setState({order: rowConfigData});
         this.setScale();
     }
 

@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.3.0] - 2022-11-15
+### Improvement
+- Exposed a new API method `moveTrack` to move tracks
+
 ## [2.2.17] - 2022-11-08
 ### Dependency update
 - Auditing vulnerabilities
