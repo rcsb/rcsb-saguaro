@@ -336,14 +336,17 @@ export class RcsbFv {
      * @param oldIndex original position
      * @param newIndex new position
      * **/
-    public moveTrack(oldIndex: number, newIndex: number): void {
-        this.contextManager.next({
-            eventType:EventType.MOVE_TRACK,
-            eventData: {
-                oldIndex,
-                newIndex
-            }
-        });
+    public moveTrack(oldIndex: number, newIndex: number): Promise<void> {
+        return new Promise(resolve => {
+            this.contextManager.next({
+                eventType:EventType.MOVE_TRACK,
+                eventData: {
+                    oldIndex,
+                    newIndex
+                },
+                eventResolve: resolve
+            });
+        })
     }
 
     /**

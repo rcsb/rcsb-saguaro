@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.3.1] - 2022-11-15
+### Improvement
+- API method `moveTrack` converted to async
+
 ## [2.3.0] - 2022-11-15
 ### Improvement
 - Exposed a new API method `moveTrack` to move tracks

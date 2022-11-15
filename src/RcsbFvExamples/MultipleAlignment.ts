@@ -47,4 +47,9 @@ const boardConfigData = {
     hideRowGlow: false
 };
 
-const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData:Array(300).fill(undefined).map((i,n)=>{return {...compositeConfig, rowTitle: `Track ${n}`, trackId: "compositeSequence_"+n};})});
+const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData:Array(50).fill(undefined).map((i,n)=>{return {...compositeConfig, rowTitle: `Track ${n}`, trackId: "compositeSequence_"+n};})});
+fv.then(async ()=>{
+    await fv.moveTrack(5,1);
+    await fv.moveTrack(6,2);
+    await fv.moveTrack(10,3);
+});

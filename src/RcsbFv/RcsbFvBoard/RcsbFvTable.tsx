@@ -110,8 +110,10 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             });
     }
 
-    private sortCallback(move: {oldIndex: number, newIndex: number}): void {
-        this.setState({order:arrayMoveImmutable<RcsbFvRowConfigInterface & {key:string}>(this.state.order,move.oldIndex,move.newIndex)});
+    private moveTrack(move: {oldIndex: number, newIndex: number}, eventResolve?: ()=>void): void {
+        this.setState({order:arrayMoveImmutable<RcsbFvRowConfigInterface & {key:string}>(this.state.order,move.oldIndex,move.newIndex)}, ()=>{
+            eventResolve?.();
+        });
     }
 
     private setMouseLeaveBoardCallback(): (()=>void)|undefined{
@@ -153,7 +155,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             }else if(obj.eventType===EventType.ADD_SELECTION){
                 this.addSelection(obj.eventData as SetSelectionInterface);
             }else if(obj.eventType===EventType.MOVE_TRACK){
-                this.sortCallback( obj.eventData as MoveTrackInterface);
+                this.moveTrack( obj.eventData as MoveTrackInterface, obj.eventResolve);
             }
         });
     }
