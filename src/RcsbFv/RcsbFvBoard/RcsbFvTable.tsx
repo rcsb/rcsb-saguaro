@@ -1,6 +1,5 @@
 import * as React from "react";
-import SortableList, {SortableItem} from 'react-easy-sort'
-import arrayMove from 'array-move'
+import {arrayMoveImmutable} from 'array-move';
 
 import {
     DomainViewInterface,
@@ -75,27 +74,25 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                 {this.props.boardConfigData.includeAxis ? this.getAxisRow(): null}
                 {border(this.props.boardConfigData)}
-                <SortableList lockAxis={"y"} onSortEnd={(oldIndex: number, newIndex: number)=>this.sortCallback({oldIndex,newIndex})} className={"list"} draggedItemClassName={"dragged"}>
-                    {
-                        this.state.order.filter((rowData: RcsbFvRowConfigInterface) =>{
-                            return rowData.trackVisibility != false;
-                        }).map((rowConfig: RcsbFvRowConfigInterface & {key:string}, n) =>{
-                            const rowId: string = rowConfig.trackId;
-                            const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
-                            this.props.rowStatusMap.set(rowId, false);
-                            return (<SortableItem key={rowConfig.key}><div className={"item"}><RcsbFvRow
-                                id={rowId}
-                                boardId={this.boardId}
-                                rowNumber={rowNumber}
-                                rowConfigData={RowConfigFactory.getConfig(rowId,this.boardId,rowConfig,this.props.boardConfigData)}
-                                xScale={this.xScale}
-                                selection={this.selection}
-                                contextManager={this.props.contextManager}
-                                renderSchedule={ rowNumber == (this.props.boardConfigData.includeAxis ? 1 : 0) ? "sync" : "async"}
-                            /></div></SortableItem>);
-                        })
-                    }
-                </SortableList>
+                {
+                    this.state.order.filter((rowData: RcsbFvRowConfigInterface) =>{
+                        return rowData.trackVisibility != false;
+                    }).map((rowConfig: RcsbFvRowConfigInterface & {key:string}, n) =>{
+                        const rowId: string = rowConfig.trackId;
+                        const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
+                        this.props.rowStatusMap.set(rowId, false);
+                        return (<div key={rowConfig.key}><RcsbFvRow
+                            id={rowId}
+                            boardId={this.boardId}
+                            rowNumber={rowNumber}
+                            rowConfigData={RowConfigFactory.getConfig(rowId,this.boardId,rowConfig,this.props.boardConfigData)}
+                            xScale={this.xScale}
+                            selection={this.selection}
+                            contextManager={this.props.contextManager}
+                            renderSchedule={ rowNumber == (this.props.boardConfigData.includeAxis ? 1 : 0) ? "sync" : "async"}
+                        /></div>);
+                    })
+                }
                 {border(this.props.boardConfigData)}
             </div>
         );
@@ -114,7 +111,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
     }
 
     private sortCallback(move: {oldIndex: number, newIndex: number}): void {
-        this.setState({order:arrayMove(this.state.order,move.oldIndex,move.newIndex)});
+        this.setState({order:arrayMoveImmutable<RcsbFvRowConfigInterface & {key:string}>(this.state.order,move.oldIndex,move.newIndex)});
     }
 
     private setMouseLeaveBoardCallback(): (()=>void)|undefined{

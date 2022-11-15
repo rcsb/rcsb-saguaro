@@ -1,6 +1,6 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "2.3.0-beta",
+  "version": "2.3.0-beta.1",
   "description": "RCSB 1D Feature Viewer",
   "main": "build/RcsbFv.js",
   "files": [
@@ -56,7 +56,6 @@
     "html-webpack-plugin": "^5.5.0",
     "ncp": "^2.0.0",
     "path-browserify": "^1.0.1",
-    "react-easy-sort": "^1.5.0",
     "react-icons": "^4.4.0",
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
@@ -74,6 +73,7 @@
   },
   "dependencies": {
     "@d3fc/d3fc-sample": "^5.0.1",
+    "array-move": "^4.0.0",
     "d3": "^7.6.1",
     "d3-shape": "^3.1.0",
     "react": "^18.2.0",
