@@ -1,6 +1,9 @@
 import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import uniqid from "uniqid";
-import {TrackDataInterface, TrackVisibilityInterface} from "../../RcsbFvContextManager/RcsbFvContextManager";
+import {
+    TrackDataInterface,
+    TrackVisibilityInterface
+} from "../../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvDisplayTypes} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {arrayMoveMutable} from "array-move";
 
@@ -56,6 +59,16 @@ export class BoardDataState {
      * */
     public addTrackData(obj: TrackDataInterface): void{
         this.changeTrackData(obj,"add");
+    }
+
+    /**Rerender the board track
+     * @param trackId Id that identifies the track
+     * */
+    public resetTrack(trackId:string): void{
+        const row = this.rowConfigData.find(r=>r.trackId === trackId)
+        if(!row)
+            return;
+        row.key = BoardDataState.generateKey(row);
     }
 
     /**Modifies a board track data

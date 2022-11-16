@@ -7,7 +7,7 @@ import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface,
+    RcsbFvContextManagerType,
     TrackVisibilityInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
@@ -101,14 +101,14 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
      * @return rxjs Subscription object
      * */
     private subscribe(): Subscription{
-        return this.props.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
+        return this.props.contextManager.subscribe((obj:RcsbFvContextManagerType)=>{
             if(obj.eventType===EventType.TRACK_HIDE){
-                const vis: TrackVisibilityInterface = obj.eventData as TrackVisibilityInterface;
+                const vis: TrackVisibilityInterface = obj.eventData;
                 if(vis.trackId === this.props.rowConfigData.trackId){
                     this.changeClass(vis.visibility);
                 }
             }else if(obj.eventType === EventType.ROW_HOVER){
-                const trackId: string = obj.eventData as string;
+                const trackId: string = obj.eventData;
                 this.checkHoveredRow(trackId);
             }
         });
@@ -120,7 +120,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
             this.props.contextManager.next({
                 eventType: EventType.ROW_HOVER,
                 eventData: (this.props.rowConfigData.displayType != RcsbFvDisplayTypes.AXIS && flag) ? this.props.id : null
-            } as RcsbFvContextManagerInterface);
+            } as RcsbFvContextManagerType);
         }
     }
 

@@ -9,7 +9,7 @@ import {
     DomainViewInterface,
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface
+    RcsbFvContextManagerType
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {asyncScheduler, Subscription} from "rxjs";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
@@ -238,7 +238,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
             this.props.contextManager.next({
                 eventType: EventType.SCALE,
                 eventData: this.props.boardId
-            } as RcsbFvContextManagerInterface);
+            } as RcsbFvContextManagerType);
         }
     }
 

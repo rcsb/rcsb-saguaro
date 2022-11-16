@@ -5,7 +5,7 @@ import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvConf
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface
+    RcsbFvContextManagerType, TrackVisibilityInterface, SetSelectionInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbSelection, SelectionInterface} from "../RcsbBoard/RcsbSelection";
@@ -188,7 +188,7 @@ export class RcsbFv {
                 eventType:EventType.UPDATE_BOARD_CONFIG,
                 eventData:configDataObj,
                 eventResolve: resolve
-            } as RcsbFvContextManagerInterface);
+            } as RcsbFvContextManagerType);
         });
 
     }
@@ -196,11 +196,9 @@ export class RcsbFv {
     /**Rerender the board track
      * @param trackId Id that identifies the track
      * */
-    public resetTrack(trackId:string): void{
-        this.contextManager.next({
-            eventType:EventType.RESET,
-            eventData:trackId
-        } as RcsbFvContextManagerInterface);
+    public resetTrack(trackId:string): Promise<void>{
+        this.boardDataSate.resetTrack(trackId);
+        return this.updateBoardData();
     }
 
     /**Adds a new track to the board
@@ -299,7 +297,7 @@ export class RcsbFv {
                 eventType:EventType.UPDATE_BOARD_DATA,
                 eventData: this.boardDataSate.getBoardData(),
                 eventResolve: resolve
-            } as RcsbFvContextManagerInterface);
+            } as RcsbFvContextManagerType);
         });
     }
 }

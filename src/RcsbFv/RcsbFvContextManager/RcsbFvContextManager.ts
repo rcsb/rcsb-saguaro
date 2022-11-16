@@ -6,17 +6,17 @@ import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
 /**rxjs Event Handler Object. It allows objects to subscribe methods and then, get(send) events to(from) other objects*/
 export class RcsbFvContextManager {
     private readonly conditionalFlag: Map<CONDITIONAL_FLAG,boolean> = new Map<CONDITIONAL_FLAG, boolean>();
-    private readonly subject: Subject<RcsbFvContextManagerInterface> = new Subject<RcsbFvContextManagerInterface>();
+    private readonly subject: Subject<RcsbFvContextManagerType> = new Subject<RcsbFvContextManagerType>();
     /**Call other subscribed methods
      * @param obj Event Data Structure Interface
      * */
-    public next( obj: RcsbFvContextManagerInterface ):void {
+    public next( obj: RcsbFvContextManagerType ):void {
         this.subject.next(obj);
     }
     /**Subscribe method
      * @return Subscription
      * */
-    public subscribe(f:(x:RcsbFvContextManagerInterface)=>void):Subscription {
+    public subscribe(f:(x:RcsbFvContextManagerType)=>void):Subscription {
         return this.subject.subscribe(f);
     }
     /**Unsubscribe all methods*/
@@ -52,12 +52,6 @@ export enum EventType {
     ADD_SELECTION = "eventTypeAddSelection",
     ROW_HOVER = "rowHover",
     UPDATE_BOARD_DATA = "updateBoardData"
-}
-
-/**Event Data Interface used to update row configuration*/
-export interface TrackConfigInterface {
-    trackConfig:RcsbFvRowConfigInterface;
-    trackId:string;
 }
 
 /**Event Data Interface used to change visibility for a particular track*/
@@ -101,21 +95,61 @@ export interface MoveTrackInterface {
 export type  UpdateBoardData = (RcsbFvRowConfigInterface & {key:string})[]
 
 /**Main Event Data Object Interface*/
-export interface RcsbFvContextManagerInterface {
-    eventType: EventType;
+export type RcsbFvContextManagerType = {
+    eventType: EventType.SELECTION;
+    eventResolve?: ()=>void;
+    eventData: SetSelectionInterface
+} | {
+    eventType: EventType.UPDATE_BOARD_DATA;
+    eventResolve?: ()=>void;
+    eventData: UpdateBoardData
+} | {
+    eventType: EventType.DOMAIN_VIEW;
+    eventResolve?: ()=>void;
+    eventData: DomainViewInterface
+} | {
+    eventType: EventType.SET_SELECTION;
+    eventResolve?: ()=>void;
+    eventData: SetSelectionInterface
+} | {
+    eventType: EventType.ADD_SELECTION;
+    eventResolve?: ()=>void;
+    eventData: SetSelectionInterface
+} | {
+    eventType: EventType.RESET;
     eventResolve?: ()=>void;
     eventData: string
-        |boolean
-        |MoveTrackInterface
-        |RowReadyInterface
-        |SelectionInterface
-        |TrackVisibilityInterface
-        |TrackDataInterface
-        |RcsbFvRowConfigInterface
-        |RcsbFvBoardFullConfigInterface
-        |TrackConfigInterface
-        |DomainViewInterface|SetSelectionInterface
-        |UpdateBoardData
-        |null;
-}
+} | {
+    eventType: EventType.UPDATE_BOARD_CONFIG;
+    eventResolve?: ()=>void;
+    eventData: RcsbFvBoardFullConfigInterface
+} | {
+    eventType: EventType.BOARD_READY;
+    eventResolve?: ()=>void;
+    eventData: null
+} | {
+    eventType: EventType.BOARD_HOVER;
+    eventResolve?: ()=>void;
+    eventData: boolean
+} | {
+    eventType: EventType.TRACK_HIDE;
+    eventResolve?: ()=>void;
+    eventData: TrackVisibilityInterface
+} | {
+    eventType: EventType.ROW_HOVER;
+    eventResolve?: ()=>void;
+    eventData: string
+} | {
+    eventType: EventType.SELECTION;
+    eventResolve?: ()=>void;
+    eventData: SelectionInterface
+} | {
+    eventType: EventType.SCALE;
+    eventResolve?: ()=>void;
+    eventData: string
+} | {
+    eventType: EventType.ROW_READY;
+    eventResolve?: ()=>void;
+    eventData: RowReadyInterface
+};
 

@@ -14,7 +14,7 @@ import {
     CONDITIONAL_FLAG,
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface
+    RcsbFvContextManagerType
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
@@ -417,7 +417,7 @@ export class RcsbBoard {
             this.triggerScaleEvent({
                     eventType:EventType.SCALE,
                     eventData:this.domId
-            } as RcsbFvContextManagerInterface);
+            } as RcsbFvContextManagerType);
         }
     };
 
@@ -449,11 +449,11 @@ export class RcsbBoard {
         return this.selection;
     }
 
-    private triggerScaleEvent(geoTrans: RcsbFvContextManagerInterface){
+    private triggerScaleEvent(geoTrans: RcsbFvContextManagerType){
         this.contextManager.next(geoTrans);
     }
 
-    private triggerSelectionEvent(selection: RcsbFvContextManagerInterface){
+    private triggerSelectionEvent(selection: RcsbFvContextManagerType){
         this.contextManager.next(selection);
     }
 

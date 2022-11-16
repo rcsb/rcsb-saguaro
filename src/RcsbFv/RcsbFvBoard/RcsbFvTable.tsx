@@ -4,9 +4,8 @@ import {
     DomainViewInterface,
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface,
+    RcsbFvContextManagerType,
     SetSelectionInterface,
-    UpdateBoardData
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
@@ -130,15 +129,15 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
      * @return rxjs Subscription object
      * */
     private subscribe(): Subscription{
-        return this.props.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
+        return this.props.contextManager.subscribe((obj:RcsbFvContextManagerType)=>{
             if(obj.eventType===EventType.UPDATE_BOARD_DATA){
-                this.updateBoardData(obj.eventData as UpdateBoardData, obj.eventResolve);
+                this.updateBoardData(obj.eventData, obj.eventResolve);
             }else if(obj.eventType===EventType.DOMAIN_VIEW){
-                this.setDomain(obj.eventData as DomainViewInterface);
+                this.setDomain(obj.eventData);
             }else if(obj.eventType===EventType.SET_SELECTION){
-                this.setSelection(obj.eventData as SetSelectionInterface);
+                this.setSelection(obj.eventData);
             }else if(obj.eventType===EventType.ADD_SELECTION){
-                this.addSelection(obj.eventData as SetSelectionInterface);
+                this.addSelection(obj.eventData);
             }
         });
     }
@@ -199,7 +198,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
                 trackId: this.boardId,
                 mode:mode
             }
-        } as RcsbFvContextManagerInterface);
+        });
     }
 
     /**Update d3 xScale domain
@@ -216,7 +215,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             this.props.contextManager.next({
                 eventType: EventType.SCALE,
                 eventData: this.boardId
-            } as RcsbFvContextManagerInterface);
+            });
         }
     }
 

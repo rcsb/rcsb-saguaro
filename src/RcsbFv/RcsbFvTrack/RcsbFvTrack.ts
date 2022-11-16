@@ -12,7 +12,7 @@ import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInter
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface, SelectionInterface
+    RcsbFvContextManagerType, SelectionInterface
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbCompositeDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbCompositeDisplay";
@@ -166,7 +166,7 @@ export class RcsbFvTrack {
     private load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>): void{
         this.trackData = trackData;
         this.loadedData = true;
-        if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && trackData instanceof Array){
+        if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && Array.isArray(trackData)){
             const trackNonOverlappingMap: Array<Array<RcsbFvTrackData>> = new Array<Array<RcsbFvTrackData>>();
             let maxTracks:number = 1;
             (trackData as Array<RcsbFvTrackData>).forEach((f,i)=>{
@@ -224,7 +224,7 @@ export class RcsbFvTrack {
      * @return Subscription object
      * */
     private subscribe(): Subscription{
-        return this.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
+        return this.contextManager.subscribe((obj:RcsbFvContextManagerType)=>{
             if(obj.eventType===EventType.SCALE) {
                 this.setScale(obj.eventData as string);
             }else if(obj.eventType===EventType.SELECTION){

@@ -47,7 +47,7 @@ export class BoardProgress extends React.Component <BoardProgressInterface> {
         return this.props.contextManager.subscribe((o)=>{
             switch (o.eventType){
                 case EventType.ROW_READY:
-                    this.rowReady(o.eventData as RowReadyInterface);
+                    this.rowReady(o.eventData);
                     break;
             }
         });

@@ -5,7 +5,7 @@ import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerInterface
+    RcsbFvContextManagerType
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {Subscription} from "rxjs";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
@@ -116,11 +116,11 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
      * @return rxjs Subscription object
      * */
     private subscribe(): Subscription{
-        return this.props.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
+        return this.props.contextManager.subscribe((obj:RcsbFvContextManagerType)=>{
             switch (obj.eventType){
                 case EventType.UPDATE_BOARD_CONFIG:
                     this.resetReadyStatus(obj.eventResolve);
-                    this.updateBoardConfig(obj.eventData as RcsbFvBoardFullConfigInterface);
+                    this.updateBoardConfig(obj.eventData);
                     break;
                 case EventType.BOARD_READY:
                     this.boardReady();

@@ -21,12 +21,6 @@ interface RcsbFvRowTrackInterface {
     readonly renderSchedule: "async"|"sync"|"fixed";
 }
 
-/**Board track  annotations cell React component style*/
-interface RcsbFvRowTrackStyleInterface {
-    width: number;
-    height: number;
-}
-
 /**Board track  annotations cell React component state*/
 interface RcsbFvRowTrackState {
     readonly rowTrackConfigData: RcsbFvRowConfigInterface;
@@ -86,7 +80,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
         return this.props.contextManager.subscribe((o)=>{
             switch (o.eventType){
                 case EventType.ROW_READY:
-                    this.renderTrack(o.eventData as RowReadyInterface);
+                    this.renderTrack(o.eventData);
                     break;
             }
         });
@@ -128,7 +122,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
             this.setState({
                     rowTrackHeight: height,
                     mounted: true
-                } as RcsbFvRowTrackState,
+                },
                 ()=>{
                     this.props.callbackRcsbFvRow(this.state.rowTrackHeight);
                 });
