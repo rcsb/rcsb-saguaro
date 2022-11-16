@@ -4,14 +4,13 @@ import {RcsbFvBoard, RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard/RcsbFvB
 import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvConfig/RcsbFvConfigInterface";
 import {
     EventType,
-    TrackDataInterface,
     RcsbFvContextManager,
     RcsbFvContextManagerInterface, TrackVisibilityInterface, SetSelectionInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbSelection, SelectionInterface} from "../RcsbBoard/RcsbSelection";
-import uniqid from "uniqid";
 import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
+import {BoardDataState} from "./RcsbFvBoard/Utils/BoardDataState";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface
@@ -32,10 +31,6 @@ export class RcsbFv {
 
     /**rxjs event based handler used to communicate events (click, highlight, move) between board tracks*/
     private readonly contextManager: RcsbFvContextManager = new RcsbFvContextManager();
-    /**Array storing board tracks ids*/
-    private trackIds: Array<string> = new Array<string>();
-    /**Configuration for each board track*/
-    private rowConfigData: Array<RcsbFvRowConfigInterface> = new Array<RcsbFvRowConfigInterface>();
     /**Global board configuration*/
     private boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM elemnt id where the board will be displayed*/
@@ -46,6 +41,8 @@ export class RcsbFv {
     private readonly xScale: RcsbScaleInterface = RcsbD3ScaleFactory.getLinearScale();
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
+
+    private readonly boardDataSate: BoardDataState = new BoardDataState();
 
     private rcsbFvPromise: Promise<void>;
 
@@ -58,8 +55,7 @@ export class RcsbFv {
             throw "FATAL ERROR: DOM elementId not found";
         }
         if(props.rowConfigData != null) {
-            this.rowConfigData = props.rowConfigData;
-            this.checkFvTrackConfig(this.rowConfigData);
+            this.boardDataSate = new BoardDataState(props.rowConfigData);
         }
         if(this.boardConfigData != null) {
             this.init().then(()=>{
@@ -73,8 +69,14 @@ export class RcsbFv {
     * @param rowConfigData Array of configurations for each row in the board
     */
     public setBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
-        this.rowConfigData = rowConfigData;
-        this.checkFvTrackConfig(this.rowConfigData);
+        this.boardDataSate.setBoardData(rowConfigData);
+    }
+
+    /**
+     * Gets the configuration for each row of the board
+     */
+    public getBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): Array<RcsbFvRowConfigInterface>{
+        return this.boardDataSate.getBoardData();
     }
 
     /**
@@ -120,7 +122,14 @@ export class RcsbFv {
                 if(node==null)
                     throw `ERROR: HTML element ${this.elementId} not found`
                 this.reactRoot = createRoot(node);
-                this.reactRoot.render(<RcsbFvBoard rowConfigData={this.rowConfigData} boardConfigData={this.boardConfigData} contextManager={this.contextManager} xScale={this.xScale} selection={this.selection} resolve={resolve}/>);
+                this.reactRoot.render(<RcsbFvBoard
+                    rowConfigData={this.boardDataSate.getBoardData()}
+                    boardConfigData={this.boardConfigData}
+                    contextManager={this.contextManager}
+                    xScale={this.xScale}
+                    selection={this.selection}
+                    resolve={resolve}
+                />);
                 this.mounted = true;
             }else{
                 reject("FATAL ERROR: RcsvFvBoard is mounted or board configuration was not loaded");
@@ -136,96 +145,42 @@ export class RcsbFv {
         }
     }
 
-    /**Method used to check data config properties
-     * @param rowConfigData Array of track configurations
-     * */
-    private checkFvTrackConfig(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
-        this.identifyFvTracks(rowConfigData);
-        RcsbFv.checkTrackVisibility(rowConfigData);
-    }
-
-    /**Method used to check and force  the identification for each track
-     * @param rowConfigData Array of track configurations
-     * */
-    private identifyFvTracks(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
-        this.trackIds = [];
-        for(const trackConfig of rowConfigData){
-            if(typeof trackConfig.trackId === "undefined"){
-                trackConfig.trackId = uniqid("trackId_");
-            }
-            if(this.trackIds.includes(trackConfig.trackId)) {
-                throw `ERROR: Duplicated ${trackConfig.trackId} trackId is not allowed`;
-            }else{
-                this.trackIds.push(trackConfig.trackId);
-            }
-        }
-    }
-
-    /**Checks track visibility attribute, if undefined it is set to true
-     * @param rowConfigData Array of track configurations
-     * */
-    private static checkTrackVisibility(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
-        for(const trackConfig of rowConfigData){
-            if(typeof trackConfig.trackVisibility != "boolean"){
-                trackConfig.trackVisibility = true;
-            }
-        }
-    }
 
     /**Returns all track Ids in the same order that are visualised in the board*/
     public getTrackIds(): Array<string>{
-        return this.trackIds;
+        return this.boardDataSate.getBoardData().map(r=>r.trackId);
     }
 
     /**Adds new annotations for a particular board track
      * @param trackId Id that identifies the track
-     * @param data Annotations to be added in the track
+     * @param trackData Annotations to be added in the track
      * */
-    public addTrackData(trackId:string, data:RcsbFvTrackData): Promise<void>{
-        const loadDataObj:TrackDataInterface = {
-            trackId:trackId,
-            trackData:data
-        };
-        return new Promise<void>((resolve, reject)=>{
-            this.contextManager.next({
-                eventType:EventType.ADD_TRACK_DATA,
-                eventData:loadDataObj,
-                eventResolve: resolve
-            } as RcsbFvContextManagerInterface);
-        });
+    public addTrackData(trackId:string, trackData:RcsbFvTrackData): Promise<void>{
+        this.boardDataSate.addTrackData({trackId, trackData});
+        return this.updateBoardData();
     }
 
     /**Replaces annotations a particular board track
      * @param trackId Id that identifies the track
      * @param data New annotations to be displayed
      * */
-    public updateTrackData(trackId:string, data:RcsbFvTrackData): Promise<void>{
-        const loadDataObj:TrackDataInterface = {
-            trackId:trackId,
-            trackData:data
-        };
-        return new Promise<void>((resolve, reject)=>{
-            this.contextManager.next({
-                eventType:EventType.UPDATE_TRACK_DATA,
-                eventData:loadDataObj,
-                eventResolve: resolve
-            } as RcsbFvContextManagerInterface);
-        });
-
+    public updateTrackData(trackId:string, trackData:RcsbFvTrackData): Promise<void>{
+        this.boardDataSate.updateTrackData({trackId, trackData})
+        return this.updateBoardData();
     }
-    //TODO this method needs to return a promise (check other that will also need this)
+
     /**Method used to update board global and all-tracks configuration
      * @param newConfig New board configuration data
      * */
-    public updateBoardConfig(newConfig: Partial<RcsbFvBoardFullConfigInterface>): Promise<void>{
+    public updateBoardConfig(newConfig: {boardConfigData?: RcsbFvBoardConfigInterface; rowConfigData?: RcsbFvRowConfigInterface[]}): Promise<void>{
+        if(newConfig.rowConfigData)
+            this.boardDataSate.setBoardData(newConfig.rowConfigData);
+        if(newConfig.boardConfigData)
+            this.boardConfigData = {...this.boardConfigData,...newConfig.boardConfigData};
         const configDataObj:Partial<RcsbFvBoardFullConfigInterface> = {
-            rowConfigData: newConfig.rowConfigData,
-            boardConfigData: newConfig.boardConfigData ? {...this.boardConfigData,...newConfig.boardConfigData}  : undefined
+            rowConfigData: newConfig.rowConfigData ? this.boardDataSate.getBoardData() : undefined,
+            boardConfigData: newConfig.boardConfigData ? this.boardConfigData  : undefined
         };
-        if(configDataObj.rowConfigData!=null) {
-            this.checkFvTrackConfig(configDataObj.rowConfigData);
-            this.rowConfigData = configDataObj.rowConfigData;
-        }
         if(configDataObj.boardConfigData!=null)
             this.boardConfigData = configDataObj.boardConfigData;
         return new Promise<void>((resolve, reject)=>{
@@ -252,27 +207,16 @@ export class RcsbFv {
      * @param trackConfig Track configuration data
      * */
     public addTrack(trackConfig: RcsbFvRowConfigInterface): Promise<void>{
-        this.checkFvTrackConfig([trackConfig]);
-        return new Promise<void>((resolve, reject)=>{
-            if(this.mounted) {
-                this.contextManager.next({
-                    eventType: EventType.ADD_TRACK,
-                    eventData: trackConfig,
-                    eventResolve: resolve
-                } as RcsbFvContextManagerInterface)
-            }
-        });
-
+        this.boardDataSate.addTrack(trackConfig);
+        return this.updateBoardData();
     }
 
     /**Changes track visibility (true/false)
      * @param obj Track visibility event data
      **/
-    public changeTrackVisibility(obj: TrackVisibilityInterface): void{
-        this.contextManager.next({
-            eventType:EventType.TRACK_VISIBILITY,
-            eventData:obj
-        } as RcsbFvContextManagerInterface);
+    public changeTrackVisibility(obj: TrackVisibilityInterface): Promise<void>{
+        this.boardDataSate.changeTrackVisibility(obj);
+        return this.updateBoardData()
     }
 
     /**Change board view range
@@ -337,16 +281,8 @@ export class RcsbFv {
      * @param newIndex new position
      * **/
     public moveTrack(oldIndex: number, newIndex: number): Promise<void> {
-        return new Promise(resolve => {
-            this.contextManager.next({
-                eventType:EventType.MOVE_TRACK,
-                eventData: {
-                    oldIndex,
-                    newIndex
-                },
-                eventResolve: resolve
-            });
-        })
+        this.boardDataSate.moveTrack({oldIndex, newIndex})
+        return this.updateBoardData();
     }
 
     /**
@@ -357,5 +293,16 @@ export class RcsbFv {
         this.xScale.reset();
     }
 
+    private updateBoardData(): Promise<void> {
+        return new Promise<void>((resolve, reject)=>{
+            this.contextManager.next({
+                eventType:EventType.UPDATE_BOARD_DATA,
+                eventData: this.boardDataSate.getBoardData(),
+                eventResolve: resolve
+            } as RcsbFvContextManagerInterface);
+        });
+    }
 }
+
+
 

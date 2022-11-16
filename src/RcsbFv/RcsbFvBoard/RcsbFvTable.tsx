@@ -1,20 +1,17 @@
 import * as React from "react";
-import {arrayMoveImmutable} from 'array-move';
 
 import {
     DomainViewInterface,
-    EventType, MoveTrackInterface,
+    EventType,
     RcsbFvContextManager,
     RcsbFvContextManagerInterface,
     SetSelectionInterface,
-    TrackDataInterface,
-    TrackVisibilityInterface
+    UpdateBoardData
 } from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
 import {
     RcsbFvBoardConfigInterface,
-    RcsbFvDisplayConfigInterface,
     RcsbFvRowConfigInterface
 } from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
@@ -110,12 +107,6 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
             });
     }
 
-    private moveTrack(move: {oldIndex: number, newIndex: number}, eventResolve?: ()=>void): void {
-        this.setState({order:arrayMoveImmutable<RcsbFvRowConfigInterface & {key:string}>(this.state.order,move.oldIndex,move.newIndex)}, ()=>{
-            eventResolve?.();
-        });
-    }
-
     private setMouseLeaveBoardCallback(): (()=>void)|undefined{
         if(this.props.boardConfigData.highlightHoverPosition === true || typeof this.props.boardConfigData.highlightHoverCallback === "function")
             return this.mouseLeaveBoardCallback.bind(this);
@@ -140,22 +131,14 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
      * */
     private subscribe(): Subscription{
         return this.props.contextManager.subscribe((obj:RcsbFvContextManagerInterface)=>{
-            if(obj.eventType===EventType.ADD_TRACK){
-                this.addRow(obj.eventData as RcsbFvRowConfigInterface);
-            }else if(obj.eventType===EventType.TRACK_VISIBILITY){
-                this.changeTrackVisibility(obj.eventData as TrackVisibilityInterface);
-            }else if(obj.eventType===EventType.ADD_TRACK_DATA){
-                this.addTrackData(obj.eventData as TrackDataInterface);
-            }else if(obj.eventType===EventType.UPDATE_TRACK_DATA){
-                this.updateTrackData(obj.eventData as TrackDataInterface);
+            if(obj.eventType===EventType.UPDATE_BOARD_DATA){
+                this.updateBoardData(obj.eventData as UpdateBoardData, obj.eventResolve);
             }else if(obj.eventType===EventType.DOMAIN_VIEW){
                 this.setDomain(obj.eventData as DomainViewInterface);
             }else if(obj.eventType===EventType.SET_SELECTION){
                 this.setSelection(obj.eventData as SetSelectionInterface);
             }else if(obj.eventType===EventType.ADD_SELECTION){
                 this.addSelection(obj.eventData as SetSelectionInterface);
-            }else if(obj.eventType===EventType.MOVE_TRACK){
-                this.moveTrack( obj.eventData as MoveTrackInterface, obj.eventResolve);
             }
         });
     }
@@ -227,74 +210,6 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
         this.setScale();
     }
 
-    /**Replace board track rack data
-     * @param obj New track data and target track id
-     * */
-    private updateTrackData(obj: TrackDataInterface, ): void{
-        this.changeTrackData(obj,"replace");
-    }
-
-    /**Add new data to a given board track
-     * @param obj Additional track data and target track id
-     * */
-    private addTrackData(obj: TrackDataInterface): void{
-        this.changeTrackData(obj,"add");
-    }
-
-    /**Modifies a board track data
-     * @param obj Additional track data and target track id
-     * @param flag Replace track data or add data to the current one
-     * */
-    private changeTrackData(obj: TrackDataInterface, flag: "replace"|"add"): void{
-        const rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}> = this.props.rowConfigData;
-        rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface  & {key:string})=>{
-            if(rowConfig.trackId === obj.trackId){
-                if(rowConfig.displayType != RcsbFvDisplayTypes.COMPOSITE) {
-                    if(flag === "replace")
-                        rowConfig.trackData = obj.trackData;
-                    else if(flag === "add" && rowConfig.trackData instanceof Array)
-                        rowConfig.trackData = rowConfig.trackData?.concat(obj.trackData);
-                }
-                else if(rowConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && rowConfig.displayConfig instanceof Array)
-                    rowConfig.displayConfig?.forEach((display: RcsbFvDisplayConfigInterface)=>{
-                        if(display.displayId === obj.displayId){
-                            if(flag === "replace")
-                                display.displayData = obj.trackData;
-                            else if(flag === "add" && display.displayData instanceof Array)
-                                display.displayData = display.displayData?.concat(obj.trackData);
-                        }
-                    });
-                rowConfig.key = `${rowConfig.trackId}_${uniqid("key_")}`
-            }
-        });
-        this.setState({order: rowConfigData});
-        this.setScale();
-    }
-
-    /**Modifies visibility of a board track
-     * @param obj Target track id and visibility flag (true/false)
-     * */
-    private changeTrackVisibility(obj: TrackVisibilityInterface): void{
-        const rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}> = this.props.rowConfigData;
-        rowConfigData.forEach((rowConfig:RcsbFvRowConfigInterface)=>{
-            if(rowConfig.trackId === obj.trackId){
-                rowConfig.trackVisibility = obj.visibility;
-            }
-        });
-        this.setState({order: rowConfigData});
-        this.setScale();
-    }
-
-    /**Adds a new track to the board
-     * @param configRow Track configuration object
-     * */
-    private addRow(configRow: RcsbFvRowConfigInterface): void{
-        const rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}> = this.props.rowConfigData;
-        rowConfigData.push( { ...configRow, key:`${(configRow.trackId ?? "track")}_${uniqid("key_")}` });
-        this.setState({order: rowConfigData});
-        this.setScale();
-    }
-
     /**Force all board track annotation cells to set xScale. Called when a new track has been added*/
     private setScale(): void{
         if(this.xScale!=null) {
@@ -336,6 +251,10 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface, RcsbFvTa
         return {
             width: (titleWidth+trackWidth+(this.props.boardConfigData.borderWidth ?? RcsbFvDefaultConfigValues.borderWidth)*2+RcsbFvDefaultConfigValues.titleAndTrackSpace)
         };
+    }
+
+    private updateBoardData(data: (RcsbFvRowConfigInterface & {key: string})[], eventResolve?: ()=>void): void {
+        this.setState({order: data}, ()=>eventResolve?.());
     }
 
 }

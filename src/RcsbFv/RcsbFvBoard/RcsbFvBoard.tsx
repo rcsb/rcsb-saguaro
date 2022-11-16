@@ -21,7 +21,7 @@ import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 
 /**Board React component configuration interface*/
 export interface RcsbFvBoardFullConfigInterface {
-    readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
+    readonly rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}>;
     readonly boardConfigData: RcsbFvBoardConfigInterface;
 }
 
@@ -35,7 +35,7 @@ interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
 
 /**Board React component state interface*/
 interface RcsbFvBoardState {
-    readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
+    readonly rowConfigData: Array<RcsbFvRowConfigInterface & {key:string}>;
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     readonly progressStatus: number;
 }
@@ -88,10 +88,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                     selection={this.selection}
                     contextManager={this.props.contextManager}
                     boardConfigData={this.state.boardConfigData}
-                    rowConfigData={this.state.rowConfigData.map(rc=>({
-                        ...rc,
-                        key: `${rc.trackId}_${uniqid("key_")}`
-                    }))}
+                    rowConfigData={this.state.rowConfigData}
                     resolve={this.props.resolve}
                     rowStatusMap={this.rowStatusMap}
                 />
@@ -128,9 +125,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
                 case EventType.BOARD_READY:
                     this.boardReady();
                     break;
-                case EventType.ADD_TRACK:
-                case EventType.ADD_TRACK_DATA:
-                case EventType.UPDATE_TRACK_DATA:
+                case EventType.UPDATE_BOARD_DATA:
                     this.resetReadyStatus(obj.eventResolve);
                     break;
             }

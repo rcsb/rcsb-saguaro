@@ -165,3 +165,4 @@ const sequenceConfigData = [
     }];
 
 const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData});
+console.log(fv);

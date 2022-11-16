@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.4.0] - 2022-11-16
+### Improvement
+- New class `BoardDataState` to handle the state of the board tracks data. It encodes the logic of changing or updating
+the board tracks data
+
 ## [2.3.1] - 2022-11-15
 ### Improvement
 - API method `moveTrack` converted to async

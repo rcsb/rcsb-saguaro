@@ -41,11 +41,7 @@ export enum CONDITIONAL_FLAG {
 export enum EventType {
     SELECTION = "eventTypeSelection",
     SCALE = "eventTypeScale",
-    ADD_TRACK_DATA = "eventTypeAddData",
-    UPDATE_TRACK_DATA = "eventTypeUpdateData",
     RESET = "eventTypeReset",
-    TRACK_VISIBILITY = "eventTypeVisibility",
-    ADD_TRACK = "addTrack",
     TRACK_HIDE = "eventTypeHide",
     UPDATE_BOARD_CONFIG = "updateBoardConfig",
     DOMAIN_VIEW = "domainView",
@@ -55,7 +51,7 @@ export enum EventType {
     SET_SELECTION = "eventTypeSetSelection",
     ADD_SELECTION = "eventTypeAddSelection",
     ROW_HOVER = "rowHover",
-    MOVE_TRACK = "moveTrack"
+    UPDATE_BOARD_DATA = "updateBoardData"
 }
 
 /**Event Data Interface used to update row configuration*/
@@ -102,10 +98,24 @@ export interface MoveTrackInterface {
     newIndex:number;
 }
 
+export type  UpdateBoardData = (RcsbFvRowConfigInterface & {key:string})[]
+
 /**Main Event Data Object Interface*/
 export interface RcsbFvContextManagerInterface {
     eventType: EventType;
     eventResolve?: ()=>void;
-    eventData: string|boolean|MoveTrackInterface|RowReadyInterface|SelectionInterface|TrackVisibilityInterface|TrackDataInterface|RcsbFvRowConfigInterface|RcsbFvBoardFullConfigInterface|TrackConfigInterface|DomainViewInterface|SetSelectionInterface|null;
+    eventData: string
+        |boolean
+        |MoveTrackInterface
+        |RowReadyInterface
+        |SelectionInterface
+        |TrackVisibilityInterface
+        |TrackDataInterface
+        |RcsbFvRowConfigInterface
+        |RcsbFvBoardFullConfigInterface
+        |TrackConfigInterface
+        |DomainViewInterface|SetSelectionInterface
+        |UpdateBoardData
+        |null;
 }
 
