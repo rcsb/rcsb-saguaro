@@ -58,7 +58,7 @@ export class BoardDataState {
         if(!row)
             return;
         row.trackVisibility = obj.visibility;
-        row.key = BoardDataState.generateKey(row);
+        row.renderSchedule = "sync";
     }
 
     public moveTrack(move: {oldIndex: number, newIndex: number}): void {

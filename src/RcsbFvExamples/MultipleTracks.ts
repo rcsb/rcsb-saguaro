@@ -172,8 +172,11 @@ setTimeout(async ()=>{
     await fv.moveTrack(3,1);
     console.log("moveTrack END");
     await fv.changeTrackVisibility({trackId:"compositeSequence2", visibility:false});
-    console.log("changeTrackVisibility END");
-
+    console.log("changeTrackVisibility false END");
+    setTimeout(async ()=>{
+        await fv.changeTrackVisibility({trackId:"compositeSequence2", visibility:true});
+        console.log("changeTrackVisibility true END");
+    },2000)
 },2000)
 
 console.log(fv);

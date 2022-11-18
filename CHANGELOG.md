@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.1] - 2022-11-18
+### Bug fix
+- Change track visibility bug fixed
+
 ## [2.5.0] - 2022-11-18
 ### Code refactoring
 - All board config/data update events use `EventType.UPDATE_BOARD_CONFIG` type
