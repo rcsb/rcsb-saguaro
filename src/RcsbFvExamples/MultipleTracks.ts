@@ -107,7 +107,7 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
         ]
     },
     {
-        trackId: "compositeSequence3",
+        trackId: "block",
         trackHeight: 20,
         trackColor: "#F9F9F9",
         displayType: RcsbFvDisplayTypes.BLOCK,
@@ -165,4 +165,15 @@ const sequenceConfigData = [
     }];
 
 const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData});
+setTimeout(async ()=>{
+    await fv.then(()=>{})
+    await fv.updateTrackData("block", [{begin:10,end:50}]);
+    console.log("updateTrackData END");
+    await fv.moveTrack(3,1);
+    console.log("moveTrack END");
+    await fv.changeTrackVisibility({trackId:"compositeSequence2", visibility:false});
+    console.log("changeTrackVisibility END");
+
+},2000)
+
 console.log(fv);

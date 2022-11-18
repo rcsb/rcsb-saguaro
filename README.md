@@ -21,6 +21,18 @@ RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {}, {
 ### Node Module Instalation
 `npm install @rcsb/rcsb-saguaro`
 
+### Testing
+Different testing example are available in the `src/examples` folder
+- `git clone git@github.com:rcsb/rcsb-saguaro.git`
+- `cd rcsb-saguaro` 
+- `npm install`
+- `npm run devServer`
+
+Go to:
+
+- `http://localhost:9000/MultipleTracks.html`
+- `http://localhost:9000/MultipleAlignment.html`
+
 ### CDN JavaScript
 `<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro/build/rcsb-saguaro.js" type="text/javascript"></script>`
 

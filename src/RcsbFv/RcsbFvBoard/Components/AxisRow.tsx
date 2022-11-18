@@ -1,0 +1,54 @@
+import * as React from "react";
+import {RcsbFvRow} from "../../RcsbFvRow/RcsbFvRow";
+import {RowConfigFactory} from "../Utils/RowConfigFactory";
+import {RcsbFvContextManager} from "../../RcsbFvContextManager/RcsbFvContextManager";
+import {RcsbScaleInterface} from "../../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
+import {RcsbSelection} from "../../../RcsbBoard/RcsbSelection";
+import {RcsbFvExtendedRowConfigInterface} from "../Utils/BoardDataState";
+import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvDisplayTypes} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import uniqid from "uniqid";
+
+interface AxisRowInterface {
+    readonly boardId: string;
+    readonly contextManager: RcsbFvContextManager;
+    readonly xScale: RcsbScaleInterface;
+    readonly selection: RcsbSelection;
+    readonly boardConfigData: RcsbFvBoardConfigInterface;
+}
+
+export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
+
+    readonly state: {axisKey:string} = {
+        axisKey: uniqid("rcsbFvAxis_key_")
+    };
+
+    render():JSX.Element {
+        const rowId: string = "rcsbFvAxis_0";
+        const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:rowId, boardId:this.props.boardId};
+        return(<div key={this.state.axisKey}><RcsbFvRow
+            id={rowId}
+            boardId={this.props.boardId}
+            rowNumber={0}
+            rowConfigData={RowConfigFactory.getConfig(rowId, this.props.boardId, rowConfig, this.props.boardConfigData)}
+            xScale={this.props.xScale}
+            selection={this.props.selection}
+            contextManager={this.props.contextManager}
+            renderSchedule={"fixed"}
+        /></div>);
+    }
+
+
+    componentDidUpdate(prevProps: Readonly<AxisRowInterface>, prevState: Readonly<{axisKey:string}>, snapshot?: any) {
+        if(
+            prevProps.boardConfigData.length != this.props.boardConfigData.length ||
+            prevProps.boardConfigData.range?.min != this.props.boardConfigData.range?.min ||
+            prevProps.boardConfigData.range?.max != this.props.boardConfigData.range?.max
+        ){
+            this.setState({
+                axisKey:uniqid("rcsbFvAxis_key_")
+            });
+        }
+
+    }
+}

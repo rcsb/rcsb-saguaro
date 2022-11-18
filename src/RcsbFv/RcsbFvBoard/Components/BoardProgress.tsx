@@ -13,7 +13,6 @@ interface BoardProgressInterface {
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     readonly contextManager: RcsbFvContextManager;
     readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
-    readonly rowStatusMap: RowStatusMap;
 }
 
 export class BoardProgress extends React.Component <BoardProgressInterface> {
@@ -46,7 +45,7 @@ export class BoardProgress extends React.Component <BoardProgressInterface> {
     private subscribe(): Subscription{
         return this.props.contextManager.subscribe((o)=>{
             switch (o.eventType){
-                case EventType.ROW_READY:
+                case EventType.FRACTION_COMPLETED:
                     this.rowReady(o.eventData);
                     break;
             }
@@ -56,16 +55,15 @@ export class BoardProgress extends React.Component <BoardProgressInterface> {
     /**Row Track Board Ready Event
      * @param rowData
      * */
-    private rowReady(rowData:RowReadyInterface):void{
-        this.props.rowStatusMap.set(rowData.rowId,true);
-        if(this.props.rowStatusMap.complete()){
+    private rowReady(fraction: number):void{
+        if(fraction  >= 100){
             this.statusComplete();
         }else{
-            if(this.props.rowStatusMap.ready() == 1)
+            if(this.tooltipDiv.style.visibility == 'hidden')
                 this.showStatus();
             const statusDiv : HTMLElement | null = document.querySelector("#"+this.props.boardId+RcsbFvDOMConstants.PROGRESS_DIV_DOM_ID_PREFIX+" > span");
             if(statusDiv != null)
-                statusDiv.innerHTML = Math.ceil(this.props.rowStatusMap.ready()/this.props.rowStatusMap.size()*100).toString()+"%";
+                statusDiv.innerHTML = fraction.toString()+"%";
         }
     }
 
@@ -95,10 +93,6 @@ export class BoardProgress extends React.Component <BoardProgressInterface> {
 
     private statusComplete(){
         this.tooltipDiv.style.visibility = "hidden";
-        this.props.contextManager.next({
-            eventType: EventType.BOARD_READY,
-            eventData: null
-        })
     }
 
 }

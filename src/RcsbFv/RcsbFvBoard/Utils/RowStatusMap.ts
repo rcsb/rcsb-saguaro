@@ -13,15 +13,18 @@ export class RowStatusMap {
         return this.rowReadyMap.size;
     }
 
-    public clear(): void {
-        this.rowReadyMap.clear();
+    public clear(rowIds?: string[]): void {
+        if(rowIds)
+            rowIds.forEach(id=>this.rowReadyMap.delete(id))
+        else
+            this.rowReadyMap.clear();
     }
 
     public complete(): boolean{
         return Array.from(this.rowReadyMap.values()).filter(a=>a).length ==  this.rowReadyMap.size;
     }
 
-    public ready(): number{
+    public completed(): number{
         return Array.from(this.rowReadyMap.values()).filter(a=>a).length;
     }
 

@@ -5,12 +5,15 @@ import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvConf
 import {
     EventType,
     RcsbFvContextManager,
-    RcsbFvContextManagerType, TrackVisibilityInterface, SetSelectionInterface
+    TrackVisibilityInterface, SetSelectionInterface
 } from "./RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbSelection, SelectionInterface} from "../RcsbBoard/RcsbSelection";
 import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {BoardDataState} from "./RcsbFvBoard/Utils/BoardDataState";
+import {RowStatusMap} from "./RcsbFvBoard/Utils/RowStatusMap";
+import uniqid from "uniqid";
+import {RcsbFvStateManager} from "./RcsbFvState/RcsbFvStateManager";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface
@@ -42,7 +45,11 @@ export class RcsbFv {
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
 
-    private readonly boardDataSate: BoardDataState = new BoardDataState();
+    private readonly boardId : string = uniqid("RcsbFvBoard_");
+
+    private readonly rowStatusMap: RowStatusMap = new RowStatusMap();
+    private readonly boardDataSate: BoardDataState;
+    private readonly rcsbFvStateManager: RcsbFvStateManager;
 
     private rcsbFvPromise: Promise<void>;
 
@@ -54,9 +61,13 @@ export class RcsbFv {
         if(this.elementId===null || this.elementId===undefined){
             throw "FATAL ERROR: DOM elementId not found";
         }
-        if(props.rowConfigData != null) {
-            this.boardDataSate = new BoardDataState(props.rowConfigData);
-        }
+        this.boardDataSate = new BoardDataState(this.rowStatusMap, this.contextManager, props.rowConfigData);
+        this.rcsbFvStateManager = new RcsbFvStateManager({
+            xScale: this.xScale,
+            selection: this.selection,
+            contextManager: this.contextManager,
+            boardId: this.boardId
+        })
         if(this.boardConfigData != null) {
             this.init().then(()=>{
                 console.info(`PFV ${this.elementId} is ready. Configuration provided during object instantiation`);
@@ -123,6 +134,7 @@ export class RcsbFv {
                     throw `ERROR: HTML element ${this.elementId} not found`
                 this.reactRoot = createRoot(node);
                 this.reactRoot.render(<RcsbFvBoard
+                    boardId={this.boardId}
                     rowConfigData={this.boardDataSate.getBoardData()}
                     boardConfigData={this.boardConfigData}
                     contextManager={this.contextManager}
@@ -143,6 +155,8 @@ export class RcsbFv {
         if(this.reactRoot!=null) {
             this.reactRoot.unmount();
         }
+        this.boardDataSate.unsubscribe();
+        this.rcsbFvStateManager.unsubscribe();
     }
 
 
@@ -188,7 +202,7 @@ export class RcsbFv {
                 eventType:EventType.UPDATE_BOARD_CONFIG,
                 eventData:configDataObj,
                 eventResolve: resolve
-            } as RcsbFvContextManagerType);
+            });
         });
 
     }
@@ -294,10 +308,12 @@ export class RcsbFv {
     private updateBoardData(): Promise<void> {
         return new Promise<void>((resolve, reject)=>{
             this.contextManager.next({
-                eventType:EventType.UPDATE_BOARD_DATA,
-                eventData: this.boardDataSate.getBoardData(),
+                eventType:EventType.UPDATE_BOARD_CONFIG,
+                eventData: {
+                    rowConfigData: this.boardDataSate.getBoardData()
+                },
                 eventResolve: resolve
-            } as RcsbFvContextManagerType);
+            });
         });
     }
 }

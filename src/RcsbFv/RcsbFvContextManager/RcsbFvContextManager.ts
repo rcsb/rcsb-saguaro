@@ -1,6 +1,5 @@
 import {Subject, Subscription} from 'rxjs';
 import {RcsbFvTrackData} from "../../RcsbDataManager/RcsbDataManager";
-import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvBoardFullConfigInterface} from "../RcsbFvBoard/RcsbFvBoard";
 
 /**rxjs Event Handler Object. It allows objects to subscribe methods and then, get(send) events to(from) other objects*/
@@ -47,11 +46,11 @@ export enum EventType {
     DOMAIN_VIEW = "domainView",
     BOARD_HOVER = "boardHover",
     ROW_READY = "rowReady",
+    FRACTION_COMPLETED = "fractionComplete",
     BOARD_READY = "boardReady",
     SET_SELECTION = "eventTypeSetSelection",
     ADD_SELECTION = "eventTypeAddSelection",
-    ROW_HOVER = "rowHover",
-    UPDATE_BOARD_DATA = "updateBoardData"
+    ROW_HOVER = "rowHover"
 }
 
 /**Event Data Interface used to change visibility for a particular track*/
@@ -92,17 +91,11 @@ export interface MoveTrackInterface {
     newIndex:number;
 }
 
-export type  UpdateBoardData = (RcsbFvRowConfigInterface & {key:string})[]
-
 /**Main Event Data Object Interface*/
 export type RcsbFvContextManagerType = {
     eventType: EventType.SELECTION;
     eventResolve?: ()=>void;
     eventData: SetSelectionInterface
-} | {
-    eventType: EventType.UPDATE_BOARD_DATA;
-    eventResolve?: ()=>void;
-    eventData: UpdateBoardData
 } | {
     eventType: EventType.DOMAIN_VIEW;
     eventResolve?: ()=>void;
@@ -122,7 +115,7 @@ export type RcsbFvContextManagerType = {
 } | {
     eventType: EventType.UPDATE_BOARD_CONFIG;
     eventResolve?: ()=>void;
-    eventData: RcsbFvBoardFullConfigInterface
+    eventData: Partial<RcsbFvBoardFullConfigInterface>;
 } | {
     eventType: EventType.BOARD_READY;
     eventResolve?: ()=>void;
@@ -151,5 +144,9 @@ export type RcsbFvContextManagerType = {
     eventType: EventType.ROW_READY;
     eventResolve?: ()=>void;
     eventData: RowReadyInterface
+} | {
+    eventType: EventType.FRACTION_COMPLETED;
+    eventResolve?: ()=>void;
+    eventData: number
 };
 

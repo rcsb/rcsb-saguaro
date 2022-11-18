@@ -44,7 +44,13 @@ export class RcsbFvTrack {
     /**Current selection object. This is a common for all board annotation cells*/
     private readonly selection: RcsbSelection;
 
-    public constructor(args:RcsbFvRowConfigInterface, xScale: RcsbScaleInterface, selection: RcsbSelection, contextManager: RcsbFvContextManager) {
+    public constructor(
+        args:RcsbFvRowConfigInterface,
+        xScale: RcsbScaleInterface,
+        selection: RcsbSelection,
+        contextManager: RcsbFvContextManager,
+        initSelection?:{begin:number; end?:number; isEmpty?:boolean;}[]
+    ) {
         this.contextManager = contextManager;
         this.xScale = xScale;
         this.selection = selection;
@@ -53,6 +59,7 @@ export class RcsbFvTrack {
         }
         this.buildTrack(args);
         this.subscription = this.subscribe();
+        initSelection?.forEach(s=>this.rcsbBoard.highlightRegion(s,"add", "select"));
     }
 
     /**Builds the board annotation cell

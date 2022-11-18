@@ -8,6 +8,7 @@ import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 import {asyncScheduler, Subscription} from 'rxjs';
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
+import uniqid from "uniqid";
 
 /**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {
@@ -93,9 +94,16 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
     }
 
     private queueTask(): void {
+        this.asyncTask?.unsubscribe();
         this.asyncTask = asyncScheduler.schedule(()=>{
             this.rcsbFvTrackInit();
-            this.props.contextManager.next({eventType:EventType.ROW_READY, eventData:{rowId:this.props.id,rowNumber:this.props.rowNumber}});
+            this.props.contextManager.next({
+                eventType:EventType.ROW_READY,
+                eventData: {
+                    rowId:this.props.id,
+                    rowNumber:this.props.rowNumber
+                }
+            });
         });
     }
 
@@ -103,16 +111,18 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
         if(this.rcsbFvTrack)
             this.rcsbFvTrack.setConfig(this.props.rowTrackConfigData);
         else
-            this.rcsbFvTrack = new RcsbFvTrack(this.props.rowTrackConfigData, this.props.xScale, this.props.selection, this.props.contextManager);
+            this.rcsbFvTrack = new RcsbFvTrack(
+                this.props.rowTrackConfigData,
+                this.props.xScale,
+                this.props.selection,
+                this.props.contextManager,
+                this.props.selection.getSelected("select")?.map(s=>({
+                    begin:s.rcsbFvTrackDataElement.begin,
+                    end:s.rcsbFvTrackDataElement.end,
+                    isEmpty:s.rcsbFvTrackDataElement.isEmpty
+                }))
+            );
         this.updateHeight();
-        if(this.props.selection.getSelected("select") && this.props.selection.getSelected("select").length>0)
-            this.props.contextManager.next({
-                eventType:EventType.SET_SELECTION,
-                eventData: {
-                    mode:"select",
-                    elements:this.props.selection.getSelected("select").map(s=>({begin:s.rcsbFvTrackDataElement.begin,end:s.rcsbFvTrackDataElement.end,isEmpty:s.rcsbFvTrackDataElement.isEmpty}))
-                }
-            });
     }
 
     /**This method is called when the final track height is known, it updates React Component height State*/
@@ -152,7 +162,5 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
         }
         return style;
     }
-
-
 
 }
