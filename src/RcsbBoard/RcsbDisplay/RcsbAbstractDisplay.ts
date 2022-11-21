@@ -171,13 +171,13 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
                 if (dataElems.length == 0 && !this.hidden) {
                     this.contextManager.next({
                         eventType: EventType.TRACK_HIDE,
-                        eventData: {trackId: this.trackId, visibility: false}
+                        eventData: {innerTrackId: this.trackId, visibility: false}
                     });
                     this.hidden = true;
                 } else if (dataElems.length > 0 && this.hidden) {
                     this.contextManager.next({
                         eventType: EventType.TRACK_HIDE,
-                        eventData: {trackId: this.trackId, visibility: true}
+                        eventData: {innerTrackId: this.trackId, visibility: true}
                     });
                     this.hidden = false;
                 }

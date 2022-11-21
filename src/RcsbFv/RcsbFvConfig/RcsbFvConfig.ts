@@ -9,6 +9,7 @@ import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
 /**Board track configuration manager className*/
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
+    innerTrackId: string;
     trackId: string;
     boardId: string;
     displayType: RcsbFvDisplayTypes;
@@ -53,8 +54,8 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     public updateConfig(args:RcsbFvRowConfigInterface): void {
 
         //external config
-        if(typeof args.trackId === "string" ) {
-            this.trackId = args.trackId;
+        if(typeof args.innerTrackId === "string" ) {
+            this.innerTrackId = args.innerTrackId;
         }
         if(typeof args.boardId === "string"){
             this.boardId = args.boardId;

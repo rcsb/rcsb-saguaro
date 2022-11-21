@@ -15,6 +15,7 @@ import {Subscription} from "rxjs";
 export interface RcsbFvExtendedRowConfigInterface extends RcsbFvRowConfigInterface {
     key:string;
     renderSchedule?: "async"|"sync"|"fixed";
+    innerTrackId:string;
 }
 
 export class BoardDataState {
@@ -40,6 +41,10 @@ export class BoardDataState {
         this.rowConfigData  = rowConfigData.map(r=>this.checkRow(r));
     }
 
+    public refresh(): void {
+        this.rowConfigData  = this.rowConfigData.map(r=>this.checkRow(r));
+    }
+
     /**Adds a new track to the board
      * @param configRow Track configuration object
      * */
@@ -54,7 +59,7 @@ export class BoardDataState {
      * @param obj Target track id and visibility flag (true/false)
      * */
     public changeTrackVisibility(obj: TrackVisibilityInterface): void{
-        const row = this.rowConfigData.find(r=>r.trackId === obj.trackId)
+        const row = this.rowConfigData.find(r=>r.trackId === obj.innerTrackId)
         if(!row)
             return;
         row.trackVisibility = obj.visibility;
@@ -86,7 +91,7 @@ export class BoardDataState {
         const row = this.rowConfigData.find(r=>r.trackId === trackId)
         if(!row)
             return;
-        row.key = BoardDataState.generateKey(row);
+        row.key = BoardDataState.generateKey(row.innerTrackId);
         row.renderSchedule = "sync";
     }
 
@@ -117,22 +122,23 @@ export class BoardDataState {
                 }
             });
         }
-        row.key = BoardDataState.generateKey(row);
+        row.key = BoardDataState.generateKey(row.innerTrackId);
         row.renderSchedule = "sync"
     }
 
-    private checkRow(d: RcsbFvRowConfigInterface): RcsbFvRowConfigInterface & {key:string} {
-        d.trackId = d.trackId ?? uniqid("trackId_");
-        d.trackVisibility = typeof d.trackVisibility != "boolean" ? d.trackVisibility : true;
-        this.rowStatusMap.set(d.trackId,false);
+    private checkRow(d: RcsbFvRowConfigInterface): RcsbFvExtendedRowConfigInterface {
+        const trackId: string = uniqid(`${d.trackId}_`) ?? uniqid("trackId_");
+        this.rowStatusMap.set(trackId,false);
         return {
             ...d,
-            key: BoardDataState.generateKey(d)
+            trackVisibility: typeof d.trackVisibility != "boolean" ? d.trackVisibility : true,
+            key: BoardDataState.generateKey(trackId),
+            innerTrackId:  trackId
         };
     }
 
-    private static generateKey(d: RcsbFvRowConfigInterface): string {
-        return `${d.trackId}_${uniqid("key_")}`;
+    private static generateKey(innerTrackId: string): string {
+        return `${innerTrackId}_${uniqid("key_")}`;
     }
 
      private subscribe(): Subscription {

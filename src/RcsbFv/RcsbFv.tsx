@@ -20,7 +20,7 @@ import {RcsbFvStateManager} from "./RcsbFvState/RcsbFvStateManager";
  */
 export interface RcsbFvInterface {
     /**Array of configurations for each board track*/
-    readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
+    readonly rowConfigData: Array<Omit<RcsbFvRowConfigInterface,"innerTrackId">>;
     /**Board global configuration*/
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM element Id where the PFV will be rendered*/
@@ -37,7 +37,7 @@ export class RcsbFv {
     /**Global board configuration*/
     private boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM elemnt id where the board will be displayed*/
-    private  elementId: string;
+    private readonly elementId: string;
     /**Flag indicating that the React component has been mounted*/
     private mounted: boolean = false;
     /**Global d3 Xscale object shared among all board tracks*/
@@ -79,14 +79,15 @@ export class RcsbFv {
     * Loads the configuration for each row of the board
     * @param rowConfigData Array of configurations for each row in the board
     */
-    public setBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): void{
+    public setBoardData(rowConfigData: RcsbFvInterface["rowConfigData"]): Promise<void>{
         this.boardDataSate.setBoardData(rowConfigData);
+        return this.updateBoardData();
     }
 
     /**
      * Gets the configuration for each row of the board
      */
-    public getBoardData(rowConfigData: Array<RcsbFvRowConfigInterface>): Array<RcsbFvRowConfigInterface>{
+    public getBoardData(): Array<RcsbFvRowConfigInterface>{
         return this.boardDataSate.getBoardData();
     }
 
@@ -94,8 +95,8 @@ export class RcsbFv {
      * Loads the configuration of the board
      * @param config Configuration of the board
      */
-    public setBoardConfig(config: RcsbFvBoardConfigInterface){
-        this.boardConfigData = config;
+    public setBoardConfig(config: RcsbFvBoardConfigInterface): Promise<void>{
+        return this.updateBoardConfig({boardConfigData:config});
     }
 
     /**
@@ -162,7 +163,7 @@ export class RcsbFv {
 
     /**Returns all track Ids in the same order that are visualised in the board*/
     public getTrackIds(): Array<string>{
-        return this.boardDataSate.getBoardData().map(r=>r.trackId);
+        return this.boardDataSate.getBoardData().map(r=>r.innerTrackId);
     }
 
     /**Adds new annotations for a particular board track
@@ -186,17 +187,20 @@ export class RcsbFv {
     /**Method used to update board global and all-tracks configuration
      * @param newConfig New board configuration data
      * */
-    public updateBoardConfig(newConfig: {boardConfigData?: RcsbFvBoardConfigInterface; rowConfigData?: RcsbFvRowConfigInterface[]}): Promise<void>{
+    public updateBoardConfig(newConfig: {boardConfigData?: RcsbFvBoardConfigInterface; rowConfigData?: RcsbFvInterface["rowConfigData"] }): Promise<void>{
         if(newConfig.rowConfigData)
             this.boardDataSate.setBoardData(newConfig.rowConfigData);
+        else
+            this.boardDataSate.refresh();
+
         if(newConfig.boardConfigData)
             this.boardConfigData = {...this.boardConfigData,...newConfig.boardConfigData};
+
         const configDataObj:Partial<RcsbFvBoardFullConfigInterface> = {
-            rowConfigData: newConfig.rowConfigData ? this.boardDataSate.getBoardData() : undefined,
+            rowConfigData: this.boardDataSate.getBoardData(),
             boardConfigData: newConfig.boardConfigData ? this.boardConfigData  : undefined
         };
-        if(configDataObj.boardConfigData!=null)
-            this.boardConfigData = configDataObj.boardConfigData;
+
         return new Promise<void>((resolve, reject)=>{
             this.contextManager.next({
                 eventType:EventType.UPDATE_BOARD_CONFIG,

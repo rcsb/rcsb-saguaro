@@ -24,8 +24,8 @@ export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
     };
 
     render():JSX.Element {
-        const rowId: string = "rcsbFvAxis_0";
-        const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:rowId, boardId:this.props.boardId};
+        const rowId: string = uniqid("rcsbFvAxis_");
+        const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, innerTrackId:rowId, trackId:rowId, boardId:this.props.boardId};
         return(<div key={this.state.axisKey}><RcsbFvRow
             id={rowId}
             boardId={this.props.boardId}
@@ -43,7 +43,8 @@ export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
         if(
             prevProps.boardConfigData.length != this.props.boardConfigData.length ||
             prevProps.boardConfigData.range?.min != this.props.boardConfigData.range?.min ||
-            prevProps.boardConfigData.range?.max != this.props.boardConfigData.range?.max
+            prevProps.boardConfigData.range?.max != this.props.boardConfigData.range?.max ||
+            prevProps.boardConfigData.trackWidth != this.props.boardConfigData.trackWidth
         ){
             this.setState({
                 axisKey:uniqid("rcsbFvAxis_key_")

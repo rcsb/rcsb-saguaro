@@ -102,11 +102,18 @@ export interface RcsbFvLink {
 /**
  * Board track configuration object
  */
-export interface RcsbFvRowConfigInterface<P={},S={},T={}> extends CommonConfigInterface{
+export interface RcsbFvRowConfigInterface<
+        P extends {} = {},
+        S extends {} = {},
+        T extends {} = {},
+        M extends {} = {}
+    > extends CommonConfigInterface{
     /**DOM element Id where the PFV will be rendered*/
     boardId?: string;
     /**Id used to identify the board track*/
     trackId: string;
+    /**Id used to identify the board track*/
+    innerTrackId?: string;
     /**Length of the track. If length is provided the track coordinates will range from 1 to <length>*/
     length? : number;
     /**Range of the track. If range is provided the track coordinates will range from <min> to <max>*/
@@ -165,4 +172,6 @@ export interface RcsbFvRowConfigInterface<P={},S={},T={}> extends CommonConfigIn
         rowTitleComponent: RowTitleComponentType<P,S>,
         rowTitleAdditionalProps: P
     };
+    /**External metadata*/
+    metadata?:M;
 }

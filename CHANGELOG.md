@@ -2,12 +2,19 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.2] - 2022-11-21
+### Improvement
+- `RcsbFvRowConfigInterface` exposes a generic metadata attribute
+
+### Bug fix
+- Duplicated `trackId` in different panels bug fixed
+
 ## [2.5.1] - 2022-11-18
 ### Bug fix
 - Change track visibility bug fixed
 
 ## [2.5.0] - 2022-11-18
-### Code refactoring
+### Code refactor
 - All board config/data update events use `EventType.UPDATE_BOARD_CONFIG` type
 - Class `RcsbFvStateManager` handles zoom/move and selection events
 
@@ -16,7 +23,7 @@
 - New class `BoardDataState` to handle the state of the board tracks data. It encodes the logic of changing or updating
 the board tracks data
 
-###Code refactor
+### Code refactor
 - `RcsbFvContextManagerType` (replaces `RcsbFvContextManagerInterface`) is a refactored type that defines RcsbFvContextManager 
 events unambiguously 
 

@@ -124,7 +124,11 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
             sourceId: "SourceId",
             oriBegin: 70,
             oriEnd: 100
-        }]
+        }],
+        metadata:{
+            type: "my-block",
+            id: "block"
+        }
     }
 ];
 
@@ -169,14 +173,24 @@ setTimeout(async ()=>{
     await fv.then(()=>{})
     await fv.updateTrackData("block", [{begin:10,end:50}]);
     console.log("updateTrackData END");
-    await fv.moveTrack(3,1);
-    console.log("moveTrack END");
-    await fv.changeTrackVisibility({trackId:"compositeSequence2", visibility:false});
-    console.log("changeTrackVisibility false END");
     setTimeout(async ()=>{
-        await fv.changeTrackVisibility({trackId:"compositeSequence2", visibility:true});
-        console.log("changeTrackVisibility true END");
-    },2000)
-},2000)
+        await fv.moveTrack(3,1);
+        console.log("moveTrack END");
+        setTimeout(async ()=>{
+            await fv.changeTrackVisibility({innerTrackId:"compositeSequence2", visibility:false});
+            console.log("changeTrackVisibility false END");
+            setTimeout(async ()=>{
+                await fv.changeTrackVisibility({innerTrackId:"compositeSequence2", visibility:true});
+                console.log("changeTrackVisibility true END");
+                setTimeout(async ()=>{
+                    await fv.updateBoardConfig({boardConfigData:{trackWidth:500}})
+                    console.log("updateBoardConfig END");
+                }, 2000)
+            },2000)
+        },2000)
 
-console.log(fv);
+    }, 2000)
+},2000)
+console.log(fv.getBoardData().map(d=>d.metadata));
+
+const fv2 = new RcsbFv({elementId:"pfvBis", boardConfigData, rowConfigData});

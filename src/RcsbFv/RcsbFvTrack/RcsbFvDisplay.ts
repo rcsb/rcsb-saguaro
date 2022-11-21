@@ -73,57 +73,57 @@ export class RcsbFvDisplay {
 
     private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
         let out:RcsbDisplayInterface;
-        if(config.boardId != undefined && config.trackId != undefined && config.displayColor != undefined) {
+        if(config.boardId != undefined && config.innerTrackId != undefined && config.displayColor != undefined) {
             switch (type) {
                 case RcsbFvDisplayTypes.AXIS:
-                    out = axisDisplay(config.boardId, config.trackId, config.length);
+                    out = axisDisplay(config.boardId, config.innerTrackId, config.length);
                     break;
                 case RcsbFvDisplayTypes.BLOCK:
-                    out = blockDisplay(config.boardId, config.trackId, config.displayColor as string);
+                    out = blockDisplay(config.boardId, config.innerTrackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.PIN:
                     if(config.displayDomain != undefined)
-                        out = pinDisplay(config.boardId, config.trackId, config.displayColor as string, config.displayDomain);
+                        out = pinDisplay(config.boardId, config.innerTrackId, config.displayColor as string, config.displayDomain);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.BOND:
-                    out = bondDisplay(config.boardId, config.trackId, config.displayColor as string);
+                    out = bondDisplay(config.boardId, config.innerTrackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.SEQUENCE:
                     const dynamicDisplay: boolean = config.dynamicDisplay != undefined ? config.dynamicDisplay: false;
                     const nonEmptyDisplay: boolean = config.nonEmptyDisplay != undefined ? config.nonEmptyDisplay : false;
-                    out = sequenceDisplay(config.boardId, config.trackId, config.displayColor as string, dynamicDisplay, nonEmptyDisplay);
+                    out = sequenceDisplay(config.boardId, config.innerTrackId, config.displayColor as string, dynamicDisplay, nonEmptyDisplay);
                     break;
                 case RcsbFvDisplayTypes.LINE:
                     if(config.displayDomain != undefined)
-                        out = lineDisplay(config.boardId, config.trackId, config.displayColor as string, config.displayDomain, config.interpolationType);
+                        out = lineDisplay(config.boardId, config.innerTrackId, config.displayColor as string, config.displayDomain, config.interpolationType);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.AREA:
                     if(config.displayDomain != undefined)
-                        out = areaDisplay(config.boardId, config.trackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType);
+                        out = areaDisplay(config.boardId, config.innerTrackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.BLOCK_AREA:
                     if(config.displayDomain != undefined)
-                        out = areaDisplay(config.boardId, config.trackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType, true);
+                        out = areaDisplay(config.boardId, config.innerTrackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType, true);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.MULTI_AREA:
                     if(config.displayDomain != undefined)
-                        out = areaDisplay(config.boardId, config.trackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType, false, true);
+                        out = areaDisplay(config.boardId, config.innerTrackId, config.displayColor as string|RcsbFvColorGradient, config.displayDomain, config.interpolationType, false, true);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.VARIANT:
-                    out = variantDisplay(config.boardId, config.trackId, config.displayColor as string);
+                    out = variantDisplay(config.boardId, config.innerTrackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.VLINE:
-                    out = vlineDisplay(config.boardId, config.trackId, config.displayColor as string);
+                    out = vlineDisplay(config.boardId, config.innerTrackId, config.displayColor as string);
                     break;
                 default:
                     throw "Track type " + config.displayType + " is not supported";

@@ -55,7 +55,7 @@ export enum EventType {
 
 /**Event Data Interface used to change visibility for a particular track*/
 export interface TrackVisibilityInterface {
-    trackId: string;
+    innerTrackId: string;
     visibility: boolean;
 }
 

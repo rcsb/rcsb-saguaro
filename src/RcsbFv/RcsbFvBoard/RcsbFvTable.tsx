@@ -46,7 +46,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {
                     this.props.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
                         return rowData.trackVisibility != false;
                     }).map((rowConfig, n) =>{
-                        const rowId: string = rowConfig.trackId;
+                        const rowId: string = rowConfig.innerTrackId;
                         const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
                         return (<div key={rowConfig.key}><RcsbFvRow
                             id={rowId}
@@ -88,8 +88,6 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {
     }
 
     private getAxisRow(): JSX.Element {
-        const rowId: string = "rcsbFvAxis_0";
-        const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:rowId, boardId:this.boardId};
         return(<AxisRow
             boardId={this.props.boardId}
             xScale={this.xScale}
