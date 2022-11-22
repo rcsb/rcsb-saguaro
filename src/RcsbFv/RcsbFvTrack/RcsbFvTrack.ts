@@ -48,8 +48,7 @@ export class RcsbFvTrack {
         args:RcsbFvRowConfigInterface,
         xScale: RcsbScaleInterface,
         selection: RcsbSelection,
-        contextManager: RcsbFvContextManager,
-        initSelection?:{begin:number; end?:number; isEmpty?:boolean;}[]
+        contextManager: RcsbFvContextManager
     ) {
         this.contextManager = contextManager;
         this.xScale = xScale;
@@ -59,7 +58,7 @@ export class RcsbFvTrack {
         }
         this.buildTrack(args);
         this.subscription = this.subscribe();
-        initSelection?.forEach(s=>this.rcsbBoard.highlightRegion(s,"add", "select"));
+        this.rcsbBoard.highlightRegion(null, "set", "select", true);
     }
 
     /**Builds the board annotation cell

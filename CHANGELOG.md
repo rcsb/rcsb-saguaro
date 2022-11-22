@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.3] - 2022-11-21
+### Bug fix
+- Selection/Track Rendering bug fixed
+
 ## [2.5.2] - 2022-11-21
 ### Improvement
 - `RcsbFvRowConfigInterface` exposes a generic metadata attribute

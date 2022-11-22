@@ -8,7 +8,6 @@ import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
 import {asyncScheduler, Subscription} from 'rxjs';
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
-import uniqid from "uniqid";
 
 /**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {
@@ -115,12 +114,7 @@ export class RcsbFvRowTrack extends React.Component <RcsbFvRowTrackInterface, Rc
                 this.props.rowTrackConfigData,
                 this.props.xScale,
                 this.props.selection,
-                this.props.contextManager,
-                this.props.selection.getSelected("select")?.map(s=>({
-                    begin:s.rcsbFvTrackDataElement.begin,
-                    end:s.rcsbFvTrackDataElement.end,
-                    isEmpty:s.rcsbFvTrackDataElement.isEmpty
-                }))
+                this.props.contextManager
             );
         this.updateHeight();
     }
