@@ -38,10 +38,12 @@ export class BoardDataState {
     }
 
     public setBoardData(rowConfigData: RcsbFvRowConfigInterface[]): void {
+        this.rowStatusMap.clear();
         this.rowConfigData  = rowConfigData.map(r=>this.checkRow(r));
     }
 
     public refresh(): void {
+        this.rowStatusMap.clear();
         this.rowConfigData  = this.rowConfigData.map(r=>this.checkRow(r));
     }
 

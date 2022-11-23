@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.4] - 2022-11-23
+### Bug fix
+- Row status is cleared when board data is updated
+
 ## [2.5.3] - 2022-11-21
 ### Bug fix
 - Selection/Track Rendering bug fixed
