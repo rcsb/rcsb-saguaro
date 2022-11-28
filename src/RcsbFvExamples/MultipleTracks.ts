@@ -177,10 +177,10 @@ setTimeout(async ()=>{
         await fv.moveTrack(3,1);
         console.log("moveTrack END");
         setTimeout(async ()=>{
-            await fv.changeTrackVisibility({innerTrackId:"compositeSequence2", visibility:false});
+            await fv.changeTrackVisibility({trackId:"compositeSequence2", visibility:false});
             console.log("changeTrackVisibility false END");
             setTimeout(async ()=>{
-                await fv.changeTrackVisibility({innerTrackId:"compositeSequence2", visibility:true});
+                await fv.changeTrackVisibility({trackId:"compositeSequence2", visibility:true});
                 console.log("changeTrackVisibility true END");
                 setTimeout(async ()=>{
                     await fv.updateBoardConfig({boardConfigData:{trackWidth:500}})

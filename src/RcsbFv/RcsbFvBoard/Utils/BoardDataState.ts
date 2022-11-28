@@ -61,7 +61,7 @@ export class BoardDataState {
      * @param obj Target track id and visibility flag (true/false)
      * */
     public changeTrackVisibility(obj: TrackVisibilityInterface): void{
-        const row = this.rowConfigData.find(r=>r.trackId === obj.innerTrackId)
+        const row = this.rowConfigData.find(r=>r.trackId === obj.trackId)
         if(!row)
             return;
         row.trackVisibility = obj.visibility;

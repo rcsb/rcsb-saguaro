@@ -104,7 +104,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
         return this.props.contextManager.subscribe((obj:RcsbFvContextManagerType)=>{
             if(obj.eventType===EventType.TRACK_HIDE){
                 const vis: TrackVisibilityInterface = obj.eventData;
-                if(vis.innerTrackId === this.props.rowConfigData.innerTrackId){
+                if(vis.trackId === this.props.rowConfigData.innerTrackId){
                     this.changeClass(vis.visibility);
                 }
             }else if(obj.eventType === EventType.ROW_HOVER){

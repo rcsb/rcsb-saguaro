@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.5] - 2022-11-25
+### Bug fix
+- Wrong attribute name `innerTrackId` from `TrackVisibilityInterface` renamed to `trackId`
+
 ## [2.5.4] - 2022-11-23
 ### Bug fix
 - Row status is cleared when board data is updated
