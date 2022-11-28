@@ -2,7 +2,7 @@
 
 [Semantic Versioning](https://semver.org/)
 
-## [2.5.5] - 2022-11-25
+## [2.5.5] - 2022-11-28
 ### Bug fix
 - Wrong attribute name `innerTrackId` from `TrackVisibilityInterface` renamed to `trackId`
 
