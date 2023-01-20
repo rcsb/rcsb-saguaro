@@ -1,7 +1,7 @@
 import {Selection, BaseType, select} from "d3-selection";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
-import {asyncScheduler, Subscription} from "rxjs";
+import {asyncScheduler} from "rxjs";
 import {RcsbScaleInterface} from "../RcsbD3ScaleFactory";
 
 export interface PlotFastSequenceInterface {
@@ -32,8 +32,7 @@ export interface MoveFastSequenceInterface {
 export class RcsbD3FastSequenceManager {
     private textElements: Selection<SVGTextElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGTextElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
     private readonly MONOSPACE_BEGIN: number = 2.5;
-    private readonly MONOSPACE_LENGTH: number = 5;
-    private readonly FONT_FAMILY: string = "Menlo, Monaco, Lucida, monospace";
+    private readonly FONT_FAMILY: string = "Monaco, Menlo,  Lucida, monospace";
 
     plot(config: PlotFastSequenceInterface){
         const xScale = config.xScale;
@@ -42,10 +41,10 @@ export class RcsbD3FastSequenceManager {
         this.textElements = config.elements.select(RcsbD3Constants.TEXT);
         this.textElements
             .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                return xScale(d.begin)-this.MONOSPACE_BEGIN;
+                return this.textBegin(xScale,d);
             })
             .attr(RcsbD3Constants.TEXT_LENGTH, (d:RcsbFvTrackDataElementInterface)=>{
-                return xScale(d.begin+d.label!.length-1)-xScale(d.begin)+this.MONOSPACE_LENGTH;
+                return this.textLength(xScale, d);
             })
             .attr(RcsbD3Constants.Y, yScale(Math.floor(config.height*0.5)+4) ?? 0)
             .attr(RcsbD3Constants.FONT_SIZE, "10")
@@ -92,10 +91,10 @@ export class RcsbD3FastSequenceManager {
             const xScale = config.xScale;
             this.textElements
                 .attr(RcsbD3Constants.X, (d:RcsbFvTrackDataElementInterface) => {
-                    return xScale(d.begin)-this.MONOSPACE_BEGIN;
+                    return this.textBegin(xScale,d);
                 })
                 .attr(RcsbD3Constants.TEXT_LENGTH, (d:RcsbFvTrackDataElementInterface)=>{
-                    return xScale(d.begin+d.label!.length-1)-xScale(d.begin)+this.MONOSPACE_LENGTH;
+                    return this.textLength(xScale, d);
                 })
                 .attr(RcsbD3Constants.FILL_OPACITY,()=>{
                     return RcsbD3FastSequenceManager.opacity(xScale,config.intervalRatio)
@@ -114,5 +113,19 @@ export class RcsbD3FastSequenceManager {
         } else {
             return 1;
         }
+    }
+
+    private textLength(xScale: RcsbScaleInterface, d:RcsbFvTrackDataElementInterface): number {
+        console.log(xScale(d.begin),  xScale(d.begin+d.label!.length-1), xScale(d.begin+d.label!.length-1)-xScale(d.begin));
+        console.log(d.begin, d.begin+d.label!.length-1);
+        //TODO Not cool but I did not found any other way.
+        // It seems that svg > text > textLength attribute behaves slightly different in safari
+        if(/^((?!chrome|android).)*safari/i.test(navigator.userAgent))
+            return xScale(d.begin+d.label!.length)-xScale(d.begin);
+        return xScale(d.begin+d.label!.length-1)-xScale(d.begin)+2*this.MONOSPACE_BEGIN;
+    }
+
+    private textBegin(xScale: RcsbScaleInterface, d:RcsbFvTrackDataElementInterface): number {
+        return xScale(d.begin)-this.MONOSPACE_BEGIN;
     }
 }
