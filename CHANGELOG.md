@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.8] - 2023-01-20
+### Minor bug fix
+- Removed log output
+
 ## [2.5.7] - 2023-01-20
 ### Bug fix
 - Safari sequence misalignment bug fixed

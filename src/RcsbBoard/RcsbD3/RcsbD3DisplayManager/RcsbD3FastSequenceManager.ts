@@ -116,8 +116,6 @@ export class RcsbD3FastSequenceManager {
     }
 
     private textLength(xScale: RcsbScaleInterface, d:RcsbFvTrackDataElementInterface): number {
-        console.log(xScale(d.begin),  xScale(d.begin+d.label!.length-1), xScale(d.begin+d.label!.length-1)-xScale(d.begin));
-        console.log(d.begin, d.begin+d.label!.length-1);
         //TODO Not cool but I did not found any other way.
         // It seems that svg > text > textLength attribute behaves slightly different in safari
         if(/^((?!chrome|android).)*safari/i.test(navigator.userAgent))
