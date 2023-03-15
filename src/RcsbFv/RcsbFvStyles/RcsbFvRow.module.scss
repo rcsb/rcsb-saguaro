@@ -97,7 +97,7 @@ $border-rcsbFvRowTrack: 1px;
     background-color:#F9F9F9;
     vertical-align: middle;
     position: absolute;
-    z-index: 2147483647;
+    z-index: 2000;
     line-height: 25px;
 }
 
@@ -110,7 +110,7 @@ $border-rcsbFvRowTrack: 1px;
     padding-left:8px;
     padding-right:8px;
     color: #888888;
-    z-index: 2147483646;
+    z-index: 2000;
 }
 
 .rcsbFvTooltipDescription div {
