@@ -3,6 +3,10 @@
 [Semantic Versioning](https://semver.org/)
 
 ## [2.5.9] - 2023-03-15
+### Bug fix
+- `trackVisibility` configuration had no effect on tracks 
+
+## [2.5.9] - 2023-03-15
 ### Minor config
 - Tooltip z-index reduced to 2000
 ### Dependency update

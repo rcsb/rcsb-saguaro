@@ -69,12 +69,13 @@ const boardConfigData: RcsbFvBoardConfigInterface = {
     }
 };
 
-const sequenceConfigData = [
+const sequenceConfigData: RcsbFvRowConfigInterface[] = [
     {
         trackId: "sequenceTrack",
+        trackVisibility: false,
         trackHeight: 20,
         trackColor: "#F9F9F9",
-        displayType: "sequence",
+        displayType: RcsbFvDisplayTypes.SEQUENCE,
         nonEmptyDisplay: true,
         rowTitle: "SEQUENCE",
         trackData: [
@@ -85,5 +86,5 @@ const sequenceConfigData = [
         ]
     }];
 
-const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData});
+const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData: [...sequenceConfigData, ...rowConfigData]});
 

@@ -133,7 +133,7 @@ export class BoardDataState {
         this.rowStatusMap.set(trackId,false);
         return {
             ...d,
-            trackVisibility: typeof d.trackVisibility != "boolean" ? d.trackVisibility : true,
+            trackVisibility: typeof d.trackVisibility == "boolean" ? d.trackVisibility : true,
             key: BoardDataState.generateKey(trackId),
             innerTrackId:  trackId
         };
