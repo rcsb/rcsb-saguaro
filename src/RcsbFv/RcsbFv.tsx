@@ -1,7 +1,10 @@
 import * as React from "react";
 import {createRoot, Root} from "react-dom/client";
 import {RcsbFvBoard, RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard/RcsbFvBoard";
-import {RcsbFvRowConfigInterface, RcsbFvBoardConfigInterface} from "./RcsbFvConfig/RcsbFvConfigInterface";
+import {
+    RcsbFvBoardConfigInterface,
+    RcsbFvRowPublicConfigType
+} from "./RcsbFvConfig/RcsbFvConfigInterface";
 import {
     EventType,
     RcsbFvContextManager,
@@ -11,7 +14,6 @@ import {RcsbFvTrackData} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbSelection, SelectionInterface} from "../RcsbBoard/RcsbSelection";
 import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {BoardDataState} from "./RcsbFvBoard/Utils/BoardDataState";
-import {RowStatusMap} from "./RcsbFvBoard/Utils/RowStatusMap";
 import uniqid from "uniqid";
 import {RcsbFvStateManager} from "./RcsbFvState/RcsbFvStateManager";
 
@@ -20,7 +22,7 @@ import {RcsbFvStateManager} from "./RcsbFvState/RcsbFvStateManager";
  */
 export interface RcsbFvInterface {
     /**Array of configurations for each board track*/
-    readonly rowConfigData: Array<Omit<RcsbFvRowConfigInterface,"innerTrackId">>;
+    readonly rowConfigData: RcsbFvRowPublicConfigType[];
     /**Board global configuration*/
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM element Id where the PFV will be rendered*/
@@ -47,7 +49,6 @@ export class RcsbFv {
 
     private readonly boardId : string = uniqid("RcsbFvBoard_");
 
-    private readonly rowStatusMap: RowStatusMap = new RowStatusMap();
     private readonly boardDataSate: BoardDataState;
     private readonly rcsbFvStateManager: RcsbFvStateManager;
 
@@ -61,7 +62,7 @@ export class RcsbFv {
         if(this.elementId===null || this.elementId===undefined){
             throw "FATAL ERROR: DOM elementId not found";
         }
-        this.boardDataSate = new BoardDataState(this.rowStatusMap, this.contextManager, props.rowConfigData);
+        this.boardDataSate = new BoardDataState(this.contextManager, props.rowConfigData);
         this.rcsbFvStateManager = new RcsbFvStateManager({
             xScale: this.xScale,
             selection: this.selection,
@@ -87,7 +88,7 @@ export class RcsbFv {
     /**
      * Gets the configuration for each row of the board
      */
-    public getBoardData(): Array<RcsbFvRowConfigInterface>{
+    public getBoardData(): RcsbFvRowPublicConfigType[]{
         return this.boardDataSate.getBoardData();
     }
 
@@ -162,8 +163,8 @@ export class RcsbFv {
 
 
     /**Returns all track Ids in the same order that are visualised in the board*/
-    public getTrackIds(): Array<string>{
-        return this.boardDataSate.getBoardData().map(r=>r.innerTrackId);
+    public getTrackIds(): string[]{
+        return this.boardDataSate.getBoardData().map(r=>r.trackId);
     }
 
     /**Adds new annotations for a particular board track
@@ -222,7 +223,7 @@ export class RcsbFv {
     /**Adds a new track to the board
      * @param trackConfig Track configuration data
      * */
-    public addTrack(trackConfig: RcsbFvRowConfigInterface): Promise<void>{
+    public addTrack(trackConfig: RcsbFvRowPublicConfigType): Promise<void>{
         this.boardDataSate.addTrack(trackConfig);
         return this.updateBoardData();
     }
@@ -264,7 +265,7 @@ export class RcsbFv {
     /**Get selected board ranges
      * @param mode selection type
      **/
-    public getSelection(mode:"select"|"hover"): Array<SelectionInterface> {
+    public getSelection(mode:"select"|"hover"): SelectionInterface[] {
         return this.selection.getSelected(mode);
     }
 

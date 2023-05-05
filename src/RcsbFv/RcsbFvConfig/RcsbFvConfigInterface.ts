@@ -112,7 +112,7 @@ export interface RcsbFvRowConfigInterface<
     boardId?: string;
     /**Id used to identify the board track*/
     trackId: string;
-    /**Id used to identify the board track*/
+    /**Internal Id used to identify the board track*/
     innerTrackId?: string;
     /**Length of the track. If length is provided the track coordinates will range from 1 to <length>*/
     length? : number;
@@ -175,3 +175,5 @@ export interface RcsbFvRowConfigInterface<
     /**External metadata*/
     metadata?:M;
 }
+
+export type RcsbFvRowPublicConfigType = Omit<RcsbFvRowConfigInterface,"innerTrackId"|"boardId"|"length"|"range">;

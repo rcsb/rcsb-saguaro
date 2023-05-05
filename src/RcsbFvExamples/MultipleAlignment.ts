@@ -47,9 +47,24 @@ const boardConfigData = {
     hideRowGlow: false
 };
 
-const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData:Array(500).fill(undefined).map((i,n)=>{return {...compositeConfig, rowTitle: `Track ${n}`, innerTrackId: "compositeSequence_"+n};})});
+const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData:Array(500).fill(undefined).map((i,n)=>{
+    return {
+        ...compositeConfig,
+        rowTitle: `Track ${n}`,
+        trackId: "compositeSequence_"+n,
+        trackVisibility: n % 2 == 0
+    };})});
+
+
 fv.then(async ()=>{
+    for(let i = 0; i< 100; i++){
+        await fv.changeTrackVisibility({
+            trackId: "compositeSequence_"+(2*i+1),
+            visibility: true
+        })
+    }
     await fv.moveTrack(5,1);
     await fv.moveTrack(6,2);
     await fv.moveTrack(10,3);
 });
+

@@ -2,7 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
-## [2.5.9] - 2023-03-15
+## [2.5.11] - 2023-05-05
+### Bug fix
+- `trackVisibility: false` board-ready state bug fixed
+
+## [2.5.10] - 2023-04-27
 ### Bug fix
 - `trackVisibility` configuration had no effect on tracks 
 
