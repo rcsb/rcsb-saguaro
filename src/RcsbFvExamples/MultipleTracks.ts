@@ -1,4 +1,7 @@
-import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
+import {
+    RcsbFvBoardConfigInterface,
+    RcsbFvRowPublicConfigType
+} from "../RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFv} from "../RcsbFv/RcsbFv";
 import {RcsbFvDisplayTypes} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 
@@ -9,7 +12,7 @@ const sequence = "MTTQAPTFTQPLQSVVVLEGSTATFEAHISGFPVPEVSWFRDGQVISTSTLPGVQISFSD" 
 
 
 
-const rowConfigData: RcsbFvRowConfigInterface[] = [
+const rowConfigData: RcsbFvRowPublicConfigType[] = [
     {
         trackId: "sequenceTrack",
         trackHeight: 20,

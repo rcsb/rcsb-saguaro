@@ -1,6 +1,6 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "2.5.11",
+  "version": "3.0.0-development",
   "description": "RCSB 1D Feature Viewer",
   "main": "build/RcsbFv.js",
   "files": [
@@ -20,7 +20,7 @@
     "cpExamples": "ncp examples docs/examples",
     "buildAllDoc": "npm run buildDoc && npm run cpExamples",
     "packApp": "npm run buildApp && npm pack",
-    "publishApp": "npm publish",
+    "publishApp": "npm publish --tag development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

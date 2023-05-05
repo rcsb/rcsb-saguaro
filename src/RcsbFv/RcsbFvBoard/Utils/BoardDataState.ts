@@ -19,7 +19,6 @@ import {Subscription} from "rxjs";
 export interface RcsbFvExtendedRowConfigInterface extends RcsbFvRowConfigInterface {
     key:string;
     renderSchedule?: "async"|"sync"|"fixed";
-    innerTrackId:string;
 }
 
 export class BoardDataState {
