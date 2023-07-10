@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.12] - 2023-07-10
+### Bug fix
+- `IntersectionObserver` callback threshold bug fixed 
+
 ## [2.5.11] - 2023-05-05
 ### Bug fix
 - `trackVisibility: false` board-ready state bug fixed

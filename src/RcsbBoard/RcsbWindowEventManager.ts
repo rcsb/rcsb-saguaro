@@ -7,7 +7,7 @@ export namespace RcsbWindowEventManager {
             intersectionCallbacks[entry.target.id]?.(entry.isIntersecting);
         });
     },{
-        threshold: 1
+        threshold: 0
     });
     export function intersectionObserve(target: Element, callback:(isIntersecting:boolean)=>void): void {
         intersectionObserver.observe(target);
