@@ -14,6 +14,7 @@ import {
 import {asyncScheduler, Subscription} from "rxjs";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
+import {ReactNode} from "react";
 
 export interface RcsbFvUIConfigInterface {
     readonly boardId: string;
@@ -27,7 +28,7 @@ export interface RcsbFvUIStateInterface {
 }
 
 export interface RcsbFvUIButtonInterface {
-    icon: JSX.Element;
+    icon: ReactNode;
     callback: ()=>void;
 }
 
@@ -58,7 +59,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         collapse: false
     }
 
-    render(): JSX.Element{
+    render(): ReactNode {
         return (
             <div id={this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX} className={classes.rcsbUI+" "+classes.rcsbSmoothDivHide} style={{position:"absolute", top:0, left:0}}>
                 <div style={{position:"relative"}} >
@@ -163,12 +164,12 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         },300);
     }
 
-    buildButton(buttonConfig: RcsbFvUIButtonInterface): JSX.Element{
-        buttonConfig.icon.props.className = classes.rcsbIcon;
-        buttonConfig.icon.props.onClick = buttonConfig.callback;
+    buildButton(buttonConfig: RcsbFvUIButtonInterface): ReactNode {
         return(
             <div className={classes.rcsbUIButton}>
-                {buttonConfig.icon}
+                <div className={classes.rcsbIcon} onClick={buttonConfig.callback}>
+                    {buttonConfig.icon}
+                </div>
             </div>
         );
     }

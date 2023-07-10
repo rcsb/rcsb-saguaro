@@ -8,6 +8,7 @@ import {RcsbFvExtendedRowConfigInterface} from "../Utils/BoardDataState";
 import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDisplayTypes} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import uniqid from "uniqid";
+import {ReactNode} from "react";
 
 interface AxisRowInterface {
     readonly boardId: string;
@@ -23,7 +24,7 @@ export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
         axisKey: uniqid("rcsbFvAxis_key_")
     };
 
-    render():JSX.Element {
+    render(): ReactNode {
         const rowId: string = uniqid("rcsbFvAxis_");
         const rowConfig:RcsbFvRowConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, innerTrackId:rowId, trackId:rowId, boardId:this.props.boardId};
         return(<div key={this.state.axisKey}><RcsbFvRow

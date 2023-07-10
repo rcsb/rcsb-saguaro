@@ -1,5 +1,6 @@
 import * as React from "react";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import {ReactNode} from "react";
 
 export interface RcsbFvRowMarkInterface<T> extends RcsbFvRowMarkPublicInterface<T>{
     isGlowing: boolean;
@@ -7,7 +8,7 @@ export interface RcsbFvRowMarkInterface<T> extends RcsbFvRowMarkPublicInterface<
 
 export interface RcsbFvRowMarkPublicInterface<T> extends RcsbFvRowMarkCallbackInterface {
     externalRowMark?: {
-        component:ExternalComponentType<T>;
+        component:typeof React.Component<T>;
         props:T;
     }
 }
@@ -17,16 +18,9 @@ interface RcsbFvRowMarkCallbackInterface {
     hoverCallback?:()=>void;
 }
 
-type ExternalComponentType<T> = typeof ExternalComponent<T>;
-abstract class ExternalComponent<T> extends React.Component<{isGlowing:boolean} & RcsbFvRowMarkCallbackInterface & T, any>{
-    protected constructor(props: Readonly<{ isGlowing: boolean } & RcsbFvRowMarkCallbackInterface> & T) {
-        super(props);
-    }
-}
-
 export class RcsbFvRowMark<T> extends React.Component <RcsbFvRowMarkInterface<T>,{}> {
 
-    public render(): JSX.Element {
+    public render(): ReactNode {
         return (<div className={classes.rcsbFvRowMark} style={{display:"inline-block"}}>
             <div>
                 {
