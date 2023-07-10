@@ -4,7 +4,7 @@ import {EventType, RcsbFvContextManager,} from "../RcsbFvContextManager/RcsbFvCo
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
 import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
-import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RowConfigFactory} from "./Utils/RowConfigFactory";

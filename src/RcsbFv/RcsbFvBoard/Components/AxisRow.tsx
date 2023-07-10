@@ -4,7 +4,6 @@ import {RowConfigFactory} from "../Utils/RowConfigFactory";
 import {RcsbFvContextManager} from "../../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbScaleInterface} from "../../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {RcsbSelection} from "../../../RcsbBoard/RcsbSelection";
-import {RcsbFvExtendedRowConfigInterface} from "../Utils/BoardDataState";
 import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDisplayTypes} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import uniqid from "uniqid";
