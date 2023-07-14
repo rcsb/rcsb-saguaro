@@ -44,8 +44,16 @@ export class RcsbTooltipManager {
     }
 
     showTooltip(d: RcsbFvTrackDataElementInterface){
+        // create parent div
+        const tooltipParentDiv = document.createElement('div');
+        tooltipParentDiv.style.display = 'flex';
+        tooltipParentDiv.style.flexDirection = 'column';
+    
+        // create top div
+        const tooltipTopDiv = document.createElement('div');
 
         this.tooltipDiv.textContent = "";
+        //this.toolttipTopDiv.textContent = "";
 
         let region: string = "Position: "+d.begin.toString();
         if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
@@ -94,7 +102,20 @@ export class RcsbTooltipManager {
             this.tooltipDiv.append(valueRegion);
             this.tooltipDiv.append(RcsbTooltipManager.bNode());
         }
-        this.tooltipDiv.append(spanRegion);
+        
+        //this.tooltipDiv.append(spanRegion);
+        tooltipTopDiv.append(spanRegion);
+        tooltipParentDiv.append(tooltipTopDiv);
+
+        // create bottom div
+        const tooltipBottomDiv = document.createElement('div');
+        if (d.customTooltipHtml) {
+            tooltipBottomDiv.innerHTML = d.customTooltipHtml;
+            tooltipParentDiv.append(tooltipBottomDiv);
+        }
+    
+        this.tooltipDiv.append(tooltipParentDiv);
+        
         computePosition(this.refDiv,this.tooltipDiv,{
             placement:'top-end',
             middleware:[{
