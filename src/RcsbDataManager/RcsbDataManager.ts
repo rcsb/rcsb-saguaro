@@ -73,7 +73,7 @@ export interface RcsbFvTrackDataElementInterface {
     /**Callback when the annotation is clicked*/
     elementClickCallBack?:(x: RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Custom HTML for hover tooltip*/
-    customTooltipHtml?: string;
+    tooltipCallback?: (x: RcsbFvTrackDataElementInterface)=>string;
 }
 
 export interface RcsbFvColorGradient {

@@ -44,77 +44,61 @@ export class RcsbTooltipManager {
     }
 
     showTooltip(d: RcsbFvTrackDataElementInterface){
-        // create parent div
-        const tooltipParentDiv = document.createElement('div');
-        tooltipParentDiv.style.display = 'flex';
-        tooltipParentDiv.style.flexDirection = 'column';
-    
-        // create top div
-        const tooltipTopDiv = document.createElement('div');
+        if(d.tooltipCallback == undefined) {
+            this.tooltipDiv.textContent = "";
 
-        this.tooltipDiv.textContent = "";
-        //this.toolttipTopDiv.textContent = "";
+            let region: string = "Position: "+d.begin.toString();
+            if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
+            const spanRegion: HTMLSpanElement = document.createElement<"span">("span");
+            spanRegion.append(region);
 
-        let region: string = "Position: "+d.begin.toString();
-        if(typeof d.end === "number" && d.end!=d.begin) region += " - "+d.end.toString();
-        const spanRegion: HTMLSpanElement = document.createElement<"span">("span");
-        spanRegion.append(region);
+            if(typeof d.beginName === "string" && d.indexName != undefined){
+                spanRegion.append(RcsbTooltipManager.buildIndexNames(d.beginName,d.endName,d.indexName));
+            }
 
-        if(typeof d.beginName === "string" && d.indexName != undefined){
-            spanRegion.append(RcsbTooltipManager.buildIndexNames(d.beginName,d.endName,d.indexName));
-        }
+            if(typeof d.oriBegin === "number"){
+                let ori_region: string = d.oriBegin.toString();
+                if(typeof d.oriEnd === "number") ori_region += " - "+d.oriEnd.toString();
+                const spanOriRegion: HTMLSpanElement = document.createElement<"span">("span");
+                if(d.source != undefined)
+                    spanOriRegion.append(" | ["+d.source.replace("_"," ")+"] "+d.sourceId+": "+ori_region);
+                spanOriRegion.style.color = "#888888";
+                if( typeof d.oriBeginName === "string" && d.indexName!= undefined)
+                    spanOriRegion.append(RcsbTooltipManager.buildIndexNames(d.oriBeginName,d.oriEndName,d.indexName));
+                spanRegion.append(spanOriRegion);
+            }
 
-        if(typeof d.oriBegin === "number"){
-            let ori_region: string = d.oriBegin.toString();
-            if(typeof d.oriEnd === "number") ori_region += " - "+d.oriEnd.toString();
-            const spanOriRegion: HTMLSpanElement = document.createElement<"span">("span");
-            if(d.source != undefined)
-                spanOriRegion.append(" | ["+d.source.replace("_"," ")+"] "+d.sourceId+": "+ori_region);
-            spanOriRegion.style.color = "#888888";
-            if( typeof d.oriBeginName === "string" && d.indexName!= undefined)
-                spanOriRegion.append(RcsbTooltipManager.buildIndexNames(d.oriBeginName,d.oriEndName,d.indexName));
-            spanRegion.append(spanOriRegion);
-        }
+            let title:string | undefined = d.title;
+            if(typeof d.name === "string") title = d.name;
+            else if( typeof d.featureId === "string") title = d.featureId;
+            if(title != undefined )this.tooltipDiv.append(title);
+            if(typeof d.provenanceName === "string"){
+                const spanProvenance: HTMLSpanElement = document.createElement<"span">("span");
 
-        let title:string | undefined = d.title;
-        if(typeof d.name === "string") title = d.name;
-        else if( typeof d.featureId === "string") title = d.featureId;
-        if(title != undefined )this.tooltipDiv.append(title);
-        if(typeof d.provenanceName === "string"){
-            const spanProvenance: HTMLSpanElement = document.createElement<"span">("span");
-
-            const spanProvenanceString: HTMLSpanElement = document.createElement<"span">("span");
-            spanProvenanceString.append(d.provenanceName);
-            if(typeof d.provenanceColor === "string")
-                spanProvenanceString.style.color = d.provenanceColor;
-            else
-                spanProvenanceString.style.color = "#888888";
-            spanProvenance.append(" [",spanProvenanceString,"]");
-            spanProvenance.style.color = "#888888";
-            this.tooltipDiv.append(spanProvenance);
-            this.tooltipDiv.append( RcsbTooltipManager.bNode() );
-        }else if(title!=undefined){
-            this.tooltipDiv.append( RcsbTooltipManager.bNode() );
-        }
-        if(typeof d.value === "number"){
-            const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
-            valueRegion.append(" value: "+d.value);
-            this.tooltipDiv.append(valueRegion);
-            this.tooltipDiv.append(RcsbTooltipManager.bNode());
-        }
+                const spanProvenanceString: HTMLSpanElement = document.createElement<"span">("span");
+                spanProvenanceString.append(d.provenanceName);
+                if(typeof d.provenanceColor === "string")
+                    spanProvenanceString.style.color = d.provenanceColor;
+                else
+                    spanProvenanceString.style.color = "#888888";
+                spanProvenance.append(" [",spanProvenanceString,"]");
+                spanProvenance.style.color = "#888888";
+                this.tooltipDiv.append(spanProvenance);
+                this.tooltipDiv.append( RcsbTooltipManager.bNode() );
+            }else if(title!=undefined){
+                this.tooltipDiv.append( RcsbTooltipManager.bNode() );
+            }
+            if(typeof d.value === "number"){
+                const valueRegion: HTMLSpanElement = document.createElement<"span">("span");
+                valueRegion.append(" value: "+d.value);
+                this.tooltipDiv.append(valueRegion);
+                this.tooltipDiv.append(RcsbTooltipManager.bNode());
+            }
         
-        //this.tooltipDiv.append(spanRegion);
-        tooltipTopDiv.append(spanRegion);
-        tooltipParentDiv.append(tooltipTopDiv);
-
-        // create bottom div
-        const tooltipBottomDiv = document.createElement('div');
-        if (d.customTooltipHtml) {
-            tooltipBottomDiv.innerHTML = d.customTooltipHtml;
-            tooltipParentDiv.append(tooltipBottomDiv);
+            this.tooltipDiv.append(spanRegion);
+        } else {
+            this.tooltipDiv.innerHTML = d.tooltipCallback(d);
         }
-    
-        this.tooltipDiv.append(tooltipParentDiv);
         
         computePosition(this.refDiv,this.tooltipDiv,{
             placement:'top-end',
