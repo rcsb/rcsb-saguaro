@@ -2,6 +2,17 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [2.5.13] - 2023-07-10
+### Code refactoring
+- Deprecated `JSX.Element` changed to `ReactNode`
+- Improved definition of `RcsbFvUI` buttons
+### Dependency update
+- audit fix
+
+## [2.5.12] - 2023-07-10
+### Bug fix
+- `IntersectionObserver` callback threshold bug fixed 
+
 ## [2.5.11] - 2023-05-05
 ### Bug fix
 - `trackVisibility: false` board-ready state bug fixed

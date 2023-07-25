@@ -4,13 +4,14 @@ import {EventType, RcsbFvContextManager,} from "../RcsbFvContextManager/RcsbFvCo
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
 import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
-import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RowConfigFactory} from "./Utils/RowConfigFactory";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {RcsbFvExtendedRowConfigInterface} from "./Utils/BoardDataState";
 import {AxisRow} from "./Components/AxisRow";
+import {ReactNode} from "react";
 
 
 interface RcsbFvTableInterface extends RcsbFvBoardFullConfigInterface {
@@ -37,7 +38,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {
         this.boardId = props.boardId;
     }
 
-    render(): JSX.Element{
+    render(): ReactNode {
         return (
             <div id={this.boardId} className={classes.rcsbFvBoard} style={this.configStyle()} onMouseLeave={this.setMouseLeaveBoardCallback()}>
                 {this.props.boardConfigData.includeAxis ? this.getAxisRow(): null}
@@ -87,7 +88,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {
         }
     }
 
-    private getAxisRow(): JSX.Element {
+    private getAxisRow(): ReactNode {
         return(<AxisRow
             boardId={this.props.boardId}
             xScale={this.xScale}
@@ -116,7 +117,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {
 
 }
 
-function border(boardConfigData: RcsbFvBoardConfigInterface): JSX.Element {
+function border(boardConfigData: RcsbFvBoardConfigInterface): ReactNode {
     const height: number = RcsbFvDefaultConfigValues.borderWidth;
     return(<div
         style={{

@@ -17,6 +17,7 @@ import {RowGlow} from "./Components/RowGlow";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {RcsbFvExtendedRowConfigInterface} from "./Utils/BoardDataState";
 import {BoardProgress} from "./Components/BoardProgress";
+import {ReactNode} from "react";
 
 /**Board React component configuration interface*/
 export interface RcsbFvBoardFullConfigInterface {
@@ -69,7 +70,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         this.selection = props.selection;
     }
 
-    render(): JSX.Element{
+    render(): ReactNode {
         this.renderStarts();
         return (
             <div className={classes.rcsbFvRootContainer} onMouseOver={this.setMouseOverCallback()} onMouseLeave={this.setMouseLeaveCallback()}>

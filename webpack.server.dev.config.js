@@ -2,8 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const commonConfig = {
-    //mode: "development",
-    mode: "production",
+    mode: "development",
+    // mode: "production",
     entry: {
         'RcsbFv':'./src/RcsbFv.ts',
         'rcsb-saguaro':'./src/RcsbSaguaro.js'

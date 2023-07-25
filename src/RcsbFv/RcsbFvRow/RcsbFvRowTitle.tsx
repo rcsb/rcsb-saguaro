@@ -2,7 +2,7 @@ import * as React from "react";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
-import {MouseEvent} from "react";
+import {MouseEvent, ReactNode} from "react";
 import {RcsbFvRowMark} from "./RcsbFvRowMark";
 
 /**Board track title cell React component interface*/
@@ -16,14 +16,9 @@ interface RcsbFvRowTitleInterState {
     readonly expandTitle: boolean;
 }
 
-export type RowTitleComponentType<P={},S={}> = typeof RowTitleComponent<P,S>;
-abstract class RowTitleComponent<P={},S={}> extends React.Component <RcsbFvRowTitleInterface & P, S> {
-    protected constructor(props: Readonly<RcsbFvRowTitleInterface & P>) {
-        super(props);
-    }
-}
+export type RowTitleComponentType<P={},S={}> = typeof React.Component<RcsbFvRowTitleInterface & P,S>;
 
-export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterState> {
+export class RcsbFvRowTitle extends  React.Component<RcsbFvRowTitleInterface,RcsbFvRowTitleInterState> {
 
     private readonly configData : RcsbFvRowConfigInterface;
     readonly state = {
@@ -36,11 +31,11 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
         this.configData = this.props.data;
     }
 
-    public render(): JSX.Element{
+    public render(): ReactNode {
         const height: number = (this.configStyle().height as number);
         const trackTitle: string = typeof this.configData?.rowTitle === "string" ? this.configData.rowTitle : (typeof this.configData?.rowTitle === "object" ? this.configData.rowTitle.visibleTex : "");
 
-        let titleElement: JSX.Element;
+        let titleElement: ReactNode;
         if(this.props.data.externalRowTitle?.rowTitleComponent){
             const rowTitleProps = this.props.data.externalRowTitle.rowTitleAdditionalProps;
             const RowTitleComponent: RowTitleComponentType<typeof rowTitleProps,any> = this.props.data.externalRowTitle?.rowTitleComponent;
@@ -112,7 +107,7 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
     /**
      * @return Title string defined in the track configuration object
      * */
-    private setTitle(): string | null | JSX.Element {
+    private setTitle(): string | null | ReactNode {
         if(typeof this.configData.rowTitle === "string"){
             return this.configData.rowTitle;
         }else if(typeof this.configData.rowTitle === "object"){
@@ -155,7 +150,7 @@ export class RcsbFvRowTitle extends RowTitleComponent <{},RcsbFvRowTitleInterSta
         };
     }
 
-    private marker(): JSX.Element {
+    private marker(): ReactNode {
      return (<div className={classes.rcsbFvMarker} style={{position: "relative", top: this.props.rowTitleHeight/2}} />);
     }
 

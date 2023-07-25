@@ -186,6 +186,9 @@ $height-rcsbFvUI: 38px;
 
 .rcsbUIButton {
     height: $height-rcsbFvUI;
+    width: $width-rcsbFvUI;
+    border-right: $border-rcsbFvIcon solid $color-rcsbFvBorder;
+    border-left: $border-rcsbFvIcon solid $color-rcsbFvBorder;
 }
 
 .rcsbTopUI {
@@ -215,14 +218,15 @@ $height-rcsbFvUI: 38px;
 }
 
 .rcsbIcon {
-    padding: 3px 2px 3px 2px;
-    border-right: $border-rcsbFvIcon solid $color-rcsbFvBorder;
-    border-left: $border-rcsbFvIcon solid $color-rcsbFvBorder;
-    width: $width-rcsbFvUI;
-    height: $height-rcsbFvUI;
+    width: 100%;
+    height: 100%;
     background-color: #FCFCFC;
     cursor: pointer;
     color: #999;
+}
+
+.rcsbIcon svg {
+    margin: calc(($height-rcsbFvUI - 1em) / 2) calc(($width-rcsbFvUI - $border-rcsbFvIcon * 2 - 1em) / 2) calc(($height-rcsbFvUI - 1em) / 2) calc(($width-rcsbFvUI - $border-rcsbFvIcon * 2 - 1em) / 2);
 }
 
 .rcsbCollapsedIcon {

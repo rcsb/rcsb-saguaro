@@ -56,6 +56,7 @@ const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData:Array(500
     };})});
 
 
+/*
 fv.then(async ()=>{
     for(let i = 0; i< 100; i++){
         await fv.changeTrackVisibility({
@@ -67,4 +68,4 @@ fv.then(async ()=>{
     await fv.moveTrack(6,2);
     await fv.moveTrack(10,3);
 });
-
+*/
