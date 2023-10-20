@@ -23,7 +23,7 @@ RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {}, {
 </script>
 --->
 
-### Node Module Instalation
+### Node Module Installation
 `npm install @rcsb/rcsb-saguaro`
 
 ### Testing

@@ -179,9 +179,10 @@ export class RcsbFv {
     /**Replaces annotations a particular board track
      * @param trackId Id that identifies the track
      * @param trackData New annotations to be displayed
+     * @param displayId optional Id that identifies track from a composite track to update
      * */
-    public updateTrackData(trackId:string, trackData:RcsbFvTrackData): Promise<void>{
-        this.boardDataSate.updateTrackData({trackId, trackData})
+    public updateTrackData(trackId:string, trackData:RcsbFvTrackData, displayId?:string): Promise<void>{
+        this.boardDataSate.updateTrackData({trackId, trackData, displayId});
         return this.updateBoardData();
     }
 
