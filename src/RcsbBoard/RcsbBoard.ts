@@ -1,4 +1,4 @@
-import {zoom, ZoomBehavior, ZoomedElementBaseType, zoomIdentity, ZoomTransform} from "d3-zoom";
+import {zoom, ZoomBehavior, zoomIdentity, ZoomTransform} from "d3-zoom";
 
 import {
     MainGConfInterface,
@@ -69,7 +69,7 @@ export class RcsbBoard {
     private upToDate: boolean = true;
     private isIntersecting: boolean = true;
 
-    private zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any> = zoom();
+    private zoomEventHandler:ZoomBehavior<Element, any> = zoom();
 
     private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
     private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
@@ -276,7 +276,7 @@ export class RcsbBoard {
 
     private startTracks(): void{
     	this.tracks.forEach(track=>{
-            track.init(this._width, this._xScale);
+            track.init(this._xScale);
         });
     	this.setBoardHeight();
         this.tracks.forEach((track)=> {
@@ -285,11 +285,11 @@ export class RcsbBoard {
 
     }
 
-    private updateBoard(): void{
+    /*private updateBoard(): void{
         this.tracks.forEach((track)=> {
             track.update();
         })
-    }
+    }*/
 
     public reset(): void{
         this.tracks = new Array<RcsbDisplayInterface>();

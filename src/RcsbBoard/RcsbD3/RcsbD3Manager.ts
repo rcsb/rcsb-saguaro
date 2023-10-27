@@ -71,7 +71,7 @@ export class RcsbD3Manager {
 
     private _dom: Selection<HTMLElement | null, any, null, undefined>;
     private _svg: Selection<SVGSVGElement, any, null, undefined>;
-    private _zoomG: Selection<SVGGElement, any, null, undefined>;
+    private _zoomG: Selection<Element, any, null, undefined>;
     private _svgG: Selection<SVGGElement, any, null, undefined>;
     private _pane: Selection<SVGRectElement, any, null, undefined>;
     private _trackHeightPosition: number = 0;
@@ -81,7 +81,7 @@ export class RcsbD3Manager {
         return this._svgG;
     }
 
-    zoomG(): Selection<SVGGElement, any, null, undefined> {
+    zoomG(): Selection<Element, any, null, undefined> {
         return this._zoomG;
     }
 
@@ -119,7 +119,7 @@ export class RcsbD3Manager {
     }
 
     addMainG(config: MainGConfInterface): void {
-        this._zoomG = this._svg.append<SVGGElement>(RcsbD3Constants.G);
+        this._zoomG = this._svg.append<Element>(RcsbD3Constants.G);
         this._svgG = this._zoomG.attr(RcsbD3Constants.CLASS, config.masterClass)
             .append<SVGGElement>(RcsbD3Constants.G)
             .attr(RcsbD3Constants.CLASS, config.innerClass)

@@ -90,4 +90,7 @@ const sequenceConfigData: RcsbFvRowPublicConfigType[] = [
     }];
 
 const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData: [...sequenceConfigData, ...rowConfigData]});
+fv.then(()=>{
+    console.log("Ready viewer");
+});
 

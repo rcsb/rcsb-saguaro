@@ -1,5 +1,4 @@
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
-import {ScaleLinear} from "d3-scale";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
 import {
@@ -23,9 +22,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
     private _bgColor: string;
     private compositeHeight: number;
 
-    setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
-    setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
-    setElementLeaveCallBack: (f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
+    setElementClickCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
+    setElementEnterCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
+    setElementLeaveCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void;
     setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
@@ -68,9 +67,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    init(width: number, scale:RcsbScaleInterface): void{
+    init(scale:RcsbScaleInterface): void{
         this.innerDisplays.forEach((de)=>{
-            de.display.init(width, scale, true, this.compositeHeight);
+            de.display.init(scale, true, this.compositeHeight);
         });
     }
 
@@ -114,7 +113,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    setHighlightHoverElement(f: (d?:RcsbFvTrackDataElementInterface)=>void, g: (d?:RcsbFvTrackDataElementInterface)=>void): void{
+    setHighlightHoverElement(f: (d:RcsbFvTrackDataElementInterface)=>void, g: (d:RcsbFvTrackDataElementInterface)=>void): void{
         this.innerDisplays.forEach(de=>{
             de.display.setHighlightHoverElement(f,g);
         })
@@ -153,7 +152,7 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         return this._data;
     }
 
-    highlightRegion(d:Array<RcsbFvTrackDataElementInterface>, options?:{color?:string, rectClass?: string;}): void {
+    highlightRegion(d:Array<RcsbFvTrackDataElementInterface> | null, options?:{color?:string, rectClass?: string;}): void {
         if(this.innerDisplays.length > 0 ){
             this.innerDisplays[0].display.highlightRegion(d,options);
         }

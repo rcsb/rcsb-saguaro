@@ -4,23 +4,21 @@
   "description": "RCSB 1D Feature Viewer",
   "main": "build/RcsbFv.js",
   "files": [
-    "build/RcsbFv.js",
-    "build/*ts",
-    "build/**/*ts",
-    "build/**/**/*ts",
-    "build/**/**/**/*ts",
+    "lib/",
     "build/rcsb-saguaro.js"
   ],
   "scripts": {
     "devServer": "webpack-dev-server --config webpack.server.dev.config.js",
     "build": "webpack --config ./webpack.config.js",
-    "buildApp": "npm run build",
+    "buildApp": "npm run build-tsc && npm run build-commonjs && npm run build",
     "buildAll": "npm run buildApp && npm run buildAllDoc",
     "buildDoc": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" ./src/RcsbFv.ts && sed -i '' '/---/d' docs/index.html",
     "cpExamples": "ncp examples docs/examples",
     "buildAllDoc": "npm run buildDoc && npm run cpExamples",
     "packApp": "npm run buildApp && npm pack",
     "publishApp": "npm publish --tag development",
+    "build-tsc": "tsc --incremental",
+    "build-commonjs": "tsc --build tsconfig.commonjs.json --incremental",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

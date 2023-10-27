@@ -1,8 +1,6 @@
 import {Selection, BaseType, select} from "d3-selection";
-import {ScaleLinear} from "d3-scale";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
-import {LineDecoratorInterface} from "./RcsbD3BlockManager";
 import {RcsbScaleInterface} from "../RcsbD3ScaleFactory";
 
 export interface PlotBondInterface {

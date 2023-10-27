@@ -100,6 +100,7 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
     }
 
     componentWillUnmount(): void {
+        this.subscription.unsubscribe();
         this.props.contextManager.unsubscribeAll();
     }
 

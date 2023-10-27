@@ -1,6 +1,5 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection, BaseType} from "d3-selection";
-import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 import {
     MoveVlineInterface,
     PlotVlineInterface,

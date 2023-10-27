@@ -20,7 +20,6 @@ export abstract class RcsbAbstractTrack {
     protected contextManager: RcsbFvContextManager;
     private _bgColor: string = "#FFFFFF";
     private _height: number;
-    private _width: number;
     private _data: RcsbFvTrackData;
     protected updateDataOnMove:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     protected xScale: RcsbScaleInterface;
@@ -46,8 +45,7 @@ export abstract class RcsbAbstractTrack {
         return this._bgColor;
     }
 
-    init(width: number, scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number): void{
-        this._width = width;
+    init(scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number): void{
         this.xScale = scale;
     	if(this.g != null) {
             this.g.remove();
@@ -109,7 +107,7 @@ export abstract class RcsbAbstractTrack {
     highlightRegion(d:Array<RcsbFvTrackDataElementInterface>|null, options?:{color?:string, rectClass?: string;}): void {
         const height: number = this._height;
         const xScale: RcsbScaleInterface = this.xScale;
-        if(typeof(height)==="number" && d!= null ) {
+        if(d != null ) {
             const highlightRegConfig: HighlightRegionInterface = {
                 trackG: this.g,
                 height: height,

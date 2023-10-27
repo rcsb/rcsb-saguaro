@@ -31,10 +31,6 @@ export class RcsbFvTrack {
     private rcsbFvConfig: RcsbFvConfig;
     /**DOM element id where the SVG component will be rendered*/
     private elementId: string;
-    /**Row annotation data*/
-    private trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>;
-    /**Annotation loaded data flag*/
-    private loadedData: boolean;
     /**Event handler subscription*/
     private subscription: Subscription;
     /**Event Handler Manager. This is a common object for all board annotation cells*/
@@ -170,8 +166,6 @@ export class RcsbFvTrack {
      * @param trackData array of annotation objects
      * */
     private load(trackData:  RcsbFvTrackData | Array<RcsbFvTrackData>): void{
-        this.trackData = trackData;
-        this.loadedData = true;
         if( this.rcsbFvConfig.displayType === RcsbFvDisplayTypes.COMPOSITE && Array.isArray(trackData)){
             const trackNonOverlappingMap: Array<Array<RcsbFvTrackData>> = new Array<Array<RcsbFvTrackData>>();
             let maxTracks:number = 1;
@@ -213,8 +207,7 @@ export class RcsbFvTrack {
                 this.buildRcsbTrack().data(trackData);
             });
         }else{
-            this.loadedData = false;
-            throw "Data loader error. Data type not supported.";
+            throw new Error("Data loader error. Data type not supported.");
         }
     }
 

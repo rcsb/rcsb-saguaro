@@ -13,16 +13,15 @@ import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 
-export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements RcsbDisplayInterface{
+export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements RcsbDisplayInterface {
 
     protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
-    private elementClickCallBack: (d?:RcsbFvTrackDataElementInterface, e?:MouseEvent)=>void;
-    private elementEnterCallBack: (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    private elementLeaveCallBack: (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    private highlightEnterElement: (d?:RcsbFvTrackDataElementInterface)=>void;
-    private highlightLeaveElement: (d?:RcsbFvTrackDataElementInterface)=>void;
+    private elementClickCallBack: (d:RcsbFvTrackDataElementInterface, e?:MouseEvent)=>void;
+    private elementEnterCallBack: (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    private elementLeaveCallBack: (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    private highlightEnterElement: (d:RcsbFvTrackDataElementInterface)=>void;
+    private highlightLeaveElement: (d:RcsbFvTrackDataElementInterface)=>void;
     protected includeTooltip: boolean = true;
-    private readonly boardId: string;
     private readonly trackId: string;
     protected tooltipManager: RcsbTooltipManager;
     protected minRatio: number = 0;
@@ -33,28 +32,27 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
 
     constructor(boardId: string, trackId: string) {
         super();
-        this.boardId = boardId;
         this.trackId = trackId;
         this.tooltipManager = new RcsbTooltipManager(boardId);
     }
 
-    setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
+    setElementClickCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
         this.elementClickCallBack = f;
     }
 
-    getElementClickCallBack(): (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
+    getElementClickCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
         return this.elementClickCallBack;
     }
 
-    setElementEnterCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
+    setElementEnterCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
         this.elementEnterCallBack = f;
     }
 
-    getElementEnterCallBack(): (d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
+    getElementEnterCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
         return this.elementEnterCallBack;
     }
 
-    setElementLeaveCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
+    setElementLeaveCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
         this.elementLeaveCallBack = f;
     }
 
@@ -82,7 +80,7 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
         this.g.selectAll("."+classes.rcsbElement).remove();
     }
 
-    public setHighlightHoverElement(enter: (d?:RcsbFvTrackDataElementInterface)=>void, leave: (d?:RcsbFvTrackDataElementInterface)=>void){
+    public setHighlightHoverElement(enter: (d:RcsbFvTrackDataElementInterface)=>void, leave: (d:RcsbFvTrackDataElementInterface)=>void){
         this.highlightEnterElement = enter;
         this.highlightLeaveElement = leave;
     }

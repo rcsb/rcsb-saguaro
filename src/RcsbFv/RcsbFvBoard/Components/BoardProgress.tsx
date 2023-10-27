@@ -4,8 +4,7 @@ import classes from "../../RcsbFvStyles/RcsbFvRow.module.scss";
 import {RcsbFvDefaultConfigValues} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import {Subscription} from "rxjs";
-import {EventType, RcsbFvContextManager, RowReadyInterface} from "../../RcsbFvContextManager/RcsbFvContextManager";
-import {RowStatusMap} from "../Utils/RowStatusMap";
+import {EventType, RcsbFvContextManager} from "../../RcsbFvContextManager/RcsbFvContextManager";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
 
 interface BoardProgressInterface {
@@ -53,7 +52,7 @@ export class BoardProgress extends React.Component <BoardProgressInterface> {
     }
 
     /**Row Track Board Ready Event
-     * @param rowData
+     * @param fraction
      * */
     private rowReady(fraction: number):void{
         if(fraction  >= 100){

@@ -5,7 +5,6 @@ import {computePosition, detectOverflow} from "@floating-ui/dom";
 export class RcsbTooltipManager {
 
     private readonly boardId: string;
-    private readonly divHeight:number = 25;
 
     private tooltipDiv: HTMLDivElement;
     private tooltipDescriptionDiv: HTMLDivElement;
@@ -161,10 +160,6 @@ export class RcsbTooltipManager {
         this.tooltipDiv.style.visibility = "hidden";
         this.tooltipDescriptionDiv.innerHTML = "";
         this.tooltipDescriptionDiv.style.visibility = "hidden";
-    }
-
-    private static capitalizeFirstLetter(string: string): string {
-        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
     private static bNode(): HTMLSpanElement{

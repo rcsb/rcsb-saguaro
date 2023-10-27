@@ -1,12 +1,12 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
-import {Axis, AxisDomain, axisBottom} from "d3-axis";
+import {Axis, axisBottom} from "d3-axis";
 import {format} from "d3-format";
 import classes from "../scss/RcsbBoard.module.scss";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export class RcsbAxisDisplay extends RcsbAbstractDisplay {
 
-    private xAxis: Axis<AxisDomain>;
+    private xAxis: Axis<number>;
     private readonly length: number|undefined;
 
     constructor(boardId: string, trackId:string, length?:number) {
@@ -21,7 +21,7 @@ export class RcsbAxisDisplay extends RcsbAbstractDisplay {
 
     update(){
         if(this.xAxis == null) {
-            this.xAxis = axisBottom<AxisDomain>(this.xScale.getScale());
+            this.xAxis = axisBottom<number>(this.xScale.getScale());
             if(this.length != null && this.length < 9)
                 this.xAxis.tickValues( Array(this.length).fill(0).map((v,i)=>{return (i+1)}) ).tickFormat(format("d"));
             this.g.classed(classes.rcsbAxis, true)

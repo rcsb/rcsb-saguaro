@@ -1,5 +1,5 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
-import {Selection, BaseType, pointer, ContainerElement} from "d3-selection";
+import {pointer, ContainerElement} from "d3-selection";
 import {
     MoveLineInterface,
     PlotLineInterface,

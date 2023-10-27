@@ -14,7 +14,7 @@ export interface RcsbDisplayInterface {
     //RcsbAbstractTrack
     height: (h?: number) => number;
     trackColor: (c?: string) => string;
-    init: (width: number, scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number) => void;
+    init: (scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number) => void;
     data: (d: RcsbFvTrackData | RcsbFvTrackDataMap) => RcsbFvTrackData | RcsbFvTrackDataMap;
     setUpdateDataOnMove:( f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData> )=> void;
     setBoardHighlight: (f:(d:RcsbFvTrackDataElementInterface, operation:'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void) => void;
@@ -30,10 +30,10 @@ export interface RcsbDisplayInterface {
     update: (compKey?: string) => void;
     displayEmpty: () => void;
     move: ()=> void;
-    setElementClickCallBack: (f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
-    setElementEnterCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
-    setElementLeaveCallBack: (f:(d?:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
-    setHighlightHoverElement: (f: (d?:RcsbFvTrackDataElementInterface)=>void, g: (d?:RcsbFvTrackDataElementInterface)=>void)=>void;
+    setElementClickCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
+    setElementEnterCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
+    setElementLeaveCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
+    setHighlightHoverElement: (f: (d:RcsbFvTrackDataElementInterface)=>void, g: (d:RcsbFvTrackDataElementInterface)=>void)=>void;
     setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
     setSelectDataInRange: (flag: boolean) => void;

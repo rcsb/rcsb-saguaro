@@ -150,10 +150,6 @@ export class RcsbFvRowTitle extends  React.Component<RcsbFvRowTitleInterface,Rcs
         };
     }
 
-    private marker(): ReactNode {
-     return (<div className={classes.rcsbFvMarker} style={{position: "relative", top: this.props.rowTitleHeight/2}} />);
-    }
-
     private expandTitle(evt: MouseEvent<HTMLDivElement>, flag: boolean): void{
         const div: HTMLDivElement = evt.currentTarget;
         if ( (0 > div.clientWidth - div.scrollWidth) && flag) {

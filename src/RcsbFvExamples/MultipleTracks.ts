@@ -155,7 +155,7 @@ const boardConfigData: RcsbFvBoardConfigInterface = {
     }
 };
 
-const sequenceConfigData = [
+/*const sequenceConfigData = [
     {
         trackId: "sequenceTrack",
         trackHeight: 20,
@@ -169,9 +169,12 @@ const sequenceConfigData = [
                 value: sequence
             }
         ]
-    }];
+    }];*/
 
 const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData});
+fv.then(()=>{
+    console.log("Ready viewer");
+});
 setTimeout(async ()=>{
     await fv.then(()=>{})
     await fv.updateTrackData("block", [{begin:10,end:50}]);
@@ -197,3 +200,6 @@ setTimeout(async ()=>{
 console.log(fv.getBoardData().map(d=>d.metadata));
 
 const fv2 = new RcsbFv({elementId:"pfvBis", boardConfigData, rowConfigData});
+fv2.then(()=>{
+    console.log("Ready viewer");
+});

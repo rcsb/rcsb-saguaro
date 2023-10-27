@@ -184,7 +184,6 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     private zoomIn(): void {
         const max: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.max : this.props.boardConfigData.length;
-        const min: number | undefined = this.props.boardConfigData.range != null ? this.props.boardConfigData.range.min : 1;
         if(max == null)
             return;
 

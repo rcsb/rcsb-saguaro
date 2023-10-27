@@ -95,7 +95,7 @@ export class BoardDataState {
         const row = this.rowConfigData.find(r=>r.trackId === trackId)
         if(!row)
             return;
-        row.key = BoardDataState.generateKey(row.innerTrackId);
+        row.key = generateKey(row.innerTrackId);
         row.renderSchedule = "sync";
     }
 
@@ -126,7 +126,7 @@ export class BoardDataState {
                 }
             });
         }
-        row.key = BoardDataState.generateKey(row.innerTrackId);
+        row.key = generateKey(row.innerTrackId);
         row.renderSchedule = "sync"
     }
 
@@ -139,13 +139,9 @@ export class BoardDataState {
         return {
             ...d,
             trackVisibility: typeof d.trackVisibility == "boolean" ? d.trackVisibility : true,
-            key: BoardDataState.generateKey(trackId),
+            key: generateKey(trackId),
             innerTrackId:  trackId
         };
-    }
-
-    private static generateKey(innerTrackId: string): string {
-        return `${innerTrackId}_${uniqid("key_")}`;
     }
 
      private subscribe(): Subscription {
@@ -179,4 +175,8 @@ export class BoardDataState {
         })
     }
 
+}
+
+function generateKey(innerTrackId: string): string {
+    return `${innerTrackId}_${uniqid("key_")}`;
 }

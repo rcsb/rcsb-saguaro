@@ -55,6 +55,9 @@ const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData:Array(500
         trackVisibility: n % 2 == 0
     };})});
 
+fv.then(()=>{
+    console.log("Ready viewer");
+});
 
 /*
 fv.then(async ()=>{
