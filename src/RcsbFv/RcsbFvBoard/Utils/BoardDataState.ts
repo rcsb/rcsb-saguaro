@@ -95,7 +95,7 @@ export class BoardDataState {
         const row = this.rowConfigData.find(r=>r.trackId === trackId)
         if(!row)
             return;
-        row.key = generateKey(row.innerTrackId);
+        row.key = generateKey(row.trackId);
         row.renderSchedule = "sync";
     }
 
@@ -126,7 +126,7 @@ export class BoardDataState {
                 }
             });
         }
-        row.key = generateKey(row.innerTrackId);
+        row.key = generateKey(row.trackId);
         row.renderSchedule = "sync"
     }
 
@@ -140,7 +140,7 @@ export class BoardDataState {
             ...d,
             trackVisibility: typeof d.trackVisibility == "boolean" ? d.trackVisibility : true,
             key: generateKey(trackId),
-            innerTrackId:  trackId
+            trackId
         };
     }
 

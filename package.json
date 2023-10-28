@@ -1,8 +1,7 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "3.0.0-development",
+  "version": "3.0.0-dev-js-iner-track-id.1",
   "description": "RCSB 1D Feature Viewer",
-  "main": "build/RcsbFv.js",
   "files": [
     "lib/",
     "build/rcsb-saguaro.js"
@@ -12,11 +11,11 @@
     "build": "webpack --config ./webpack.config.js",
     "buildApp": "npm run build-tsc && npm run build-commonjs && npm run build",
     "buildAll": "npm run buildApp && npm run buildAllDoc",
-    "buildDoc": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" ./src/RcsbFv.ts && sed -i '' '/---/d' docs/index.html",
+    "buildDoc": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" && sed -i '' '/---/d' docs/index.html",
     "cpExamples": "ncp examples docs/examples",
     "buildAllDoc": "npm run buildDoc && npm run cpExamples",
     "packApp": "npm run buildApp && npm pack",
-    "publishApp": "npm publish --tag development",
+    "publishApp": "npm publish --tag dev-js-iner-track-id",
     "build-tsc": "tsc --incremental",
     "build-commonjs": "tsc --build tsconfig.commonjs.json --incremental",
     "test": "echo \"Error: no test specified\" && exit 1"

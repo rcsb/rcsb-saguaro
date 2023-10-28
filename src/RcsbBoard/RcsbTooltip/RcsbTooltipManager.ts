@@ -1,6 +1,6 @@
-import {RcsbFvTrackDataElementInterface} from "../../RcsbFv";
 import {RcsbFvDOMConstants} from "../../RcsbFv/RcsbFvConfig/RcsbFvDOMConstants";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
+import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbTooltipManager {
 

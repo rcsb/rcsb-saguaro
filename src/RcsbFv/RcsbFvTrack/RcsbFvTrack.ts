@@ -259,7 +259,7 @@ export class RcsbFvTrack {
      * @param trackId Event reset object interface
      * */
     private reset(trackId: string){
-        if(this.rcsbFvConfig.innerTrackId === trackId){
+        if(this.rcsbFvConfig.trackId === trackId){
             this._reset();
         }
     }

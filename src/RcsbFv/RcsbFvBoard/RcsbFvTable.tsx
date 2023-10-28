@@ -47,7 +47,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {
                     this.props.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
                         return rowData.trackVisibility != false;
                     }).map((rowConfig, n) =>{
-                        const rowId: string = rowConfig.innerTrackId;
+                        const rowId: string = rowConfig.trackId;
                         const rowNumber: number = n + (this.props.boardConfigData.includeAxis ? 1 : 0);
                         return (<div key={rowConfig.key}><RcsbFvRow
                             id={rowId}

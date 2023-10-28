@@ -9,7 +9,6 @@ import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
 /**Board track configuration manager className*/
 export class RcsbFvConfig implements RcsbFvRowConfigInterface{
-    innerTrackId: string;
     trackId: string;
     boardId: string;
     displayType: RcsbFvDisplayTypes;
@@ -54,8 +53,8 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     public updateConfig(args:RcsbFvRowConfigInterface): void {
 
         //external config
-        if(typeof args.innerTrackId === "string" ) {
-            this.innerTrackId = args.innerTrackId;
+        if(typeof args.trackId === "string" ) {
+            this.trackId = args.trackId;
         }
         if(typeof args.boardId === "string"){
             this.boardId = args.boardId;
@@ -123,13 +122,12 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
         //default config available
         if(typeof args.trackHeight === "number"){
             this.trackHeight = args.trackHeight;
-        }else if(typeof this.displayType === "string"){
-            if(this.displayType === RcsbFvDisplayTypes.AXIS){
-                this.trackHeight = RcsbFvDefaultConfigValues.trackAxisHeight;
-            }else {
-                this.trackHeight = RcsbFvDefaultConfigValues.trackHeight;
-            }
+        }else if(this.displayType === RcsbFvDisplayTypes.AXIS){
+            this.trackHeight = RcsbFvDefaultConfigValues.trackAxisHeight;
+        }else {
+            this.trackHeight = RcsbFvDefaultConfigValues.trackHeight;
         }
+
         if( typeof args.trackColor === "string"){
             this.trackColor = args.trackColor;
         }else if(typeof this.trackColor != "string"){
