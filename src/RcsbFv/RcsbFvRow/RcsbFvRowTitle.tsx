@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import classes from "../../scss/RcsbFvRow.module.scss";
 import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {MouseEvent, ReactNode} from "react";
 import {RcsbFvRowMark} from "./RcsbFvRowMark";

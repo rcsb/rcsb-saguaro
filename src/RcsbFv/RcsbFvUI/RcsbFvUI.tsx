@@ -1,8 +1,7 @@
-import * as React from "react";
-import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import React from "react";
+import classes from "../../scss/RcsbFvRow.module.scss";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
-import {FaBars as menu, FaSearchMinus as zoomOut, FaSearchPlus as zoomIn, FaRegArrowAltCircleRight as moveRight, FaRegArrowAltCircleLeft as moveLeft} from 'react-icons/fa';
 import {RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {
@@ -15,6 +14,8 @@ import {asyncScheduler, Subscription} from "rxjs";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
 import {ReactNode} from "react";
+import iconClasses from "../../scss/RcsbFvIcons.module.scss";
+
 
 export interface RcsbFvUIConfigInterface {
     readonly boardId: string;
@@ -29,6 +30,7 @@ export interface RcsbFvUIStateInterface {
 
 export interface RcsbFvUIButtonInterface {
     icon: ReactNode;
+    name: string;
     callback: ()=>void;
 }
 
@@ -39,17 +41,21 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     /**UI config Object*/
     private readonly config: Array<RcsbFvUIButtonInterface> = [{
-        icon: zoomIn({}),
-        callback: this.zoomIn.bind(this)
+        icon: <i className={"bx bx-plus"}/>,
+        callback: this.zoomIn.bind(this),
+        name: "zoom-in"
     },{
-        icon: zoomOut({}),
-        callback: this.zoomOut.bind(this)
+        icon: <i className={"bx bx-minus"}/>,
+        callback: this.zoomOut.bind(this),
+        name: "zoom-out"
     },{
-        icon: moveRight({}),
-        callback: this.move.bind(this,1)
+        icon: <i className={"bx bx-right-arrow"} ></i>,
+        callback: this.move.bind(this,1),
+        name: "move-right"
     },{
-        icon: moveLeft({}),
-        callback: this.move.bind(this,-1)
+        icon: <i className={"bx bx-left-arrow"} ></i>,
+        callback: this.move.bind(this,-1),
+        name: "move-left"
     }];
 
     private subscription: Subscription;
@@ -61,16 +67,20 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     render(): ReactNode {
         return (
-            <div id={this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX} className={classes.rcsbUI+" "+classes.rcsbSmoothDivHide} style={{position:"absolute", top:0, left:0}}>
+            <div
+                id={this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX}
+                className={classes.rcsbUI+" "+classes.rcsbSmoothDivHide+" "+iconClasses.boxIconsComponentScope}
+                style={{position:"absolute", top:0, left:0}}
+            >
                 <div style={{position:"relative"}} >
                     <CSSTransition
                         in={this.state.collapse}
                         timeout={300}
                         classNames={classes.rcsbCollapseUI}>
                         <div style={{position:"absolute"}} className={classes.rcsbCollapsedUIDiv+" "+classes.rcsbCollapseUI} onMouseEnter={this.changeState.bind(this,{collapse: false})}>
-                            {
-                                menu({className:classes.rcsbCollapsedIcon})
-                            }
+                            <div className={classes.rcsbCollapsedIcon}>
+                                <i className={"bx bxs-down-arrow"}/>
+                            </div>
                         </div>
                     </CSSTransition>
                     <CSSTransition
@@ -78,13 +88,11 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
                         timeout={300}
                         classNames={classes.rcsbExpandUI}>
                         <div style={{position:"absolute"}} className={classes.rcsbExpandUI} onMouseLeave={this.changeState.bind(this,{collapse: true})}>
-                            <div className={classes.rcsbTopUI}/>
                             {
                                 this.config.map(button=>{
                                     return this.buildButton(button);
                                 })
                             }
-                            <div className={classes.rcsbBottomUI}/>
                         </div>
                     </CSSTransition>
                 </div>
@@ -166,7 +174,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     buildButton(buttonConfig: RcsbFvUIButtonInterface): ReactNode {
         return(
-            <div className={classes.rcsbUIButton}>
+            <div className={classes.rcsbUIButton} key={buttonConfig.name}>
                 <div className={classes.rcsbIcon} onClick={buttonConfig.callback}>
                     {buttonConfig.icon}
                 </div>

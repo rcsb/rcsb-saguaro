@@ -5,7 +5,7 @@ import {
     TrackConfInterface
 } from "../RcsbD3/RcsbD3Manager";
 import { Selection} from "d3-selection";
-import classes from "../scss/RcsbBoard.module.scss";
+import classes from "../../scss/RcsbBoard.module.scss";
 import {
     RcsbFvTrackData,
     RcsbFvTrackDataElementInterface,

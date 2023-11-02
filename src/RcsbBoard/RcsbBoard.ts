@@ -8,7 +8,7 @@ import {
     ZoomConfigInterface
 } from "./RcsbD3/RcsbD3Manager";
 
-import classes from "./scss/RcsbBoard.module.scss";
+import classes from "../scss/RcsbBoard.module.scss";
 import {MOUSE} from "./RcsbD3/RcsbD3Constants";
 import {
     CONDITIONAL_FLAG,

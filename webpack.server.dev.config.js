@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const commonConfig = {
     mode: "development",
-    // mode: "production",
     module: {
       rules: [
         {
@@ -15,16 +14,15 @@ const commonConfig = {
           loader: 'babel-loader',
           exclude: [/node_modules/]
         },{
-          test: /\.scss$/,
+          test: /\.s?css$/,
           use: ['style-loader', {
-                  loader: 'css-loader',
-                  options: {
-                      modules: {
-                          localIdentName:'[local]'
-                      }
+              loader: 'css-loader',
+              options: {
+                  modules: {
+                      localIdentName:'[local]'
                   }
-              }, 'sass-loader'],
-          exclude: /node_modules/
+              }
+          }, 'resolve-url-loader', 'sass-loader']
         }
       ]
     },

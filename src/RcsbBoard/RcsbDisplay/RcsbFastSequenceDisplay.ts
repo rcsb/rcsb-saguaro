@@ -4,7 +4,7 @@ import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
-import classes from "../scss/RcsbBoard.module.scss";
+import classes from "../../scss/RcsbBoard.module.scss";
 import {
     MoveFastSequenceInterface, PlotFastSequenceInterface, PlotFastSequenceLineInterface,
     RcsbD3FastSequenceManager

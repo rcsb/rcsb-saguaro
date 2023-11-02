@@ -1,7 +1,7 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
 import {Selection,BaseType} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
-import classes from "../scss/RcsbBoard.module.scss";
+import classes from "../../scss/RcsbBoard.module.scss";
 import {
     PlotSequenceInterface,
     MoveSequenceInterface,

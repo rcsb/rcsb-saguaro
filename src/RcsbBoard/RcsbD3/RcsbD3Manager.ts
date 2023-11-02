@@ -1,7 +1,7 @@
 import {RcsbD3Constants} from "./RcsbD3Constants";
 import {Selection, select, BaseType, pointer} from "d3-selection";
 import {ZoomBehavior, ZoomedElementBaseType} from "d3-zoom";
-import classes from "../scss/RcsbBoard.module.scss";
+import classes from "../../scss/RcsbBoard.module.scss";
 import {
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {RcsbFvRow} from "../../RcsbFvRow/RcsbFvRow";
 import {RowConfigFactory} from "../Utils/RowConfigFactory";
 import {RcsbFvContextManager} from "../../RcsbFvContextManager/RcsbFvContextManager";

@@ -5,7 +5,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
-import * as React from "react";
+import React from "react";
 import {RcsbFvRowMarkPublicInterface} from "../RcsbFvRow/RcsbFvRowMark";
 import {RowTitleComponentType} from "../RcsbFvRow/RcsbFvRowTitle";
 

@@ -1,5 +1,5 @@
-import * as React from "react";
-import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import React from "react";
+import classes from "../../scss/RcsbFvRow.module.scss";
 import {ReactNode} from "react";
 
 export interface RcsbFvRowMarkInterface<T> extends RcsbFvRowMarkPublicInterface<T>{

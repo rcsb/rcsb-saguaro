@@ -15,18 +15,24 @@ module.exports = {
         },{
           test: /\.jsx?$/,
           loader: 'babel-loader',
-          exclude: [/node_modules/]
-        },{
-          test: /\.scss$/,
-          use: ['style-loader', {
-                  loader: 'css-loader',
-                  options: {
-                      modules: {
-                          localIdentName:'[local]'
-                      }
-                  }
-              }, 'sass-loader'],
           exclude: /node_modules/
+        },{
+          test: /\.s?css$/,
+          use: ['style-loader', {
+              loader: 'css-loader',
+              options: {
+                  modules: {
+                      localIdentName:'[local]'
+                  }
+              }
+          }, {
+              loader: 'resolve-url-loader'
+          }, {
+              loader: 'sass-loader',
+              options: {
+                  sourceMap: true
+              }
+          }]
         }
       ]
     },

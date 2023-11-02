@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import {EventType, RcsbFvContextManager,} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
@@ -6,7 +6,7 @@ import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
 import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
-import classes from "../RcsbFvStyles/RcsbFvRow.module.scss";
+import classes from "../../scss/RcsbFvRow.module.scss";
 import {RowConfigFactory} from "./Utils/RowConfigFactory";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {RcsbFvExtendedRowConfigInterface} from "./Utils/BoardDataState";
