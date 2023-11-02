@@ -12,7 +12,7 @@
 ### Code refactoring
 - Removed `RcsbFvRowConfigInterface.innerTrackId` and replaced by `RcsbFvRowConfigInterface.trackId`
 - Sass @import changed to @use
-- Styles sheets scss refactoring
+- Styles sheets `scss` refactoring
 - react-icons replaced by boxicons
 
 ### Dependency update
