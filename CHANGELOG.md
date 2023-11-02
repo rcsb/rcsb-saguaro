@@ -2,6 +2,23 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.0] - 2023-11-02
+### Breaking changes
+- Types are not anymore exposed from `build/src`
+- All module classes and types are accessible from `lib/`
+  - Modules format is `ESNext`
+  - `lib/commonjs` exposes all modules in `CommonJS` format
+
+### Code refactoring
+- Removed `RcsbFvRowConfigInterface.innerTrackId` and replaced by `RcsbFvRowConfigInterface.trackId`
+- Sass @import changed to @use
+- Styles sheets scss refactoring
+- react-icons replaced by boxicons
+
+### Dependency update
+- Multiple dependencies have been updated
+- audit fix
+
 ## [2.5.13] - 2023-07-10
 ### Code refactoring
 - Deprecated `JSX.Element` changed to `ReactNode`

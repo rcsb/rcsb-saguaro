@@ -109,7 +109,7 @@ export interface RcsbFvRowConfigInterface<
         M extends {} = {}
     > extends CommonConfigInterface{
     /**DOM element Id where the PFV will be rendered*/
-    boardId?: string;
+    boardId: string;
     /**Id used to identify the board track*/
     trackId: string;
     /**Length of the track. If length is provided the track coordinates will range from 1 to <length>*/

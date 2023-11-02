@@ -4,6 +4,7 @@ module.exports = {
     //mode: "development",
     mode: "production",
     entry: {
+        'RcsbFv':'./src/RcsbFv.ts',
         'rcsb-saguaro':'./src/RcsbSaguaro.js'
     },
     module: {

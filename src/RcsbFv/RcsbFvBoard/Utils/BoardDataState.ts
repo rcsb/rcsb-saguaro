@@ -27,12 +27,17 @@ export class BoardDataState {
     private readonly rowStatusMap: RowStatusMap = new RowStatusMap();
     private readonly contextManager: RcsbFvContextManager;
     private readonly subscription: Subscription;
+    private readonly boardId: string;
 
-    constructor(contextManager: RcsbFvContextManager, rowConfigData?: RcsbFvRowPublicConfigType[]) {
-        this.contextManager = contextManager;
-        if(rowConfigData)
-            this.rowConfigData = rowConfigData.map(r=>this.checkRow(r));
-       this.subscription = this.subscribe();
+    constructor(config: {
+        contextManager: RcsbFvContextManager;
+        boardId: string;
+        rowConfigData?: RcsbFvRowPublicConfigType[];
+    }) {
+        this.contextManager = config.contextManager;
+        this.rowConfigData = config.rowConfigData?.map(r=>this.checkRow(r)) ?? [];
+        this.boardId = config.boardId;
+        this.subscription = this.subscribe();
     }
 
     public getBoardData(): RcsbFvExtendedRowConfigInterface[] {
@@ -140,6 +145,7 @@ export class BoardDataState {
             ...d,
             trackVisibility: typeof d.trackVisibility == "boolean" ? d.trackVisibility : true,
             key: generateKey(trackId),
+            boardId: this.boardId,
             trackId
         };
     }

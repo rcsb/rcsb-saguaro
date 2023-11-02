@@ -61,7 +61,11 @@ export class RcsbFv {
         if(this.elementId===null || this.elementId===undefined){
             throw "FATAL ERROR: DOM elementId not found";
         }
-        this.boardDataSate = new BoardDataState(this.contextManager, props.rowConfigData);
+        this.boardDataSate = new BoardDataState({
+            contextManager: this.contextManager,
+            boardId: this.boardId,
+            rowConfigData: props.rowConfigData
+        });
         this.rcsbFvStateManager = new RcsbFvStateManager({
             xScale: this.xScale,
             selection: this.selection,
