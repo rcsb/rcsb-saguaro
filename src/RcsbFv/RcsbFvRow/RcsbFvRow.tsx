@@ -2,7 +2,7 @@ import React from "react";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRowTitle} from "./RcsbFvRowTitle";
 import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
-import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import classes from "../../scss/RcsbFvRow.module.scss";
 import {
     EventType,
@@ -20,7 +20,7 @@ interface RcsbFvRowInterface {
     readonly id: string;
     readonly boardId: string;
     readonly rowNumber: number;
-    readonly rowConfigData: RcsbFvRowConfigInterface;
+    readonly rowConfigData: RcsbFvRowExtendedConfigInterface;
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
@@ -31,7 +31,7 @@ interface RcsbFvRowInterface {
 interface RcsbFvRowState {
     readonly rowHeight: number;
     readonly mounted: boolean;
-    readonly rowConfigData: RcsbFvRowConfigInterface;
+    readonly rowConfigData: RcsbFvRowExtendedConfigInterface;
     readonly display: boolean;
     readonly titleGlow: boolean;
 }

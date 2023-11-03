@@ -2,7 +2,7 @@ import React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import classes from "../../scss/RcsbFvRow.module.scss";
-import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {EventType, RcsbFvContextManager, RowReadyInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 
@@ -12,7 +12,7 @@ import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 /**Board track  annotations cell React component interface*/
 interface RcsbFvRowTrackInterface {
     readonly id: string;
-    readonly rowTrackConfigData: RcsbFvRowConfigInterface;
+    readonly rowTrackConfigData: RcsbFvRowExtendedConfigInterface;
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
@@ -23,7 +23,7 @@ interface RcsbFvRowTrackInterface {
 
 /**Board track  annotations cell React component state*/
 interface RcsbFvRowTrackState {
-    readonly rowTrackConfigData: RcsbFvRowConfigInterface;
+    readonly rowTrackConfigData: RcsbFvRowExtendedConfigInterface;
     readonly rowTrackHeight: number;
     readonly mounted: boolean;
 }

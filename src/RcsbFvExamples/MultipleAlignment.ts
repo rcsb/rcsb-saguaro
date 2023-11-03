@@ -1,4 +1,4 @@
-import {RcsbFvRowPublicConfigType} from "../RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvRowConfigInterface} from "../RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDisplayTypes} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFv} from "../RcsbFv/RcsbFv";
 
@@ -9,7 +9,7 @@ const sequence = "MTTQAPTFTQPLQSVVVLEGSTATFEAHISGFPVPEVSWFRDGQVISTSTLPGVQISFSD" 
 
 
 
-const compositeConfig: RcsbFvRowPublicConfigType = {
+const compositeConfig: RcsbFvRowConfigInterface = {
     trackId: "compositeSequence1",
     trackHeight: 20,
     trackColor: "#F9F9F9",

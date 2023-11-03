@@ -2,7 +2,7 @@ import React from "react";
 import {RcsbFvDOMConstants} from "../../RcsbFvConfig/RcsbFvDOMConstants";
 import classes from "../../../scss/RcsbFvRow.module.scss";
 import {RcsbFvDefaultConfigValues} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvBoardConfigInterface, RcsbFvRowExtendedConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import {Subscription} from "rxjs";
 import {EventType, RcsbFvContextManager} from "../../RcsbFvContextManager/RcsbFvContextManager";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
@@ -11,7 +11,7 @@ interface BoardProgressInterface {
     readonly boardId:string;
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     readonly contextManager: RcsbFvContextManager;
-    readonly rowConfigData: Array<RcsbFvRowConfigInterface>;
+    readonly rowConfigData: Array<RcsbFvRowExtendedConfigInterface>;
 }
 
 export class BoardProgress extends React.Component <BoardProgressInterface> {

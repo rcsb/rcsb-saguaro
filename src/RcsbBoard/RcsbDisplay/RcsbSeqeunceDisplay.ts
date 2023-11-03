@@ -23,14 +23,14 @@ export class RcsbSequenceDisplay extends RcsbAbstractDisplay {
 
     setDynamicDisplay(){
         this.hideFlag = true;
-        this.mouseoutCallBack = () => {
+        this.mouseoutSubject.subscribe((d)=>{
             this.hideFlag = true;
             this.getElements().remove();
-        };
-        this.mouseoverCallBack = () => {
+        });
+        this.mouseoverSubject.subscribe((d)=>{
             this.hideFlag = false;
             this.update(this.compKey);
-        };
+        });
     }
 
     setNonEmptyDisplay(flag: boolean): void{

@@ -3,7 +3,7 @@ import React from "react";
 import {EventType, RcsbFvContextManager,} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";
 import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
-import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvBoardConfigInterface, RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import classes from "../../scss/RcsbFvRow.module.scss";
@@ -44,7 +44,7 @@ export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {
                 {this.props.boardConfigData.includeAxis ? this.getAxisRow(): null}
                 {border(this.props.boardConfigData)}
                 {
-                    this.props.rowConfigData.filter((rowData: RcsbFvRowConfigInterface) =>{
+                    this.props.rowConfigData.filter((rowData: RcsbFvRowExtendedConfigInterface) =>{
                         return rowData.trackVisibility != false;
                     }).map((rowConfig, n) =>{
                         const rowId: string = rowConfig.trackId;

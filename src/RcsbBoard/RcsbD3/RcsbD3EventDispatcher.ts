@@ -17,6 +17,8 @@ export class RcsbD3EventDispatcher {
             callback(d, 'add', 'select', false);
         else
             callback(d, 'set', 'select', false);
+        if(d.elementClickCallBack)
+            d.elementClickCallBack(d, event);
     }
 
     public static boardMousedown(event:  MouseEvent, board: RcsbBoard){
@@ -60,9 +62,10 @@ export class RcsbD3EventDispatcher {
             return;
         board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, null);
         const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(event, board);
-        if(typeof board.elementClickCallBack === "function"){
-            board.elementClickCallBack(region, event);
-        }
+        board.elementClickSubject.next({
+            element: region,
+            event
+        });
         RcsbD3EventDispatcher.keepSelectingFlag = false;
     }
 
@@ -80,11 +83,11 @@ export class RcsbD3EventDispatcher {
                     _begin = _end;
                     _end = aux;
                 }
-                const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end};
-                if(typeof board.elementClickCallBack === "function"){
-                    region.nonSpecific = true;
-                    board.elementClickCallBack(region, event);
-                }
+                const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end ,nonSpecific: true};
+                board.elementClickSubject.next({
+                    element: region,
+                    event
+                });
             }
         },50);
     }

@@ -1,5 +1,5 @@
 import {RcsbFvDisplayTypes, InterpolationTypes, RcsbFvDefaultConfigValues} from './RcsbFvDefaultConfigValues';
-import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "./RcsbFvConfigInterface";
+import {RcsbFvDisplayConfigInterface, RcsbFvRowExtendedConfigInterface} from "./RcsbFvConfigInterface";
 import {
     RcsbFvTrackData,
     RcsbDataManager,
@@ -8,7 +8,7 @@ import {
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
 
 /**Board track configuration manager className*/
-export class RcsbFvConfig implements RcsbFvRowConfigInterface{
+export class RcsbFvConfig implements RcsbFvRowExtendedConfigInterface{
     trackId: string;
     boardId: string;
     displayType: RcsbFvDisplayTypes;
@@ -28,9 +28,9 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     interpolationType? : string;
     dynamicDisplay?: boolean;
     nonEmptyDisplay?: boolean;
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementClickCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
+    elementEnterCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
+    elementLeaveCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     includeTooltip?: boolean;
     updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;
@@ -43,14 +43,14 @@ export class RcsbFvConfig implements RcsbFvRowConfigInterface{
     hideInnerBorder?:boolean;
     hideRowGlow?:boolean;
 
-    constructor(args:RcsbFvRowConfigInterface) {
+    constructor(args:RcsbFvRowExtendedConfigInterface) {
         this.updateConfig(args);
     }
 
     /**Update board track configuration. This method sets some attributes to default values when configuration values are not available.
      * @param args Board track configuration object
      * */
-    public updateConfig(args:RcsbFvRowConfigInterface): void {
+    public updateConfig(args:RcsbFvRowExtendedConfigInterface): void {
 
         //external config
         if(typeof args.trackId === "string" ) {

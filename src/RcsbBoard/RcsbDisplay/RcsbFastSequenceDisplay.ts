@@ -27,23 +27,18 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];
             const index = Math.round(this.xScale.invert(x));
-            if (this.includeTooltip) {
-                if (this.innerData[index] != null) {
-                    this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
-                    if((this.innerData[index]?.description?.length ?? 0) > 0)
-                        this.tooltipManager.showTooltipDescription(this.innerData[index] as RcsbFvTrackDataElementInterface);
-                } else {
-                    this.tooltipManager.hideTooltip();
-                }
-            }
-            if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
-                this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
+            if (this.innerData[index] != null) {
+                this.elementEnterSubject.next({
+                    element: this.innerData[index] as RcsbFvTrackDataElementInterface,
+                    event: event
+                });
+            } else {
+                this.elementLeaveSubject.next({
+                    element: {begin:Number.MIN_SAFE_INTEGER},
+                    event: event
+                });
             }
         }
-    };
-
-    mouseoutCallBack: ()=>void = ()=>{
-        this.tooltipManager.hideTooltip();
     };
 
     private clickCallBack = (event: MouseEvent)=>{
@@ -53,21 +48,20 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
             const position = Math.round(this.xScale.invert(x));
             const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
             this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);
-            if(typeof this.getElementClickCallBack() === "function")
-                this.getElementClickCallBack()(region, event);
+            this.elementClickSubject.next({element:region, event});
         }
     };
 
     setDynamicDisplay(){
         this.hideFlag = true;
-        this.mouseoutCallBack = () => {
+        this.mouseoutSubject.subscribe((d)=>{
             this.hideFlag = true;
             this.getElements().remove();
-        };
-        this.mouseoverCallBack = () => {
+        });
+        this.mouseoverSubject.subscribe((d)=>{
             this.hideFlag = false;
             this.update(this.compKey);
-        };
+        });
     }
 
     setNonEmptyDisplay(flag: boolean): void{

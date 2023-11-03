@@ -29,11 +29,11 @@ export interface RcsbFvBoardConfigInterface {
     /**Disable UI menu*/
     disableMenu?: boolean;
     /**Function that will be called when a track annotation is clicked*/
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementClickCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     /**Function that will be called when hovering a track annotation*/
-    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementEnterCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     /**Function that will be called when mouse-leaving a track annotation*/
-    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementLeaveCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     /**Function that will be called when selection changes*/
     selectionChangeCallBack?:(selection: Array<RcsbFvTrackDataElementInterface>)=>void;
     /**Feature cells border color*/
@@ -57,7 +57,7 @@ export interface RcsbFvBoardConfigInterface {
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
-interface CommonConfigInterface{
+interface CommonConfigInterface {
     /**Annotation elements color*/
     displayColor?: string | RcsbFvColorGradient;
     /**Type of data representation*/
@@ -67,11 +67,11 @@ interface CommonConfigInterface{
     /**Flag used in sequence display type to force displaying a line when sequence objects are not visible*/
     nonEmptyDisplay?: boolean;
     /**Function that will be called when annotations in this track are clicked*/
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementClickCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     /**Function that will be called when clicking annotations in this track*/
-    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementEnterCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     /**Function that will be called when mouse-leaving a track annotation*/
-    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementLeaveCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     /**Show tooltip when hovering annotations in this specific track*/
     includeTooltip?: boolean;
     /**Function that will be called to update track displayed data when the board is moved or zoomed*/
@@ -102,7 +102,7 @@ export interface RcsbFvLink {
 /**
  * Board track configuration object
  */
-export interface RcsbFvRowConfigInterface<
+export interface RcsbFvRowExtendedConfigInterface<
         P extends {} = {},
         S extends {} = {},
         T extends {} = {},
@@ -174,4 +174,4 @@ export interface RcsbFvRowConfigInterface<
     metadata?:M;
 }
 
-export type RcsbFvRowPublicConfigType = Omit<RcsbFvRowConfigInterface,"boardId"|"length"|"range">;
+export type RcsbFvRowConfigInterface = Omit<RcsbFvRowExtendedConfigInterface,"boardId"|"length"|"range">;

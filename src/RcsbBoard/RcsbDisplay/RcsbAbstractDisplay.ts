@@ -9,55 +9,32 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
-import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
+import {Subject} from "rxjs";
 
 export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements RcsbDisplayInterface {
 
     protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
-    private elementClickCallBack: (d:RcsbFvTrackDataElementInterface, e?:MouseEvent)=>void;
-    private elementEnterCallBack: (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    private elementLeaveCallBack: (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    private highlightEnterElement: (d:RcsbFvTrackDataElementInterface)=>void;
-    private highlightLeaveElement: (d:RcsbFvTrackDataElementInterface)=>void;
-    protected includeTooltip: boolean = true;
     private readonly trackId: string;
-    protected tooltipManager: RcsbTooltipManager;
     protected minRatio: number = 0;
     private selectDataInRangeFlag: boolean = false;
     private hideEmptyTracksFlag: boolean = false;
     private hidden = false;
     private elementSelection: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGGElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
 
-    constructor(boardId: string, trackId: string) {
+    public readonly elementEnterSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}> = new Subject();
+    public readonly elementLeaveSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}> = new Subject();
+    public readonly elementClickSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}> = new Subject();
+    public readonly highlightEnterSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}> = new Subject();
+    public readonly highlightLeaveSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}> = new Subject();
+
+    constructor(trackId: string) {
         super();
         this.trackId = trackId;
-        this.tooltipManager = new RcsbTooltipManager(boardId);
-    }
-
-    setElementClickCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
-        this.elementClickCallBack = f;
-    }
-
-    getElementClickCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
-        return this.elementClickCallBack;
-    }
-
-    setElementEnterCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
-        this.elementEnterCallBack = f;
-    }
-
-    getElementEnterCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
-        return this.elementEnterCallBack;
-    }
-
-    setElementLeaveCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
-        this.elementLeaveCallBack = f;
-    }
-
-    setTooltip(flag: boolean): void{
-        this.includeTooltip = flag;
+        this.elementClickSubject.subscribe((d)=>{
+            RcsbD3EventDispatcher.elementClick(d.event, this.getBoardHighlight(),d.element);
+        });
     }
 
     setDisplayColor(color: string  | RcsbFvColorGradient): void{
@@ -80,9 +57,12 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
         this.g.selectAll("."+classes.rcsbElement).remove();
     }
 
-    public setHighlightHoverElement(enter: (d:RcsbFvTrackDataElementInterface)=>void, leave: (d:RcsbFvTrackDataElementInterface)=>void){
-        this.highlightEnterElement = enter;
-        this.highlightLeaveElement = leave;
+    public setHighlightHoverElement(
+        enter: (d:{element:RcsbFvTrackDataElementInterface; event: MouseEvent;})=>void,
+        leave: (d:{element:RcsbFvTrackDataElementInterface; event: MouseEvent;})=>void
+    ){
+        this.highlightEnterSubject.subscribe(enter);
+        this.highlightLeaveSubject.subscribe(leave);
     }
 
     plot(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{
@@ -90,28 +70,14 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
             if (event.defaultPrevented) {
                 return;
             }
-            if(typeof this.elementClickCallBack === "function") {
-                this.elementClickCallBack(d, event);
-            }
-            if(typeof d.elementClickCallBack === "function"){
-                d.elementClickCallBack(d, event);
-            }
-            RcsbD3EventDispatcher.elementClick(event, this.getBoardHighlight(),d);
+            this.elementClickSubject.next({element:d, event});
         });
         element.on(RcsbD3Constants.MOUSE_ENTER, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
             if (event.defaultPrevented) {
                 return;
             }
-            if(typeof this.elementEnterCallBack === "function") {
-                this.elementEnterCallBack(d, event);
-            }
-            if(this.includeTooltip){
-                this.tooltipManager.showTooltip(d);
-                this.tooltipManager.showTooltipDescription(d);
-            }
-            if(typeof this.highlightEnterElement === "function"){
-                this.highlightEnterElement(d);
-            }
+            this.elementEnterSubject.next({element:d, event});
+            this.highlightEnterSubject.next({element:d, event});
         });
         element.on(RcsbD3Constants.DBL_CLICK, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
             if (event.defaultPrevented) {
@@ -122,15 +88,8 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
             if (event.defaultPrevented) {
                 return;
             }
-            if(typeof this.elementLeaveCallBack === "function") {
-                this.elementLeaveCallBack(d, event);
-            }
-            if(this.includeTooltip){
-                this.tooltipManager.hideTooltip();
-            }
-            if(typeof this.highlightLeaveElement === "function"){
-                this.highlightLeaveElement(d);
-            }
+            this.elementLeaveSubject.next({element: d, event});
+            this.highlightLeaveSubject.next({element: d, event});
         });
     }
 

@@ -1,4 +1,4 @@
-import {RcsbFvBoardConfigInterface, RcsbFvRowConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvBoardConfigInterface, RcsbFvRowExtendedConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 
 export namespace RowConfigFactory {
 
@@ -9,8 +9,8 @@ export namespace RowConfigFactory {
      * @param boardConfig Board configuration object
      * @return Config track object
      * */
-    export function getConfig(rowId:string, boardId: string, rowConfig: RcsbFvRowConfigInterface, boardConfig: RcsbFvBoardConfigInterface): RcsbFvRowConfigInterface {
-        const out: RcsbFvRowConfigInterface = {...rowConfig};
+    export function getConfig(rowId:string, boardId: string, rowConfig: RcsbFvRowExtendedConfigInterface, boardConfig: RcsbFvBoardConfigInterface): RcsbFvRowExtendedConfigInterface {
+        const out: RcsbFvRowExtendedConfigInterface = {...rowConfig};
         out.elementId = rowId;
         out.boardId = boardId;
         if(typeof boardConfig.length === "number"){

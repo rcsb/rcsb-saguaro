@@ -6,6 +6,7 @@ import {
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbScaleInterface} from "./RcsbD3ScaleFactory";
+import {Subject} from "rxjs";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -13,9 +14,9 @@ export interface SVGConfInterface  {
     svgClass: string;
     width: number;
     pointerEvents: string;
-    mouseoutCallBack: Array<()=>void>;
-    mouseoverCallBack: Array<()=>void>;
-    mousemoveCallBack: Array<(event: MouseEvent, n:number)=>void>;
+    mouseoutSubject: Subject<{event: MouseEvent}>;
+    mouseoverSubject: Subject<{event: MouseEvent}>;
+    mousemoveSubject: Subject<{event: MouseEvent, position:number}>;
     xScale: RcsbScaleInterface;
 }
 
@@ -101,19 +102,16 @@ export class RcsbD3Manager {
                 event.preventDefault();
             })
             .on(RcsbD3Constants.MOUSE_ENTER,(event:MouseEvent)=>{
-                config.mouseoverCallBack.forEach(f=>{
-                    f();
-                });
+                config.mouseoverSubject.next({event});
             })
             .on(RcsbD3Constants.MOUSE_LEAVE,(event:MouseEvent)=>{
-                config.mouseoutCallBack.forEach(f=>{
-                    f();
-                })
+                config.mouseoutSubject.next({event});
             }).on(RcsbD3Constants.MOUSE_MOVE,(event: MouseEvent)=>{
-                const index: number = config.mousemoveCallBack.length > 0 ? Math.round(config.xScale.invert(pointer(event, this.getPane())[0])) : -1;
-                config.mousemoveCallBack.forEach(f=>{
-                    f(event, index);
-                })
+                const index: number = Math.round(config.xScale.invert(pointer(event, this.getPane())[0]));
+                config.mousemoveSubject.next({
+                    position: index,
+                    event
+                });
             });
         this._width = config.width;
     }

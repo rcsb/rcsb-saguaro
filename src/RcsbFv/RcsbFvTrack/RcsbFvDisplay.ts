@@ -1,5 +1,5 @@
 import {RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
-import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvDisplayConfigInterface, RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {RcsbAxisDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAxisDisplay";
 import {RcsbPinDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbPinDisplay";
@@ -11,14 +11,16 @@ import {RcsbLineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbLineDisplay";
 import {RcsbAreaDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAreaDisplay";
 import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay";
 import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
+import {RcsbTooltipManager} from "../RcsbFvTooltip/RcsbTooltipManager";
+import uniqid from "uniqid";
 import {RcsbFvColorGradient} from "../../RcsbDataManager/RcsbDataManager";
 
 export class RcsbFvDisplay {
 
     private displayIds: Array<string> = [];
-    private readonly displayConfig: RcsbFvRowConfigInterface;
+    private readonly displayConfig: RcsbFvRowExtendedConfigInterface;
 
-    constructor(config: RcsbFvRowConfigInterface){
+    constructor(config: RcsbFvRowExtendedConfigInterface){
         this.displayConfig = config;
     }
 
@@ -41,17 +43,14 @@ export class RcsbFvDisplay {
         return this.displayIds;
     }
 
-    private composedDisplay(config: RcsbFvRowConfigInterface) : RcsbDisplayInterface{
+    private composedDisplay(config: RcsbFvRowExtendedConfigInterface) : RcsbDisplayInterface{
         const display:RcsbCompositeDisplay = new RcsbCompositeDisplay();
         let i = 0;
         if(config.displayConfig != undefined)
             for(let displayItem of config.displayConfig){
-                let displayId: string = "displayId_"+Math.random().toString(36).substr(2);
-                if(typeof displayItem.displayId === "string"){
-                    displayId = displayItem.displayId;
-                }
+                const displayId: string = typeof displayItem.displayId === "string" ? displayItem.displayId : uniqid("displayId_");
                 const displayType: string = displayItem.displayType;
-                let displayConfig: RcsbFvRowConfigInterface = config;
+                let displayConfig: RcsbFvRowExtendedConfigInterface = config;
                 if(config.displayConfig) {
                     displayConfig = RcsbFvDisplay.setDisplayConfig(config, config.displayConfig[i]);
                     i++;
@@ -67,28 +66,28 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private static setDisplayConfig(config: RcsbFvRowConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowConfigInterface{
+    private static setDisplayConfig(config: RcsbFvRowExtendedConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowExtendedConfigInterface{
         return {...config,...displayConfig};
     }
 
-    private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
+    private static singleDisplay(type: string, config: RcsbFvRowExtendedConfigInterface): RcsbDisplayInterface {
         let out:RcsbDisplayInterface;
         if(config.boardId != undefined && config.trackId != undefined && config.displayColor != undefined) {
             switch (type) {
                 case RcsbFvDisplayTypes.AXIS:
-                    out = axisDisplay(config.boardId, config.trackId, config.length);
+                    out = axisDisplay(config.trackId, config.length);
                     break;
                 case RcsbFvDisplayTypes.BLOCK:
-                    out = blockDisplay(config.boardId, config.trackId, config.displayColor as string);
+                    out = blockDisplay(config.trackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.PIN:
                     if(config.displayDomain != undefined)
-                        out = pinDisplay(config.boardId, config.trackId, config.displayColor as string, config.displayDomain);
+                        out = pinDisplay(config.trackId, config.displayColor as string, config.displayDomain);
                     else
                         throw "Track displayDomain (yScale) not defined";
                     break;
                 case RcsbFvDisplayTypes.BOND:
-                    out = bondDisplay(config.boardId, config.trackId, config.displayColor as string);
+                    out = bondDisplay(config.trackId, config.displayColor as string);
                     break;
                 case RcsbFvDisplayTypes.SEQUENCE:
                     const dynamicDisplay: boolean = config.dynamicDisplay != undefined ? config.dynamicDisplay: false;
@@ -138,21 +137,27 @@ export class RcsbFvDisplay {
 
 }
 
-function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowConfigInterface){
+function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowExtendedConfigInterface){
     if (display != null && typeof config.elementClickCallBack === "function") {
-        display.setElementClickCallBack(config.elementClickCallBack);
+        display.elementClickSubject.subscribe(config.elementClickCallBack);
     }
     if (display != null && typeof config.elementEnterCallBack === "function") {
-        display.setElementEnterCallBack(config.elementEnterCallBack);
+        display.elementEnterSubject.subscribe(config.elementEnterCallBack);
     }
     if (display != null && typeof config.elementLeaveCallBack === "function") {
-        display.setElementLeaveCallBack(config.elementLeaveCallBack);
+        display.elementLeaveSubject.subscribe(config.elementLeaveCallBack);
     }
     if (display != null && typeof config.updateDataOnMove === "function") {
         display.setUpdateDataOnMove(config.updateDataOnMove);
     }
-    if (display != null && typeof config.includeTooltip === "boolean") {
-        display.setTooltip(config.includeTooltip);
+    if (display != null && typeof config.includeTooltip === "boolean" && config.includeTooltip) {
+        const tooltipManager = new RcsbTooltipManager(config.boardId);
+        display.elementEnterSubject.subscribe((d)=>{
+            tooltipManager.showTooltip(d.element);
+        });
+        display.elementLeaveSubject.subscribe(d=>{
+            tooltipManager.hideTooltip();
+        })
     }
     if(display!=null && typeof config.minRatio === "number"){
         display.setMinRatio(config.minRatio);
@@ -165,12 +170,12 @@ function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowConfigInt
     }
 }
 
-function axisDisplay(boardId:string, trackId:string, length:number|undefined): RcsbDisplayInterface{
-    return new RcsbAxisDisplay(boardId,trackId,length);
+function axisDisplay(trackId:string, length:number|undefined): RcsbDisplayInterface{
+    return new RcsbAxisDisplay(trackId,length);
 }
 
 function sequenceDisplay(boardId: string, trackId: string, color:string, dynamicDisplayFlag:boolean, nonEmptyDisplayFlag:boolean) : RcsbDisplayInterface{
-    const display: RcsbFastSequenceDisplay = new RcsbFastSequenceDisplay(boardId, trackId);
+    const display: RcsbFastSequenceDisplay = new RcsbFastSequenceDisplay(trackId);
     display.setDisplayColor(color);
     if(dynamicDisplayFlag) {
         display.setDynamicDisplay();
@@ -178,39 +183,47 @@ function sequenceDisplay(boardId: string, trackId: string, color:string, dynamic
     if(nonEmptyDisplayFlag){
         display.setNonEmptyDisplay(true);
     }
+    const tooltipManager = new RcsbTooltipManager(boardId);
+    display.mouseoutSubject.subscribe(d=>{
+       tooltipManager.hideTooltip();
+    });
     return display;
 }
 
-function blockDisplay(boardId: string, trackId: string, color:string): RcsbDisplayInterface{
-    const display: RcsbBlockDisplay = new RcsbBlockDisplay(boardId,trackId);
+function blockDisplay(trackId: string, color:string): RcsbDisplayInterface{
+    const display: RcsbBlockDisplay = new RcsbBlockDisplay(trackId);
     display.setDisplayColor(color);
     return display;
 }
 
-function pinDisplay(boardId: string, trackId: string, color: string, domain:[number,number]): RcsbDisplayInterface{
-    const display: RcsbPinDisplay = new RcsbPinDisplay(boardId,trackId);
+function pinDisplay(trackId: string, color: string, domain:[number,number]): RcsbDisplayInterface{
+    const display: RcsbPinDisplay = new RcsbPinDisplay(trackId);
     display.setDisplayColor(color);
     display.yDomain(domain);
     return display;
 }
 
-function bondDisplay(boardId: string, trackId: string, color: string): RcsbDisplayInterface{
-    const display: RcsbBondDisplay = new RcsbBondDisplay(boardId, trackId);
+function bondDisplay(trackId: string, color: string): RcsbDisplayInterface{
+    const display: RcsbBondDisplay = new RcsbBondDisplay(trackId);
     display.setDisplayColor(color);
     return display;
 }
 
 function lineDisplay(boardId: string, trackId: string, color: string, domain:[number,number], interpolationType?: string) : RcsbDisplayInterface{
-    const display: RcsbLineDisplay = new RcsbLineDisplay(boardId,trackId);
+    const display: RcsbLineDisplay = new RcsbLineDisplay(trackId);
     display.setDisplayColor(color);
     display.yDomain(domain);
     if(interpolationType != undefined)
         display.setInterpolationType(interpolationType);
+    const tooltipManager = new RcsbTooltipManager(boardId);
+    display.mouseoutSubject.subscribe(d=>{
+        tooltipManager.hideTooltip();
+    });
     return display;
 }
 
 function areaDisplay(boardId: string, trackId: string, color: string | RcsbFvColorGradient, domain:[number,number], interpolationType?: string, blockAreaFlag?: boolean, multiAreaFlag?: boolean) : RcsbDisplayInterface{
-    const display: RcsbAreaDisplay = new RcsbAreaDisplay(boardId,trackId);
+    const display: RcsbAreaDisplay = new RcsbAreaDisplay(trackId);
     display.setDisplayColor(color);
     display.yDomain(domain);
     if(typeof interpolationType === "string")
@@ -219,17 +232,21 @@ function areaDisplay(boardId: string, trackId: string, color: string | RcsbFvCol
         display.setBlockArea(blockAreaFlag)
     if(typeof multiAreaFlag === "boolean")
         display.setMultiArea(multiAreaFlag)
+    const tooltipManager = new RcsbTooltipManager(boardId);
+    display.mouseoutSubject.subscribe(d=>{
+        tooltipManager.hideTooltip();
+    });
     return display;
 }
 
 function variantDisplay(boardId: string, trackId: string, color: string) :RcsbDisplayInterface{
-    const display: RcsbVariantDisplay = new RcsbVariantDisplay(boardId,trackId);
+    const display: RcsbVariantDisplay = new RcsbVariantDisplay(trackId);
     display.setDisplayColor(color);
     return display;
 }
 
 function vlineDisplay(boardId: string, trackId: string, color:string) : RcsbDisplayInterface{
-    const display: RcsbVlineDisplay = new RcsbVlineDisplay(boardId, trackId);
+    const display: RcsbVlineDisplay = new RcsbVlineDisplay(trackId);
     display.setDisplayColor(color);
     return display;
 }

@@ -2,7 +2,7 @@ import {createRoot, Root} from "react-dom/client";
 import {RcsbFvBoard, RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard/RcsbFvBoard";
 import {
     RcsbFvBoardConfigInterface,
-    RcsbFvRowPublicConfigType
+    RcsbFvRowConfigInterface
 } from "./RcsbFvConfig/RcsbFvConfigInterface";
 import {
     EventType,
@@ -21,7 +21,7 @@ import {RcsbFvStateManager} from "./RcsbFvState/RcsbFvStateManager";
  */
 export interface RcsbFvInterface {
     /**Array of configurations for each board track*/
-    readonly rowConfigData: RcsbFvRowPublicConfigType[];
+    readonly rowConfigData: RcsbFvRowConfigInterface[];
     /**Board global configuration*/
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM element Id where the PFV will be rendered*/
@@ -91,7 +91,7 @@ export class RcsbFv {
     /**
      * Gets the configuration for each row of the board
      */
-    public getBoardData(): RcsbFvRowPublicConfigType[]{
+    public getBoardData(): RcsbFvRowConfigInterface[]{
         return this.boardDataSate.getBoardData();
     }
 
@@ -227,7 +227,7 @@ export class RcsbFv {
     /**Adds a new track to the board
      * @param trackConfig Track configuration data
      * */
-    public addTrack(trackConfig: RcsbFvRowPublicConfigType): Promise<void>{
+    public addTrack(trackConfig: RcsbFvRowConfigInterface): Promise<void>{
         this.boardDataSate.addTrack(trackConfig);
         return this.updateBoardData();
     }

@@ -1,4 +1,4 @@
-import {RcsbFvDOMConstants} from "../../RcsbFv/RcsbFvConfig/RcsbFvDOMConstants";
+import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 

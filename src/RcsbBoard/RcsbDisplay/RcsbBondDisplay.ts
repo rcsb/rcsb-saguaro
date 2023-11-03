@@ -18,8 +18,8 @@ export class RcsbBondDisplay extends RcsbAbstractDisplay {
 
     private rcsbD3BondManager: RcsbD3BondManager = new RcsbD3BondManager();
 
-    constructor(boardId: string, trackId: string) {
-        super(boardId, trackId);
+    constructor(trackId: string) {
+        super(trackId);
     }
 
     private setScale(): void{

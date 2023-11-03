@@ -1,6 +1,6 @@
 import {
     RcsbFvBoardConfigInterface,
-    RcsbFvRowPublicConfigType
+    RcsbFvRowConfigInterface
 } from "../RcsbFv/RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFv} from "../RcsbFv/RcsbFv";
 import {RcsbFvDisplayTypes} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
@@ -12,7 +12,7 @@ const sequence = "MTTQAPTFTQPLQSVVVLEGSTATFEAHISGFPVPEVSWFRDGQVISTSTLPGVQISFSD" 
 
 
 
-const rowConfigData: RcsbFvRowPublicConfigType[] = [
+const rowConfigData: RcsbFvRowConfigInterface[] = [
     {
         trackId: "compositeSequence1",
         trackHeight: 20,
@@ -42,7 +42,7 @@ const rowConfigData: RcsbFvRowPublicConfigType[] = [
             {
                 displayType: RcsbFvDisplayTypes.SEQUENCE,
                 displayColor: "#000000",
-                displayId:"compositeSeqeunce",
+                displayId:"compositeSequence",
                 displayData: [{
                     begin:50,
                     value:"TCLLDELDTAGQEEYSAMRDQYMRTSEGFLC"
@@ -72,7 +72,7 @@ const boardConfigData: RcsbFvBoardConfigInterface = {
     }
 };
 
-const sequenceConfigData: RcsbFvRowPublicConfigType[] = [
+const sequenceConfigData: RcsbFvRowConfigInterface[] = [
     {
         trackId: "sequenceTrack",
         trackVisibility: false,

@@ -9,8 +9,8 @@ export class RcsbAxisDisplay extends RcsbAbstractDisplay {
     private xAxis: Axis<number>;
     private readonly length: number|undefined;
 
-    constructor(boardId: string, trackId:string, length?:number) {
-        super(boardId, trackId);
+    constructor(trackId:string, length?:number) {
+        super(trackId);
         this.length = length;
     }
 

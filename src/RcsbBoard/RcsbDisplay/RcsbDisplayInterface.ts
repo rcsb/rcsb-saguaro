@@ -9,9 +9,9 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
+import {Subject} from "rxjs";
 
-export interface RcsbDisplayInterface {
-    //RcsbAbstractTrack
+export interface RcsbTrackInterface {
     height: (h?: number) => number;
     trackColor: (c?: string) => string;
     init: (scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number) => void;
@@ -21,22 +21,25 @@ export interface RcsbDisplayInterface {
     setManagers: (d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager) => void;
     highlightRegion: (d:Array<RcsbFvTrackDataElementInterface> | null, options?:{color?:string, rectClass?: string;}) => void;
     moveSelection: (mode:'select'|'hover')=> void;
-    mouseoutCallBack: ()=>void;
-    mouseoverCallBack: ()=>void;
-    mousemoveCallBack: (event:MouseEvent, n:number)=>void;
-    //RcsbAbstractDisplay
+    readonly mouseoutSubject: Subject<{event: MouseEvent;}>;
+    readonly mouseoverSubject: Subject<{event: MouseEvent;}>;
+    readonly mousemoveSubject:Subject<{position: number; event: MouseEvent;}>;
+}
+
+export interface RcsbDisplayInterface extends RcsbTrackInterface {
     reset: ()=> void;
     plot:(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>void;
     update: (compKey?: string) => void;
     displayEmpty: () => void;
     move: ()=> void;
-    setElementClickCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
-    setElementEnterCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
-    setElementLeaveCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
-    setHighlightHoverElement: (f: (d:RcsbFvTrackDataElementInterface)=>void, g: (d:RcsbFvTrackDataElementInterface)=>void)=>void;
-    setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
     setSelectDataInRange: (flag: boolean) => void;
     setHideEmptyTrack: (flag: boolean) => void;
     setDisplayColor: (color: string  | RcsbFvColorGradient)=>void;
+
+    readonly elementEnterSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}>;
+    readonly elementLeaveSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}>;
+    readonly elementClickSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}>;
+    readonly highlightEnterSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}>;
+    readonly highlightLeaveSubject: Subject<{element:RcsbFvTrackDataElementInterface; event: MouseEvent;}>;
 }
