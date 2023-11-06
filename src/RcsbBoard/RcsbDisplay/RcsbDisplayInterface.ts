@@ -10,8 +10,7 @@ import {
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 
-export interface RcsbDisplayInterface {
-    //RcsbAbstractTrack
+export interface RcsbTrackInterface {
     height: (h?: number) => number;
     trackColor: (c?: string) => string;
     init: (scale:RcsbScaleInterface, compositeFlag?: boolean, compositeHeight?: number) => void;
@@ -24,7 +23,9 @@ export interface RcsbDisplayInterface {
     mouseoutCallBack: ()=>void;
     mouseoverCallBack: ()=>void;
     mousemoveCallBack: (event:MouseEvent, n:number)=>void;
-    //RcsbAbstractDisplay
+}
+
+export interface RcsbDisplayInterface extends RcsbTrackInterface{
     reset: ()=> void;
     plot:(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>)=>void;
     update: (compKey?: string) => void;

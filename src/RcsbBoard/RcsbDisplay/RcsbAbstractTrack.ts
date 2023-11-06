@@ -14,8 +14,9 @@ import {
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
+import {RcsbTrackInterface} from "./RcsbDisplayInterface";
 
-export abstract class RcsbAbstractTrack {
+export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
     protected d3Manager: RcsbD3Manager;
     protected contextManager: RcsbFvContextManager;
     private _bgColor: string = "#FFFFFF";
