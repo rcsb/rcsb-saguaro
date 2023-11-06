@@ -27,9 +27,6 @@ export class RcsbD3EventDispatcher {
         }
         RcsbD3EventDispatcher.keepSelectingFlag = true;
         RcsbD3EventDispatcher.operation = (event.shiftKey || event.ctrlKey) ? 'replace-last' : 'set';
-        let _begin = RcsbD3EventDispatcher.selectionBegin;
-        const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _begin, nonSpecific: true};
-        board.highlightRegion(region, RcsbD3EventDispatcher.operation == 'replace-last' ? 'add' : 'set', 'select', false);
         board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, (e:  MouseEvent)=>{
             RcsbD3EventDispatcher.boardMousemove(e, board);
         });
