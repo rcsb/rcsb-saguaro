@@ -1,13 +1,13 @@
 import React from "react";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import classes from "../../scss/RcsbFvRow.module.scss";
-import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {MouseEvent, ReactNode} from "react";
 import {RcsbFvRowMark} from "./RcsbFvRowMark";
 
 /**Board track title cell React component interface*/
 export interface RcsbFvRowTitleInterface {
-    readonly data: RcsbFvRowConfigInterface;
+    readonly data: RcsbFvRowExtendedConfigInterface;
     readonly rowTitleHeight: number;
     readonly isGlowing: boolean;
 }
@@ -20,7 +20,7 @@ export type RowTitleComponentType<P={},S={}> = typeof React.Component<RcsbFvRowT
 
 export class RcsbFvRowTitle extends  React.Component<RcsbFvRowTitleInterface,RcsbFvRowTitleInterState> {
 
-    private readonly configData : RcsbFvRowConfigInterface;
+    private readonly configData : RcsbFvRowExtendedConfigInterface;
     readonly state = {
         expandTitle: false
     };

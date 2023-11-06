@@ -1,7 +1,7 @@
 import {
     RcsbFvDisplayConfigInterface,
-    RcsbFvRowConfigInterface,
-    RcsbFvRowPublicConfigType
+    RcsbFvRowExtendedConfigInterface,
+    RcsbFvRowConfigInterface
 } from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import uniqid from "uniqid";
 import {
@@ -16,7 +16,7 @@ import {arrayMoveMutable} from "array-move";
 import {RowStatusMap} from "./RowStatusMap";
 import {Subscription} from "rxjs";
 
-export interface RcsbFvExtendedRowConfigInterface extends RcsbFvRowConfigInterface {
+export interface RcsbFvExtendedRowConfigInterface extends RcsbFvRowExtendedConfigInterface {
     key:string;
     renderSchedule?: "async"|"sync"|"fixed";
 }
@@ -32,7 +32,7 @@ export class BoardDataState {
     constructor(config: {
         contextManager: RcsbFvContextManager;
         boardId: string;
-        rowConfigData?: RcsbFvRowPublicConfigType[];
+        rowConfigData?: RcsbFvRowConfigInterface[];
     }) {
         this.contextManager = config.contextManager;
         this.rowConfigData = config.rowConfigData?.map(r=>this.checkRow(r)) ?? [];
@@ -44,7 +44,7 @@ export class BoardDataState {
         return this.rowConfigData;
     }
 
-    public setBoardData(rowConfigData: RcsbFvRowPublicConfigType[]): void {
+    public setBoardData(rowConfigData: RcsbFvRowConfigInterface[]): void {
         this.rowStatusMap.clear();
         this.rowConfigData  = rowConfigData.map(r=>this.checkRow(r));
     }
@@ -57,7 +57,7 @@ export class BoardDataState {
     /**Adds a new track to the board
      * @param configRow Track configuration object
      * */
-    public addTrack(configRow: RcsbFvRowPublicConfigType): void{
+    public addTrack(configRow: RcsbFvRowConfigInterface): void{
         this.rowConfigData.push( {
             ...this.checkRow(configRow),
             renderSchedule: "sync"
@@ -135,7 +135,7 @@ export class BoardDataState {
         row.renderSchedule = "sync"
     }
 
-    private checkRow(d: RcsbFvRowPublicConfigType): RcsbFvExtendedRowConfigInterface {
+    private checkRow(d: RcsbFvRowConfigInterface): RcsbFvExtendedRowConfigInterface {
         const trackId: string = d.trackId ? uniqid(`${d.trackId}_`) : uniqid("trackId_");
         if(d.trackVisibility === false)
             this.rowStatusMap.set(trackId,true);

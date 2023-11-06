@@ -1,5 +1,5 @@
 import {RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
-import {RcsbFvDisplayConfigInterface, RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvDisplayConfigInterface, RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbDisplayInterface} from "../../RcsbBoard/RcsbDisplay/RcsbDisplayInterface";
 import {RcsbAxisDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAxisDisplay";
 import {RcsbPinDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbPinDisplay";
@@ -16,9 +16,9 @@ import {RcsbFvColorGradient} from "../../RcsbDataManager/RcsbDataManager";
 export class RcsbFvDisplay {
 
     private displayIds: Array<string> = [];
-    private readonly displayConfig: RcsbFvRowConfigInterface;
+    private readonly displayConfig: RcsbFvRowExtendedConfigInterface;
 
-    constructor(config: RcsbFvRowConfigInterface){
+    constructor(config: RcsbFvRowExtendedConfigInterface){
         this.displayConfig = config;
     }
 
@@ -41,7 +41,7 @@ export class RcsbFvDisplay {
         return this.displayIds;
     }
 
-    private composedDisplay(config: RcsbFvRowConfigInterface) : RcsbDisplayInterface{
+    private composedDisplay(config: RcsbFvRowExtendedConfigInterface) : RcsbDisplayInterface{
         const display:RcsbCompositeDisplay = new RcsbCompositeDisplay();
         let i = 0;
         if(config.displayConfig != undefined)
@@ -51,7 +51,7 @@ export class RcsbFvDisplay {
                     displayId = displayItem.displayId;
                 }
                 const displayType: string = displayItem.displayType;
-                let displayConfig: RcsbFvRowConfigInterface = config;
+                let displayConfig: RcsbFvRowExtendedConfigInterface = config;
                 if(config.displayConfig) {
                     displayConfig = RcsbFvDisplay.setDisplayConfig(config, config.displayConfig[i]);
                     i++;
@@ -67,11 +67,11 @@ export class RcsbFvDisplay {
         return display;
     }
 
-    private static setDisplayConfig(config: RcsbFvRowConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowConfigInterface{
+    private static setDisplayConfig(config: RcsbFvRowExtendedConfigInterface, displayConfig: RcsbFvDisplayConfigInterface) : RcsbFvRowExtendedConfigInterface{
         return {...config,...displayConfig};
     }
 
-    private static singleDisplay(type: string, config: RcsbFvRowConfigInterface): RcsbDisplayInterface {
+    private static singleDisplay(type: string, config: RcsbFvRowExtendedConfigInterface): RcsbDisplayInterface {
         let out:RcsbDisplayInterface;
         if(config.boardId != undefined && config.trackId != undefined && config.displayColor != undefined) {
             switch (type) {
@@ -138,7 +138,7 @@ export class RcsbFvDisplay {
 
 }
 
-function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowConfigInterface){
+function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowExtendedConfigInterface){
     if (display != null && typeof config.elementClickCallBack === "function") {
         display.setElementClickCallBack(config.elementClickCallBack);
     }

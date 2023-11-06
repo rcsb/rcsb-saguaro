@@ -2,7 +2,7 @@ import {RcsbBoard} from '../../RcsbBoard/RcsbBoard';
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from '../RcsbFvConfig/RcsbFvDefaultConfigValues';
 import {RcsbFvDisplay} from "./RcsbFvDisplay";
 import {RcsbFvConfig} from "../RcsbFvConfig/RcsbFvConfig";
-import {RcsbFvRowConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
+import {RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {
     RcsbFvTrackData,
     RcsbDataManager,
@@ -41,7 +41,7 @@ export class RcsbFvTrack {
     private readonly selection: RcsbSelection;
 
     public constructor(
-        args:RcsbFvRowConfigInterface,
+        args:RcsbFvRowExtendedConfigInterface,
         xScale: RcsbScaleInterface,
         selection: RcsbSelection,
         contextManager: RcsbFvContextManager
@@ -60,7 +60,7 @@ export class RcsbFvTrack {
     /**Builds the board annotation cell
      * @param args Board track configuration object
      * */
-    private buildTrack(args:RcsbFvRowConfigInterface) : void{
+    private buildTrack(args:RcsbFvRowExtendedConfigInterface) : void{
         this.setConfig(args);
         if(typeof this.rcsbFvConfig.elementId === "string"){
             this.init(this.rcsbFvConfig.elementId);
@@ -100,7 +100,7 @@ export class RcsbFvTrack {
     /**Replaces the track configuration
      * @param args Board row configuration object
      * */
-    public setConfig(args: RcsbFvRowConfigInterface) : void{
+    public setConfig(args: RcsbFvRowExtendedConfigInterface) : void{
         if(this.rcsbFvConfig == null) {
             this.rcsbFvConfig = new RcsbFvConfig(args);
         }else{

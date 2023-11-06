@@ -102,7 +102,7 @@ export interface RcsbFvLink {
 /**
  * Board track configuration object
  */
-export interface RcsbFvRowConfigInterface<
+export interface RcsbFvRowExtendedConfigInterface<
         P extends {} = {},
         S extends {} = {},
         T extends {} = {},
@@ -174,4 +174,4 @@ export interface RcsbFvRowConfigInterface<
     metadata?:M;
 }
 
-export type RcsbFvRowPublicConfigType = Omit<RcsbFvRowConfigInterface,"boardId"|"length"|"range">;
+export type RcsbFvRowConfigInterface = Omit<RcsbFvRowExtendedConfigInterface,"boardId"|"length"|"range">;
