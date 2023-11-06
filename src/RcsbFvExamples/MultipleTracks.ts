@@ -144,10 +144,10 @@ const boardConfigData: RcsbFvBoardConfigInterface = {
     highlightHoverElement: true,
     hideInnerBorder: true,
     hideRowGlow: false,
-    elementClickCallBack: (e)=>{
+    elementClickCallback: (e)=>{
         console.log(e);
     },
-    selectionChangeCallBack:(e)=>{
+    selectionChangeCallback:(e)=>{
         console.log(">>> ", e);
     },
     onFvRenderStartsCallback:()=>{

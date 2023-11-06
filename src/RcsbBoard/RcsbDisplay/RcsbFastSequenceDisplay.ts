@@ -41,7 +41,7 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
         }
     };
 
-    private clickCallBack = (event: MouseEvent)=>{
+    private clickCallback = (event: MouseEvent)=>{
         const svgNode:ContainerElement | null  = this.g.node();
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];
@@ -115,7 +115,7 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
             color: this._displayColor as string,
             height: this.height(),
             intervalRatio: this.intervalRatio,
-            clickCallBack: this.clickCallBack,
+            clickCallback: this.clickCallback,
             hoverCallback: this.hoverCallback
         };
         this.rcsbD3SequenceManager.plot(config);

@@ -28,9 +28,9 @@ export class RcsbFvConfig implements RcsbFvRowExtendedConfigInterface{
     interpolationType? : string;
     dynamicDisplay?: boolean;
     nonEmptyDisplay?: boolean;
-    elementClickCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
-    elementEnterCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
-    elementLeaveCallBack?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
+    elementClickCallback?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
+    elementEnterCallback?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
+    elementLeaveCallback?:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void;
     includeTooltip?: boolean;
     updateDataOnMove?:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>;
     overlap:boolean = false;
@@ -79,14 +79,14 @@ export class RcsbFvConfig implements RcsbFvRowExtendedConfigInterface{
         if(args.displayConfig instanceof Array) {
             this.displayConfig = args.displayConfig;
         }
-        if(typeof args.elementClickCallBack === "function"){
-            this.elementClickCallBack = args.elementClickCallBack;
+        if(typeof args.elementClickCallback === "function"){
+            this.elementClickCallback = args.elementClickCallback;
         }
-        if(typeof args.elementEnterCallBack === "function"){
-            this.elementEnterCallBack = args.elementEnterCallBack;
+        if(typeof args.elementEnterCallback === "function"){
+            this.elementEnterCallback = args.elementEnterCallback;
         }
-        if(typeof args.elementLeaveCallBack === "function"){
-            this.elementLeaveCallBack = args.elementLeaveCallBack;
+        if(typeof args.elementLeaveCallback === "function"){
+            this.elementLeaveCallback = args.elementLeaveCallback;
         }
         if(typeof args.updateDataOnMove === "function"){
             this.updateDataOnMove = args.updateDataOnMove;

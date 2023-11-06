@@ -166,7 +166,7 @@ export class RcsbBoard {
         this.d3Manager.addPane(paneConfig);
     }
 
-    public setElementClickCallBack(f:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void){
+    public setElementClickCallback(f:(data:{element:RcsbFvTrackDataElementInterface, event: MouseEvent})=>void){
        this.elementClickSubject.subscribe(f);
     }
 
@@ -178,7 +178,7 @@ export class RcsbBoard {
         });
     }
 
-    public addHoverCallBack(f:(n:Array<RcsbFvTrackDataElementInterface>)=>void){
+    public addHoverCallback(f:(n:Array<RcsbFvTrackDataElementInterface>)=>void){
         this.elementHoverSubject.subscribe(f);
     }
 
@@ -273,7 +273,7 @@ export class RcsbBoard {
         }
         this.d3Manager.addZoom({
             zoomEventHandler: this.zoomEventHandler,
-            zoomCallBack: this.moveBoard.bind(this)
+            zoomCallback: this.moveBoard.bind(this)
         } as ZoomConfigInterface);
 
         this.startTracks();
@@ -313,14 +313,14 @@ export class RcsbBoard {
     public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>, options?:{}): void{
         if (track instanceof Array) {
             track.forEach((t) => {
-                this.addTrackCallBacks(t);
+                this.addTrackCallbacks(t);
             });
         }else{
-            this.addTrackCallBacks(track);
+            this.addTrackCallbacks(track);
         }
     }
 
-    private addTrackCallBacks(t: RcsbDisplayInterface){
+    private addTrackCallbacks(t: RcsbDisplayInterface){
         t.setManagers(this.d3Manager, this.contextManager);
         t.setBoardHighlight(this.highlightRegion.bind(this));
 

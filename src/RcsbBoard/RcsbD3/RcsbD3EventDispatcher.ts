@@ -17,8 +17,8 @@ export class RcsbD3EventDispatcher {
             callback(d, 'add', 'select', false);
         else
             callback(d, 'set', 'select', false);
-        if(d.elementClickCallBack)
-            d.elementClickCallBack(d, event);
+        if(d.elementClickCallback)
+            d.elementClickCallback(d, event);
     }
 
     public static boardMousedown(event:  MouseEvent, board: RcsbBoard){

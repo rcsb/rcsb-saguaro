@@ -138,14 +138,14 @@ export class RcsbFvDisplay {
 }
 
 function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowExtendedConfigInterface){
-    if (display != null && typeof config.elementClickCallBack === "function") {
-        display.elementClickSubject.subscribe(config.elementClickCallBack);
+    if (display != null && typeof config.elementClickCallback === "function") {
+        display.elementClickSubject.subscribe(config.elementClickCallback);
     }
-    if (display != null && typeof config.elementEnterCallBack === "function") {
-        display.elementEnterSubject.subscribe(config.elementEnterCallBack);
+    if (display != null && typeof config.elementEnterCallback === "function") {
+        display.elementEnterSubject.subscribe(config.elementEnterCallback);
     }
-    if (display != null && typeof config.elementLeaveCallBack === "function") {
-        display.elementLeaveSubject.subscribe(config.elementLeaveCallBack);
+    if (display != null && typeof config.elementLeaveCallback === "function") {
+        display.elementLeaveSubject.subscribe(config.elementLeaveCallback);
     }
     if (display != null && typeof config.updateDataOnMove === "function") {
         display.setUpdateDataOnMove(config.updateDataOnMove);

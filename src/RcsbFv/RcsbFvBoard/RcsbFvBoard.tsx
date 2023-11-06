@@ -192,8 +192,8 @@ export class RcsbFvBoard extends React.Component <RcsbFvBoardInterface, RcsbFvBo
         if(typeof this.state.boardConfigData.onFvRenderStartsCallback === "function")
             this.state.boardConfigData.onFvRenderStartsCallback();
 
-        if(typeof this.state.boardConfigData.selectionChangeCallBack === "function")
-            this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallBack);
+        if(typeof this.state.boardConfigData.selectionChangeCallback === "function")
+            this.selection.setSelectionChangeCallback(this.state.boardConfigData.selectionChangeCallback);
 
     }
 

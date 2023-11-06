@@ -45,7 +45,7 @@ export interface TrackConfInterface {
 
 export interface ZoomConfigInterface {
     zoomEventHandler:ZoomBehavior<ZoomedElementBaseType, any>;
-    zoomCallBack: () => void;
+    zoomCallback: () => void;
 }
 
 export interface HighlightRegionInterface {
@@ -171,7 +171,7 @@ export class RcsbD3Manager {
 
     addZoom(config: ZoomConfigInterface): void {
         this._zoomG.call(
-            config.zoomEventHandler.on(RcsbD3Constants.ZOOM, config.zoomCallBack)
+            config.zoomEventHandler.on(RcsbD3Constants.ZOOM, config.zoomCallback)
         ).on(RcsbD3Constants.DBLCLIK_ZOOM, null);
     }
 

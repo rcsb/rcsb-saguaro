@@ -43,7 +43,7 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
         }
     };
 
-    protected clickCallBack = (event: MouseEvent)=>{
+    protected clickCallback = (event: MouseEvent)=>{
         const svgNode:ContainerElement | null  = this.g.node();
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];

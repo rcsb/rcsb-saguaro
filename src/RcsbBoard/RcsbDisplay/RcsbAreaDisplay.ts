@@ -118,7 +118,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                  area: this.area,
                  id:this.SUFFIX_ID+index,
                  opacity: (this.blockAreaFlag ? e.alpha : ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
-                 clickCallBack:this.clickCallBack,
+                 clickCallback:this.clickCallback,
                  hoverCallback:this.hoverCallback
             });
         });
