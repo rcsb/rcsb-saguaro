@@ -6,6 +6,7 @@ import {
     RcsbFvTrackDataElementInterface, RcsbFvColorGradient
 } from "../../RcsbDataManager/RcsbDataManager";
 import {LocationViewInterface} from "../../RcsbBoard/RcsbBoard";
+import {RcsbFvTooltipInterface} from "../RcsbFvTooltip/RcsbFvTooltipInterface";
 
 /**Board track configuration manager className*/
 export class RcsbFvConfig implements RcsbFvRowExtendedConfigInterface{
@@ -42,6 +43,7 @@ export class RcsbFvConfig implements RcsbFvRowExtendedConfigInterface{
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
     hideInnerBorder?:boolean;
     hideRowGlow?:boolean;
+    tooltipGenerator?: RcsbFvTooltipInterface<any>;
 
     constructor(args:RcsbFvRowExtendedConfigInterface) {
         this.updateConfig(args);
@@ -163,6 +165,8 @@ export class RcsbFvConfig implements RcsbFvRowExtendedConfigInterface{
         }else{
             this.hideRowGlow = RcsbFvDefaultConfigValues.hideRowGlow;
         }
+        if(typeof args.tooltipGenerator === "object")
+            this.tooltipGenerator = args.tooltipGenerator;
         this.overlap = args.overlap === true;
     }
 

@@ -15,13 +15,13 @@ import {RcsbFvTable} from "./RcsbFvTable";
 import {BoardGlow} from "./Components/BoardGlow";
 import {RowGlow} from "./Components/RowGlow";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
-import {RcsbFvExtendedRowConfigInterface} from "./Utils/BoardDataState";
+import {RcsbFvRowRenderConfigInterface} from "./Utils/BoardDataState";
 import {BoardProgress} from "./Components/BoardProgress";
 import {ReactNode} from "react";
 
 /**Board React component configuration interface*/
 export interface RcsbFvBoardFullConfigInterface {
-    readonly rowConfigData: Array<RcsbFvExtendedRowConfigInterface>;
+    readonly rowConfigData: Array<RcsbFvRowRenderConfigInterface>;
     readonly boardConfigData: RcsbFvBoardConfigInterface;
 }
 
@@ -36,7 +36,7 @@ interface RcsbFvBoardInterface extends RcsbFvBoardFullConfigInterface {
 
 /**Board React component state interface*/
 interface RcsbFvBoardState {
-    readonly rowConfigData: Array<RcsbFvExtendedRowConfigInterface>;
+    readonly rowConfigData: Array<RcsbFvRowRenderConfigInterface>;
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     readonly progressStatus: number;
 }

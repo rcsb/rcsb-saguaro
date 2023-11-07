@@ -35,7 +35,6 @@ export interface RcsbDisplayInterface extends RcsbTrackInterface{
     setElementEnterCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
     setElementLeaveCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
     setHighlightHoverElement: (f: (d:RcsbFvTrackDataElementInterface)=>void, g: (d:RcsbFvTrackDataElementInterface)=>void)=>void;
-    setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
     setSelectDataInRange: (flag: boolean) => void;
     setHideEmptyTrack: (flag: boolean) => void;

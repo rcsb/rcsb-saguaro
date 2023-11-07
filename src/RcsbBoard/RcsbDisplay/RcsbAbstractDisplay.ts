@@ -9,7 +9,6 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
-import {RcsbTooltipManager} from "../RcsbTooltip/RcsbTooltipManager";
 import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
 
@@ -21,9 +20,7 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
     private elementLeaveCallBack: (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     private highlightEnterElement: (d:RcsbFvTrackDataElementInterface)=>void;
     private highlightLeaveElement: (d:RcsbFvTrackDataElementInterface)=>void;
-    protected includeTooltip: boolean = true;
     private readonly trackId: string;
-    protected tooltipManager: RcsbTooltipManager;
     protected minRatio: number = 0;
     private selectDataInRangeFlag: boolean = false;
     private hideEmptyTracksFlag: boolean = false;
@@ -33,7 +30,6 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
     constructor(boardId: string, trackId: string) {
         super();
         this.trackId = trackId;
-        this.tooltipManager = new RcsbTooltipManager(boardId);
     }
 
     setElementClickCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
@@ -56,8 +52,8 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
         this.elementLeaveCallBack = f;
     }
 
-    setTooltip(flag: boolean): void{
-        this.includeTooltip = flag;
+    getElementLeaveCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
+        return this.elementLeaveCallBack;
     }
 
     setDisplayColor(color: string  | RcsbFvColorGradient): void{
@@ -105,10 +101,6 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
             if(typeof this.elementEnterCallBack === "function") {
                 this.elementEnterCallBack(d, event);
             }
-            if(this.includeTooltip){
-                this.tooltipManager.showTooltip(d);
-                this.tooltipManager.showTooltipDescription(d);
-            }
             if(typeof this.highlightEnterElement === "function"){
                 this.highlightEnterElement(d);
             }
@@ -124,9 +116,6 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
             }
             if(typeof this.elementLeaveCallBack === "function") {
                 this.elementLeaveCallBack(d, event);
-            }
-            if(this.includeTooltip){
-                this.tooltipManager.hideTooltip();
             }
             if(typeof this.highlightLeaveElement === "function"){
                 this.highlightLeaveElement(d);

@@ -58,6 +58,9 @@ export namespace RowConfigFactory {
         if(typeof boardConfig.includeTooltip === "boolean"){
             out.includeTooltip = boardConfig.includeTooltip;
         }
+        if(typeof boardConfig.tooltipGenerator === "object"){
+            out.tooltipGenerator = boardConfig.tooltipGenerator;
+        }
         return out;
     }
 }

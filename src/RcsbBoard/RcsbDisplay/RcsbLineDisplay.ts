@@ -29,12 +29,6 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];
             const index = Math.round(this.xScale.invert(x));
-            if (this.includeTooltip) {
-                if (this.innerData[index] != null)
-                    this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
-                else
-                    this.tooltipManager.hideTooltip();
-            }
             if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
                 this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
             }
@@ -42,7 +36,9 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
     };
 
     mouseoutCallBack: ()=>void = ()=>{
-        this.tooltipManager.hideTooltip();
+        if (typeof this.getElementLeaveCallBack() === "function") {
+            this.getElementLeaveCallBack()({} as RcsbFvTrackDataElementInterface);
+        }
     };
 
     protected clickCallBack = (event: MouseEvent)=>{

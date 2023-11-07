@@ -8,6 +8,7 @@ import {RcsbFvDisplayTypes} from "./RcsbFvDefaultConfigValues";
 import React from "react";
 import {RcsbFvRowMarkPublicInterface} from "../RcsbFvRow/RcsbFvRowMark";
 import {RowTitleComponentType} from "../RcsbFvRow/RcsbFvRowTitle";
+import {RcsbFvTooltipInterface} from "../RcsbFvTooltip/RcsbFvTooltipInterface";
 
 /** Main PFV board configuration */
 export interface RcsbFvBoardConfigInterface {
@@ -54,6 +55,8 @@ export interface RcsbFvBoardConfigInterface {
     hideRowGlow?: boolean;
     /**Callback function called when the feature viewer rendering starts*/
     onFvRenderStartsCallback?:()=>void;
+    /**Tooltip generation*/
+    tooltipGenerator?: RcsbFvTooltipInterface<any>;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
@@ -105,7 +108,7 @@ export interface RcsbFvLink {
 export interface RcsbFvRowExtendedConfigInterface<
         P extends {} = {},
         S extends {} = {},
-        T extends {} = {},
+        R extends {} = {},
         M extends {} = {}
     > extends CommonConfigInterface{
     /**DOM element Id where the PFV will be rendered*/
@@ -164,7 +167,7 @@ export interface RcsbFvRowExtendedConfigInterface<
     /**Hide row hover glow*/
     hideRowGlow?: boolean;
     /**Track mark events callbacks*/
-    rowMark?: RcsbFvRowMarkPublicInterface<T>;
+    rowMark?: RcsbFvRowMarkPublicInterface<R>;
     /**Custom row title react component*/
     externalRowTitle?: {
         rowTitleComponent: RowTitleComponentType<P,S>,
@@ -172,6 +175,8 @@ export interface RcsbFvRowExtendedConfigInterface<
     };
     /**External metadata*/
     metadata?:M;
+    /**Tooltip generation*/
+    tooltipGenerator?: RcsbFvTooltipInterface<any>;
 }
 
 export type RcsbFvRowConfigInterface = Omit<RcsbFvRowExtendedConfigInterface,"boardId"|"length"|"range">;

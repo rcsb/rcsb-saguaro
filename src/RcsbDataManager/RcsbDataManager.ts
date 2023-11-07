@@ -10,44 +10,18 @@ export interface RcsbFvTrackDataElementGapInterface {
 
 /**Annotation Element Interface*/
 export interface RcsbFvTrackDataElementInterface {
+    /**Annotation label. This information might be displayed in the annotation tooltip*/
+    label?: string;
     /**Annotation local value. E.g. interface residue energy*/
     value?: number|string;
     /**Annotation local multidimensional value. E.g. Surface normal vector*/
     values?: Array<number>;
-    /**Annotation global value. E.g. whole interface energy*/
-    gValue?: number|string;
     /**Annotation start position*/
     begin: number;
     /**Annotation end position*/
     end?: number;
-    /**Name of the start position. This information might be displayed in the annotation tooltip*/
-    beginName?: string;
-    /**Name of the end position. This information might be displayed in the annotation tooltip*/
-    endName?: string;
-    /**Annotation original reference start position. This information might be displayed in the annotation tooltip*/
-    oriBegin?: number;
-    /**Annotation original reference end position. This information might be displayed in the annotation tooltip*/
-    oriEnd?: number;
-    /**Name of the original reference start position. This information might be displayed in the annotation tooltip*/
-    oriBeginName?: string;
-    /**Name of the original reference end position. This information might be displayed in the annotation tooltip*/
-    oriEndName?: string;
-    /**Name of the original reference. This information might be displayed in the annotation tooltip*/
-    indexName?: string;
-    /**Annotation label. This information might be displayed in the annotation tooltip*/
-    label?: string;
-    /**Annotation name. This information might be displayed in the annotation tooltip*/
-    name?: string;
     /**Annotation displayed color*/
     color?: string;
-    /**Description associated to the annotation. This information might be displayed in the annotation tooltip*/
-    description?: Array<string>;
-    /**Annotation Id*/
-    featureId?: string;
-    /**Annotation type. This information might be displayed in the annotation tooltip*/
-    type?: string;
-    /**Track title. This information might be displayed in the annotation tooltip*/
-    title?: string;
     /**Annotation inner region should not be highlighted*/
     isEmpty?: boolean;
     /**Annotation object is not a real annotation but a selected area from the user*/
@@ -58,20 +32,14 @@ export interface RcsbFvTrackDataElementInterface {
     openBegin?:boolean;
     /**Draw a circle on the end side of blocks*/
     openEnd?:boolean;
-    /**Id of the annotation element (protein or gene) source*/
-    sourceId?: string;
-    /**Source reference database name*/
-    source?: string;
-    /**Name of the resource that dispatched the data*/
-    provenanceName?: string;
-    /**color associated to the resource that dispatched the data*/
-    provenanceColor?: string;
     /**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
     rectBegin?: number;
     /**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
     rectEnd?: number;
     /**Callback when the annotation is clicked*/
     elementClickCallBack?:(x: RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    /**Additional metadata included in the element*/
+    [k: string]: any;
 }
 
 export interface RcsbFvColorGradient {
@@ -80,7 +48,7 @@ export interface RcsbFvColorGradient {
 }
 
 /**Array of annotation elements*/
-export class RcsbFvTrackData extends Array<RcsbFvTrackDataElementInterface>{
+export class RcsbFvTrackData<D extends {[k:string]:any} = {[k:string]:any}> extends Array<RcsbFvTrackDataElementInterface & D>{
 }
 
 /**Map of annotation elements*/

@@ -16,14 +16,14 @@ import {arrayMoveMutable} from "array-move";
 import {RowStatusMap} from "./RowStatusMap";
 import {Subscription} from "rxjs";
 
-export interface RcsbFvExtendedRowConfigInterface extends RcsbFvRowExtendedConfigInterface {
+export interface RcsbFvRowRenderConfigInterface extends RcsbFvRowExtendedConfigInterface {
     key:string;
     renderSchedule?: "async"|"sync"|"fixed";
 }
 
 export class BoardDataState {
 
-    private rowConfigData: RcsbFvExtendedRowConfigInterface[] = [];
+    private rowConfigData: RcsbFvRowRenderConfigInterface[] = [];
     private readonly rowStatusMap: RowStatusMap = new RowStatusMap();
     private readonly contextManager: RcsbFvContextManager;
     private readonly subscription: Subscription;
@@ -40,7 +40,7 @@ export class BoardDataState {
         this.subscription = this.subscribe();
     }
 
-    public getBoardData(): RcsbFvExtendedRowConfigInterface[] {
+    public getBoardData(): RcsbFvRowRenderConfigInterface[] {
         return this.rowConfigData;
     }
 
@@ -135,7 +135,7 @@ export class BoardDataState {
         row.renderSchedule = "sync"
     }
 
-    private checkRow(d: RcsbFvRowConfigInterface): RcsbFvExtendedRowConfigInterface {
+    private checkRow(d: RcsbFvRowConfigInterface): RcsbFvRowRenderConfigInterface {
         const trackId: string = d.trackId ? uniqid(`${d.trackId}_`) : uniqid("trackId_");
         if(d.trackVisibility === false)
             this.rowStatusMap.set(trackId,true);

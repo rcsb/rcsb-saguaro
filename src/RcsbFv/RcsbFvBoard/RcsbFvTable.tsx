@@ -9,7 +9,7 @@ import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
 import classes from "../../scss/RcsbFvRow.module.scss";
 import {RowConfigFactory} from "./Utils/RowConfigFactory";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
-import {RcsbFvExtendedRowConfigInterface} from "./Utils/BoardDataState";
+import {RcsbFvRowRenderConfigInterface} from "./Utils/BoardDataState";
 import {AxisRow} from "./Components/AxisRow";
 import {ReactNode} from "react";
 
@@ -19,7 +19,7 @@ interface RcsbFvTableInterface extends RcsbFvBoardFullConfigInterface {
     readonly contextManager: RcsbFvContextManager;
     readonly xScale: RcsbScaleInterface;
     readonly selection: RcsbSelection;
-    readonly rowConfigData: Array<RcsbFvExtendedRowConfigInterface>;
+    readonly rowConfigData: Array<RcsbFvRowRenderConfigInterface>;
 }
 
 export class RcsbFvTable extends React.Component <RcsbFvTableInterface> {

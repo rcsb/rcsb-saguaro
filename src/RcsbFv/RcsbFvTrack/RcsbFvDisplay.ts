@@ -12,6 +12,8 @@ import {RcsbAreaDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbAreaDisplay";
 import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay";
 import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
 import {RcsbFvColorGradient} from "../../RcsbDataManager/RcsbDataManager";
+import {RcsbFvTooltipManager} from "../RcsbFvTooltip/RcsbFvTooltipManager";
+import {RcsbFvWebPortalTooltip} from "../RcsbFvTooltip/RcsbFvTooltipImplementation/RcsbFvWebPortalTooltip";
 
 export class RcsbFvDisplay {
 
@@ -129,6 +131,7 @@ export class RcsbFvDisplay {
                     throw "Track type " + config.displayType + " is not supported";
             }
             configDisplay(out, config);
+            configTooltip(out, config);
         }else{
             console.error(config);
             throw "Single Display failed missing boardId or displayColor";
@@ -151,9 +154,6 @@ function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowExtendedC
     if (display != null && typeof config.updateDataOnMove === "function") {
         display.setUpdateDataOnMove(config.updateDataOnMove);
     }
-    if (display != null && typeof config.includeTooltip === "boolean") {
-        display.setTooltip(config.includeTooltip);
-    }
     if(display!=null && typeof config.minRatio === "number"){
         display.setMinRatio(config.minRatio);
     }
@@ -162,6 +162,24 @@ function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowExtendedC
     }
     if(display!=null && typeof config.hideEmptyTrackFlag === "boolean"){
         display.setHideEmptyTrack(config.hideEmptyTrackFlag);
+    }
+}
+
+function configTooltip(display: RcsbDisplayInterface, config: RcsbFvRowExtendedConfigInterface){
+    if(config.includeTooltip){
+        const tooltipManager = new RcsbFvTooltipManager(
+            config.boardId,
+            config.tooltipGenerator ?? new RcsbFvWebPortalTooltip()
+        );
+        display.setElementEnterCallBack(d=>{
+            tooltipManager.showTooltip(d);
+            tooltipManager.showTooltipDescription(d);
+            config.elementEnterCallBack?.(d);
+        });
+        display.setElementLeaveCallBack(d=>{
+            tooltipManager.hideTooltip();
+            config.elementLeaveCallBack?.(d);
+        });
     }
 }
 

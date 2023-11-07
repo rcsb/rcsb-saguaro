@@ -27,15 +27,6 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];
             const index = Math.round(this.xScale.invert(x));
-            if (this.includeTooltip) {
-                if (this.innerData[index] != null) {
-                    this.tooltipManager.showTooltip(this.innerData[index] as RcsbFvTrackDataElementInterface);
-                    if((this.innerData[index]?.description?.length ?? 0) > 0)
-                        this.tooltipManager.showTooltipDescription(this.innerData[index] as RcsbFvTrackDataElementInterface);
-                } else {
-                    this.tooltipManager.hideTooltip();
-                }
-            }
             if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
                 this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
             }
@@ -43,7 +34,9 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
     };
 
     mouseoutCallBack: ()=>void = ()=>{
-        this.tooltipManager.hideTooltip();
+        if (typeof this.getElementLeaveCallBack() === "function") {
+            this.getElementLeaveCallBack()({} as RcsbFvTrackDataElementInterface);
+        }
     };
 
     private clickCallBack = (event: MouseEvent)=>{
@@ -176,17 +169,10 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
                 if(seqRegion.value.length>1) {
                     seqRegion.value.split("").forEach((s: string, i: number) => {
                         const e: RcsbFvTrackDataElementInterface = {
+                            ...seqRegion,
                             begin: (seqRegion.begin + i),
-                            type: "RESIDUE",
-                            title: "RESIDUE",
                             label: s
                         };
-                        if(typeof seqRegion.oriBegin === "number")
-                            e.oriBegin = seqRegion.oriBegin + i;
-                        if(typeof seqRegion.sourceId === "string")
-                            e.sourceId = seqRegion.sourceId;
-                        if(typeof seqRegion.source === "string")
-                            e.source = seqRegion.source;
                         if(e.begin >= where.from && e.begin <= where.to) {
                             this.innerData[e.begin] = e;
                             addResToSeqPath(e, seqPath);
@@ -195,8 +181,6 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
                 }else{
                     const e: RcsbFvTrackDataElementInterface = {
                         ...seqRegion,
-                        type: "RESIDUE",
-                        title: "RESIDUE",
                         label: seqRegion.value
                     };
                     if(e.begin >= where.from && e.begin <= where.to) {
