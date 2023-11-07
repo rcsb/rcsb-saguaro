@@ -56,7 +56,7 @@ export interface RcsbFvBoardConfigInterface {
     /**Callback function called when the feature viewer rendering starts*/
     onFvRenderStartsCallback?:()=>void;
     /**Tooltip generation*/
-    tooltipGenerator?: RcsbFvTooltipInterface<any>;
+    tooltipGenerator?: RcsbFvTooltipInterface;
 }
 
 //TODO Create additionalConfig to encode display type specific configuration
@@ -176,7 +176,7 @@ export interface RcsbFvRowExtendedConfigInterface<
     /**External metadata*/
     metadata?:M;
     /**Tooltip generation*/
-    tooltipGenerator?: RcsbFvTooltipInterface<any>;
+    tooltipGenerator?: RcsbFvTooltipInterface;
 }
 
 export type RcsbFvRowConfigInterface = Omit<RcsbFvRowExtendedConfigInterface,"boardId"|"length"|"range">;

@@ -31,7 +31,7 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
         trackData: [
             {
                 begin: 1,
-                value: sequence
+                label: sequence
             }
         ]
     },
@@ -67,7 +67,7 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
                 displayId:"compositeSeqeunce",
                 displayData: [{
                     begin:50,
-                    value:"TCLLDELDTAGQEEYSAMRDQYMRTSEGFLC"
+                    label:"TCLLDELDTAGQEEYSAMRDQYMRTSEGFLC"
                 }]
             }
         ]
@@ -104,7 +104,7 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
                 displayId:"compositeSeqeunce",
                 displayData: [{
                     begin:50,
-                    value:"TCLLDELDTAGQEEYSAMRDQYMRTSEGFLC"
+                    label:"TCLLDELDTAGQEEYSAMRDQYMRTSEGFLC"
                 }]
             }
         ]

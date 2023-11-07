@@ -43,7 +43,7 @@ export class RcsbFvConfig implements RcsbFvRowExtendedConfigInterface{
     highlightHoverCallback?:(n:Array<RcsbFvTrackDataElementInterface>)=>void;
     hideInnerBorder?:boolean;
     hideRowGlow?:boolean;
-    tooltipGenerator?: RcsbFvTooltipInterface<any>;
+    tooltipGenerator?: RcsbFvTooltipInterface;
 
     constructor(args:RcsbFvRowExtendedConfigInterface) {
         this.updateConfig(args);

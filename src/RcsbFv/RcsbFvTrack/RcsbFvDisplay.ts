@@ -13,7 +13,7 @@ import {RcsbVariantDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVariantDisplay
 import {RcsbVlineDisplay} from "../../RcsbBoard/RcsbDisplay/RcsbVlineDisplay";
 import {RcsbFvColorGradient} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvTooltipManager} from "../RcsbFvTooltip/RcsbFvTooltipManager";
-import {RcsbFvWebPortalTooltip} from "../RcsbFvTooltip/RcsbFvTooltipImplementation/RcsbFvWebPortalTooltip";
+import {RcsbFvTooltip} from "../RcsbFvTooltip/RcsbFvTooltipImplementation/RcsbFvTooltip";
 
 export class RcsbFvDisplay {
 
@@ -169,7 +169,7 @@ function configTooltip(display: RcsbDisplayInterface, config: RcsbFvRowExtendedC
     if(config.includeTooltip){
         const tooltipManager = new RcsbFvTooltipManager(
             config.boardId,
-            config.tooltipGenerator ?? new RcsbFvWebPortalTooltip()
+            config.tooltipGenerator ?? new RcsbFvTooltip()
         );
         display.setElementEnterCallBack(d=>{
             tooltipManager.showTooltip(d);

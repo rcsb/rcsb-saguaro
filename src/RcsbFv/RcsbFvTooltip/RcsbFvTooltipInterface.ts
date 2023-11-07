@@ -1,6 +1,6 @@
 import {RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 
-export interface RcsbFvTooltipInterface<T> {
-    showTooltip(d: RcsbFvTrackDataElementInterface & T): HTMLElement | undefined;
-    showTooltipDescription(d: RcsbFvTrackDataElementInterface & T): HTMLElement | undefined;
+export interface RcsbFvTooltipInterface {
+    showTooltip(d: RcsbFvTrackDataElementInterface): HTMLElement | undefined;
+    showTooltipDescription(d: RcsbFvTrackDataElementInterface): HTMLElement | undefined;
 }

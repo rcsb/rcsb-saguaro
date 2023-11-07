@@ -31,7 +31,7 @@ const compositeConfig: RcsbFvRowConfigInterface = {
             displayId:"compositeSeqeunce",
             displayData: [{
                 begin:1,
-                value:sequence
+                label:sequence
             }]
         }
     ]

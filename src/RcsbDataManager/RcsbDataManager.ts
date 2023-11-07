@@ -13,7 +13,7 @@ export interface RcsbFvTrackDataElementInterface {
     /**Annotation label. This information might be displayed in the annotation tooltip*/
     label?: string;
     /**Annotation local value. E.g. interface residue energy*/
-    value?: number|string;
+    value?: number;
     /**Annotation local multidimensional value. E.g. Surface normal vector*/
     values?: Array<number>;
     /**Annotation start position*/
@@ -38,8 +38,6 @@ export interface RcsbFvTrackDataElementInterface {
     rectEnd?: number;
     /**Callback when the annotation is clicked*/
     elementClickCallBack?:(x: RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    /**Additional metadata included in the element*/
-    [k: string]: any;
 }
 
 export interface RcsbFvColorGradient {

@@ -165,9 +165,9 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
         const seqPath: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         this.innerData = [];
         sequence.forEach(seqRegion=>{
-            if(typeof seqRegion.value === "string") {
-                if(seqRegion.value.length>1) {
-                    seqRegion.value.split("").forEach((s: string, i: number) => {
+            if(typeof seqRegion.label !== "undefined") {
+                if(seqRegion.label.length>1) {
+                    seqRegion.label.split("").forEach((s: string, i: number) => {
                         const e: RcsbFvTrackDataElementInterface = {
                             ...seqRegion,
                             begin: (seqRegion.begin + i),
@@ -181,7 +181,7 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
                 }else{
                     const e: RcsbFvTrackDataElementInterface = {
                         ...seqRegion,
-                        label: seqRegion.value
+                        label: seqRegion.label
                     };
                     if(e.begin >= where.from && e.begin <= where.to) {
                         this.innerData[e.begin] = e;

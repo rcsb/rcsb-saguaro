@@ -9,9 +9,9 @@ export class RcsbFvTooltipManager {
     private readonly tooltipDiv: HTMLDivElement;
     private readonly tooltipDescriptionDiv: HTMLDivElement;
     private readonly refDiv: HTMLDivElement;
-    private readonly tooltip: RcsbFvTooltipInterface<{}>;
+    private readonly tooltip: RcsbFvTooltipInterface;
 
-    constructor(boardId: string, tooltip: RcsbFvTooltipInterface<{}>) {
+    constructor(boardId: string, tooltip: RcsbFvTooltipInterface) {
         this.boardId = boardId;
         this.tooltip = tooltip;
         const refDiv: HTMLDivElement | null= document.querySelector("#"+this.boardId);

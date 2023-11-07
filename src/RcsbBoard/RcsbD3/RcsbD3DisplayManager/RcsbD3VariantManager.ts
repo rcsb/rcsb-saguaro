@@ -36,9 +36,9 @@ export class RcsbD3VariantManager {
                 return config.xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                if(d.value == undefined)
+                if(d.label == undefined)
                     throw "Variant value not found";
-                const y: number | undefined = config.yScale((d.value as string));
+                const y: number | undefined = config.yScale(d.label);
                 if(y == undefined)
                     throw "Variant value ("+d.value+") not available";
                 return y;
@@ -64,9 +64,9 @@ export class RcsbD3VariantManager {
                 return config.xScale(d.begin) ?? 0;
             })
             .attr(RcsbD3Constants.CY, (d:RcsbFvTrackDataElementInterface) => {
-                if(d.value == undefined)
+                if(d.label == undefined)
                     throw "Variant value not found";
-                const y: number | undefined = config.yScale((d.value as string));
+                const y: number | undefined = config.yScale(d.label);
                 if(y == undefined)
                     throw "Variant value ("+d.value+") not available";
                 return y;

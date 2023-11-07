@@ -8,6 +8,15 @@
 - All module classes and types are accessible from `lib/`
   - Modules format is `ESNext`
   - `lib/commonjs` exposes all modules in `CommonJS` format
+- The interface `RcsbFvTrackDataElementInterface` has been simplified, and it only includes visualization fields
+- `RcsbFvTrackDataElementInterface.value` does not accept string anymore. String values should be encoded into
+`RcsbFvTrackDataElementInterface.label`
+  - **Important!** Sequence tracks (`RcsbFvDisplayTypes.SEQUENCE`) should encode the sequence string in `RcsbFvTrackDataElementInterface.label`
+ 
+
+### Improvements
+- Exposed new interface `RcsbFvTooltipInterface` included in `RcsbFvBoardConfigInterface` and `RcsbFvRowExtendedConfigInterface`
+to generate tooltips
 
 ### Code refactoring
 - Removed `RcsbFvRowConfigInterface.innerTrackId` and replaced by `RcsbFvRowConfigInterface.trackId`
