@@ -143,13 +143,13 @@ export class RcsbFvDisplay {
 
 function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowExtendedConfigInterface){
     if (display != null && typeof config.elementClickCallBack === "function") {
-        display.setElementClickCallBack(config.elementClickCallBack);
+        display.elementSubject.mouseclick.subscribe(({d,e})=>config.elementClickCallBack?.(d,e));
     }
     if (display != null && typeof config.elementEnterCallBack === "function") {
-        display.setElementEnterCallBack(config.elementEnterCallBack);
+        display.elementSubject.mouseenter.subscribe(({d,e})=>config.elementEnterCallBack?.(d,e));
     }
     if (display != null && typeof config.elementLeaveCallBack === "function") {
-        display.setElementLeaveCallBack(config.elementLeaveCallBack);
+        display.elementSubject.mouseleave.subscribe(({d,e})=>config.elementLeaveCallBack?.(d,e));
     }
     if (display != null && typeof config.updateDataOnMove === "function") {
         display.setUpdateDataOnMove(config.updateDataOnMove);
@@ -171,14 +171,12 @@ function configTooltip(display: RcsbDisplayInterface, config: RcsbFvRowExtendedC
             config.boardId,
             config.tooltipGenerator ?? new RcsbFvTooltip()
         );
-        display.setElementEnterCallBack(d=>{
+        display.elementSubject.mouseenter.subscribe(({d,e})=>{
             tooltipManager.showTooltip(d);
             tooltipManager.showTooltipDescription(d);
-            config.elementEnterCallBack?.(d);
         });
-        display.setElementLeaveCallBack(d=>{
+        display.elementSubject.mouseleave.subscribe(({d,e})=>{
             tooltipManager.hideTooltip();
-            config.elementLeaveCallBack?.(d);
         });
     }
 }

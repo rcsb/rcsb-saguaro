@@ -55,7 +55,7 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
 const boardConfigData: RcsbFvBoardConfigInterface = {
     length: sequence.length,
     trackWidth: 940,
-    includeAxis: true,
+    includeAxis: false,
     includeTooltip: true,
     //disableMenu: true,
     highlightHoverElement: true,

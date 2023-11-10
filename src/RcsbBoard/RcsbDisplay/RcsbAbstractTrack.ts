@@ -15,8 +15,10 @@ import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvCont
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 import {RcsbTrackInterface} from "./RcsbDisplayInterface";
+import {Subject} from "rxjs";
 
 export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
+
     protected d3Manager: RcsbD3Manager;
     protected contextManager: RcsbFvContextManager;
     private _bgColor: string = "#FFFFFF";
@@ -26,9 +28,12 @@ export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
     protected xScale: RcsbScaleInterface;
     protected g: Selection<SVGGElement,any,null,undefined>;
     private boardHighlight: (d: RcsbFvTrackDataElementInterface, operation: 'set'|'add', mode:'select'|'hover', propFlag?: boolean) => void;
-    mouseoutCallBack: ()=>void;
-    mouseoverCallBack: ()=>void;
-    mousemoveCallBack: (event:MouseEvent, n:number)=>void;
+
+    readonly trackSubject: RcsbTrackInterface["trackSubject"] = {
+        mousemove: new Subject<{e: MouseEvent, n: number}>(),
+        mouseenter: new Subject<MouseEvent>(),
+        mouseleave: new Subject<MouseEvent>()
+    }
 
     private dataUpdatedFlag: boolean = false;
 

@@ -1,4 +1,4 @@
-import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
+import {RcsbDisplayInterface, RcsbTrackInterface} from "./RcsbDisplayInterface";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbD3Manager} from "../RcsbD3/RcsbD3Manager";
 import {
@@ -10,55 +10,39 @@ import {
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {BaseType, Selection} from "d3-selection";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
+import {Subject} from "rxjs";
 
 interface DisplayElementInterface {
     display: RcsbDisplayInterface;
     id: string;
 }
-export class RcsbCompositeDisplay implements RcsbDisplayInterface{
+export class RcsbCompositeDisplay implements RcsbDisplayInterface {
+
     private innerDisplays: Array<DisplayElementInterface> = new Array<DisplayElementInterface>();
     private _height: number;
     private _data: RcsbFvTrackDataMap;
     private _bgColor: string;
     private compositeHeight: number;
 
-    setElementClickCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
-    setElementEnterCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
-    setElementLeaveCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
     setUpdateDataOnMove: (f:(d:LocationViewInterface)=>Promise<RcsbFvTrackData>)=>void;
-    setTooltip: (flag: boolean)=>void;
     setMinRatio: (ratio: number) => void;
     setSelectDataInRange: (flag: boolean) => void;
     setHideEmptyTrack: (flag:boolean) =>  void;
 
+    public readonly elementSubject: RcsbDisplayInterface["elementSubject"] = {
+        mouseclick: new Subject(),
+        mouseenter: new Subject(),
+        mouseleave: new Subject(),
+    };
 
+    readonly trackSubject: RcsbTrackInterface["trackSubject"] = {
+        mousemove: new Subject<{e: MouseEvent, n: number}>(),
+        mouseenter: new Subject<MouseEvent>(),
+        mouseleave: new Subject<MouseEvent>()
+    }
 
     setCompositeHeight(h: number): void{
         this.compositeHeight = h;
-    }
-
-    mouseoutCallBack(): void{
-        this.innerDisplays.forEach(id=>{
-            if(typeof id.display.mouseoutCallBack === "function") {
-                id.display.mouseoutCallBack();
-            }
-        });
-    }
-
-    mouseoverCallBack(): void{
-        this.innerDisplays.forEach(id=>{
-            if(typeof id.display.mouseoverCallBack === "function") {
-                id.display.mouseoverCallBack();
-            }
-        });
-    }
-
-    mousemoveCallBack(event:MouseEvent, n:number): void{
-        this.innerDisplays.forEach(id=>{
-            if(typeof id.display.mousemoveCallBack === "function") {
-                id.display.mousemoveCallBack(event, n);
-            }
-        });
     }
 
     reset(): void{
@@ -99,6 +83,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
 
     addDisplay(displayId: string, display: RcsbDisplayInterface){
         this.innerDisplays.push({id: displayId, display: display} as DisplayElementInterface);
+        this.trackSubject.mouseenter.subscribe(e=>display.trackSubject.mouseenter.next(e));
+        this.trackSubject.mouseleave.subscribe(e=>display.trackSubject.mouseleave.next(e));
+        this.trackSubject.mousemove.subscribe(e=>display.trackSubject.mousemove.next(e));
     }
 
     setManagers(d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager){
@@ -113,9 +100,9 @@ export class RcsbCompositeDisplay implements RcsbDisplayInterface{
         });
     }
 
-    setHighlightHoverElement(f: (d:RcsbFvTrackDataElementInterface)=>void, g: (d:RcsbFvTrackDataElementInterface)=>void): void{
+    subscribeElementHighlight(action: {enter: (d:RcsbFvTrackDataElementInterface)=>void; leave: (d:RcsbFvTrackDataElementInterface)=>void}): void{
         this.innerDisplays.forEach(de=>{
-            de.display.setHighlightHoverElement(f,g);
+            de.display.subscribeElementHighlight(action);
         })
     }
 

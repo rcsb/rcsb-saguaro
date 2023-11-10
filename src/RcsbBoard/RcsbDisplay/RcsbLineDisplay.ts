@@ -1,5 +1,4 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
-import {pointer, ContainerElement} from "d3-selection";
 import {
     MoveLineInterface,
     PlotLineInterface,
@@ -23,35 +22,6 @@ export class RcsbLineDisplay extends RcsbAbstractDisplay {
     protected definedScale: boolean = false;
     protected line:Line<RcsbFvTrackDataElementInterface> = line<RcsbFvTrackDataElementInterface>().curve(curveStep);
     private linePoints: RcsbFvTrackDataElementInterface[];
-
-    protected hoverCallback: (event:MouseEvent)=>void = (event:MouseEvent)=>{
-        const svgNode:ContainerElement | null  = this.g.node();
-        if(svgNode != null) {
-            const x = pointer(event, svgNode)[0];
-            const index = Math.round(this.xScale.invert(x));
-            if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
-                this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
-            }
-        }
-    };
-
-    mouseoutCallBack: ()=>void = ()=>{
-        if (typeof this.getElementLeaveCallBack() === "function") {
-            this.getElementLeaveCallBack()({} as RcsbFvTrackDataElementInterface);
-        }
-    };
-
-    protected clickCallBack = (event: MouseEvent)=>{
-        const svgNode:ContainerElement | null  = this.g.node();
-        if(svgNode != null) {
-            const x = pointer(event, svgNode)[0];
-            const position = Math.round(this.xScale.invert(x));
-            const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
-            this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);
-            if(typeof this.getElementClickCallBack() === "function")
-                this.getElementClickCallBack()(region, event);
-        }
-    };
 
     setInterpolationType(type: string): void{
         if(type === InterpolationTypes.CARDINAL)

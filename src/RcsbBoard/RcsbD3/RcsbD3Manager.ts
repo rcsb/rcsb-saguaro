@@ -6,6 +6,7 @@ import {
     RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbScaleInterface} from "./RcsbD3ScaleFactory";
+import {RcsbTrackInterface} from "../RcsbDisplay/RcsbDisplayInterface";
 
 export interface SVGConfInterface  {
     elementId: string,
@@ -13,9 +14,7 @@ export interface SVGConfInterface  {
     svgClass: string;
     width: number;
     pointerEvents: string;
-    mouseoutCallBack: Array<()=>void>;
-    mouseoverCallBack: Array<()=>void>;
-    mousemoveCallBack: Array<(event: MouseEvent, n:number)=>void>;
+    boardSubject: RcsbTrackInterface["trackSubject"];
     xScale: RcsbScaleInterface;
 }
 
@@ -94,28 +93,29 @@ export class RcsbD3Manager {
             .attr(RcsbD3Constants.CLASS, config.svgClass)
             .attr(RcsbD3Constants.WIDTH, config.width)
             .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents)
-            .on(RcsbD3Constants.CONTEXT_MENU, (event:MouseEvent)=>{
+            ;
+        this.addBoardEvents(config);
+        this._width = config.width;
+    }
+
+    private addBoardEvents(config: SVGConfInterface): void{
+        this._svg.on(RcsbD3Constants.CONTEXT_MENU, (event:MouseEvent)=>{
                 event.preventDefault();
             })
             .on(RcsbD3Constants.MOUSE_WHEEL, (event:MouseEvent)=>{
                 event.preventDefault();
-            })
-            .on(RcsbD3Constants.MOUSE_ENTER,(event:MouseEvent)=>{
-                config.mouseoverCallBack.forEach(f=>{
-                    f();
+            }).on(RcsbD3Constants.MOUSE_MOVE, (event)=>{
+                config.boardSubject.mousemove.next({
+                    e: event,
+                    n: Math.round(config.xScale.invert(pointer(event, this.getPane())[0]))
                 });
             })
-            .on(RcsbD3Constants.MOUSE_LEAVE,(event:MouseEvent)=>{
-                config.mouseoutCallBack.forEach(f=>{
-                    f();
-                })
-            }).on(RcsbD3Constants.MOUSE_MOVE,(event: MouseEvent)=>{
-                const index: number = config.mousemoveCallBack.length > 0 ? Math.round(config.xScale.invert(pointer(event, this.getPane())[0])) : -1;
-                config.mousemoveCallBack.forEach(f=>{
-                    f(event, index);
-                })
+            .on(RcsbD3Constants.MOUSE_ENTER,(event)=>{
+                config.boardSubject.mouseenter.next(event);
+            })
+            .on(RcsbD3Constants.MOUSE_LEAVE,(event)=>{
+                config.boardSubject.mouseleave.next(event);
             });
-        this._width = config.width;
     }
 
     addMainG(config: MainGConfInterface): void {

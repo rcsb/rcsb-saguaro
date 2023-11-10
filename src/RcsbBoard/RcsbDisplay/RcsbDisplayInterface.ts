@@ -9,6 +9,7 @@ import {
 } from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
+import {Subject} from "rxjs";
 
 export interface RcsbTrackInterface {
     height: (h?: number) => number;
@@ -20,9 +21,11 @@ export interface RcsbTrackInterface {
     setManagers: (d3Manager: RcsbD3Manager, contextManager: RcsbFvContextManager) => void;
     highlightRegion: (d:Array<RcsbFvTrackDataElementInterface> | null, options?:{color?:string, rectClass?: string;}) => void;
     moveSelection: (mode:'select'|'hover')=> void;
-    mouseoutCallBack: ()=>void;
-    mouseoverCallBack: ()=>void;
-    mousemoveCallBack: (event:MouseEvent, n:number)=>void;
+    readonly trackSubject: {
+        mousemove: Subject<{e: MouseEvent, n: number}>;
+        mouseenter: Subject<MouseEvent>;
+        mouseleave: Subject<MouseEvent>;
+    };
 }
 
 export interface RcsbDisplayInterface extends RcsbTrackInterface{
@@ -31,10 +34,12 @@ export interface RcsbDisplayInterface extends RcsbTrackInterface{
     update: (compKey?: string) => void;
     displayEmpty: () => void;
     move: ()=> void;
-    setElementClickCallBack: (f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void)=>void;
-    setElementEnterCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
-    setElementLeaveCallBack: (f:(d:RcsbFvTrackDataElementInterface)=>void, e?: MouseEvent)=>void;
-    setHighlightHoverElement: (f: (d:RcsbFvTrackDataElementInterface)=>void, g: (d:RcsbFvTrackDataElementInterface)=>void)=>void;
+    readonly elementSubject: {
+        mouseclick: Subject<{d:RcsbFvTrackDataElementInterface; e:MouseEvent}>
+        mouseenter: Subject<{d:RcsbFvTrackDataElementInterface; e:MouseEvent}>
+        mouseleave: Subject<{d:RcsbFvTrackDataElementInterface; e:MouseEvent}>
+    };
+    subscribeElementHighlight: (action: {enter: (d:RcsbFvTrackDataElementInterface)=>void; leave: (d:RcsbFvTrackDataElementInterface)=>void})=>void;
     setMinRatio: (ratio: number) => void;
     setSelectDataInRange: (flag: boolean) => void;
     setHideEmptyTrack: (flag: boolean) => void;

@@ -1,12 +1,14 @@
 import {RcsbAbstractDisplay} from "./RcsbAbstractDisplay";
-import {Selection, BaseType, ContainerElement, pointer} from "d3-selection";
+import {BaseType, ContainerElement, pointer, Selection} from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbFvTrackData, RcsbFvTrackDataElementInterface} from "../../RcsbDataManager/RcsbDataManager";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 import classes from "../../scss/RcsbBoard.module.scss";
 import {
-    MoveFastSequenceInterface, PlotFastSequenceInterface, PlotFastSequenceLineInterface,
+    MoveFastSequenceInterface,
+    PlotFastSequenceInterface,
+    PlotFastSequenceLineInterface,
     RcsbD3FastSequenceManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3FastSequenceManager";
 
@@ -19,48 +21,42 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
     private nonEmptyDisplay: boolean = false;
     private readonly rcsbD3SequenceManager: RcsbD3FastSequenceManager = new RcsbD3FastSequenceManager();
     private definedScale: boolean = false;
+    private index: number;
 
-    private innerData: Array<RcsbFvTrackDataElementInterface|null> = new Array<RcsbFvTrackDataElementInterface|null>();
-
-    private hoverCallback: (event:MouseEvent)=>void = (event:MouseEvent)=>{
-        const svgNode:ContainerElement | null  = this.g.node();
+    private mousemove(event:MouseEvent){
+        const svgNode:ContainerElement | null  = this.g?.node();
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];
-            const index = Math.round(this.xScale.invert(x));
-            if (typeof this.getElementEnterCallBack() === "function" && this.innerData[index] != null) {
-                this.getElementEnterCallBack()(this.innerData[index] as RcsbFvTrackDataElementInterface, event);
-            }
+            this.index = Math.round(this.xScale.invert(x));
+            this.elementSubject.mouseenter.next({d: {begin: this.index}, e: event});
         }
-    };
+    }
 
-    mouseoutCallBack: ()=>void = ()=>{
-        if (typeof this.getElementLeaveCallBack() === "function") {
-            this.getElementLeaveCallBack()({} as RcsbFvTrackDataElementInterface);
-        }
-    };
+    private mouseleave(event:MouseEvent){
+        this.elementSubject.mouseleave.next({d: {begin: this.index}, e: event});
+    }
 
-    private clickCallBack = (event: MouseEvent)=>{
+    private mouseclick = (event: MouseEvent)=>{
         const svgNode:ContainerElement | null  = this.g.node();
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];
             const position = Math.round(this.xScale.invert(x));
             const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
             this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);
-            if(typeof this.getElementClickCallBack() === "function")
-                this.getElementClickCallBack()(region, event);
+            this.elementSubject.mouseclick.next({d: region, e: event});
         }
     };
 
     setDynamicDisplay(){
         this.hideFlag = true;
-        this.mouseoutCallBack = () => {
+        this.trackSubject.mouseleave.subscribe(()=>{
             this.hideFlag = true;
             this.getElements().remove();
-        };
-        this.mouseoverCallBack = () => {
+        })
+        this.trackSubject.mouseenter.subscribe(()=>{
             this.hideFlag = false;
             this.update(this.compKey);
-        };
+        });
     }
 
     setNonEmptyDisplay(flag: boolean): void{
@@ -114,8 +110,9 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
             color: this._displayColor as string,
             height: this.height(),
             intervalRatio: this.intervalRatio,
-            clickCallBack: this.clickCallBack,
-            hoverCallback: this.hoverCallback
+            mouseclick: this.mouseclick.bind(this),
+            mousemove: this.mousemove.bind(this),
+            mouseleave: this.mouseleave.bind(this)
         };
         this.rcsbD3SequenceManager.plot(config);
         this.checkHideFlag();
@@ -141,13 +138,16 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
             xScale: this.xScale,
             yScale: this.yScale,
             height: this.height(),
-            g:this.g
+            trackG:this.g,
+            mouseclick: this.mouseclick.bind(this),
+            mousemove: this.mousemove.bind(this),
+            mouseleave: this.mouseleave.bind(this)
         };
-        RcsbD3FastSequenceManager.plotSequenceLine.call(this,config);
+        RcsbD3FastSequenceManager.plotSequenceLine(config);
     }
 
     private rmSequenceLine(): void{
-        this.g.select(RcsbD3Constants.LINE).remove();
+        RcsbD3FastSequenceManager.clearLine({trackG: this.g})
     }
 
     private checkHideFlag(): void{
@@ -163,7 +163,6 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
     private getSequenceData(where: LocationViewInterface): Array<RcsbFvTrackDataElementInterface>{
         const sequence: RcsbFvTrackData = this.data();
         const seqPath: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
-        this.innerData = [];
         sequence.forEach(seqRegion=>{
             if(typeof seqRegion.label !== "undefined") {
                 if(seqRegion.label.length>1) {
@@ -174,7 +173,6 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
                             label: s
                         };
                         if(e.begin >= where.from && e.begin <= where.to) {
-                            this.innerData[e.begin] = e;
                             addResToSeqPath(e, seqPath);
                         }
                     });
@@ -184,7 +182,6 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
                         label: seqRegion.label
                     };
                     if(e.begin >= where.from && e.begin <= where.to) {
-                        this.innerData[e.begin] = e;
                         addResToSeqPath(e, seqPath);
                     }
                 }

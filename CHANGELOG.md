@@ -17,6 +17,11 @@
 ### Improvements
 - Exposed new interface `RcsbFvTooltipInterface` included in `RcsbFvBoardConfigInterface` and `RcsbFvRowExtendedConfigInterface`
 to generate tooltips
+- Event callback setters for `RcsbTrackInterface` and `RcsbDisplayInterface` migrated to rxjs subjects
+- `RcsbAreaDisplay` hover and leave callbacks are defined as `RcsbTrackInterface.trackSubject` subscriptions
+- `RcsbBoard` mouse events callback are defined as subscriptions of `boardSubject`
+- Composite tracks subscribe all event action of their inner tracks
+- `RcsbFastSequenceDisplay` line visualization react to mousemove and click events
 
 ### Code refactoring
 - Removed `RcsbFvRowConfigInterface.innerTrackId` and replaced by `RcsbFvRowConfigInterface.trackId`

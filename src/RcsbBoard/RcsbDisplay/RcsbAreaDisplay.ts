@@ -17,6 +17,7 @@ import {
     PlotLineInterface,
     RcsbD3LineManager
 } from "../RcsbD3/RcsbD3DisplayManager/RcsbD3LineManager";
+import {ContainerElement, pointer} from "d3-selection";
 
 interface LineColorInterface {
     points:RcsbFvTrackDataElementInterface[];
@@ -31,6 +32,13 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
     private multiAreaFlag: boolean = false;
     private readonly areaManager: RcsbD3AreaManager = new RcsbD3AreaManager();
     protected readonly SUFFIX_ID: string = "area_";
+    private index: number;
+
+    constructor(boardId: string, trackId: string) {
+        super(boardId, trackId);
+        this.trackSubject.mousemove.subscribe(({e,n})=>this.mousemove(e,n));
+        this.trackSubject.mouseleave.subscribe((e)=>this.mouseleave(e));
+    }
 
     public setInterpolationType(type: string): void{
         super.setInterpolationType(type);
@@ -78,6 +86,34 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
             })
     }
 
+     private mousemove(event:MouseEvent, n: number){
+        const svgNode:ContainerElement | null  = this.g.node();
+        if(svgNode != null) {
+            if(this.innerData[n]) {
+                this.index = n;
+                this.elementSubject.mouseenter.next({d: this.innerData[this.index] as RcsbFvTrackDataElementInterface, e: event});
+            } else {
+                this.mouseleave(event);
+            }
+        }
+    }
+
+    private mouseleave(event:MouseEvent){
+        this.elementSubject.mouseleave.next({d: this.innerData[this.index] as RcsbFvTrackDataElementInterface, e: event});
+    }
+
+
+    private mouseclick = (event: MouseEvent)=>{
+        const svgNode:ContainerElement | null  = this.g.node();
+        if(svgNode != null) {
+            const x = pointer(event, svgNode)[0];
+            const position = Math.round(this.xScale.invert(x));
+            const region: RcsbFvTrackDataElementInterface = {begin: position, end: position};
+            this.getBoardHighlight()(region, event.shiftKey ? 'add' : 'set', 'select', false);
+            this.elementSubject.mouseclick.next({d: region, e: event});
+        }
+    };
+
     protected geoPlot(data:RcsbFvTrackData): void {
         if(!this.definedScale){
             this.setScale();
@@ -118,8 +154,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                  area: this.area,
                  id:this.SUFFIX_ID+index,
                  opacity: (this.blockAreaFlag ? e.alpha : ((this.multiLine.length > 1 || this.blockAreaFlag) ? 1 : .2)),
-                 clickCallBack:this.clickCallBack,
-                 hoverCallback:this.hoverCallback
+                 mouseclick:this.mouseclick.bind(this)
             });
         });
         this.areaManager.plot(areaConfig);

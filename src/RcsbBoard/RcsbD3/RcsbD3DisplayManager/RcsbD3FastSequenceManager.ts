@@ -12,16 +12,20 @@ export interface PlotFastSequenceInterface {
     color?: string;
     height:number;
     intervalRatio: [number,number];
-    clickCallBack: (event:MouseEvent)=>void;
-    hoverCallback: (event:MouseEvent)=>void;
+    mouseclick: (event:MouseEvent)=>void;
+    mousemove: (event:MouseEvent)=>void;
+    mouseleave: (event:MouseEvent)=>void;
 }
 
 export interface PlotFastSequenceLineInterface {
     xScale: RcsbScaleInterface;
     yScale: RcsbScaleInterface;
-    g:Selection<SVGGElement,any,null,undefined>;
+    trackG:Selection<SVGGElement,any,null,undefined>;
     height:number;
     color?: string;
+    mouseclick: (event:MouseEvent)=>void;
+    mousemove: (event:MouseEvent)=>void;
+    mouseleave: (event:MouseEvent)=>void;
 }
 
 export interface MoveFastSequenceInterface {
@@ -30,9 +34,10 @@ export interface MoveFastSequenceInterface {
 }
 
 export class RcsbD3FastSequenceManager {
-    private textElements: Selection<SVGTextElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGTextElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private textElements: Selection<SVGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
     private readonly MONOSPACE_BEGIN: number = 2.5;
     private readonly FONT_FAMILY: string = "Monaco, Menlo,  Lucida, monospace";
+    private static readonly RECT_ID: string = "line-rect";
 
     plot(config: PlotFastSequenceInterface){
         const xScale = config.xScale;
@@ -65,18 +70,14 @@ export class RcsbD3FastSequenceManager {
             })
             .attr(RcsbD3Constants.FILL_OPACITY,()=>{
                 return RcsbD3FastSequenceManager.opacity(xScale,config.intervalRatio)
-            })
-            .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
-                config.clickCallBack(event);
-            })
-            .on(RcsbD3Constants.MOUSE_MOVE, (event: MouseEvent) => {
-                config.hoverCallback(event);
             });
+        addSequenceEvents(this.textElements, config);
     }
 
     static plotSequenceLine(config: PlotFastSequenceLineInterface): void{
-        config.g.select(RcsbD3Constants.LINE).remove();
-        config.g.append(RcsbD3Constants.LINE)
+        RcsbD3FastSequenceManager.clearLine(config);
+
+        config.trackG.append(RcsbD3Constants.LINE)
             .style(RcsbD3Constants.STROKE_WIDTH,2)
             .style(RcsbD3Constants.STROKE, "#DDDDDD")
             .attr(RcsbD3Constants.STROKE_DASH,"2")
@@ -84,6 +85,20 @@ export class RcsbD3FastSequenceManager {
             .attr(RcsbD3Constants.Y1, config.yScale(config.height*0.5) ?? 0)
             .attr(RcsbD3Constants.X2, config.xScale.range()[1])
             .attr(RcsbD3Constants.Y2, config.yScale(config.height*0.5) ?? 0);
+
+        const rect: Selection<SVGElement, any, any, any> =  config.trackG.append(RcsbD3Constants.RECT);
+        rect.attr(RcsbD3Constants.ID, RcsbD3FastSequenceManager.RECT_ID)
+            .attr(RcsbD3Constants.X, config.xScale.range()[0])
+            .attr(RcsbD3Constants.Y, config.yScale.range()[0])
+            .attr(RcsbD3Constants.WIDTH, config.xScale.range()[1]-config.xScale.range()[0])
+            .attr(RcsbD3Constants.HEIGHT, config.height)
+            .attr(RcsbD3Constants.FILL_OPACITY,0);
+        addSequenceEvents(rect, config);
+    }
+
+    public static clearLine(config: {trackG: Selection<SVGGElement,any,any,any>;}): void{
+        config.trackG.select(RcsbD3Constants.LINE).remove();
+        config.trackG.select(`${RcsbD3Constants.RECT}#${RcsbD3FastSequenceManager.RECT_ID}`).remove();
     }
 
     move(config: MoveFastSequenceInterface){
@@ -126,4 +141,14 @@ export class RcsbD3FastSequenceManager {
     private textBegin(xScale: RcsbScaleInterface, d:RcsbFvTrackDataElementInterface): number {
         return xScale(d.begin)-this.MONOSPACE_BEGIN;
     }
+}
+
+function addSequenceEvents(element: Selection<SVGElement,any, any, any>, config: {
+    mouseclick: (event:MouseEvent)=>void;
+    mousemove: (event:MouseEvent)=>void;
+    mouseleave: (event:MouseEvent)=>void;
+}) {
+    element.on(RcsbD3Constants.CLICK, event=>config.mouseclick(event))
+    element.on(RcsbD3Constants.MOUSE_MOVE, event=>config.mousemove(event))
+    element.on(RcsbD3Constants.MOUSE_OUT, event=>config.mouseleave(event))
 }

@@ -16,7 +16,7 @@ import {
     RcsbFvContextManager,
     RcsbFvContextManagerType
 } from "../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
-import {RcsbDisplayInterface} from "./RcsbDisplay/RcsbDisplayInterface";
+import {RcsbDisplayInterface, RcsbTrackInterface} from "./RcsbDisplay/RcsbDisplayInterface";
 import {RcsbD3EventDispatcher} from "./RcsbD3/RcsbD3EventDispatcher";
 import {RcsbFvTrackDataElementInterface} from "../RcsbDataManager/RcsbDataManager";
 import {RcsbFvDefaultConfigValues} from "../RcsbFv/RcsbFvConfig/RcsbFvDefaultConfigValues";
@@ -71,9 +71,12 @@ export class RcsbBoard {
 
     private zoomEventHandler:ZoomBehavior<Element, any> = zoom();
 
-    private mouseoverCallBack: Array<()=>void> = new Array<()=> void>();
-    private mouseoutCallBack: Array<()=>void> = new Array<()=> void>();
-    private mousemoveCallBack: Array<(event: MouseEvent, n:number)=>void> = new Array<(event: MouseEvent, n:number)=> void>();
+    readonly boardSubject: RcsbTrackInterface["trackSubject"] = {
+        mousemove: new Subject<{e: MouseEvent, n: number}>(),
+        mouseenter: new Subject<MouseEvent>(),
+        mouseleave: new Subject<MouseEvent>()
+    }
+
     private readonly mouseHoverCallBack: Subject<Array<RcsbFvTrackDataElementInterface>> = new Subject<Array<RcsbFvTrackDataElementInterface>>();
 
     private readonly contextManager: RcsbFvContextManager;
@@ -108,9 +111,7 @@ export class RcsbBoard {
             domClass: classes.rcsbDom,
             width: this._width,
             pointerEvents: "all",
-            mouseoutCallBack: this.mouseoutCallBack,
-            mouseoverCallBack: this.mouseoverCallBack,
-            mousemoveCallBack: this.mousemoveCallBack,
+            boardSubject: this.boardSubject,
             xScale: this._xScale
         };
         this.d3Manager.buildSvgNode(svgConfig);
@@ -166,10 +167,10 @@ export class RcsbBoard {
     }
 
     public setHighlightHoverPosition(){
-        this.mousemoveCallBack.push((event: MouseEvent, n:number)=>{
+        this.boardSubject.mousemove.subscribe((d: {e: MouseEvent, n:number})=>{
             if(this.contextManager.getCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT))
                 return;
-            this.highlightRegion({begin:n,nonSpecific:true},'set','hover')
+            this.highlightRegion({begin:d.n,nonSpecific:true},'set','hover')
         });
     }
 
@@ -285,12 +286,6 @@ export class RcsbBoard {
 
     }
 
-    /*private updateBoard(): void{
-        this.tracks.forEach((track)=> {
-            track.update();
-        })
-    }*/
-
     public reset(): void{
         this.tracks = new Array<RcsbDisplayInterface>();
         this.d3Manager.resetAllTracks();
@@ -301,16 +296,16 @@ export class RcsbBoard {
     }
 
     private addHighlightHoverElement(t: RcsbDisplayInterface){
-        t.setHighlightHoverElement(
-            (d: RcsbFvTrackDataElementInterface)=>{
+        t.subscribeElementHighlight({
+            enter: (d: RcsbFvTrackDataElementInterface)=>{
                 this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, true);
                 this.highlightRegion(d,'set', 'hover');
             },
-            (d:RcsbFvTrackDataElementInterface)=>{
+            leave: (d:RcsbFvTrackDataElementInterface)=>{
                 this.highlightRegion(null, 'set', 'hover', false);
                 this.contextManager.setCondition(CONDITIONAL_FLAG.STOP_MOUSE_MOVE_HOVERING_HIGHLIGHT, false);
             }
-        );
+        });
     }
 
     public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>, options?:{}): void{
@@ -328,15 +323,9 @@ export class RcsbBoard {
         t.setBoardHighlight(this.highlightRegion.bind(this));
         if(this.highlightHoverElementFlag)
             this.addHighlightHoverElement(t);
-        if(typeof t.mouseoutCallBack === "function"){
-            this.mouseoutCallBack.push(t.mouseoutCallBack.bind(t))
-        }
-        if(typeof t.mouseoverCallBack === "function"){
-            this.mouseoverCallBack.push(t.mouseoverCallBack.bind(t))
-        }
-        if(typeof t.mousemoveCallBack === "function"){
-            this.mousemoveCallBack.push(t.mousemoveCallBack.bind(t))
-        }
+        this.boardSubject.mouseleave.subscribe(e=>t.trackSubject.mouseleave.next(e));
+        this.boardSubject.mouseenter.subscribe(e=>t.trackSubject.mouseenter.next(e));
+        this.boardSubject.mousemove.subscribe(d=> t.trackSubject.mousemove.next(d));
         this.tracks.push(t);
     }
 

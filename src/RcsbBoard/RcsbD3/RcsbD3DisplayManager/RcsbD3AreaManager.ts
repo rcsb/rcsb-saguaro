@@ -4,18 +4,13 @@ import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 import classes from "../../../scss/RcsbBoard.module.scss";
 
-export interface ClearAreaInterface {
-    trackG: Selection<SVGGElement,any,null,undefined>;
-}
-
 export interface PlotAreaInterface {
     points: RcsbFvTrackDataElementInterface[];
     color: string;
     trackG: Selection<SVGGElement,any,null,undefined>;
     area:Area<RcsbFvTrackDataElementInterface>;
     id:string;
-    clickCallBack: (event:MouseEvent)=>void;
-    hoverCallback: (event:MouseEvent)=>void;
+    mouseclick: (event:MouseEvent)=>void;
     opacity?: number;
 }
 
@@ -35,7 +30,7 @@ export interface PlotAxisInterface {
 }
 export class RcsbD3AreaManager {
 
-    private areaMap: {[key:string]: Selection<SVGGElement, any, null, undefined>} = {};
+    private areaMap: {[key:string]: Selection<SVGPathElement, any, null, undefined>} = {};
 
     public plot(multiConfig: Array<PlotAreaInterface>){
         multiConfig.forEach(config=>{
@@ -47,16 +42,18 @@ export class RcsbD3AreaManager {
                     .style(RcsbD3Constants.FILL, config.color)
                     .attr(RcsbD3Constants.CLASS, classes.rcsbArea)
                     .on(RcsbD3Constants.CLICK, (event: MouseEvent) => {
-                        config.clickCallBack(event);
-                    })
-                    .on(RcsbD3Constants.MOUSE_MOVE, (event: MouseEvent) => {
-                        config.hoverCallback(event);
+                        config.mouseclick(event);
                     });
+                this.addAreaEvents(this.areaMap[config.id], config);
             }
             this.areaMap[config.id]
                 .datum(config.points)
                 .attr(RcsbD3Constants.D, config.area)
         });
+    }
+
+    private addAreaEvents(area: Selection<SVGPathElement, any, null, undefined>, config: PlotAreaInterface) {
+        area.on(RcsbD3Constants.CLICK, event=>config.mouseclick(event))
     }
 
     public plotAxis(config: PlotAxisInterface){

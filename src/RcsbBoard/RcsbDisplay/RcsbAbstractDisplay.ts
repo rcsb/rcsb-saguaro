@@ -11,15 +11,11 @@ import {RcsbD3EventDispatcher} from "../RcsbD3/RcsbD3EventDispatcher";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 import {EventType} from "../../RcsbFv/RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbDisplayInterface} from "./RcsbDisplayInterface";
+import {Subject} from "rxjs";
 
 export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements RcsbDisplayInterface {
 
     protected _displayColor: string  | RcsbFvColorGradient = "#FF6666";
-    private elementClickCallBack: (d:RcsbFvTrackDataElementInterface, e?:MouseEvent)=>void;
-    private elementEnterCallBack: (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    private elementLeaveCallBack: (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
-    private highlightEnterElement: (d:RcsbFvTrackDataElementInterface)=>void;
-    private highlightLeaveElement: (d:RcsbFvTrackDataElementInterface)=>void;
     private readonly trackId: string;
     protected minRatio: number = 0;
     private selectDataInRangeFlag: boolean = false;
@@ -27,33 +23,15 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
     private hidden = false;
     private elementSelection: Selection<SVGGElement, RcsbFvTrackDataElementInterface, BaseType, undefined> = select<SVGGElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
 
+    public readonly elementSubject: RcsbDisplayInterface["elementSubject"] = {
+        mouseclick: new Subject(),
+        mouseenter: new Subject(),
+        mouseleave: new Subject(),
+    };
+
     constructor(boardId: string, trackId: string) {
         super();
         this.trackId = trackId;
-    }
-
-    setElementClickCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
-        this.elementClickCallBack = f;
-    }
-
-    getElementClickCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
-        return this.elementClickCallBack;
-    }
-
-    setElementEnterCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
-        this.elementEnterCallBack = f;
-    }
-
-    getElementEnterCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
-        return this.elementEnterCallBack;
-    }
-
-    setElementLeaveCallBack(f:(d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void): void{
-        this.elementLeaveCallBack = f;
-    }
-
-    getElementLeaveCallBack(): (d:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void{
-        return this.elementLeaveCallBack;
     }
 
     setDisplayColor(color: string  | RcsbFvColorGradient): void{
@@ -76,50 +54,36 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
         this.g.selectAll("."+classes.rcsbElement).remove();
     }
 
-    public setHighlightHoverElement(enter: (d:RcsbFvTrackDataElementInterface)=>void, leave: (d:RcsbFvTrackDataElementInterface)=>void){
-        this.highlightEnterElement = enter;
-        this.highlightLeaveElement = leave;
+    public subscribeElementHighlight(action: {enter: (d:RcsbFvTrackDataElementInterface)=>void; leave: (d:RcsbFvTrackDataElementInterface)=>void}){
+        this.elementSubject.mouseenter.subscribe(({d,e})=>action.enter(d));
+        this.elementSubject.mouseleave.subscribe(({d,e})=>action.leave(d));
     }
 
     plot(element:Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>): void{
         element.on(RcsbD3Constants.CLICK, (event: MouseEvent, d: RcsbFvTrackDataElementInterface)=> {
-            if (event.defaultPrevented) {
+            if (event.defaultPrevented)
                 return;
-            }
-            if(typeof this.elementClickCallBack === "function") {
-                this.elementClickCallBack(d, event);
-            }
-            if(typeof d.elementClickCallBack === "function"){
-                d.elementClickCallBack(d, event);
-            }
+
+            this.elementSubject.mouseclick.next({d, e: event});
+            d.elementClickCallBack?.(d, event);
             RcsbD3EventDispatcher.elementClick(event, this.getBoardHighlight(),d);
         });
         element.on(RcsbD3Constants.MOUSE_ENTER, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
-            if (event.defaultPrevented) {
+            if (event.defaultPrevented)
                 return;
-            }
-            if(typeof this.elementEnterCallBack === "function") {
-                this.elementEnterCallBack(d, event);
-            }
-            if(typeof this.highlightEnterElement === "function"){
-                this.highlightEnterElement(d);
-            }
+
+            this.elementSubject.mouseenter.next({d, e: event});
         });
         element.on(RcsbD3Constants.DBL_CLICK, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
-            if (event.defaultPrevented) {
+            if (event.defaultPrevented)
                 return;
-            }
+
         });
         element.on(RcsbD3Constants.MOUSE_LEAVE, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {
             if (event.defaultPrevented) {
                 return;
             }
-            if(typeof this.elementLeaveCallBack === "function") {
-                this.elementLeaveCallBack(d, event);
-            }
-            if(typeof this.highlightLeaveElement === "function"){
-                this.highlightLeaveElement(d);
-            }
+            this.elementSubject.mouseleave.next({d, e: event});
         });
     }
 
