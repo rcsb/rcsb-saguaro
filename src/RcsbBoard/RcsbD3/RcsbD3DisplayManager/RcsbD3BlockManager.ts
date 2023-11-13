@@ -2,9 +2,13 @@ import {Selection, BaseType, select} from "d3-selection";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
 import {RcsbScaleInterface} from "../RcsbD3ScaleFactory";
+import {BlockElementInterface} from "../../RcsbDisplay/RcsbBlockDisplay";
+
+
+interface RcsbFvBlockDataElementInterface  extends RcsbFvTrackDataElementInterface, BlockElementInterface {}
 
 export interface PlotBlockInterface {
-    elements: Selection<SVGGElement,RcsbFvTrackDataElementInterface,BaseType,undefined>;
+    elements: Selection<SVGGElement,RcsbFvBlockDataElementInterface,BaseType,undefined>;
     dy: number;
     dx: number;
     y_o: number;
@@ -54,7 +58,7 @@ export class RcsbD3BlockManager {
 
     private static readonly minWidth: number = 2;
 
-    private rectElements: Selection<SVGRectElement, RcsbFvTrackDataElementInterface,  BaseType, undefined> = select<SVGRectElement, RcsbFvTrackDataElementInterface>(RcsbD3Constants.EMPTY);
+    private rectElements: Selection<SVGRectElement, RcsbFvBlockDataElementInterface,  BaseType, undefined> = select<SVGRectElement, RcsbFvBlockDataElementInterface>(RcsbD3Constants.EMPTY);
     private lineElements: Selection<SVGLineElement, LineDecoratorInterface, BaseType, undefined> = select<SVGLineElement, LineDecoratorInterface>(RcsbD3Constants.EMPTY);
     private circleElements: Selection<SVGCircleElement, CircleDecoratorInterface, BaseType, undefined> = select<SVGCircleElement, CircleDecoratorInterface>(RcsbD3Constants.EMPTY);
 
@@ -63,12 +67,12 @@ export class RcsbD3BlockManager {
     plot(config: PlotBlockInterface): void{
         this.rectElements = config.elements.select<SVGRectElement>(RcsbD3Constants.RECT);
         this.rectElements
-            .attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface, i, e)=>{
+            .attr(RcsbD3Constants.X, (d: RcsbFvBlockDataElementInterface, i, e)=>{
                 const begin: number = d.rectBegin ?? d.begin;
                 return (config.xScale(begin-config.dx) ?? 0)+this.STROKE_WIDTH
             })
             .attr(RcsbD3Constants.Y, config.y_o)
-            .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvTrackDataElementInterface)=>{
+            .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvBlockDataElementInterface)=>{
                 if(d.end != null) {
                     const begin: number = d.rectBegin ?? d.begin;
                     const end: number = d.rectEnd ?? d.end;
@@ -78,7 +82,7 @@ export class RcsbD3BlockManager {
                     return RcsbD3BlockManager.minWidth;
             })
             .attr(RcsbD3Constants.HEIGHT, config.dy)
-            .attr(RcsbD3Constants.FILL, (d:RcsbFvTrackDataElementInterface)=> {
+            .attr(RcsbD3Constants.FILL, (d:RcsbFvBlockDataElementInterface)=> {
                 if (d.color === undefined) {
                     return config.color;
                 } else {
@@ -86,7 +90,7 @@ export class RcsbD3BlockManager {
                 }
             })
             .attr(RcsbD3Constants.FILL_OPACITY,0.5)
-            .attr(RcsbD3Constants.STROKE, (d:RcsbFvTrackDataElementInterface) => {
+            .attr(RcsbD3Constants.STROKE, (d:RcsbFvBlockDataElementInterface) => {
                 if (d.color === undefined) {
                     return config.color;
                 } else {
@@ -161,11 +165,11 @@ export class RcsbD3BlockManager {
     }
 
     private moveBlock(xScale: RcsbScaleInterface, dx: number): void{
-        this.rectElements.attr(RcsbD3Constants.X, (d: RcsbFvTrackDataElementInterface)=>{
+        this.rectElements.attr(RcsbD3Constants.X, (d: RcsbFvBlockDataElementInterface)=>{
                 const begin: number = d.rectBegin ?? d.begin;
                 return (xScale(begin-dx) ?? 0)+this.STROKE_WIDTH
             })
-            .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvTrackDataElementInterface)=>{
+            .attr(RcsbD3Constants.WIDTH,  (d: RcsbFvBlockDataElementInterface)=>{
                 if(d.end != null) {
                     const begin: number = d.rectBegin ?? d.begin;
                     const end: number = d.rectEnd ?? d.end;

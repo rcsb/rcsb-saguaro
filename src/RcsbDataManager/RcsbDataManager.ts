@@ -32,10 +32,6 @@ export interface RcsbFvTrackDataElementInterface {
     openBegin?:boolean;
     /**Draw a circle on the end side of blocks*/
     openEnd?:boolean;
-    /**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
-    rectBegin?: number;
-    /**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
-    rectEnd?: number;
     /**Callback when the annotation is clicked*/
     elementClickCallBack?:(x: RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
 }

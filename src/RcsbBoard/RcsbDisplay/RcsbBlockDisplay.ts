@@ -14,6 +14,13 @@ import {
 import classes from "../../scss/RcsbBoard.module.scss";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
+export interface BlockElementInterface  {
+	/**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
+	rectBegin?: number;
+	/**Alternative begin position for rects in block displays. It is used to split annotation into multiple rects when gaps are included*/
+	rectEnd?: number;
+}
+
 export class RcsbBlockDisplay extends RcsbAbstractDisplay {
 
 	private dx: number = 0.5;
@@ -56,10 +63,10 @@ export class RcsbBlockDisplay extends RcsbAbstractDisplay {
 		this.rcsbD3BlockManager.move(config);
     }
 
-    protected processData(dataElems: RcsbFvTrackData): RcsbFvTrackData{
+    protected processData(dataElems: RcsbFvTrackData): RcsbFvTrackData<BlockElementInterface>{
         this.loadDecorators(dataElems);
 		if( this.minRatio == 0 || this.getRatio()>this.minRatio) {
-			const out: RcsbFvTrackData = new RcsbFvTrackData();
+			const out: RcsbFvTrackData<BlockElementInterface> = new RcsbFvTrackData();
 			dataElems.forEach(d => {
 				if (d.gaps != null && d.gaps.length > 0) {
 					const G: Array<RcsbFvTrackDataElementGapInterface> = d.gaps;
@@ -78,6 +85,12 @@ export class RcsbBlockDisplay extends RcsbAbstractDisplay {
 			return out;
 		}
 		return dataElems
+	}
+
+	protected static dataKey(d:RcsbFvTrackDataElementInterface & BlockElementInterface): string{
+		if(d.rectBegin && d.rectEnd)
+			return d.rectBegin+":"+d.rectEnd;
+		return d.begin+":"+d.end;
 	}
 
 	private loadDecorators(features:Array<RcsbFvTrackDataElementInterface>) {

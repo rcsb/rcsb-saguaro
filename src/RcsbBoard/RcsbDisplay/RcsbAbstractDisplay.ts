@@ -182,8 +182,6 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
     }
 
     protected static dataKey(d:RcsbFvTrackDataElementInterface): string{
-        if(d.rectBegin && d.rectEnd)
-            return d.rectBegin+":"+d.rectEnd;
         return d.begin+":"+d.end;
     }
 
