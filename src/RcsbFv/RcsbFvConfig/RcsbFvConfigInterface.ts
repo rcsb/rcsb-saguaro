@@ -179,4 +179,9 @@ export interface RcsbFvRowExtendedConfigInterface<
     tooltipGenerator?: RcsbFvTooltipInterface;
 }
 
-export type RcsbFvRowConfigInterface = Omit<RcsbFvRowExtendedConfigInterface,"boardId"|"length"|"range">;
+export type RcsbFvRowConfigInterface <
+    P extends {} = {},
+    S extends {} = {},
+    R extends {} = {},
+    M extends {} = {}
+>= Omit<RcsbFvRowExtendedConfigInterface<P,S,R,M>,"boardId"|"length"|"range">;
