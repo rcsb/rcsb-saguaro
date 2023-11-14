@@ -19,9 +19,14 @@ import {RcsbFvStateManager} from "./RcsbFvState/RcsbFvStateManager";
 /**
  * Protein Feature Viewer (PFV) constructor interface
  */
-export interface RcsbFvInterface {
+export interface RcsbFvInterface <
+    P extends {[k:string]:any;} = {},
+    S extends {[k:string]:any;} = {},
+    R extends {[k:string]:any;} = {},
+    M extends {[k:string]:any;} = {}
+>{
     /**Array of configurations for each board track*/
-    readonly rowConfigData: RcsbFvRowConfigInterface[];
+    readonly rowConfigData: RcsbFvRowConfigInterface<P,S,R,M>[];
     /**Board global configuration*/
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM element Id where the PFV will be rendered*/
@@ -31,7 +36,12 @@ export interface RcsbFvInterface {
 /**
  * Protein Feature Viewer entry point
  */
-export class RcsbFv {
+export class RcsbFv<
+    P extends {[k:string]:any;} = {},
+    S extends {[k:string]:any;} = {},
+    R extends {[k:string]:any;} = {},
+    M extends {[k:string]:any;} = {}
+>{
 
     /**rxjs event based handler used to communicate events (click, highlight, move) between board tracks*/
     private readonly contextManager: RcsbFvContextManager = new RcsbFvContextManager();
@@ -48,20 +58,20 @@ export class RcsbFv {
 
     private readonly boardId : string = uniqid("RcsbFvBoard_");
 
-    private readonly boardDataSate: BoardDataState;
+    private readonly boardDataSate: BoardDataState<P,S,R,M>;
     private readonly rcsbFvStateManager: RcsbFvStateManager;
 
     private rcsbFvPromise: Promise<void>;
 
     private reactRoot: Root;
 
-    constructor(props: RcsbFvInterface){
+    constructor(props: RcsbFvInterface<P,S,R,M>){
         this.boardConfigData = props.boardConfigData;
         this.elementId = props.elementId;
         if(this.elementId===null || this.elementId===undefined){
             throw "FATAL ERROR: DOM elementId not found";
         }
-        this.boardDataSate = new BoardDataState({
+        this.boardDataSate = new BoardDataState<P,S,R,M>({
             contextManager: this.contextManager,
             boardId: this.boardId,
             rowConfigData: props.rowConfigData
@@ -83,7 +93,7 @@ export class RcsbFv {
     * Loads the configuration for each row of the board
     * @param rowConfigData Array of configurations for each row in the board
     */
-    public setBoardData(rowConfigData: RcsbFvInterface["rowConfigData"]): Promise<void>{
+    public setBoardData(rowConfigData: RcsbFvInterface<P,S,R,M>["rowConfigData"]): Promise<void>{
         this.boardDataSate.setBoardData(rowConfigData);
         return this.updateBoardData();
     }
@@ -91,7 +101,7 @@ export class RcsbFv {
     /**
      * Gets the configuration for each row of the board
      */
-    public getBoardData(): RcsbFvRowConfigInterface[]{
+    public getBoardData(): RcsbFvRowConfigInterface<P,S,R,M>[]{
         return this.boardDataSate.getBoardData();
     }
 
@@ -192,7 +202,7 @@ export class RcsbFv {
     /**Method used to update board global and all-tracks configuration
      * @param newConfig New board configuration data
      * */
-    public updateBoardConfig(newConfig: {boardConfigData?: RcsbFvBoardConfigInterface; rowConfigData?: RcsbFvInterface["rowConfigData"] }): Promise<void>{
+    public updateBoardConfig(newConfig: {boardConfigData?: RcsbFvBoardConfigInterface; rowConfigData?: RcsbFvInterface<P,S,R,M>["rowConfigData"] }): Promise<void>{
         if(newConfig.rowConfigData)
             this.boardDataSate.setBoardData(newConfig.rowConfigData);
         else
@@ -227,7 +237,7 @@ export class RcsbFv {
     /**Adds a new track to the board
      * @param trackConfig Track configuration data
      * */
-    public addTrack(trackConfig: RcsbFvRowConfigInterface): Promise<void>{
+    public addTrack(trackConfig: RcsbFvRowConfigInterface<P,S,R,M>): Promise<void>{
         this.boardDataSate.addTrack(trackConfig);
         return this.updateBoardData();
     }

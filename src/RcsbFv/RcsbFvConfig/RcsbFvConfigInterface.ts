@@ -106,10 +106,10 @@ export interface RcsbFvLink {
  * Board track configuration object
  */
 export interface RcsbFvRowExtendedConfigInterface<
-        P extends {} = {},
-        S extends {} = {},
-        R extends {} = {},
-        M extends {} = {}
+        P extends {[k:string]:any;} = {},
+        S extends {[k:string]:any;} = {},
+        R extends {[k:string]:any;} = {},
+        M extends {[k:string]:any;} = {}
     > extends CommonConfigInterface{
     /**DOM element Id where the PFV will be rendered*/
     boardId: string;
@@ -180,8 +180,8 @@ export interface RcsbFvRowExtendedConfigInterface<
 }
 
 export type RcsbFvRowConfigInterface <
-    P extends {} = {},
-    S extends {} = {},
-    R extends {} = {},
-    M extends {} = {}
+    P extends {[k:string]:any;} = {},
+    S extends {[k:string]:any;} = {},
+    R extends {[k:string]:any;} = {},
+    M extends {[k:string]:any;} = {}
 >= Omit<RcsbFvRowExtendedConfigInterface<P,S,R,M>,"boardId"|"length"|"range">;

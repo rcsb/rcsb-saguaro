@@ -16,14 +16,24 @@ import {arrayMoveMutable} from "array-move";
 import {RowStatusMap} from "./RowStatusMap";
 import {Subscription} from "rxjs";
 
-export interface RcsbFvRowRenderConfigInterface extends RcsbFvRowExtendedConfigInterface {
+export interface RcsbFvRowRenderConfigInterface <
+    P extends {[k:string]:any;} = {},
+    S extends {[k:string]:any;} = {},
+    R extends {[k:string]:any;} = {},
+    M extends {[k:string]:any;} = {}
+> extends RcsbFvRowExtendedConfigInterface<P,S,R,M> {
     key:string;
     renderSchedule?: "async"|"sync"|"fixed";
 }
 
-export class BoardDataState {
+export class BoardDataState<
+    P extends {[k:string]:any;} = {},
+    S extends {[k:string]:any;} = {},
+    R extends {[k:string]:any;} = {},
+    M extends {[k:string]:any;} = {}
+> {
 
-    private rowConfigData: RcsbFvRowRenderConfigInterface[] = [];
+    private rowConfigData: RcsbFvRowRenderConfigInterface<P,S,R,M>[] = [];
     private readonly rowStatusMap: RowStatusMap = new RowStatusMap();
     private readonly contextManager: RcsbFvContextManager;
     private readonly subscription: Subscription;
@@ -32,7 +42,7 @@ export class BoardDataState {
     constructor(config: {
         contextManager: RcsbFvContextManager;
         boardId: string;
-        rowConfigData?: RcsbFvRowConfigInterface[];
+        rowConfigData?: RcsbFvRowConfigInterface<P,S,R,M>[];
     }) {
         this.contextManager = config.contextManager;
         this.rowConfigData = config.rowConfigData?.map(r=>this.checkRow(r)) ?? [];
@@ -40,11 +50,11 @@ export class BoardDataState {
         this.subscription = this.subscribe();
     }
 
-    public getBoardData(): RcsbFvRowRenderConfigInterface[] {
+    public getBoardData(): RcsbFvRowRenderConfigInterface<P,S,R,M>[] {
         return this.rowConfigData;
     }
 
-    public setBoardData(rowConfigData: RcsbFvRowConfigInterface[]): void {
+    public setBoardData(rowConfigData: RcsbFvRowConfigInterface<P,S,R,M>[]): void {
         this.rowStatusMap.clear();
         this.rowConfigData  = rowConfigData.map(r=>this.checkRow(r));
     }
@@ -57,7 +67,7 @@ export class BoardDataState {
     /**Adds a new track to the board
      * @param configRow Track configuration object
      * */
-    public addTrack(configRow: RcsbFvRowConfigInterface): void{
+    public addTrack(configRow: RcsbFvRowConfigInterface<P,S,R,M>): void{
         this.rowConfigData.push( {
             ...this.checkRow(configRow),
             renderSchedule: "sync"
@@ -135,7 +145,7 @@ export class BoardDataState {
         row.renderSchedule = "sync"
     }
 
-    private checkRow(d: RcsbFvRowConfigInterface): RcsbFvRowRenderConfigInterface {
+    private checkRow(d: RcsbFvRowConfigInterface<P,S,R,M>): RcsbFvRowRenderConfigInterface<P,S,R,M> {
         const trackId: string = d.trackId ? uniqid(`${d.trackId}_`) : uniqid("trackId_");
         if(d.trackVisibility === false)
             this.rowStatusMap.set(trackId,true);
