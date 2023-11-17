@@ -165,7 +165,8 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
     private getSequenceData(where: LocationViewInterface): Array<RcsbFvTrackDataElementInterface>{
         const seqPath: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
         for(let n = where.from; n <= where.to; n++){
-            addResToSeqPath(this.innerData[n], seqPath);
+            if(this.innerData[n])
+                addResToSeqPath(this.innerData[n], seqPath);
         }
         return seqPath;
     }
