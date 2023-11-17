@@ -93,7 +93,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 this.index = n;
                 this.elementSubject.mouseenter.next({d: this.innerData[this.index] as RcsbFvTrackDataElementInterface, e: event});
             } else {
-                this.mouseleave(event);
+                this.elementSubject.mouseenter.next({d: {begin: n}, e: event});
             }
         }
     }
