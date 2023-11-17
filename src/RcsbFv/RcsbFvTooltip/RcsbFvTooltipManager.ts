@@ -74,6 +74,7 @@ export class RcsbFvTooltipManager {
 
     showTooltipDescription(d: RcsbFvTrackDataElementInterface){
         this.tooltipDescriptionDiv.textContent = "";
+        this.tooltipDescriptionDiv.style.visibility = "hidden";
         const description = this.tooltip.showTooltipDescription(d);
         if(!description)
             return;
