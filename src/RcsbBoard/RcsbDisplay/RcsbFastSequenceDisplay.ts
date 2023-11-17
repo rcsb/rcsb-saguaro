@@ -21,6 +21,7 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
     private nonEmptyDisplay: boolean = false;
     private readonly rcsbD3SequenceManager: RcsbD3FastSequenceManager = new RcsbD3FastSequenceManager();
     private definedScale: boolean = false;
+    private readonly innerData: Array<RcsbFvTrackDataElementInterface> = [];
     private index: number;
 
     private mousemove(event:MouseEvent){
@@ -28,7 +29,7 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
         if(svgNode != null) {
             const x = pointer(event, svgNode)[0];
             this.index = Math.round(this.xScale.invert(x));
-            this.elementSubject.mouseenter.next({d: {begin: this.index}, e: event});
+            this.elementSubject.mouseenter.next({d: this.innerData[this.index] ?? {begin: this.index}, e: event});
         }
     }
 
@@ -72,6 +73,7 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
         if(this.hideFlag)
             return;
 
+        this.setInnerData();
         if (this.data() == null) {
             return;
         }
@@ -161,33 +163,33 @@ export class RcsbFastSequenceDisplay extends RcsbAbstractDisplay {
     }
 
     private getSequenceData(where: LocationViewInterface): Array<RcsbFvTrackDataElementInterface>{
-        const sequence: RcsbFvTrackData = this.data();
         const seqPath: Array<RcsbFvTrackDataElementInterface> = new Array<RcsbFvTrackDataElementInterface>();
+        for(let n = where.from; n <= where.to; n++){
+            addResToSeqPath(this.innerData[n], seqPath);
+        }
+        return seqPath;
+    }
+
+    private setInnerData(): void {
+        const sequence: RcsbFvTrackData = this.data();
         sequence.forEach(seqRegion=>{
             if(typeof seqRegion.label !== "undefined") {
                 if(seqRegion.label.length>1) {
                     seqRegion.label.split("").forEach((s: string, i: number) => {
-                        const e: RcsbFvTrackDataElementInterface = {
+                        this.innerData[seqRegion.begin + i] = {
                             ...seqRegion,
                             begin: (seqRegion.begin + i),
                             label: s
                         };
-                        if(e.begin >= where.from && e.begin <= where.to) {
-                            addResToSeqPath(e, seqPath);
-                        }
                     });
                 }else{
-                    const e: RcsbFvTrackDataElementInterface = {
+                    this.innerData[seqRegion.begin] = {
                         ...seqRegion,
                         label: seqRegion.label
                     };
-                    if(e.begin >= where.from && e.begin <= where.to) {
-                        addResToSeqPath(e, seqPath);
-                    }
                 }
             }
         });
-        return seqPath;
     }
 
 }
