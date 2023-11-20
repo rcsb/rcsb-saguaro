@@ -39,24 +39,24 @@ Go to:
 - `http://localhost:9000/MultipleAlignment.html`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro/build/rcsb-saguaro.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro/build/rcsb-saguaro.min.js" type="text/javascript"></script>`
 
 ### Library Documentation
-TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/modules.html).
+TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/index.html).
 
 ### Main Classes and Interfaces
 These are the most important elements if you are only interested in using RCSB Saguaro to visualise protein annotations
 
-- [RcsbFv](https://rcsb.github.io/rcsb-saguaro/classes/RcsbFv.html): 
+- [RcsbFv](https://rcsb.github.io/rcsb-saguaro/classes/RcsbFv_RcsbFv.RcsbFv.html): 
 Main feature viewer class that can be used to create, configure and render a feature viewer object. It includes different methods to 
 change viewer configuration, add new tracks, replace or update track data or change track visibility
-- [RcsbFvBoardConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvBoardConfigInterface.html):
+- [RcsbFvBoardConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFv_RcsbFvConfig_RcsbFvConfigInterface.RcsbFvBoardConfigInterface.html):
 Feature viewer configuration interface that defines the different properties to configure the feature viewer main panel 
 including track title and annotation cells width, activate tooltips flag and annotation click and hovering callbacks
-- [RcsbFvRowConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvRowConfigInterface.html): 
+- [RcsbFvRowConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFv_RcsbFvConfig_RcsbFvConfigInterface.RcsbFvRowExtendedConfigInterface.html): 
 This interface can be used to set up the configuration for feature viewer tracks. It includes multiple properties that define how track features 
 are displayed (color, shape, overlap flag) and also different track attributes (background color, track height, track title, track visibility)
-- [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvTrackDataElementInterface.html)
+- [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbDataManager_RcsbDataManager.RcsbFvTrackDataElementInterface.html)
 Interface that defines properties of an specific annotation object. It includes the location where the annotation will be displayed 
 (begin, end) and additional properties to change the final representation and click-event behaviour 
 
@@ -64,7 +64,7 @@ General Board and Track Configuration
 ---
 #### Board Configuration
 Main feature viewer board object configuration defines the coordinate range, track and title width and axis display. 
-The full set of attributes is defined in [RcsbFvBoardConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvBoardConfigInterface.html)
+The full set of attributes is defined in [RcsbFvBoardConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFv_RcsbFvConfig_RcsbFvConfigInterface.RcsbFvBoardConfigInterface.html)
 interface.
 
 Main Board Configuration properties are:
@@ -87,7 +87,7 @@ const boardConfig = {
 };
 ```
 #### Track Configuration
-Row configuration object defines format and content of feature viewer rows. The full set of board row configuration attributes is defined in [RcsbFvRowConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvRowConfigInterface.html).
+Row configuration object defines format and content of feature viewer rows. The full set of board row configuration attributes is defined in [RcsbFvRowConfigInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFv_RcsbFvConfig_RcsbFvConfigInterface.RcsbFvRowExtendedConfigInterface.html).
                                                                              
 Main Row Configuration properties are:
 - **trackHeight**: Defines the board row height
@@ -95,7 +95,7 @@ Main Row Configuration properties are:
 - **rowTitle**: Board track title, text displayed next to the board row
 - **displayType**: Enumerated value used to define how the data is displayed
   - Values: sequence, block, pin, line, area, bond, vline
-- **trackData**: List of data displayed in the board row. The full set o data attributes are defined in [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbFvTrackDataElementInterface.html). Most important data elements attributes are 
+- **trackData**: List of data displayed in the board row. The full set o data attributes are defined in [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbDataManager_RcsbDataManager.RcsbFvTrackDataElementInterface.html). Most important data elements attributes are 
   - **begin**: Start position of the feature
   - **end**: End position of the feature (optional value). When no end value is available the feature is located on a single position defined by *begin*
   - **value**: Numerical or string value of the feature in this range (optional value)
