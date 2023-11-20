@@ -33,7 +33,7 @@ export interface RcsbFvTrackDataElementInterface {
     /**Draw a circle on the end side of blocks*/
     openEnd?:boolean;
     /**Callback when the annotation is clicked*/
-    elementClickCallBack?:(x: RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementClickCallback?:(x: RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
 }
 
 export interface RcsbFvColorGradient {
@@ -80,8 +80,6 @@ export class RcsbDataManager {
             }
         });
         for(const a of data){
-            if(typeof a === "string")
-                continue;
             let pushed: boolean = false;
             for(const track of out){
                 let overlap: boolean = false;

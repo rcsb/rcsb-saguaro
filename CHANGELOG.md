@@ -12,6 +12,7 @@
 - `RcsbFvTrackDataElementInterface.value` does not accept string anymore. String values should be encoded into
 `RcsbFvTrackDataElementInterface.label`
   - **Important!** Sequence tracks (`RcsbFvDisplayTypes.SEQUENCE`) should encode the sequence string in `RcsbFvTrackDataElementInterface.label`
+- All interface attributes `xxxCalBack` renamed to `xxxCallback`
  
 
 ### Improvements

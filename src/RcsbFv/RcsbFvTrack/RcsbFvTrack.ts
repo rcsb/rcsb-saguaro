@@ -110,8 +110,8 @@ export class RcsbFvTrack {
 
     /**Sets parameters for the SVG/HTML level object manager*/
     private initRcsbBoard(): void{
-        if(typeof this.rcsbFvConfig.elementClickCallBack === "function")
-            this.rcsbBoard.setElementClickCallBack(this.rcsbFvConfig.elementClickCallBack);
+        if(typeof this.rcsbFvConfig.elementClickCallback === "function")
+            this.rcsbBoard.setElementClickCallback(this.rcsbFvConfig.elementClickCallback);
 
         if(this.rcsbFvConfig.highlightHoverPosition === true) {
             this.rcsbBoard.setHighlightHoverPosition();
@@ -120,7 +120,7 @@ export class RcsbFvTrack {
             this.rcsbBoard.setHighlightHoverElement(true);
         }
         if(typeof this.rcsbFvConfig.highlightHoverCallback === "function"){
-            this.rcsbBoard.addHoverCallBack(this.rcsbFvConfig.highlightHoverCallback);
+            this.rcsbBoard.addHoverCallback(this.rcsbFvConfig.highlightHoverCallback);
         }
 
         if(typeof this.rcsbFvConfig.trackWidth === "number")

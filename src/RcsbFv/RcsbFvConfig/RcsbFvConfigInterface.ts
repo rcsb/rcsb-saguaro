@@ -30,13 +30,13 @@ export interface RcsbFvBoardConfigInterface {
     /**Disable UI menu*/
     disableMenu?: boolean;
     /**Function that will be called when a track annotation is clicked*/
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementClickCallback?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Function that will be called when hovering a track annotation*/
-    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementEnterCallback?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Function that will be called when mouse-leaving a track annotation*/
-    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementLeaveCallback?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Function that will be called when selection changes*/
-    selectionChangeCallBack?:(selection: Array<RcsbFvTrackDataElementInterface>)=>void;
+    selectionChangeCallback?:(selection: Array<RcsbFvTrackDataElementInterface>)=>void;
     /**Feature cells border color*/
     borderColor?: string;
     /**Feature cells border width*/
@@ -70,11 +70,11 @@ interface CommonConfigInterface{
     /**Flag used in sequence display type to force displaying a line when sequence objects are not visible*/
     nonEmptyDisplay?: boolean;
     /**Function that will be called when annotations in this track are clicked*/
-    elementClickCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementClickCallback?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Function that will be called when clicking annotations in this track*/
-    elementEnterCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementEnterCallback?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Function that will be called when mouse-leaving a track annotation*/
-    elementLeaveCallBack?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
+    elementLeaveCallback?:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void;
     /**Show tooltip when hovering annotations in this specific track*/
     includeTooltip?: boolean;
     /**Function that will be called to update track displayed data when the board is moved or zoomed*/

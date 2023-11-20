@@ -25,14 +25,14 @@ export namespace RowConfigFactory {
         if(typeof boardConfig.trackWidth === "number"){
             out.trackWidth = boardConfig.trackWidth;
         }
-        if(typeof boardConfig.elementClickCallBack === "function"){
-            out.elementClickCallBack = boardConfig.elementClickCallBack;
+        if(typeof boardConfig.elementClickCallback === "function"){
+            out.elementClickCallback = boardConfig.elementClickCallback;
         }
-        if(typeof boardConfig.elementEnterCallBack === "function"){
-            out.elementEnterCallBack = boardConfig.elementEnterCallBack;
+        if(typeof boardConfig.elementEnterCallback === "function"){
+            out.elementEnterCallback = boardConfig.elementEnterCallback;
         }
-        if(typeof boardConfig.elementLeaveCallBack === "function"){
-            out.elementLeaveCallBack = boardConfig.elementLeaveCallBack;
+        if(typeof boardConfig.elementLeaveCallback === "function"){
+            out.elementLeaveCallback = boardConfig.elementLeaveCallback;
         }
         if(typeof boardConfig.highlightHoverPosition === "boolean"){
             out.highlightHoverPosition = boardConfig.highlightHoverPosition;

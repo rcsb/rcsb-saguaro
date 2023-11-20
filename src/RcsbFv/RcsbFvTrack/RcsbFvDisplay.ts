@@ -142,14 +142,14 @@ export class RcsbFvDisplay {
 }
 
 function configDisplay(display: RcsbDisplayInterface, config: RcsbFvRowExtendedConfigInterface){
-    if (display != null && typeof config.elementClickCallBack === "function") {
-        display.elementSubject.mouseclick.subscribe(({d,e})=>config.elementClickCallBack?.(d,e));
+    if (display != null && typeof config.elementClickCallback === "function") {
+        display.elementSubject.mouseclick.subscribe(({d,e})=>config.elementClickCallback?.(d,e));
     }
-    if (display != null && typeof config.elementEnterCallBack === "function") {
-        display.elementSubject.mouseenter.subscribe(({d,e})=>config.elementEnterCallBack?.(d,e));
+    if (display != null && typeof config.elementEnterCallback === "function") {
+        display.elementSubject.mouseenter.subscribe(({d,e})=>config.elementEnterCallback?.(d,e));
     }
-    if (display != null && typeof config.elementLeaveCallBack === "function") {
-        display.elementSubject.mouseleave.subscribe(({d,e})=>config.elementLeaveCallBack?.(d,e));
+    if (display != null && typeof config.elementLeaveCallback === "function") {
+        display.elementSubject.mouseleave.subscribe(({d,e})=>config.elementLeaveCallback?.(d,e));
     }
     if (display != null && typeof config.updateDataOnMove === "function") {
         display.setUpdateDataOnMove(config.updateDataOnMove);

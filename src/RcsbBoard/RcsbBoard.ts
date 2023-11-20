@@ -46,11 +46,10 @@ export class RcsbBoard {
     private _bgColor: string = "#FFFFFF";
     private _innerPadding: number = 10;
     private tracks: Array<RcsbDisplayInterface> = new Array<RcsbDisplayInterface>();
-    elementClickCallBack:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent) => void;
     private highlightHoverElementFlag: boolean = false;
-
-    private readonly _xScale: RcsbScaleInterface;
     private readonly selection: RcsbSelection;
+    private readonly _xScale: RcsbScaleInterface;
+
 
     private limits: RegionLimitsInterface = {
         max: 1000000000,
@@ -77,7 +76,8 @@ export class RcsbBoard {
         mouseleave: new Subject<MouseEvent>()
     }
 
-    private readonly mouseHoverCallBack: Subject<Array<RcsbFvTrackDataElementInterface>> = new Subject<Array<RcsbFvTrackDataElementInterface>>();
+    private readonly mouseHoverSubject: Subject<Array<RcsbFvTrackDataElementInterface>> = new Subject<Array<RcsbFvTrackDataElementInterface>>();
+    public readonly elementClickSubject: Subject<{d?:RcsbFvTrackDataElementInterface; e?: MouseEvent;}> = new Subject();
 
     private readonly contextManager: RcsbFvContextManager;
 
@@ -138,8 +138,7 @@ export class RcsbBoard {
             },
             dblClick:(event: MouseEvent)=>{
                 this.highlightRegion(null, 'set','select', false);
-                if(typeof this.elementClickCallBack === "function")
-                    this.elementClickCallBack();
+                this.elementClickSubject.next({});
             },
             mouseEnter:(event: MouseEvent)=>{
                 if(RcsbD3EventDispatcher.keepSelectingFlag) {
@@ -162,8 +161,8 @@ export class RcsbBoard {
         this.d3Manager.addPane(paneConfig);
     }
 
-    public setElementClickCallBack(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void){
-       this.elementClickCallBack = f;
+    public setElementClickCallback(f:(d?:RcsbFvTrackDataElementInterface, e?: MouseEvent)=>void){
+       this.elementClickSubject.subscribe(({d,e})=>f(d,e));
     }
 
     public setHighlightHoverPosition(){
@@ -174,8 +173,8 @@ export class RcsbBoard {
         });
     }
 
-    public addHoverCallBack(f:(n:Array<RcsbFvTrackDataElementInterface>)=>void){
-        this.mouseHoverCallBack.asObservable().subscribe(f);
+    public addHoverCallback(f:(n:Array<RcsbFvTrackDataElementInterface>)=>void){
+        this.mouseHoverSubject.subscribe(f);
     }
 
     public setRange(from: number, to: number): void{
@@ -221,7 +220,7 @@ export class RcsbBoard {
                 }
             });
             if(mode === 'hover')
-                this.mouseHoverCallBack.next(this.selection.getSelected('hover').map(r=>r.rcsbFvTrackDataElement))
+                this.mouseHoverSubject.next(this.selection.getSelected('hover').map(r=>r.rcsbFvTrackDataElement))
         }
 
         if(this.selection.getSelected(mode).length > 0) {
@@ -269,7 +268,7 @@ export class RcsbBoard {
         }
         this.d3Manager.addZoom({
             zoomEventHandler: this.zoomEventHandler,
-            zoomCallBack: this.moveBoard.bind(this)
+            zoomCallback: this.moveBoard.bind(this)
         } as ZoomConfigInterface);
 
         this.startTracks();
@@ -311,14 +310,14 @@ export class RcsbBoard {
     public addTrack(track: RcsbDisplayInterface|Array<RcsbDisplayInterface>, options?:{}): void{
         if (track instanceof Array) {
             track.forEach((t) => {
-                this.addTrackCallBacks(t);
+                this.addTrackCallbacks(t);
             });
         }else{
-            this.addTrackCallBacks(track);
+            this.addTrackCallbacks(track);
         }
     }
 
-    private addTrackCallBacks(t: RcsbDisplayInterface){
+    private addTrackCallbacks(t: RcsbDisplayInterface){
         t.setManagers(this.d3Manager, this.contextManager);
         t.setBoardHighlight(this.highlightRegion.bind(this));
         if(this.highlightHoverElementFlag)

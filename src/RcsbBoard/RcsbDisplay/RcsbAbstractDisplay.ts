@@ -65,7 +65,7 @@ export abstract class RcsbAbstractDisplay extends RcsbAbstractTrack implements R
                 return;
 
             this.elementSubject.mouseclick.next({d, e: event});
-            d.elementClickCallBack?.(d, event);
+            d.elementClickCallback?.(d, event);
             RcsbD3EventDispatcher.elementClick(event, this.getBoardHighlight(),d);
         });
         element.on(RcsbD3Constants.MOUSE_ENTER, (event: MouseEvent, d: RcsbFvTrackDataElementInterface) => {

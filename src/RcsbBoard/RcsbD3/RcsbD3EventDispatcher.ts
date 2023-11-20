@@ -57,9 +57,7 @@ export class RcsbD3EventDispatcher {
             return;
         board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, null);
         const region:RcsbFvTrackDataElementInterface = RcsbD3EventDispatcher.boardMousemove(event, board);
-        if(typeof board.elementClickCallBack === "function"){
-            board.elementClickCallBack(region, event);
-        }
+        board.elementClickSubject.next({d:region, e:event});
         RcsbD3EventDispatcher.keepSelectingFlag = false;
     }
 
@@ -78,10 +76,7 @@ export class RcsbD3EventDispatcher {
                     _end = aux;
                 }
                 const region: RcsbFvTrackDataElementInterface = {begin: _begin, end: _end};
-                if(typeof board.elementClickCallBack === "function"){
-                    region.nonSpecific = true;
-                    board.elementClickCallBack(region, event);
-                }
+                board.elementClickSubject.next({d:{...region, nonSpecific: true}, e:event});
             }
         },50);
     }
