@@ -1,5 +1,0 @@
-@use "sass:meta";
-
-.boxIconsComponentScope {
-  @include meta.load-css("~boxicons/css/boxicons.min");
-}

@@ -10,7 +10,7 @@
   "scripts": {
     "devServer": "webpack-dev-server --config webpack.server.dev.config.js",
     "build": "webpack --config ./webpack.config.js",
-    "buildApp": "npm run build-tsc && npm run build-commonjs && npm run build && npm run cpStyles",
+    "buildApp": "npm run clean && npm run build-tsc && npm run build-commonjs && npm run build && npm run cpStyles",
     "buildAll": "npm run buildApp && npm run buildAllDoc",
     "buildDoc": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --plugin typedoc-plugin-missing-exports  --plugin typedoc-theme-hierarchy --theme hierarchy --entryPointStrategy expand ./src && sed -i '' '/---/d' docs/index.html",
     "cpExamples": "ncp examples docs/examples",
@@ -20,6 +20,7 @@
     "publishApp": "npm publish",
     "build-tsc": "tsc",
     "build-commonjs": "tsc --build tsconfig.commonjs.json",
+    "clean": "del-cli lib && del-cli build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -43,6 +44,7 @@
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/preset-env": "^7.23.2",
     "@floating-ui/dom": "^1.5.3",
+    "@svgr/webpack": "^8.1.0",
     "@types/d3": "^7.4.2",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
@@ -52,6 +54,7 @@
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.1",
+    "del-cli": "^5.1.0",
     "html-webpack-plugin": "^5.5.0",
     "ncp": "^2.0.0",
     "path-browserify": "^1.0.1",
@@ -76,7 +79,6 @@
     "d3": "^7.6.1",
     "d3-shape": "^3.1.0",
     "react-transition-group": "^4.4.5",
-    "resolve-url-loader": "^5.0.0",
     "rxjs": "^7.5.6"
   },
   "peerDependencies": {

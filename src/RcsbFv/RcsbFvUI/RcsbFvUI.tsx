@@ -14,8 +14,11 @@ import {asyncScheduler, Subscription} from "rxjs";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
 import {ReactNode} from "react";
-import iconClasses from "../../scss/RcsbFvIcons.module.scss";
-
+import BxPlus from "boxicons/svg/regular/bx-plus.svg";
+import BxMinus from "boxicons/svg/regular/bx-minus.svg";
+import BxRight from "boxicons/svg/regular/bx-right-arrow.svg";
+import BxLeft from "boxicons/svg/regular/bx-left-arrow.svg";
+import BxDown from "boxicons/svg/solid/bxs-down-arrow.svg";
 
 export interface RcsbFvUIConfigInterface {
     readonly boardId: string;
@@ -39,21 +42,27 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
     private tooltipDiv: HTMLDivElement;
     private refDiv: HTMLDivElement;
 
+    private static readonly ICON_PROPS = {
+        width: 16,
+        height: 16,
+        viewBox: "0 0 24 24"
+    }
+
     /**UI config Object*/
     private readonly config: Array<RcsbFvUIButtonInterface> = [{
-        icon: <i className={"bx bx-plus"}/>,
+        icon: <BxPlus {...RcsbFvUI.ICON_PROPS}/>,
         callback: this.zoomIn.bind(this),
         name: "zoom-in"
     },{
-        icon: <i className={"bx bx-minus"}/>,
+        icon: <BxMinus {...RcsbFvUI.ICON_PROPS}/>,
         callback: this.zoomOut.bind(this),
         name: "zoom-out"
     },{
-        icon: <i className={"bx bx-right-arrow"} ></i>,
+        icon: <BxRight {...RcsbFvUI.ICON_PROPS}/>,
         callback: this.move.bind(this,1),
         name: "move-right"
     },{
-        icon: <i className={"bx bx-left-arrow"} ></i>,
+        icon: <BxLeft {...RcsbFvUI.ICON_PROPS}/>,
         callback: this.move.bind(this,-1),
         name: "move-left"
     }];
@@ -69,7 +78,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
         return (
             <div
                 id={this.props.boardId+RcsbFvDOMConstants.UI_DOM_ID_PREFIX}
-                className={classes.rcsbUI+" "+classes.rcsbSmoothDivHide+" "+iconClasses.boxIconsComponentScope}
+                className={classes.rcsbUI+" "+classes.rcsbSmoothDivHide}
                 style={{position:"absolute", top:0, left:0}}
             >
                 <div style={{position:"relative"}} >
@@ -79,7 +88,7 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
                         classNames={classes.rcsbCollapseUI}>
                         <div style={{position:"absolute"}} className={classes.rcsbCollapsedUIDiv+" "+classes.rcsbCollapseUI} onMouseEnter={this.changeState.bind(this,{collapse: false})}>
                             <div className={classes.rcsbCollapsedIcon}>
-                                <i className={"bx bxs-down-arrow"}/>
+                                <BxDown {...RcsbFvUI.ICON_PROPS}/>
                             </div>
                         </div>
                     </CSSTransition>

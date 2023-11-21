@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.1] - 2023-11-21
+### Improvements
+- Boxicons are imported as svg and transformed to react components
+
 ## [3.0.0] - 2023-11-02
 ### Breaking changes
 - Types are not anymore exposed from `build/src`

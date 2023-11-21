@@ -6,6 +6,16 @@ const commonConfig = {
     module: {
       rules: [
         {
+            test: /\.svg$/,
+            issuer: /\.[jt]sx?$/,
+            use: [{
+                loader:'@svgr/webpack',
+                options: {
+                    expandProps: "end",
+                    svgoConfig: {}
+                }
+            }]
+        },{
           test: /\.tsx?$/,
           loader: 'ts-loader',
           exclude: /node_modules/
@@ -22,7 +32,7 @@ const commonConfig = {
                       localIdentName:'[local]'
                   }
               }
-          }, 'resolve-url-loader', 'sass-loader']
+          },'sass-loader']
         }
       ]
     },

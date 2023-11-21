@@ -212,11 +212,18 @@ $boxShadow-rcsbFvUI: 0 0 3px 0 #aaa;
     width: 100%;
     height: 100%;
     cursor: pointer;
-    color: #999;
 }
 
-.rcsbIcon i {
+.rcsbIcon > svg {
     margin: calc(($height-rcsbFvUI - 16px) / 2) calc(($width-rcsbFvUI - 16px) / 2) calc(($height-rcsbFvUI - 16px) / 2) calc(($width-rcsbFvUI - 16px) / 2);
+}
+
+.rcsbIcon > svg > path {
+    fill: #999;
+}
+
+.rcsbIcon > svg:hover > path {
+    fill: #333;
 }
 
 .rcsbCollapsedIcon {
@@ -229,12 +236,12 @@ $boxShadow-rcsbFvUI: 0 0 3px 0 #aaa;
     box-shadow: $boxShadow-rcsbFvUI;
 }
 
-.rcsbCollapsedIcon i {
+.rcsbCollapsedIcon svg {
     margin: 4px 3px 2px 3px;
 }
 
-.rcsbIcon:hover {
-    color:#333;
+.rcsbCollapsedIcon > svg > path {
+    fill: #999;
 }
 
 .rcsbSmoothDivHide {

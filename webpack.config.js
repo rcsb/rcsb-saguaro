@@ -9,7 +9,17 @@ module.exports = {
     },
     module: {
       rules: [
-        {
+          {
+              test: /\.svg$/,
+              issuer: /\.[jt]sx?$/,
+              use: [{
+                  loader:'@svgr/webpack',
+                  options: {
+                      expandProps: "end",
+                      svgoConfig: {}
+                  }
+              }]
+          },{
           test: /\.tsx?$/,
           loader: 'ts-loader',
           exclude: /node_modules/
@@ -27,12 +37,7 @@ module.exports = {
                   }
               }
           }, {
-              loader: 'resolve-url-loader'
-          }, {
-              loader: 'sass-loader',
-              options: {
-                  sourceMap: true
-              }
+              loader: 'sass-loader'
           }]
         }
       ]
