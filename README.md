@@ -39,7 +39,7 @@ Go to:
 - `http://localhost:9000/MultipleAlignment.html`
 
 ### CDN JavaScript
-`<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro/build/rcsb-saguaro.min.js" type="text/javascript"></script>`
+`<script src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro@3.0.2/build/rcsb-saguaro.min.js" type="text/javascript"></script>`
 
 ### Library Documentation
 TypeScript full classes documentation can be found [here](https://rcsb.github.io/rcsb-saguaro/index.html).

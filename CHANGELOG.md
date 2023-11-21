@@ -3,6 +3,10 @@
 [Semantic Versioning](https://semver.org/)
 
 ## [3.0.1] - 2023-11-21
+### Bug fix
+- `BoardDataState.rowConfigData` change bug fixed
+
+## [3.0.1] - 2023-11-21
 ### Improvements
 - Boxicons are imported as svg and transformed to react components
 

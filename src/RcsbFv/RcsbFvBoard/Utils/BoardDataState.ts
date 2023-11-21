@@ -45,8 +45,8 @@ export class BoardDataState<
         rowConfigData?: RcsbFvRowConfigInterface<P,S,R,M>[];
     }) {
         this.contextManager = config.contextManager;
-        this.rowConfigData = config.rowConfigData?.map(r=>this.checkRow(r)) ?? [];
         this.boardId = config.boardId;
+        this.rowConfigData = config.rowConfigData?.map(r=>this.checkRow(r)) ?? [];
         this.subscription = this.subscribe();
     }
 
@@ -78,7 +78,7 @@ export class BoardDataState<
      * @param obj Target track id and visibility flag (true/false)
      * */
     public changeTrackVisibility(obj: TrackVisibilityInterface): void{
-        const row = this.rowConfigData.find(r=>r.trackId === obj.trackId)
+        const row = this.rowConfigData.find(r=>r.trackId === this.uniqueTrackId(obj))
         if(!row)
             return;
         row.trackVisibility = obj.visibility;
@@ -107,7 +107,7 @@ export class BoardDataState<
      * @param trackId Id that identifies the track
      * */
     public resetTrack(trackId:string): void{
-        const row = this.rowConfigData.find(r=>r.trackId === trackId)
+        const row = this.rowConfigData.find(r=>r.trackId === this.uniqueTrackId({trackId}))
         if(!row)
             return;
         row.key = generateKey(row.trackId);
@@ -123,7 +123,7 @@ export class BoardDataState<
      * @param flag Replace track data or add data to the current one
      * */
     private changeTrackData(obj: TrackDataInterface, flag: "replace"|"add"): void{
-        const row = this.rowConfigData.find(r=>r.trackId === obj.trackId)
+        const row = this.rowConfigData.find(r=>r.trackId === this.uniqueTrackId(obj))
         if(!row)
             return;
         if(row.displayType != RcsbFvDisplayTypes.COMPOSITE) {
@@ -146,7 +146,7 @@ export class BoardDataState<
     }
 
     private checkRow(d: RcsbFvRowConfigInterface<P,S,R,M>): RcsbFvRowRenderConfigInterface<P,S,R,M> {
-        const trackId: string = d.trackId ? uniqid(`${d.trackId}_`) : uniqid("trackId_");
+        const trackId: string = this.uniqueTrackId(d);
         if(d.trackVisibility === false)
             this.rowStatusMap.set(trackId,true);
         else
@@ -189,6 +189,11 @@ export class BoardDataState<
             eventType: EventType.BOARD_READY,
             eventData: null
         })
+    }
+
+    private uniqueTrackId(d:{trackId:string}): string {
+        const trackId = d.trackId ?? uniqid("trackId_")
+        return `${trackId}_${this.boardId}`;
     }
 
 }
