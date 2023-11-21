@@ -49,7 +49,7 @@ const commonConfig = {
     devtool: 'source-map'
 };
 
-const examples = ['MultipleTracks', 'MultipleAlignment', 'CompositeTrack'];
+const examples = ['MultipleTracks', 'MultipleAlignment', 'CompositeTrack', 'CustomTooltip'];
 const entries = examples.reduce((prev,current)=>{prev[current]=`./src/RcsbFvExamples/${current}.ts`;return prev;},{});
 
 const server = {

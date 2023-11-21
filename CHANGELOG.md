@@ -2,7 +2,12 @@
 
 [Semantic Versioning](https://semver.org/)
 
-## [3.0.1] - 2023-11-21
+## [3.0.3] - 2023-11-21
+### Improvement
+- `RcsbFvTooltipInterface.showTooltipDescription` optional field
+- Custom tooltip example added
+
+## [3.0.2] - 2023-11-21
 ### Bug fix
 - `BoardDataState.rowConfigData` change bug fixed
 
