@@ -118,7 +118,7 @@ const sequenceTrack = {
     rowTitle: "SEQUENCE",
     trackData: [{
         begin: 1,
-        value: sequence
+        label: sequence
     }]
 }
 ```
