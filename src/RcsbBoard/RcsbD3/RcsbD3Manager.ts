@@ -103,6 +103,8 @@ export class RcsbD3Manager {
             })
             .on(RcsbD3Constants.MOUSE_WHEEL, (event:MouseEvent)=>{
                 event.preventDefault();
+            }, {
+                passive: true
             }).on(RcsbD3Constants.MOUSE_MOVE, (event)=>{
                 config.boardSubject.mousemove.next({
                     e: event,

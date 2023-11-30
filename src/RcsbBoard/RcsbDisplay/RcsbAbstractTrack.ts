@@ -15,7 +15,7 @@ import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvCont
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 import {RcsbTrackInterface} from "./RcsbDisplayInterface";
-import {asyncScheduler, Subject} from "rxjs";
+import {asyncScheduler, Subject, Subscription} from "rxjs";
 
 export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
 
@@ -110,10 +110,12 @@ export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
         this.contextManager = contextManager;
     }
 
+    private highlightRegionTask: Subscription;
     highlightRegion(d:Array<RcsbFvTrackDataElementInterface>|null, options?:{color?:string, rectClass?: string;}): void {
         const height: number = this._height;
         const xScale: RcsbScaleInterface = this.xScale;
         if(d != null ) {
+            this.highlightRegionTask?.unsubscribe();
             const highlightRegConfig: HighlightRegionInterface = {
                 trackG: this.g,
                 height: height,
@@ -124,7 +126,7 @@ export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
         }else{
-            asyncScheduler.schedule(()=>{
+            this.highlightRegionTask = asyncScheduler.schedule(()=>{
                 this.g.selectAll("."+(options?.rectClass ?? classes.rcsbSelectRect)).remove();
             },10);
         }

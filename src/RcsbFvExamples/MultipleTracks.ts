@@ -133,15 +133,16 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
             id: "block"
         }
     },
-    {
-        trackId: "block-area",
+    ... Array.from(Array(100).fill(0).keys()).map(i=>({
+        trackId: `block-area-${i}`,
         trackHeight: 20,
         trackColor: "#F9F9F9",
         displayType: RcsbFvDisplayTypes.BLOCK_AREA,
-        rowTitle: "BLOCK",
+        rowTitle: `BLOCK-${i+1}`,
         displayColor: "#F99",
         trackData: Array.from(Array(50).keys()).map(i=>({begin:15+i,value:1}))
-    }
+    }))
+
 ];
 
 const boardConfigData: RcsbFvBoardConfigInterface = {

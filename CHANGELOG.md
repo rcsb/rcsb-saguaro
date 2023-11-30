@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.5] - 2023-11-30
+### Bug fix
+- Track mouseleave tooltip bug fixed
+
 ## [3.0.4] - 2023-11-29
 ### Bug fix
 - Track mouseleave tooltip bug fixed
