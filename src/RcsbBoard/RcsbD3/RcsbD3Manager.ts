@@ -92,8 +92,7 @@ export class RcsbD3Manager {
         this._svg = this._dom.append<SVGSVGElement>(RcsbD3Constants.SVG)
             .attr(RcsbD3Constants.CLASS, config.svgClass)
             .attr(RcsbD3Constants.WIDTH, config.width)
-            .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents)
-            ;
+            .attr(RcsbD3Constants.POINTER_EVENTS, config.pointerEvents);
         this.addBoardEvents(config);
         this._width = config.width;
     }

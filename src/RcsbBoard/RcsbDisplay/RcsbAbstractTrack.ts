@@ -15,7 +15,7 @@ import {RcsbFvContextManager} from "../../RcsbFv/RcsbFvContextManager/RcsbFvCont
 import {LocationViewInterface} from "../RcsbBoard";
 import {RcsbScaleInterface} from "../RcsbD3/RcsbD3ScaleFactory";
 import {RcsbTrackInterface} from "./RcsbDisplayInterface";
-import {Subject} from "rxjs";
+import {asyncScheduler, Subject} from "rxjs";
 
 export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
 
@@ -124,12 +124,10 @@ export abstract class RcsbAbstractTrack implements RcsbTrackInterface {
             };
             this.d3Manager.highlightRegion(highlightRegConfig);
         }else{
-            if(options?.rectClass != null)
-                this.g.selectAll("."+options.rectClass ).remove();
-            else
+            asyncScheduler.schedule(()=>{
                 this.g.selectAll("."+(options?.rectClass ?? classes.rcsbSelectRect)).remove();
+            },10);
         }
-
     }
 
     moveSelection(mode:'select'|'hover'): void{

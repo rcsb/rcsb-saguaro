@@ -70,7 +70,7 @@ export class RcsbBoard {
 
     private zoomEventHandler:ZoomBehavior<Element, any> = zoom();
 
-    readonly boardSubject: RcsbTrackInterface["trackSubject"] = {
+    private readonly boardSubject: RcsbTrackInterface["trackSubject"] = {
         mousemove: new Subject<{e: MouseEvent, n: number}>(),
         mouseenter: new Subject<MouseEvent>(),
         mouseleave: new Subject<MouseEvent>()

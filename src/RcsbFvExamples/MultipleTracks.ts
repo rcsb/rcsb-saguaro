@@ -132,6 +132,15 @@ const rowConfigData: RcsbFvRowConfigInterface[] = [
             type: "my-block",
             id: "block"
         }
+    },
+    {
+        trackId: "block-area",
+        trackHeight: 20,
+        trackColor: "#F9F9F9",
+        displayType: RcsbFvDisplayTypes.BLOCK_AREA,
+        rowTitle: "BLOCK",
+        displayColor: "#F99",
+        trackData: Array.from(Array(50).keys()).map(i=>({begin:15+i,value:1}))
     }
 ];
 
@@ -152,7 +161,8 @@ const boardConfigData: RcsbFvBoardConfigInterface = {
     },
     onFvRenderStartsCallback:()=>{
         console.log("Fv starts");
-    }
+    },
+    highlightHoverPosition: true
 };
 
 /*const sequenceConfigData = [
@@ -171,7 +181,7 @@ const boardConfigData: RcsbFvBoardConfigInterface = {
         ]
     }];*/
 
-const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData});
+/*const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData});
 fv.then(()=>{
     console.log("Ready viewer");
 });
@@ -197,7 +207,7 @@ setTimeout(async ()=>{
 
     }, 2000)
 },2000)
-console.log(fv.getBoardData().map(d=>d.metadata));
+console.log(fv.getBoardData().map(d=>d.metadata));*/
 
 const fv2 = new RcsbFv({elementId:"pfvBis", boardConfigData, rowConfigData});
 fv2.then(()=>{

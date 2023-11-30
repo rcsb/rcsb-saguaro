@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.4] - 2023-11-29
+### Bug fix
+- Track mouseleave tooltip bug fixed
+
 ## [3.0.3] - 2023-11-21
 ### Improvement
 - `RcsbFvTooltipInterface.showTooltipDescription` optional field
