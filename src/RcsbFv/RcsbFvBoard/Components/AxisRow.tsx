@@ -19,14 +19,10 @@ interface AxisRowInterface {
 
 export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
 
-    readonly state: {axisKey:string} = {
-        axisKey: uniqid("rcsbFvAxis_key_")
-    };
-
     render(): ReactNode {
         const rowId: string = uniqid("rcsbFvAxis_");
         const rowConfig:RcsbFvRowExtendedConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:rowId, boardId:this.props.boardId};
-        return(<div key={this.state.axisKey}><RcsbFvRow
+        return(<div><RcsbFvRow
             id={rowId}
             boardId={this.props.boardId}
             rowNumber={0}
@@ -38,18 +34,13 @@ export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
         /></div>);
     }
 
-
-    componentDidUpdate(prevProps: Readonly<AxisRowInterface>, prevState: Readonly<{axisKey:string}>, snapshot?: any) {
-        if(
-            prevProps.boardConfigData.length != this.props.boardConfigData.length ||
-            prevProps.boardConfigData.range?.min != this.props.boardConfigData.range?.min ||
-            prevProps.boardConfigData.range?.max != this.props.boardConfigData.range?.max ||
-            prevProps.boardConfigData.trackWidth != this.props.boardConfigData.trackWidth
-        ){
-            this.setState({
-                axisKey:uniqid("rcsbFvAxis_key_")
-            });
-        }
-
+    shouldComponentUpdate(nextProps: Readonly<AxisRowInterface>, nextState: Readonly<{ axisKey: string }>, nextContext: any): boolean {
+       return (
+           nextProps.boardConfigData.length != this.props.boardConfigData.length ||
+           nextProps.boardConfigData.range?.min != this.props.boardConfigData.range?.min ||
+           nextProps.boardConfigData.range?.max != this.props.boardConfigData.range?.max ||
+           nextProps.boardConfigData.trackWidth != this.props.boardConfigData.trackWidth
+       )
     }
+
 }

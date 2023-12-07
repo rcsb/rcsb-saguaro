@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.6] - 2023-12-07
+### Bug fix
+- Axis track zoom/move bug fixed
+
 ## [3.0.5] - 2023-11-30
 ### Bug fix
 - Track mouseleave tooltip bug fixed
