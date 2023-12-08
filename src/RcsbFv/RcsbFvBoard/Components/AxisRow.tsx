@@ -22,7 +22,7 @@ export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
     render(): ReactNode {
         const rowId: string = uniqid("rcsbFvAxis_");
         const rowConfig:RcsbFvRowExtendedConfigInterface = {displayType:RcsbFvDisplayTypes.AXIS, trackId:rowId, boardId:this.props.boardId};
-        return(<div><RcsbFvRow
+        return(<div key={rowId}><RcsbFvRow
             id={rowId}
             boardId={this.props.boardId}
             rowNumber={0}

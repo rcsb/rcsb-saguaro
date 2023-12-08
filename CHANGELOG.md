@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.7] - 2023-12-07
+### Bug fix
+- Axis update length bug fixed
+
 ## [3.0.6] - 2023-12-07
 ### Bug fix
 - Axis track zoom/move bug fixed
