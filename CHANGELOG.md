@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.8] - 2024-03-06
+### Dependency update
+- Multiple dependencies have been updated
+
 ## [3.0.7] - 2023-12-07
 ### Bug fix
 - Axis update length bug fixed
