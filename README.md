@@ -95,7 +95,7 @@ Main Row Configuration properties are:
 - **rowTitle**: Board track title, text displayed next to the board row
 - **displayType**: Enumerated value used to define how the data is displayed
   - Values: sequence, block, pin, line, area, bond, vline
-- **trackData**: List of data displayed in the board row. The full set o data attributes are defined in [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbDataManager_RcsbDataManager.RcsbFvTrackDataElementInterface.html). Most important data elements attributes are 
+- **trackData**: List of data displayed in the board row. The full set of data attributes are defined in [RcsbFvTrackDataElementInterface](https://rcsb.github.io/rcsb-saguaro/interfaces/RcsbDataManager_RcsbDataManager.RcsbFvTrackDataElementInterface.html). Most important data elements attributes are 
   - **begin**: Start position of the feature
   - **end**: End position of the feature (optional value). When no end value is available the feature is located on a single position defined by *begin*
   - **value**: Numerical or string value of the feature in this range (optional value)
