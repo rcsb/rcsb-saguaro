@@ -1,7 +1,7 @@
 import React from "react";
 import {RcsbFvTrack} from "../RcsbFvTrack/RcsbFvTrack";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
-import classes from "../../scss/RcsbFvRow.module.scss";
+import * as classes from "../../scss/RcsbFvRow.module.scss";
 import {RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {EventType, RcsbFvContextManager, RowReadyInterface} from "../RcsbFvContextManager/RcsbFvContextManager";
 import {RcsbSelection} from "../../RcsbBoard/RcsbSelection";

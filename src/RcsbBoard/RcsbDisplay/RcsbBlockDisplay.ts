@@ -11,7 +11,7 @@ import {
 	RcsbFvTrackDataElementGapInterface,
 	RcsbFvTrackDataElementInterface
 } from "../../RcsbDataManager/RcsbDataManager";
-import classes from "../../scss/RcsbBoard.module.scss";
+import * as classes from "../../scss/RcsbBoard.module.scss";
 import {RcsbD3Constants} from "../RcsbD3/RcsbD3Constants";
 
 export interface BlockElementInterface  {

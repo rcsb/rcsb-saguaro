@@ -2,7 +2,7 @@ import {Selection} from "d3-selection";
 import {Area} from "d3-shape";
 import {RcsbD3Constants} from "../RcsbD3Constants";
 import {RcsbFvTrackDataElementInterface} from "../../../RcsbDataManager/RcsbDataManager";
-import classes from "../../../scss/RcsbBoard.module.scss";
+import * as classes from "../../../scss/RcsbBoard.module.scss";
 
 export interface PlotAreaInterface {
     points: RcsbFvTrackDataElementInterface[];

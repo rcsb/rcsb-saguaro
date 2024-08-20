@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "../../scss/RcsbFvRow.module.scss";
+import * as classes from "../../scss/RcsbFvRow.module.scss";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
 import {RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";

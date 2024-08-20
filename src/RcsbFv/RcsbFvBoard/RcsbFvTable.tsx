@@ -6,7 +6,7 @@ import {RcsbFvBoardFullConfigInterface} from "./RcsbFvBoard";
 import {RcsbFvBoardConfigInterface, RcsbFvRowExtendedConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
 import {RcsbFvDefaultConfigValues} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRow} from "../RcsbFvRow/RcsbFvRow";
-import classes from "../../scss/RcsbFvRow.module.scss";
+import * as classes from "../../scss/RcsbFvRow.module.scss";
 import {RowConfigFactory} from "./Utils/RowConfigFactory";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {RcsbFvRowRenderConfigInterface} from "./Utils/BoardDataState";

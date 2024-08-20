@@ -1,5 +1,5 @@
 import {RcsbAbstractTrack} from "./RcsbAbstractTrack";
-import classes from "../../scss/RcsbBoard.module.scss";
+import * as classes from "../../scss/RcsbBoard.module.scss";
 import {Selection, BaseType, select } from "d3-selection";
 import {LocationViewInterface} from "../RcsbBoard";
 import {

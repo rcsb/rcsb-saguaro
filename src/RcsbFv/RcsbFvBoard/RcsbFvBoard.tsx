@@ -1,6 +1,6 @@
 import React from "react";
 import {RcsbFvBoardConfigInterface} from "../RcsbFvConfig/RcsbFvConfigInterface";
-import classes from "../../scss/RcsbFvRow.module.scss";
+import * as classes from "../../scss/RcsbFvRow.module.scss";
 
 import {
     EventType,

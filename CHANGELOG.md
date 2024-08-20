@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.0.9] - 2024-08-20
+### Dependency update
+- Multiple dependencies have been updated
+- audit fix
+
 ## [3.0.8] - 2024-03-06
 ### Dependency update
 - Multiple dependencies have been updated

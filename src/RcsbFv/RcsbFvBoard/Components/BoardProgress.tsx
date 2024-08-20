@@ -1,6 +1,6 @@
 import React from "react";
 import {RcsbFvDOMConstants} from "../../RcsbFvConfig/RcsbFvDOMConstants";
-import classes from "../../../scss/RcsbFvRow.module.scss";
+import * as classes from "../../../scss/RcsbFvRow.module.scss";
 import {RcsbFvDefaultConfigValues} from "../../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvBoardConfigInterface, RcsbFvRowExtendedConfigInterface} from "../../RcsbFvConfig/RcsbFvConfigInterface";
 import {Subscription} from "rxjs";
