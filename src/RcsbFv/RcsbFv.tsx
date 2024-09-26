@@ -15,6 +15,9 @@ import {RcsbD3ScaleFactory, RcsbScaleInterface} from "../RcsbBoard/RcsbD3/RcsbD3
 import {BoardDataState} from "./RcsbFvBoard/Utils/BoardDataState";
 import uniqid from "uniqid";
 import {RcsbFvStateManager} from "./RcsbFvState/RcsbFvStateManager";
+import {RcsbFvDefaultConfigValues} from "./RcsbFvConfig/RcsbFvDefaultConfigValues";
+import {asyncScheduler} from "rxjs";
+import {Subscription} from "rxjs";
 
 /**
  * Protein Feature Viewer (PFV) constructor interface
@@ -49,12 +52,16 @@ export class RcsbFv<
     private boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM elemnt id where the board will be displayed*/
     private readonly elementId: string;
+    private readonly node: HTMLElement;
+
     /**Flag indicating that the React component has been mounted*/
     private mounted: boolean = false;
     /**Global d3 Xscale object shared among all board tracks*/
     private readonly xScale: RcsbScaleInterface = RcsbD3ScaleFactory.getLinearScale();
     /**Global selection shared among all tracks*/
     private readonly selection:RcsbSelection = new RcsbSelection();
+
+    private resizeObserver: ResizeObserver;
 
     private readonly boardId : string = uniqid("RcsbFvBoard_");
 
@@ -68,9 +75,10 @@ export class RcsbFv<
     constructor(props: RcsbFvInterface<P,S,R,M>){
         this.boardConfigData = props.boardConfigData;
         this.elementId = props.elementId;
-        if(this.elementId===null || this.elementId===undefined){
-            throw "FATAL ERROR: DOM elementId not found";
-        }
+        const node = document.getElementById(this.elementId);
+        if(!node)
+            throw new Error(`HTML element ${this.elementId} not found`)
+        this.node = node;
         this.boardDataSate = new BoardDataState<P,S,R,M>({
             contextManager: this.contextManager,
             boardId: this.boardId,
@@ -144,14 +152,11 @@ export class RcsbFv<
     public init(): Promise<void> {
         this.rcsbFvPromise = new Promise<void>((resolve, reject)=>{
             if(!this.mounted && this.boardConfigData != undefined) {
-                const node: HTMLElement|null = document.getElementById(this.elementId);
-                if(node==null)
-                    throw `ERROR: HTML element ${this.elementId} not found`
-                this.reactRoot = createRoot(node);
+                this.reactRoot = createRoot(this.node);
                 this.reactRoot.render(<RcsbFvBoard
                     boardId={this.boardId}
                     rowConfigData={this.boardDataSate.getBoardData()}
-                    boardConfigData={this.boardConfigData}
+                    boardConfigData={this.boardConfigWithTrackWidth()}
                     contextManager={this.contextManager}
                     xScale={this.xScale}
                     selection={this.selection}
@@ -162,7 +167,7 @@ export class RcsbFv<
                 reject("FATAL ERROR: RcsvFvBoard is mounted or board configuration was not loaded");
             }
         });
-        return this.rcsbFvPromise;
+        return this.rcsbFvPromise.then(()=>this.addResizeObserver());
     }
 
     /**Unmount the board*/
@@ -172,6 +177,7 @@ export class RcsbFv<
         }
         this.boardDataSate.unsubscribe();
         this.rcsbFvStateManager.unsubscribe();
+        this.resizeObserver?.unobserve(this.node);
     }
 
 
@@ -335,6 +341,43 @@ export class RcsbFv<
             });
         });
     }
+
+    private boardConfigWithTrackWidth(): RcsbFvBoardConfigInterface {
+        return {
+            ... this.boardConfigData,
+            trackWidth: this.boardConfigData.trackWidth ?? (this.node.getBoundingClientRect().width - this.rowTitleWidth())
+        };
+    }
+
+    private addResizeObserver(): void {
+        if(this.boardConfigData.trackWidth)
+            return;
+        this.resizeObserver = resizeBoard(this.node, (width) => this.updateBoardConfig({
+            boardConfigData: {
+                trackWidth: (width - this.rowTitleWidth())
+            }
+        }));
+    }
+
+    private rowTitleWidth(): number {
+        return (this.boardConfigData.rowTitleWidth ?? RcsbFvDefaultConfigValues.rowTitleWidth) + 40;
+    }
+
+}
+
+function resizeBoard (node: HTMLElement, callback: (width: number)=>void): ResizeObserver {
+    let width = node.getBoundingClientRect().width;
+    let task: Subscription;
+    const resizeObserver = new ResizeObserver((entries, observer)=>{
+        if(width == entries[0].contentRect.width)
+            return;
+        width = entries[0].contentRect.width;
+        if(task)
+            task.unsubscribe();
+        task = asyncScheduler.schedule(()=>callback(width), 10);
+    });
+    resizeObserver.observe(node);
+    return resizeObserver;
 }
 
 

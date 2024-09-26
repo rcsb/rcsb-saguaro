@@ -2,6 +2,13 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.0] - 2024-09-26
+### Improvement
+- If `trackWidth` config is not define, the track length will be defined based on the root container
+
+### Dependency update
+- audit fix
+
 ## [3.0.9] - 2024-08-20
 ### Dependency update
 - Multiple dependencies have been updated
