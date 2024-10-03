@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.1] - 2024-10-03
+### Bug fix
+- Keep selection and zoom state when auto-resize
+
 ## [3.1.0] - 2024-09-26
 ### Improvement
 - If `trackWidth` config is not define, the track length will be defined based on the root container

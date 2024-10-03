@@ -352,11 +352,25 @@ export class RcsbFv<
     private addResizeObserver(): void {
         if(this.boardConfigData.trackWidth)
             return;
-        this.resizeObserver = resizeBoard(this.node, (width) => this.updateBoardConfig({
-            boardConfigData: {
-                trackWidth: (width - this.rowTitleWidth())
-            }
-        }));
+        this.resizeObserver = resizeBoard(
+            this.node,
+            async (width) => {
+                const selected = this.getSelection("select").map(s=>({
+                    begin: s.rcsbFvTrackDataElement.begin,
+                    end: s.rcsbFvTrackDataElement.end
+                }));
+                const domain: [number, number] = [this.xScale.domain()[0], this.xScale.domain()[1]];
+                await this.updateBoardConfig({
+                    boardConfigData: {
+                        trackWidth: (width - this.rowTitleWidth())
+                    }
+                });
+                this.setDomain(domain);
+                this.setSelection({
+                    mode:"select",
+                    elements: selected
+                });
+            });
     }
 
     private rowTitleWidth(): number {
