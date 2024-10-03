@@ -356,20 +356,25 @@ export class RcsbFv<
             this.node,
             async (width) => {
                 const selected = this.getSelection("select").map(s=>({
-                    begin: s.rcsbFvTrackDataElement.begin,
-                    end: s.rcsbFvTrackDataElement.end
-                }));
-                const domain: [number, number] = [this.xScale.domain()[0], this.xScale.domain()[1]];
+                        begin: s.rcsbFvTrackDataElement.begin,
+                        end: s.rcsbFvTrackDataElement.end
+                    }));
+                const domain = [this.xScale.domain()[0], this.xScale.domain()[1]];
+                const data = this.boardDataSate.getBoardData()
                 await this.updateBoardConfig({
                     boardConfigData: {
                         trackWidth: (width - this.rowTitleWidth())
-                    }
+                    },
+                    rowConfigData: []
                 });
-                this.setDomain(domain);
+                this.setDomain(domain as [number, number]);
                 this.setSelection({
                     mode:"select",
                     elements: selected
                 });
+                await this.updateBoardConfig({
+                    rowConfigData: data
+                })
             });
     }
 
@@ -388,7 +393,7 @@ function resizeBoard (node: HTMLElement, callback: (width: number)=>void): Resiz
         width = entries[0].contentRect.width;
         if(task)
             task.unsubscribe();
-        task = asyncScheduler.schedule(()=>callback(width), 10);
+        task = asyncScheduler.schedule(()=>callback(width), 50);
     });
     resizeObserver.observe(node);
     return resizeObserver;

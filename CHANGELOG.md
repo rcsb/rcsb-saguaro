@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.2] - 2024-10-03
+### Bug fix
+- auto-resize bug fixed
+
 ## [3.1.1] - 2024-10-03
 ### Bug fix
 - Keep selection and zoom state when auto-resize
