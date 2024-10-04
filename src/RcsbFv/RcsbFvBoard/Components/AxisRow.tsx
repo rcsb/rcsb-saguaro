@@ -34,13 +34,4 @@ export class AxisRow extends React.Component<AxisRowInterface,{axisKey:string}>{
         /></div>);
     }
 
-    shouldComponentUpdate(nextProps: Readonly<AxisRowInterface>, nextState: Readonly<{ axisKey: string }>, nextContext: any): boolean {
-       return (
-           nextProps.boardConfigData.length != this.props.boardConfigData.length ||
-           nextProps.boardConfigData.range?.min != this.props.boardConfigData.range?.min ||
-           nextProps.boardConfigData.range?.max != this.props.boardConfigData.range?.max ||
-           nextProps.boardConfigData.trackWidth != this.props.boardConfigData.trackWidth
-       )
-    }
-
 }

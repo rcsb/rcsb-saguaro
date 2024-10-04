@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.3] - 2024-10-04
+### Bug fix
+- Removed condition when axis row was mounted
+
 ## [3.1.2] - 2024-10-03
 ### Bug fix
 - auto-resize bug fixed
