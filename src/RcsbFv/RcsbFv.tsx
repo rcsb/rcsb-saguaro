@@ -355,15 +355,20 @@ export class RcsbFv<
         this.resizeObserver = resizeBoard(
             this.node,
             async (width) => {
+                const trackWidth = width - this.rowTitleWidth();
+                if(trackWidth <= 0){
+                    console.debug(`Element width ${width} is too small. Row title width ${this.rowTitleWidth()}. Not rendering`);
+                    return;
+                }
                 const selected = this.getSelection("select").map(s=>({
                         begin: s.rcsbFvTrackDataElement.begin,
                         end: s.rcsbFvTrackDataElement.end
                     }));
                 const domain = [this.xScale.domain()[0], this.xScale.domain()[1]];
-                const data = this.boardDataSate.getBoardData()
+                const data = this.boardDataSate.getBoardData();
                 await this.updateBoardConfig({
                     boardConfigData: {
-                        trackWidth: (width - this.rowTitleWidth())
+                        trackWidth: trackWidth
                     },
                     rowConfigData: []
                 });

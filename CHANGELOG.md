@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.4] - 2024-10-04
+### Improvement
+- Avoid rendering is container width is too small
+
 ## [3.1.3] - 2024-10-04
 ### Bug fix
 - Removed condition when axis row was mounted
