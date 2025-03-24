@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.5] - 2025-03-24
+### Dependency update
+- Multiple dependencies have been updated
+- audit fix
+
 ## [3.1.4] - 2024-10-04
 ### Improvement
 - Avoid rendering is container width is too small

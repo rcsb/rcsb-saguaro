@@ -16,9 +16,10 @@
     "noEmitHelpers": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "lib": [ "dom", "es2017" ],
+    "lib": [ "dom", "es2020" ],
     "rootDir": "src",
     "outDir": "lib/commonjs",
+    "skipLibCheck": true
   },
   "include": [ "src" ]
 }

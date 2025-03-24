@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Ref} from "react";
 import * as classes from "../../scss/RcsbFvRow.module.scss";
 import {RcsbFvDOMConstants} from "../RcsbFvConfig/RcsbFvDOMConstants";
 import {CSSTransition} from "react-transition-group";
@@ -14,11 +14,11 @@ import {asyncScheduler, Subscription} from "rxjs";
 import {RcsbScaleInterface} from "../../RcsbBoard/RcsbD3/RcsbD3ScaleFactory";
 import {computePosition, detectOverflow} from "@floating-ui/dom";
 import {ReactNode} from "react";
-import BxPlus from "boxicons/svg/regular/bx-plus.svg";
-import BxMinus from "boxicons/svg/regular/bx-minus.svg";
-import BxRight from "boxicons/svg/regular/bx-right-arrow.svg";
-import BxLeft from "boxicons/svg/regular/bx-left-arrow.svg";
-import BxDown from "boxicons/svg/solid/bxs-down-arrow.svg";
+import BxPlus from "./icons/bx-plus.svg";
+import BxMinus from "./icons/bx-minus.svg";
+import BxRight from "./icons/bx-right-arrow.svg";
+import BxLeft from "./icons/bx-left-arrow.svg";
+import BxDown from "./icons/bxs-down-arrow.svg";
 
 export interface RcsbFvUIConfigInterface {
     readonly boardId: string;
@@ -41,6 +41,8 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
 
     private tooltipDiv: HTMLDivElement;
     private refDiv: HTMLDivElement;
+    private collapseRef: Ref<any>  = React.createRef();
+    private expandRef: Ref<any>  = React.createRef();
 
     private static readonly ICON_PROPS = {
         width: 16,
@@ -85,8 +87,14 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
                     <CSSTransition
                         in={this.state.collapse}
                         timeout={300}
-                        classNames={classes.rcsbCollapseUI}>
-                        <div style={{position:"absolute"}} className={classes.rcsbCollapsedUIDiv+" "+classes.rcsbCollapseUI} onMouseEnter={this.changeState.bind(this,{collapse: false})}>
+                        classNames={classes.rcsbCollapseUI}
+                        nodeRef={this.collapseRef}
+                    >
+                        <div
+                            style={{position:"absolute"}} className={classes.rcsbCollapsedUIDiv+" "+classes.rcsbCollapseUI}
+                            onMouseEnter={this.changeState.bind(this,{collapse: false})}
+                            ref={this.collapseRef}
+                        >
                             <div className={classes.rcsbCollapsedIcon}>
                                 <BxDown {...RcsbFvUI.ICON_PROPS}/>
                             </div>
@@ -95,8 +103,15 @@ export class RcsbFvUI extends React.Component<RcsbFvUIConfigInterface, RcsbFvUIS
                     <CSSTransition
                         in={!this.state.collapse}
                         timeout={300}
-                        classNames={classes.rcsbExpandUI}>
-                        <div style={{position:"absolute"}} className={classes.rcsbExpandUI} onMouseLeave={this.changeState.bind(this,{collapse: true})}>
+                        classNames={classes.rcsbExpandUI}
+                        nodeRef={this.expandRef}
+                    >
+                        <div
+                            style={{position:"absolute"}}
+                            className={classes.rcsbExpandUI}
+                            onMouseLeave={this.changeState.bind(this,{collapse: true})}
+                            ref={this.expandRef}
+                        >
                             {
                                 this.config.map(button=>{
                                     return this.buildButton(button);

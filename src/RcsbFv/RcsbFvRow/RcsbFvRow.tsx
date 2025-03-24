@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Ref} from "react";
 import {RcsbFvDefaultConfigValues, RcsbFvDisplayTypes} from "../RcsbFvConfig/RcsbFvDefaultConfigValues";
 import {RcsbFvRowTitle} from "./RcsbFvRowTitle";
 import {RcsbFvRowTrack} from "./RcsbFvRowTrack";
@@ -50,6 +50,7 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
 
     /**Subscription to events*/
     private subscription: Subscription;
+    private rowRef: Ref<any>  = React.createRef();
 
     constructor(props: RcsbFvRowInterface) {
         super(props);
@@ -67,10 +68,15 @@ export class RcsbFvRow extends React.Component <RcsbFvRowInterface, RcsbFvRowSta
                 }}
                 onExited={()=>{
                     this.props.contextManager.next({eventType: EventType.BOARD_HOVER, eventData:true});
-                }}>
-                <div onMouseEnter={()=>{this.hoverRow(true)}} onMouseLeave={()=>{this.hoverRow(false)}}
+                }}
+                nodeRef={this.rowRef}
+            >
+                <div onMouseEnter={()=>{this.hoverRow(true)}}
+                     onMouseLeave={()=>{this.hoverRow(false)}}
                      className={classNames+((this.state.titleGlow && this.state.display)? " "+classes.rcsbFvGlowTitle : "")}
-                     style={this.configStyle()}>
+                     style={this.configStyle()}
+                     ref={this.rowRef}
+                >
                     <RcsbFvRowTitle data={this.props.rowConfigData} rowTitleHeight={this.state.rowHeight} isGlowing={this.state.titleGlow} {...this.props.rowConfigData.externalRowTitle?.rowTitleAdditionalProps} />
                     <RcsbFvRowTrack
                         id={this.props.id}
