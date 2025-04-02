@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.7] - 2025-04-02
+### Bug fix
+- Right mouse down selection will trigger `add` operation instead of `replace-last` 
+
 ## [3.1.6] - 2025-03-26
 ### Bug fix
 - Missing svg icons in artifact

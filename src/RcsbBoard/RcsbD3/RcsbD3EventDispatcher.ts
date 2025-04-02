@@ -26,7 +26,7 @@ export class RcsbD3EventDispatcher {
             RcsbD3EventDispatcher.selectionBegin = Math.round(board.xScale().invert(x));
         }
         RcsbD3EventDispatcher.keepSelectingFlag = true;
-        RcsbD3EventDispatcher.operation = (event.shiftKey || event.ctrlKey) ? 'replace-last' : 'set';
+        RcsbD3EventDispatcher.operation = (event.shiftKey || event.ctrlKey) ? 'add' : 'set';
         board.d3Manager.svgG().on(RcsbD3Constants.MOUSE_MOVE, (e:  MouseEvent)=>{
             RcsbD3EventDispatcher.boardMousemove(e, board);
         });
