@@ -89,7 +89,13 @@ const sequenceConfigData: RcsbFvRowConfigInterface[] = [
         ]
     }];
 
-const fv = new RcsbFv({elementId:"pfv", boardConfigData, rowConfigData: [...sequenceConfigData, ...rowConfigData]});
+const element = document.getElementById("pfv");
+
+if (element == null){
+    throw "Unable to locate element";
+}
+
+const fv = new RcsbFv({elementId:element, boardConfigData, rowConfigData: [...sequenceConfigData, ...rowConfigData]});
 fv.then(()=>{
     console.log("Ready viewer");
 });

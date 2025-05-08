@@ -33,7 +33,7 @@ export interface RcsbFvInterface <
     /**Board global configuration*/
     readonly boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM element Id where the PFV will be rendered*/
-    readonly elementId: string;
+    readonly elementId: string | HTMLElement;
 }
 
 /**
@@ -51,7 +51,7 @@ export class RcsbFv<
     /**Global board configuration*/
     private boardConfigData: RcsbFvBoardConfigInterface;
     /**DOM elemnt id where the board will be displayed*/
-    private readonly elementId: string;
+    private readonly elementId: string | HTMLElement;
     private readonly node: HTMLElement;
 
     /**Flag indicating that the React component has been mounted*/
@@ -75,7 +75,9 @@ export class RcsbFv<
     constructor(props: RcsbFvInterface<P,S,R,M>){
         this.boardConfigData = props.boardConfigData;
         this.elementId = props.elementId;
-        const node = document.getElementById(this.elementId);
+        const node = typeof this.elementId == "string"
+            ? document.getElementById(this.elementId)
+            : this.elementId;
         if(!node)
             throw new Error(`HTML element ${this.elementId} not found`)
         this.node = node;
