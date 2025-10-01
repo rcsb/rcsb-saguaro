@@ -3,6 +3,9 @@
 [Semantic Versioning](https://semver.org/)
 
 ## [3.1.9] - 2025-10-01
+### Improvement
+- Allow HTMLElement in constructor
+
 ### Bug fix
 - Pull/Push sync
 
