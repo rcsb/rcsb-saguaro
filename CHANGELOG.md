@@ -2,6 +2,10 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.9] - 2025-10-01
+### Bug fix
+- Pull/Push sync
+
 ## [3.1.8] - 2025-10-01
 ### Dependency update
 - Multiple dependencies have been updated
