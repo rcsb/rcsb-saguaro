@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.8] - 2025-10-01
+### Dependency update
+- Multiple dependencies have been updated
+- audit fix
+
 ## [3.1.7] - 2025-04-02
 ### Bug fix
 - Right mouse down selection will trigger `add` operation instead of `replace-last` 
