@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.10] - 2025-10-02
+
+### Bug fix
+- package-lock version bug
+
 ## [3.1.9] - 2025-10-01
 ### Improvement
 - Allow HTMLElement in constructor
