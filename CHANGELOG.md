@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.11] - 2026-02-10
+### Dependency update
+- Multiple dependencies have been updated
+- audit fix
+
 ## [3.1.10] - 2025-10-02
 
 ### Bug fix
