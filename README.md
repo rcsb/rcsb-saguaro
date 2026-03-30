@@ -12,7 +12,7 @@ RCSB Protein Data Bank 1D tools and services, Bioinformatics, 2020; https://doi.
 <!---
 <div id="pfvSelect" ></div>  
 <div id="pfv" ></div>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro-app/build/dist/app.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@rcsb/rcsb-saguaro-app/build/app.js" type="text/javascript"></script>
 <script type="text/javascript">
 RcsbFvWebApp.buildInstanceSequenceFv("pfv", "pfvSelect","6M17", {}, {
     boardConfig:{
