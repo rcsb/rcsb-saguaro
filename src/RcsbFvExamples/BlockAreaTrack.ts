@@ -34,13 +34,12 @@ const blockAreaConfigData: RcsbFvRowConfigInterface[] = [
         trackColor: "#F9F9F9",
         trackData:  Array.from({ length: N }, (_, idx) => ({
             begin: idx+1,
-            value: Math.random()
+            value: 2*Math.random()-1
         })),
         displayType: RcsbFvDisplayTypes.BLOCK_AREA,
         displayColor: {
-            thresholds: [0.33,0.66],
+            thresholds: [0],
             colors: [
-                "#3b6178",
                 "#e45c87",
                 "#75ac75"
             ]

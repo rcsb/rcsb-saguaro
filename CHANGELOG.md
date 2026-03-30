@@ -2,6 +2,13 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.1.12] - 2026-03-30
+### Bug fix
+- 'block-area' alpha chanel color bug fixed
+
+### Dependency update
+- audit fix
+
 ## [3.1.11] - 2026-02-10
 ### Dependency update
 - Multiple dependencies have been updated

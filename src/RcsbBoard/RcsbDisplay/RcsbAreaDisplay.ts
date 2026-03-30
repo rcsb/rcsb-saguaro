@@ -185,7 +185,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
         this.setDataUpdated(false);
     }
 
-    private downSamplingSplit(points: RcsbFvTrackDataElementInterface[], gradient:{thresholds:Array<number>;colors:Array<string>;}):Array<LineColorInterface> {
+    private downSamplingSplit(points: RcsbFvTrackDataElementInterface[], gradient:{thresholds:Array<number>;colors:Array<string>;isMono:boolean;}):Array<LineColorInterface> {
         const tmp:Array<LineColorInterface> = new Array<LineColorInterface>();
         const lineColorArray:Array<LineColorInterface> = new Array<LineColorInterface>();
         const domain: {min:number;max:number;} = {min:Number.MAX_SAFE_INTEGER,max:Number.MIN_SAFE_INTEGER};
@@ -238,7 +238,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 sampler.y((d:RcsbFvTrackDataElementInterface)=>{return d.value});
                 out = sampler(out);
             }
-            lineColorArray.push({points:out,color:lineColor.color,alpha:gradient.thresholds[index] ?? 1});
+            lineColorArray.push({points:out,color:lineColor.color,alpha:gradient.isMono ? gradient.thresholds[index] : 1});
         });
         return lineColorArray.reverse();
     }
@@ -255,11 +255,12 @@ function searchClassThreshold(x: number, thresholds: Array<number>): number{
     return thresholds.length;
 }
 
-function buildColorThreshold(displayColor: RcsbFvColorGradient): {thresholds:Array<number>;colors:Array<string>;} {
+function buildColorThreshold(displayColor: RcsbFvColorGradient): {thresholds:Array<number>;colors:Array<string>;isMono:boolean;} {
     if(displayColor.colors instanceof Array)
-        return {thresholds: displayColor.thresholds, colors: displayColor.colors};
+        return {thresholds: displayColor.thresholds, colors: displayColor.colors, isMono: false};
     return {
         thresholds: displayColor.thresholds,
-        colors: Array(displayColor.thresholds.length+1).fill(displayColor.colors)
+        colors: Array(displayColor.thresholds.length+1).fill(displayColor.colors),
+        isMono: true
     };
 }
