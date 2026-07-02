@@ -1,6 +1,6 @@
 {
   "name": "@rcsb/rcsb-saguaro",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "RCSB 1D Feature Viewer",
   "main": "build/RcsbFv.js",
   "files": [
@@ -69,7 +69,7 @@
     "typescript": "^6.0.3",
     "uniqid": "^5.4.0",
     "webpack": "^5.106.2",
-    "webpack-cli": "^7.0.2",
+    "webpack-cli": "^7.1.0",
     "webpack-dev-server": "^5.2.3"
   },
   "dependencies": {

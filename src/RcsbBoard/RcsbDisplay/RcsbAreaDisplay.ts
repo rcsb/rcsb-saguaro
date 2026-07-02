@@ -238,7 +238,7 @@ export class RcsbAreaDisplay extends RcsbLineDisplay {
                 sampler.y((d:RcsbFvTrackDataElementInterface)=>{return d.value});
                 out = sampler(out);
             }
-            lineColorArray.push({points:out,color:lineColor.color,alpha:gradient.isMono ? gradient.thresholds[index] : 1});
+            lineColorArray.push({points:out,color:lineColor.color,alpha:gradient.isMono ? getAlpha(gradient.thresholds, index) : 1});
         });
         return lineColorArray.reverse();
     }
@@ -263,4 +263,12 @@ function buildColorThreshold(displayColor: RcsbFvColorGradient): {thresholds:Arr
         colors: Array(displayColor.thresholds.length+1).fill(displayColor.colors),
         isMono: true
     };
+}
+
+function getAlpha(thresholds: number[], index: number): number{
+    if(index == 0)
+        return 0;
+    if(index == thresholds.length)
+        return 1;
+    return thresholds[index-1];
 }

@@ -2,6 +2,11 @@
 
 [Semantic Versioning](https://semver.org/)
 
+## [3.3.0] - 2026-07-02
+
+### Bug fix
+- Alpha channel bug fixed
+
 ## [3.2.0] - 2026-05-08
 
 ### Dependency update
